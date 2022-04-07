@@ -3,8 +3,40 @@ import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {loadAccounts} from "../../redux/actions/accounts";
 import {RootState} from "../../redux/store";
-import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
+import {
+    Link,
+    Paper,
+    styled,
+    Table,
+    TableBody,
+    TableCell,
+    tableCellClasses,
+    TableContainer,
+    TableHead,
+    TableRow
+} from "@mui/material";
 import {microalgosToAlgos} from "algosdk";
+import NumberFormat from 'react-number-format';
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        backgroundColor: theme.palette.primary.main,
+        color: theme.palette.common.white,
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+    },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+        border: 0,
+    },
+}));
 
 function Accounts(): JSX.Element {
     const dispatch = useDispatch();
@@ -24,35 +56,39 @@ function Accounts(): JSX.Element {
                     <Table sx={{ minWidth: 650 }}>
                         <TableHead>
                             <TableRow>
-                                <TableCell>Address</TableCell>
-                                <TableCell>Balance</TableCell>
-                                <TableCell>Status</TableCell>
-                                <TableCell align={"center"}>Assets created</TableCell>
-                                <TableCell align={"center"}>Apps created</TableCell>
+                                <StyledTableCell>Address</StyledTableCell>
+                                <StyledTableCell>Balance</StyledTableCell>
+                                <StyledTableCell>Status</StyledTableCell>
+                                <StyledTableCell align={"center"}>Assets created</StyledTableCell>
+                                <StyledTableCell align={"center"}>Apps created</StyledTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {list.map((account) => (
-                                <TableRow
+                                <StyledTableRow
                                     key={account.address}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
-                                    <TableCell component="th" scope="row">
-                                        {account.address}
-                                    </TableCell>
-                                    <TableCell component="th" scope="row">
-                                        {microalgosToAlgos(account.amount)}
-                                    </TableCell>
-                                    <TableCell component="th" scope="row">
+                                    <StyledTableCell component="th" scope="row">
+                                        <Link href="/">{account.address}</Link>
+                                    </StyledTableCell>
+                                    <StyledTableCell component="th" scope="row">
+                                        <NumberFormat
+                                            value={microalgosToAlgos(account.amount)}
+                                            displayType={'text'}
+                                            thousandSeparator={true}
+                                        ></NumberFormat>
+                                    </StyledTableCell>
+                                    <StyledTableCell component="th" scope="row">
                                         {account.status}
-                                    </TableCell>
-                                    <TableCell component="th" scope="row" align={"center"}>
+                                    </StyledTableCell>
+                                    <StyledTableCell component="th" scope="row" align={"center"}>
                                         {account['total-created-assets']}
-                                    </TableCell>
-                                    <TableCell component="th" scope="row" align={"center"}>
+                                    </StyledTableCell>
+                                    <StyledTableCell component="th" scope="row" align={"center"}>
                                         {account['total-created-apps']}
-                                    </TableCell>
-                                </TableRow>
+                                    </StyledTableCell>
+                                </StyledTableRow>
                             ))}
                         </TableBody>
                     </Table>

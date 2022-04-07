@@ -9,6 +9,9 @@
       font-weight: bold;
       font-size: 20px;
       padding-top: 20px;
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
 }

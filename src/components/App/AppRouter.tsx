@@ -6,8 +6,9 @@ import Accounts from "../Accounts/Accounts";
 
 function AppRouter(): JSX.Element {
     return (<div>
-        <Header></Header>
+
         <BrowserRouter>
+            <Header></Header>
             <Routes>
                 <Route path="/" element={<Home></Home>} />
                 <Route path="/accounts" element={<Accounts></Accounts>} />
