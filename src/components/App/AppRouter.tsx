@@ -2,6 +2,7 @@ import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import React from "react";
 import Header from "../Header/Header";
 import Home from "../Home/Home";
+import Accounts from "../Accounts/Accounts";
 
 function AppRouter(): JSX.Element {
     return (<div>
@@ -9,10 +10,10 @@ function AppRouter(): JSX.Element {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Home></Home>} />
-                <Route path="/transactions" element={<div>transactions</div>} />
+                <Route path="/accounts" element={<Accounts></Accounts>} />
                 <Route
                     path="*"
-                    element={<Navigate to="/" replace />}
+                    element={<Navigate to="/accounts" replace />}
                 />
             </Routes>
         </BrowserRouter>
