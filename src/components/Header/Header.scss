@@ -1,0 +1,14 @@
+@import "../../assets/colors";
+
+.header-wrapper {
+  .header-container {
+    height: 80px;
+    background: rgba(255, 255, 255, 0.5);
+    .logo {
+      font-family: MontserratBold !important;
+      font-weight: bold;
+      font-size: 20px;
+      padding-top: 20px;
+    }
+  }
+}
