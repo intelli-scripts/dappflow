@@ -41,7 +41,9 @@ export const accountsSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(loadAccounts.fulfilled, (state, action: PayloadAction<DAPPFLOW_EXPLORER_ACCOUNT[]>) => {
-            state.list = action.payload;
+            if (action.payload) {
+                state.list = action.payload;
+            }
         })
     },
 });

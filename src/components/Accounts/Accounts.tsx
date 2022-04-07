@@ -42,7 +42,7 @@ function Accounts(): JSX.Element {
     const dispatch = useDispatch();
     const accounts = useSelector((state: RootState) => state.accounts);
     const {list} = accounts;
-    console.log(list);
+    console.log(accounts);
 
     useEffect(() => {
         dispatch(loadAccounts());
