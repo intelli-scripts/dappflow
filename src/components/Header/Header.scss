@@ -4,6 +4,8 @@
   .header-container {
     height: 80px;
     background: rgba(255, 255, 255, 0.5);
+    display: flex;
+    justify-content: space-between;
     .logo {
       font-family: MontserratBold !important;
       font-weight: bold;

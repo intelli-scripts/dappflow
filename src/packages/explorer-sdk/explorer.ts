@@ -2,6 +2,7 @@ import {Algodv2} from 'algosdk';
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
 import {Network} from "../core-sdk/network";
 import {AccountsClient} from "./clients/accountsClient";
+import {TransactionsClient} from "./clients/transactionsClient";
 
 
 export class Explorer{
@@ -9,6 +10,7 @@ export class Explorer{
     indexer: IndexerClient;
     network: Network;
     accountsClient: AccountsClient;
+    transactionsClient: TransactionsClient;
 
     constructor(network: Network) {
         this.setNetwork(network);
@@ -23,5 +25,6 @@ export class Explorer{
         this.client = this.network.getClient();
         this.indexer = this.network.getIndexer();
         this.accountsClient = new AccountsClient(this.client, this.indexer);
+        this.transactionsClient = new TransactionsClient(this.client, this.indexer);
     }
 }

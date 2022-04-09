@@ -1,7 +1,6 @@
-import './Accounts.scss';
+import './Transactions.scss';
 import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {loadAccounts} from "../../redux/actions/accounts";
 import {RootState} from "../../redux/store";
 import {
     Link,
@@ -16,6 +15,8 @@ import {
 } from "@mui/material";
 import {microalgosToAlgos} from "algosdk";
 import NumberFormat from 'react-number-format';
+import {loadTransactions} from "../../redux/actions/transactions";
+import {ellipseString} from "../../packages/explorer-sdk/utils";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -37,54 +38,51 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-function Accounts(): JSX.Element {
+function Transactions(): JSX.Element {
     const dispatch = useDispatch();
-    const accounts = useSelector((state: RootState) => state.accounts);
-    const {list} = accounts;
+    const transactions = useSelector((state: RootState) => state.transactions);
+    const {list} = transactions;
+    console.log(list);
 
     useEffect(() => {
-        dispatch(loadAccounts());
+        dispatch(loadTransactions());
     }, [dispatch]);
 
-    return (<div className={"accounts-wrapper"}>
-        <div className={"accounts-container"}>
-            {/*<div className="accounts-header">Accounts</div>*/}
-            <div className="accounts-body">
+    return (<div className={"transactions-wrapper"}>
+        <div className={"transactions-container"}>
+            {/*<div className="transactions-header">Accounts</div>*/}
+            <div className="transactions-body">
                 <TableContainer>
                     <Table sx={{ minWidth: 650 }}>
                         <TableHead>
                             <TableRow>
-                                <StyledTableCell>Address</StyledTableCell>
-                                <StyledTableCell>Balance</StyledTableCell>
-                                <StyledTableCell>Status</StyledTableCell>
-                                <StyledTableCell align={"center"}>Assets created</StyledTableCell>
-                                <StyledTableCell align={"center"}>Apps created</StyledTableCell>
+                                <StyledTableCell>Txn ID</StyledTableCell>
+                                <StyledTableCell>Block</StyledTableCell>
+                                <StyledTableCell>Fee</StyledTableCell>
+                                <StyledTableCell>From</StyledTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {list.map((account) => (
+                            {list.map((transaction) => (
                                 <StyledTableRow
-                                    key={account.address}
+                                    key={transaction.id}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
                                     <StyledTableCell component="th" scope="row">
-                                        <Link href="/">{account.address}</Link>
+                                        <Link href="/">{ellipseString(transaction.id, 10)}</Link>
+                                    </StyledTableCell>
+                                    <StyledTableCell component="th" scope="row">
+                                        {transaction["confirmed-round"]}
                                     </StyledTableCell>
                                     <StyledTableCell component="th" scope="row">
                                         <NumberFormat
-                                            value={microalgosToAlgos(account.amount)}
+                                            value={microalgosToAlgos(transaction.fee)}
                                             displayType={'text'}
                                             thousandSeparator={true}
                                         ></NumberFormat>
                                     </StyledTableCell>
                                     <StyledTableCell component="th" scope="row">
-                                        {account.status}
-                                    </StyledTableCell>
-                                    <StyledTableCell component="th" scope="row" align={"center"}>
-                                        {account['total-created-assets']}
-                                    </StyledTableCell>
-                                    <StyledTableCell component="th" scope="row" align={"center"}>
-                                        {account['total-created-apps']}
+                                        <Link href="/">{ellipseString(transaction.sender, 10)}</Link>
                                     </StyledTableCell>
                                 </StyledTableRow>
                             ))}
@@ -96,4 +94,4 @@ function Accounts(): JSX.Element {
     </div>);
 }
 
-export default Accounts;
+export default Transactions;
