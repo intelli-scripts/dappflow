@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {loadAccounts} from "../../redux/actions/accounts";
 import {RootState} from "../../redux/store";
 import {
-    Link,
+    Link, Paper,
     styled,
     Table,
     TableBody,
@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import {microalgosToAlgos} from "algosdk";
 import NumberFormat from 'react-number-format';
+import {ellipseString} from "../../packages/explorer-sdk/utils";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -50,7 +51,7 @@ function Accounts(): JSX.Element {
         <div className={"accounts-container"}>
             {/*<div className="accounts-header">Accounts</div>*/}
             <div className="accounts-body">
-                <TableContainer>
+                <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 650 }}>
                         <TableHead>
                             <TableRow>
@@ -68,7 +69,7 @@ function Accounts(): JSX.Element {
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
                                     <StyledTableCell component="th" scope="row">
-                                        <Link href="/">{account.address}</Link>
+                                        <Link href="/">{ellipseString(account.address, 15)}</Link>
                                     </StyledTableCell>
                                     <StyledTableCell component="th" scope="row">
                                         <NumberFormat

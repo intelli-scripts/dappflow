@@ -12,10 +12,24 @@ declare module '@mui/material/styles' {
 export const theme = createTheme({
     palette: {
         primary: {
-            main: '#3f50b5',
+            main: '#3f51b5',
         },
         secondary: {
             main: '#f44336'
         },
     },
+    typography: {
+        button: {
+            textTransform: 'none'
+        }
+    },
+    components: {
+        MuiPaper: {
+            styleOverrides: {
+                root: {
+                    boxShadow: "none"
+                }
+            }
+        }
+    }
 });

@@ -2,12 +2,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import snackbarReducer from './actions/snackbar';
 import accountsReducer from "./actions/accounts";
 import transactionsReducer from "./actions/transactions";
+import settingsReducer from "./actions/settings";
 
 export const store = configureStore({
     reducer: {
         snackbar: snackbarReducer,
         accounts: accountsReducer,
-        transactions: transactionsReducer
+        transactions: transactionsReducer,
+        settings: settingsReducer
     },
 });
 

@@ -3,7 +3,7 @@ import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {
-    Link,
+    Link, Paper,
     styled,
     Table,
     TableBody,
@@ -52,7 +52,7 @@ function Transactions(): JSX.Element {
         <div className={"transactions-container"}>
             {/*<div className="transactions-header">Accounts</div>*/}
             <div className="transactions-body">
-                <TableContainer>
+                <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 650 }}>
                         <TableHead>
                             <TableRow>
