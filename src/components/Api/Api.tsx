@@ -17,7 +17,7 @@ function Api(): JSX.Element {
 
     return (<div className={"api-wrapper"}>
         <div className={"api-container"}>
-            {spec ? <SwaggerUI spec={spec}/> : 'Loading ...'}
+            {spec ? <SwaggerUI spec={spec} persistAuthorization={true}/> : 'Loading ...'}
         </div>
     </div>);
 }
