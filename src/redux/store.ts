@@ -3,13 +3,15 @@ import snackbarReducer from './actions/snackbar';
 import accountsReducer from "./actions/accounts";
 import transactionsReducer from "./actions/transactions";
 import settingsReducer from "./actions/settings";
+import apiReducer from "./actions/api";
 
 export const store = configureStore({
     reducer: {
         snackbar: snackbarReducer,
         accounts: accountsReducer,
         transactions: transactionsReducer,
-        settings: settingsReducer
+        settings: settingsReducer,
+        api: apiReducer
     },
 });
 
