@@ -1,7 +1,7 @@
 import './Header.scss';
 import React from "react";
 import {useNavigate, useLocation} from "react-router-dom";
-import {Grid, Tab, Tabs} from "@mui/material";
+import {Grid, Tab, Tabs, Tooltip} from "@mui/material";
 import SettingsIcon from '@mui/icons-material/Settings';
 import {useDispatch} from "react-redux";
 import {showSettings} from "../../redux/actions/settings";
@@ -26,6 +26,9 @@ function Header(): JSX.Element {
             <div>
                 <Grid container>
                     <Tabs value={route}>
+                        <Tab label="Home" value="" onClick={() => {
+                            navigate('/');
+                        }}/>
                         <Tab label="Accounts" value="accounts" onClick={() => {
                             navigate('/accounts');
                         }}/>
@@ -42,9 +45,11 @@ function Header(): JSX.Element {
                             navigate('/developer-api');
                         }}/>
                     </Tabs>
-                    <SettingsIcon className="settings-icon" fontSize={"medium"}  color={"primary"} onClick={() => {
-                        dispatch(showSettings());
-                    }}></SettingsIcon>
+                    <Tooltip title="Node settings">
+                        <SettingsIcon className="settings-icon" fontSize={"medium"}  color={"primary"} onClick={() => {
+                            dispatch(showSettings());
+                        }}></SettingsIcon>
+                    </Tooltip>
                 </Grid>
             </div>
         </div>

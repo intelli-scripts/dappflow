@@ -24,7 +24,7 @@ export const dataGridStyles = {
         outline: "none"
     },
     '.MuiDataGrid-columnHeader': {
-        background: theme.palette.primary.main,
+        background: theme.palette.primary.dark,
         color: theme.palette.primary.contrastText
     }
 };

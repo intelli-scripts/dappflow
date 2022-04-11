@@ -2,32 +2,32 @@
 @import "./assets/colors";
 
 @font-face {
-  font-family: 'Montserrat';
-  src: url('assets/fonts/Montserrat/Montserrat-Regular.ttf') format('ttf'),
-  url('assets/fonts/Montserrat/Montserrat-Regular.ttf') format('truetype');
+  font-family: 'Poppins';
+  src: url('assets/fonts/Poppins/Poppins-Regular.ttf') format('ttf'),
+  url('assets/fonts/Poppins/Poppins-Regular.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: 'MontserratLight';
-  src: url('assets/fonts/Montserrat/Montserrat-Light.ttf') format('ttf'),
-  url('assets/fonts/Montserrat/Montserrat-Light.ttf') format('truetype');
+  font-family: 'PoppinsLight';
+  src: url('assets/fonts/Poppins/Poppins-Light.ttf') format('ttf'),
+  url('assets/fonts/Poppins/Poppins-Light.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: 'MontserratThin';
-  src: url('assets/fonts/Montserrat/Montserrat-Thin.ttf') format('ttf'),
-  url('assets/fonts/Montserrat/Montserrat-Thin.ttf') format('truetype');
+  font-family: 'PoppinsThin';
+  src: url('assets/fonts/Poppins/Poppins-Thin.ttf') format('ttf'),
+  url('assets/fonts/Poppins/Poppins-Thin.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: 'MontserratBold';
-  src: url('assets/fonts/Montserrat/Montserrat-Bold.ttf') format('ttf'),
-  url('assets/fonts/Montserrat/Montserrat-Bold.ttf') format('truetype');
+  font-family: 'PoppinsBold';
+  src: url('assets/fonts/Poppins/Poppins-Bold.ttf') format('ttf'),
+  url('assets/fonts/Poppins/Poppins-Bold.ttf') format('truetype');
 }
 
 body {
-  font-family: "Montserrat";
+  font-family: "Poppins";
 }
 * {
-  font-family: "Montserrat" !important;
+  font-family: "Poppins" !important;
 }

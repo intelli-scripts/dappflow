@@ -53,3 +53,12 @@ export interface DAPPFLOW_EXPLORER_SEARCH_TRANSACTION{
         receiver: string
     }
 }
+
+export type DAPPFLOW_NODE_CONFIG = {
+    algodUrl: string,
+    algodPort: string,
+    algodToken: string,
+    indexerUrl: string,
+    indexerPort: string,
+    indexerToken: string
+};

@@ -20,7 +20,7 @@ function AppRouter(): JSX.Element {
                 <Route path="/developer-api" element={<DeveloperApi></DeveloperApi>} />
                 <Route
                     path="*"
-                    element={<Navigate to="/accounts" replace />}
+                    element={<Navigate to="/" replace />}
                 />
             </Routes>
         </BrowserRouter>

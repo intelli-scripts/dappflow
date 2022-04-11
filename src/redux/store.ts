@@ -4,6 +4,7 @@ import accountsReducer from "./actions/accounts";
 import transactionsReducer from "./actions/transactions";
 import settingsReducer from "./actions/settings";
 import developerApiReducer from "./actions/developerApi";
+import loaderReducer from "./actions/loader";
 
 export const store = configureStore({
     reducer: {
@@ -11,7 +12,8 @@ export const store = configureStore({
         accounts: accountsReducer,
         transactions: transactionsReducer,
         settings: settingsReducer,
-        developerApi: developerApiReducer
+        developerApi: developerApiReducer,
+        loader: loaderReducer
     },
 });
 

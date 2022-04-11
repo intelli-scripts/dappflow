@@ -1,8 +1,14 @@
 import {Network} from "../packages/core-sdk/network";
 import {Explorer} from "../packages/explorer-sdk/explorer";
+import {
+    getNodeConfig
+} from "../packages/explorer-sdk/nodeConfig";
 
 function getNetwork() {
-    return new Network('sandbox', 'Sandbox', 'http://localhost', 'http://localhost', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', '', '4001', '8980');
+    const nodeConfig = getNodeConfig();
+    const {algodUrl, algodPort, algodToken, indexerPort, indexerToken, indexerUrl} = nodeConfig;
+
+    return new Network('sandbox', 'Sandbox', algodUrl, indexerUrl, algodToken, indexerToken, algodPort, indexerPort);
 }
 
 class ExplorerSdk {

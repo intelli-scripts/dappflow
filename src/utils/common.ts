@@ -12,3 +12,7 @@ export function copyContent(ev, dispatch, content: string, message: string) {
         message
     }));
 }
+
+export function isNumber(n: any) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+}
