@@ -34,8 +34,8 @@ function Header(): JSX.Element {
                         <Tab label="Applications" value="applications" onClick={() => {
                             navigate('/applications');
                         }}/>
-                        <Tab label="Api" value="api" onClick={() => {
-                            navigate('/api');
+                        <Tab label="Developer API" value="developer-api" onClick={() => {
+                            navigate('/developer-api');
                         }}/>
                     </Tabs>
                     <SettingsIcon className="settings-icon" fontSize={"medium"}  color={"primary"} onClick={() => {

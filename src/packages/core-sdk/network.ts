@@ -42,6 +42,16 @@ export class Network {
         return url;
     }
 
+    getIndexerUrl(): string {
+        let url = this.indexer;
+
+        if (this.indexerPort) {
+            url += ':' + this.indexerPort;
+        }
+
+        return url;
+    }
+
     getClient(): Algodv2{
         return new sdk.Algodv2(this.algodToken, this.algod, this.algodPort);
     }

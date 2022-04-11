@@ -3,7 +3,7 @@ import snackbarReducer from './actions/snackbar';
 import accountsReducer from "./actions/accounts";
 import transactionsReducer from "./actions/transactions";
 import settingsReducer from "./actions/settings";
-import apiReducer from "./actions/api";
+import developerApiReducer from "./actions/developerApi";
 
 export const store = configureStore({
     reducer: {
@@ -11,7 +11,7 @@ export const store = configureStore({
         accounts: accountsReducer,
         transactions: transactionsReducer,
         settings: settingsReducer,
-        api: apiReducer
+        developerApi: developerApiReducer
     },
 });
 
