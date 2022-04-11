@@ -5,6 +5,7 @@ import {Grid, Tab, Tabs} from "@mui/material";
 import SettingsIcon from '@mui/icons-material/Settings';
 import {useDispatch} from "react-redux";
 import {showSettings} from "../../redux/actions/settings";
+import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
 
 function Header(): JSX.Element {
     const navigate = useNavigate();
@@ -18,7 +19,10 @@ function Header(): JSX.Element {
         <div className={"header-container"}>
             <div className="logo" onClick={() => {
                 navigate('/');
-            }}>Dappflow</div>
+            }}>
+                <DeveloperBoardIcon fontSize={"medium"}></DeveloperBoardIcon>
+                Dappflow
+            </div>
             <div>
                 <Grid container>
                     <Tabs value={route}>

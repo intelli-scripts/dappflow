@@ -37,6 +37,24 @@ export const theme = createTheme({
                     background: '#000'
                 }
             }
+        },
+        MuiTextField: {
+            styleOverrides: {
+                root: {
+                    borderRadius: 10
+                }
+            }
+        },
+        MuiButton: {
+            styleOverrides: {
+                root: {
+                    boxShadow: 'none',
+                    borderRadius: 10,
+                    ":hover": {
+                        boxShadow: 'none',
+                    }
+                }
+            }
         }
     }
 });

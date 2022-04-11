@@ -16,10 +16,14 @@
     .logo {
       font-family: MontserratBold !important;
       font-weight: bold;
-      font-size: 20px;
+      font-size: 18px;
       padding-top: 20px;
       &:hover {
         cursor: pointer;
+      }
+      svg {
+        vertical-align: text-bottom;
+        margin-right: 5px;
       }
     }
   }
