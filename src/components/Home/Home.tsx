@@ -19,7 +19,6 @@ function Home(): JSX.Element {
                         style={{marginRight: 20,
                             width: 420,
                             padding: 6,
-                            borderRadius: 10,
                             border: '1px solid ' + theme.palette.grey["200"]
                         }}
                         startAdornment={<InputAdornment position="start">

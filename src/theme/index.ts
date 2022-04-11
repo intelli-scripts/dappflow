@@ -55,6 +55,20 @@ export const theme = createTheme({
                     }
                 }
             }
+        },
+        MuiDialog: {
+            styleOverrides: {
+                paper: {
+                    borderRadius: 15
+                }
+            }
+        },
+        MuiInputBase: {
+            styleOverrides: {
+                root: {
+                    borderRadius: 10
+                }
+            }
         }
     }
 });
