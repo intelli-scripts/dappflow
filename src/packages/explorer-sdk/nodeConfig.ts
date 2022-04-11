@@ -19,4 +19,37 @@ export function getNodeConfig(): DAPPFLOW_NODE_CONFIG {
     }
 }
 
+export function getNodes(): DAPPFLOW_NODE_CONFIG[] {
+    return [{
+        id: 'sandbox',
+        label: 'Sandbox',
+        algodUrl: 'http://localhost',
+        algodPort: '4001',
+        algodToken: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+        indexerUrl: 'http://localhost',
+        indexerPort: '8980',
+        indexerToken: ''
+    },
+        {
+            id: 'algonode_testnet',
+            label: 'Algonode testnet',
+            algodUrl: 'https://testnet-api.algonode.cloud',
+            algodPort: '',
+            algodToken: '',
+            indexerUrl: 'https://testnet-idx.algonode.cloud',
+            indexerPort: '',
+            indexerToken: ''
+        },
+        {
+            id: 'algonode_mainnet',
+            label: 'Algonode mainnet',
+            algodUrl: 'https://mainnet-api.algonode.cloud',
+            algodPort: '',
+            algodToken: '',
+            indexerUrl: 'https://mainnet-idx.algonode.cloud',
+            indexerPort: '',
+            indexerToken: ''
+        }];
+}
+
 

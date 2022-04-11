@@ -6,7 +6,7 @@ import React, {useState} from "react";
 import {hideSettings} from "../../redux/actions/settings";
 import {CancelOutlined} from "@mui/icons-material";
 import {
-    Button,
+    Button, Chip,
     Dialog,
     DialogActions,
     DialogContent,
@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import {theme} from "../../theme";
 import pSBC from 'shade-blend-color';
-import {getNodeConfig} from "../../packages/explorer-sdk/nodeConfig";
+import {getNodeConfig, getNodes} from "../../packages/explorer-sdk/nodeConfig";
 import {showSnack} from "../../redux/actions/snackbar";
 import {isNumber} from "../../utils/common";
 import {Network} from "../../packages/core-sdk/network";
@@ -57,6 +57,7 @@ function Settings(): JSX.Element {
     const settings = useSelector((state: RootState) => state.settings);
     const {show} = settings;
     const primaryClr = theme.palette.primary.main;
+    const nodes = getNodes();
 
 
     const [
@@ -154,8 +155,21 @@ function Settings(): JSX.Element {
             <DialogContent>
                 <div className="settings-wrapper">
                     <div className="settings-container">
+                        <div className="settings-header">
+                            {nodes.map((node) => {
+                                return <Chip
+                                    key={node.id}
+                                    label={node.label}
+                                    color={"primary"}
+                                    className="node"
+                                    onClick={() => {
+                                        setState(prevState => ({...prevState, ...node}));
+                                    }
+                                    }
+                                    size={"small"}></Chip>
+                            })}
+                        </div>
                         <div className="settings-body">
-
                             <Grid container spacing={2}>
                                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                     <FormLabel style={{color: primaryClr}}>Algod url</FormLabel>

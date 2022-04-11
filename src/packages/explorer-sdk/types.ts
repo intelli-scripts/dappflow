@@ -55,6 +55,8 @@ export interface DAPPFLOW_EXPLORER_SEARCH_TRANSACTION{
 }
 
 export type DAPPFLOW_NODE_CONFIG = {
+    id?: string,
+    label?: string,
     algodUrl: string,
     algodPort: string,
     algodToken: string,
