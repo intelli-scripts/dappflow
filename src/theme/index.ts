@@ -30,6 +30,13 @@ export const theme = createTheme({
                     boxShadow: "none"
                 }
             }
+        },
+        MuiTooltip: {
+            styleOverrides: {
+                tooltip: {
+                    background: '#000'
+                }
+            }
         }
     }
 });

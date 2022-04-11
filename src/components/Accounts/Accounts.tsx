@@ -4,14 +4,15 @@ import {useDispatch, useSelector} from "react-redux";
 import {loadAccounts} from "../../redux/actions/accounts";
 import {RootState} from "../../redux/store";
 import {
-    Link
+    Link, Tooltip
 } from "@mui/material";
 import {microalgosToAlgos} from "algosdk";
 import NumberFormat from 'react-number-format';
 import {ellipseString} from "../../packages/explorer-sdk/utils";
 import {DataGrid, GridColDef, GridValueGetterParams} from "@mui/x-data-grid";
 import {dataGridCellConfig, dataGridStyles} from "../../theme/styles/datagrid";
-
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import {copyContent} from "../../utils/common";
 
 function Accounts(): JSX.Element {
     const dispatch = useDispatch();
@@ -25,7 +26,15 @@ function Accounts(): JSX.Element {
             headerName: 'Address',
             flex: 2,
             renderCell: (params: GridValueGetterParams) => {
-                return <Link href="/">{ellipseString(params.row.address, 15)}</Link>;
+                return <div>
+                    <Tooltip title="Click to copy">
+                        <ContentCopyIcon className="copy-content" onClick={(ev) => {
+                            copyContent(ev, dispatch, params.row.address, 'Address copied');
+                        }
+                        }></ContentCopyIcon>
+                    </Tooltip>
+                    <Link href="/">{ellipseString(params.row.address, 15)}</Link>
+                </div>;
             }
         },
         {

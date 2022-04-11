@@ -9,6 +9,11 @@
     }
     .transactions-body {
       margin-top: 50px;
+      .copy-content {
+        font-size: 16px;
+        margin-right: 10px;
+        vertical-align: text-bottom;
+      }
     }
   }
 }
