@@ -1,11 +1,11 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {handleException} from "./exception";
 import explorerSdk from "../../utils/explorerSdk";
-import {DAPPFLOW_EXPLORER_SEARCH_TRANSACTION} from "../../packages/explorer-sdk/types";
+import {A_SearchTransaction} from "../../packages/core-sdk/types";
 
 
 interface Transactions {
-    list: DAPPFLOW_EXPLORER_SEARCH_TRANSACTION[],
+    list: A_SearchTransaction[],
     loading: boolean
 }
 
@@ -40,7 +40,7 @@ export const transactionsSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(loadTransactions.fulfilled, (state, action: PayloadAction<DAPPFLOW_EXPLORER_SEARCH_TRANSACTION[]>) => {
+        builder.addCase(loadTransactions.fulfilled, (state, action: PayloadAction<A_SearchTransaction[]>) => {
             if (action.payload) {
                 state.list = action.payload;
             }

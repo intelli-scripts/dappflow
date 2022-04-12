@@ -68,7 +68,7 @@ function Transactions(): JSX.Element {
                         }
                         }></ContentCopyIcon>
                     </Tooltip>
-                    <Link href="/">{ellipseString(params.row.sender, 15)}</Link>
+                    <Link href={"/account/" + params.row.sender}>{ellipseString(params.row.sender, 15)}</Link>
                 </div>;
             }
         }
