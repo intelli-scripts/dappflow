@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {handleException} from "./exception";
-import explorerSdk from "../../utils/explorerSdk";
+import explorer from "../../utils/explorer";
 import indexerApi from '../../packages/core-sdk/swagger/indexerApi.json';
 
 
@@ -20,7 +20,7 @@ export const loadIndexerSpec = createAsyncThunk(
         const {dispatch} = thunkAPI;
         try {
             dispatch(setLoading(true));
-            const indexerUrl = explorerSdk.explorer.network.getIndexerUrl();
+            const indexerUrl = explorer.network.getIndexerUrl();
             dispatch(setLoading(false));
 
             return {

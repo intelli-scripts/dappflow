@@ -1,7 +1,8 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {handleException} from "./exception";
-import explorerSdk from "../../utils/explorerSdk";
+import explorer from "../../utils/explorer";
 import {A_SearchTransaction} from "../../packages/core-sdk/types";
+import {TransactionClient} from "../../packages/core-sdk/clients/transactionClient";
 
 
 interface Transactions {
@@ -19,8 +20,9 @@ export const loadTransactions = createAsyncThunk(
     async (_, thunkAPI) => {
         const {dispatch} = thunkAPI;
         try {
+            const transactionClient = new TransactionClient(explorer.network);
             dispatch(setLoading(true));
-            const transactions = await explorerSdk.explorer.transactionsClient.get();
+            const transactions = await transactionClient.getTransactions();
             dispatch(setLoading(false));
             return transactions;
         }

@@ -1,6 +1,6 @@
-import {DAPPFLOW_NODE_CONFIG} from "./types";
+import {A_NodeConfig} from "../packages/core-sdk/types";
 
-export function getNodeConfig(): DAPPFLOW_NODE_CONFIG {
+export function getNodeConfig(): A_NodeConfig {
     const algodUrl = localStorage.getItem('algodUrl') || 'http://localhost';
     const algodPort = localStorage.getItem('algodPort') === null ? '4001' : localStorage.getItem('algodPort');
     const algodToken= localStorage.getItem('algodToken') === null ? 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' : localStorage.getItem('algodToken');
@@ -19,7 +19,7 @@ export function getNodeConfig(): DAPPFLOW_NODE_CONFIG {
     }
 }
 
-export function getNodes(): DAPPFLOW_NODE_CONFIG[] {
+export function getNodes(): A_NodeConfig[] {
     return [{
         id: 'sandbox',
         label: 'Sandbox',

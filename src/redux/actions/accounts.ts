@@ -1,11 +1,12 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {DAPPFLOW_EXPLORER_ACCOUNT} from "../../packages/explorer-sdk/types";
 import {handleException} from "./exception";
-import explorerSdk from "../../utils/explorerSdk";
+import explorer from "../../utils/explorer";
+import {A_SearchAccount} from "../../packages/core-sdk/types";
+import {AccountClient} from "../../packages/core-sdk/clients/accountClient";
 
 
 interface Accounts {
-    list: DAPPFLOW_EXPLORER_ACCOUNT[],
+    list: A_SearchAccount[],
     loading: boolean
 }
 
@@ -19,8 +20,9 @@ export const loadAccounts = createAsyncThunk(
     async (_, thunkAPI) => {
         const {dispatch} = thunkAPI;
         try {
+            const accountClient = new AccountClient(explorer.network);
             dispatch(setLoading(true));
-            const accounts = await explorerSdk.explorer.accountsClient.get();
+            const accounts = await accountClient.getAccounts();
             dispatch(setLoading(false));
             return accounts;
         }
@@ -40,7 +42,7 @@ export const accountsSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(loadAccounts.fulfilled, (state, action: PayloadAction<DAPPFLOW_EXPLORER_ACCOUNT[]>) => {
+        builder.addCase(loadAccounts.fulfilled, (state, action: PayloadAction<A_SearchAccount[]>) => {
             if (action.payload) {
                 state.list = action.payload;
             }

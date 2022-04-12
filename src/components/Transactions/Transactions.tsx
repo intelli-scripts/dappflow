@@ -8,7 +8,7 @@ import {
 import {microalgosToAlgos} from "algosdk";
 import NumberFormat from 'react-number-format';
 import {loadTransactions} from "../../redux/actions/transactions";
-import {ellipseString} from "../../packages/explorer-sdk/utils";
+import {ellipseString} from "../../packages/core-sdk/utils";
 import {DataGrid, GridColDef, GridValueGetterParams} from "@mui/x-data-grid";
 import {dataGridCellConfig, dataGridStyles} from "../../theme/styles/datagrid";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -42,7 +42,12 @@ function Transactions(): JSX.Element {
         {
             ...dataGridCellConfig,
             field: 'confirmed-round',
-            headerName: 'Block'
+            headerName: 'Block',
+            renderCell: (params: GridValueGetterParams) => {
+                return <div>
+                    <Link href={"/block/" + params.row["confirmed-round"]}>{params.row["confirmed-round"]}</Link>
+                </div>;
+            }
         },
         {
             ...dataGridCellConfig,

@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import {theme} from "../../theme";
 import pSBC from 'shade-blend-color';
-import {getNodeConfig, getNodes} from "../../packages/explorer-sdk/nodeConfig";
+import {getNodeConfig, getNodes} from "../../utils/nodeConfig";
 import {showSnack} from "../../redux/actions/snackbar";
 import {isNumber} from "../../utils/common";
 import {Network} from "../../packages/core-sdk/network";

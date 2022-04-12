@@ -1,8 +1,9 @@
 import {Network} from "../packages/core-sdk/network";
-import {Explorer} from "../packages/explorer-sdk/explorer";
+
 import {
     getNodeConfig
-} from "../packages/explorer-sdk/nodeConfig";
+} from "./nodeConfig";
+
 
 function getNetwork() {
     const nodeConfig = getNodeConfig();
@@ -11,19 +12,16 @@ function getNetwork() {
     return new Network('sandbox', 'Sandbox', algodUrl, indexerUrl, algodToken, indexerToken, algodPort, indexerPort);
 }
 
-class ExplorerSdk {
+class Explorer {
     network: Network
-    explorer: Explorer
 
     constructor() {
         this.network = getNetwork();
-        this.explorer = new Explorer(this.network);
     }
 
     changeNetwork(): void {
         this.network = getNetwork();
-        this.explorer = new Explorer(this.network);
     }
 }
 
-export default new ExplorerSdk();
+export default new Explorer();

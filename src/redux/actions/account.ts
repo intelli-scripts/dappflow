@@ -2,7 +2,7 @@ import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {A_AccountInformation, A_Asset, A_SearchTransaction} from '../../packages/core-sdk/types';
 import {handleException} from "./exception";
 import {showLoader, hideLoader} from './loader';
-import explorerSdk from "../../utils/explorerSdk";
+import explorer from "../../utils/explorer";
 import {AccountClient} from "../../packages/core-sdk/clients/accountClient";
 import {AssetClient} from "../../packages/core-sdk/clients/assetClient";
 
@@ -44,7 +44,7 @@ export const loadAccount = createAsyncThunk(
     async (address: string, thunkAPI) => {
         const {dispatch} = thunkAPI;
         try {
-            const accountClient = new AccountClient(explorerSdk.network);
+            const accountClient = new AccountClient(explorer.network);
             dispatch(resetAccount());
             dispatch(showLoader("Loading account ..."));
             const accountInfo = await accountClient.getAccountInformation(address);
@@ -66,7 +66,7 @@ export const loadCreatedAssets = createAsyncThunk(
     async (information: A_AccountInformation, thunkAPI) => {
         const {dispatch} = thunkAPI;
         try {
-            const accountClient = new AccountClient(explorerSdk.network);
+            const accountClient = new AccountClient(explorer.network);
             let createdAssets = accountClient.getCreatedAssets(information);
             createdAssets = createdAssets.sort((a, b) => {
                 return b.index - a.index;
@@ -85,7 +85,7 @@ export const loadOptedAssets = createAsyncThunk(
     async (accountInformation: A_AccountInformation, thunkAPI) => {
         const {dispatch} = thunkAPI;
         try {
-            const accountClient = new AccountClient(explorerSdk.network);
+            const accountClient = new AccountClient(explorer.network);
             const optedAssets = accountClient.getHoldingAssets(accountInformation);
 
             optedAssets.forEach((asset) => {
@@ -106,7 +106,7 @@ export const loadOptedAsset = createAsyncThunk(
     async (id: number, thunkAPI) => {
         const {dispatch, getState} = thunkAPI;
         try {
-            const assetClient = new AssetClient(explorerSdk.network);
+            const assetClient = new AssetClient(explorer.network);
 
             const asset = await assetClient.get(id);
             const appState: any = getState();
@@ -128,7 +128,8 @@ export const loadTransactions = createAsyncThunk(
     async (information: A_AccountInformation, thunkAPI) => {
         const {dispatch} = thunkAPI;
         try {
-            const transactions = await explorerSdk.explorer.accountsClient.getAccountTransactions(information.address);
+            const accountClient = new AccountClient(explorer.network);
+            const transactions = await accountClient.getAccountTransactions(information.address);
             return transactions;
         }
         catch (e: any) {
@@ -154,7 +155,7 @@ export const accountSlice = createSlice({
             if (action.payload) {
                 const {asset, accountInformation} = action.payload;
                 if (asset) {
-                    const accountClient = new AccountClient(explorerSdk.network);
+                    const accountClient = new AccountClient(explorer.network);
                     const holdingAsset = accountClient.getHoldingAsset(asset.index, accountInformation);
                     if (holdingAsset) {
                         state.optedAssets.push(asset);

@@ -1,6 +1,11 @@
 import {Algodv2} from "algosdk";
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
-import {A_AccountInformation, A_Asset, A_AssetHolding, A_Application, A_AppsLocalState} from "../types";
+import {
+    A_AccountInformation,
+    A_Asset,
+    A_AssetHolding,
+    A_SearchAccount, A_SearchTransaction
+} from "../types";
 import {Network} from "../network";
 
 export class AccountClient{
@@ -29,38 +34,10 @@ export class AccountClient{
         return createdAssets;
     }
 
-    getCreatedApps(accountInfo: A_AccountInformation): A_Application[] {
-        const createdApps = accountInfo['created-apps'];
-        return createdApps;
-    }
-
-    getOptedApps(accountInfo: A_AccountInformation): A_AppsLocalState[] {
-        const optedApps = accountInfo['apps-local-state'];
-        return optedApps;
-    }
-
-    getOptedApp(appId: number, accountInfo: A_AccountInformation): A_AppsLocalState {
-        const apps = this.getOptedApps(accountInfo);
-        for (const app of apps) {
-            if (app.id === appId) {
-                return app;
-            }
-        }
-    }
-
     getHoldingAsset(assetId: number, accountInfo: A_AccountInformation): A_AssetHolding {
         const assets = this.getHoldingAssets(accountInfo);
         for (const asset of assets) {
             if (asset['asset-id'] === assetId) {
-                return asset;
-            }
-        }
-    }
-
-    getCreatedAsset(assetId: number, accountInfo: A_AccountInformation): A_Asset {
-        const createdAssets = this.getCreatedAssets(accountInfo);
-        for (const asset of createdAssets) {
-            if (asset.index === assetId) {
                 return asset;
             }
         }
@@ -77,36 +54,17 @@ export class AccountClient{
         return false;
     }
 
-    balanceOf(assetId: number, accountInfo: A_AccountInformation): number {
-        const asset = this.getHoldingAsset(assetId, accountInfo);
-
-        if (asset) {
-            return asset.amount;
-        }
-
-        return 0;
-    }
-
-    canManage(address: string, asset: A_Asset): boolean {
-        const manager = asset.params.manager;
-        return address === manager;
-    }
-
-    canFreeze(address: string, asset: A_Asset): boolean {
-        const freeze = asset.params.freeze;
-        return address === freeze;
-    }
-
-    canClawback(address: string, asset: A_Asset): boolean {
-        const clawback = asset.params.clawback;
-        return address === clawback;
-    }
-
-    getAssetBal(asset: A_Asset, information: A_AccountInformation): number {
-        return this.balanceOf(asset.index, information) / Math.pow(10, asset.params.decimals);
-    }
-
     getBalance(accountInfo: A_AccountInformation): number {
         return accountInfo.amount;
+    }
+
+    async getAccounts(): Promise<A_SearchAccount[]> {
+        const {accounts} = await this.indexer.searchAccounts().do();
+        return accounts;
+    }
+
+    async getAccountTransactions(address: string): Promise<A_SearchTransaction[]> {
+        const {transactions} = await this.indexer.searchForTransactions().address(address).do();
+        return transactions;
     }
 }

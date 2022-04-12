@@ -90,13 +90,6 @@ export interface A_AppsLocalState {
     schema: A_StateSchema
 }
 
-
-export interface A_SearchTransactions {
-    "current-round": number,
-    "next-token": string,
-    transactions: [A_SearchTransaction]
-}
-
 export interface A_SearchTransaction{
     "close-rewards": number
     "closing-amount": number
@@ -137,4 +130,32 @@ export interface A_SearchTransaction{
 }
 
 export type A_SearchTransactionInner = Omit<A_SearchTransaction, "id,note,genesis-hash,genesis-id,inner-txns">
+
+export type A_SearchAccount = {
+    address: string
+    amount: number
+    status: string
+    "total-apps-opted-in": number
+    "total-assets-opted-in": number
+    "total-created-apps": number
+    "total-created-assets": number
+};
+
+export type A_Block = {
+    round: number
+    timestamp: number
+    "txn-counter": number,
+    transactions: A_SearchTransaction[]
+};
+
+export type A_NodeConfig = {
+    id?: string,
+    label?: string,
+    algodUrl: string,
+    algodPort: string,
+    algodToken: string,
+    indexerUrl: string,
+    indexerPort: string,
+    indexerToken: string
+};
 

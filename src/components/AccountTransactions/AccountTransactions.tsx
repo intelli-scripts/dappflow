@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import {microalgosToAlgos} from "algosdk";
 import NumberFormat from 'react-number-format';
-import {ellipseString} from "../../packages/explorer-sdk/utils";
+import {ellipseString} from "../../packages/core-sdk/utils";
 import {DataGrid, GridColDef, GridValueGetterParams} from "@mui/x-data-grid";
 import {dataGridCellConfig, dataGridStyles} from "../../theme/styles/datagrid";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";

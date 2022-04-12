@@ -6,7 +6,7 @@ import {loadAccount} from "../../redux/actions/account";
 import {RootState} from "../../redux/store";
 import {Chip, Grid, Tab, Tabs} from "@mui/material";
 import {AccountClient} from "../../packages/core-sdk/clients/accountClient";
-import explorerSdk from "../../utils/explorerSdk";
+import explorer from "../../utils/explorer";
 import NumberFormat from "react-number-format";
 import {microalgosToAlgos} from "algosdk";
 import AlgoIcon from "../AlgoIcon/AlgoIcon";
@@ -19,7 +19,6 @@ function Account(): JSX.Element {
     const {address} = params;
 
     const account = useSelector((state: RootState) => state.account);
-    console.log(account.information);
 
     useEffect(() => {
         dispatch(loadAccount(address));
@@ -48,7 +47,7 @@ function Account(): JSX.Element {
                                 </div>
                                 <div className="value">
                                     <NumberFormat
-                                        value={microalgosToAlgos(new AccountClient(explorerSdk.network).getBalance(account.information))}
+                                        value={microalgosToAlgos(new AccountClient(explorer.network).getBalance(account.information))}
                                         displayType={'text'}
                                         thousandSeparator={true}
                                     ></NumberFormat>
