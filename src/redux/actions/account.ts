@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {A_AccountInformation, A_Asset} from '../../packages/core-sdk/types';
+import {A_AccountInformation, A_Asset, A_SearchTransaction} from '../../packages/core-sdk/types';
 import {handleException} from "./exception";
 import {showLoader, hideLoader} from './loader';
 import explorerSdk from "../../utils/explorerSdk";
@@ -9,7 +9,8 @@ import {AssetClient} from "../../packages/core-sdk/clients/assetClient";
 export interface Account {
     information: A_AccountInformation,
     createdAssets: A_Asset[],
-    optedAssets: A_Asset[]
+    optedAssets: A_Asset[],
+    transactions: A_SearchTransaction[]
 }
 
 const information: A_AccountInformation = {
@@ -35,6 +36,7 @@ const initialState: Account = {
     information,
     createdAssets: [],
     optedAssets: [],
+    transactions: []
 }
 
 export const loadAccount = createAsyncThunk(
@@ -48,6 +50,7 @@ export const loadAccount = createAsyncThunk(
             const accountInfo = await accountClient.getAccountInformation(address);
             dispatch(loadCreatedAssets(accountInfo));
             dispatch(loadOptedAssets(accountInfo));
+            dispatch(loadTransactions(accountInfo));
             dispatch(hideLoader());
             return accountInfo;
         }
@@ -120,6 +123,20 @@ export const loadOptedAsset = createAsyncThunk(
     }
 );
 
+export const loadTransactions = createAsyncThunk(
+    'account/loadTransactions',
+    async (information: A_AccountInformation, thunkAPI) => {
+        const {dispatch} = thunkAPI;
+        try {
+            const transactions = await explorerSdk.explorer.accountsClient.getAccountTransactions(information.address);
+            return transactions;
+        }
+        catch (e: any) {
+            dispatch(handleException(e));
+        }
+    }
+);
+
 export const accountSlice = createSlice({
     name: 'account',
     initialState,
@@ -144,6 +161,9 @@ export const accountSlice = createSlice({
                     }
                 }
             }
+        });
+        builder.addCase(loadTransactions.fulfilled, (state, action: PayloadAction<A_SearchTransaction[]>) => {
+            state.transactions = action.payload;
         });
     },
 });

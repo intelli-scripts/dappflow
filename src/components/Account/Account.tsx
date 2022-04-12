@@ -1,6 +1,6 @@
 import './Account.scss';
 import React, {useEffect} from "react";
-import {useNavigate, useParams} from "react-router-dom";
+import {Outlet, useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {loadAccount} from "../../redux/actions/account";
 import {RootState} from "../../redux/store";
@@ -18,9 +18,7 @@ function Account(): JSX.Element {
     const params = useParams();
     const {address} = params;
 
-
     const account = useSelector((state: RootState) => state.account);
-    console.log(account);
 
     useEffect(() => {
         dispatch(loadAccount(address));
@@ -73,7 +71,7 @@ function Account(): JSX.Element {
                         }}/>
                     </Tabs>
 
-
+                    <Outlet />
 
 
                 </div>

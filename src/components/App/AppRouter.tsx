@@ -6,6 +6,7 @@ import Accounts from "../Accounts/Accounts";
 import Transactions from "../Transactions/Transactions";
 import DeveloperApi from '../DeveloperApi/DeveloperApi';
 import Account from "../Account/Account";
+import AccountTransactions from "../AccountTransactions/AccountTransactions";
 
 function AppRouter(): JSX.Element {
     return (<div>
@@ -19,11 +20,11 @@ function AppRouter(): JSX.Element {
                 <Route path="/assets" element={<div>Assets</div>} />
                 <Route path="/applications" element={<div>Applications</div>} />
                 <Route path="/developer-api" element={<DeveloperApi></DeveloperApi>} />
-                <Route path="/account/:address" element={<Account></Account>} />
-                <Route
-                    path="*"
-                    element={<Navigate to="/" replace />}
-                />
+                <Route path="/account/:address" element={<Account></Account>}>
+                    <Route path="transactions" element={<AccountTransactions></AccountTransactions>} />
+                    <Route path="" element={<Navigate to="transactions" replace />}/>
+                </Route>
+                <Route path="*" element={<Navigate to="/" replace />}/>
             </Routes>
         </BrowserRouter>
     </div>);
