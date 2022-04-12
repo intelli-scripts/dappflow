@@ -4,7 +4,7 @@ import {Outlet, useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {loadAccount} from "../../redux/actions/account";
 import {RootState} from "../../redux/store";
-import {Grid, Tab, Tabs} from "@mui/material";
+import {Chip, Grid, Tab, Tabs} from "@mui/material";
 import {AccountClient} from "../../packages/core-sdk/clients/accountClient";
 import explorerSdk from "../../utils/explorerSdk";
 import NumberFormat from "react-number-format";
@@ -19,6 +19,7 @@ function Account(): JSX.Element {
     const {address} = params;
 
     const account = useSelector((state: RootState) => state.account);
+    console.log(account.information);
 
     useEffect(() => {
         dispatch(loadAccount(address));
@@ -30,7 +31,13 @@ function Account(): JSX.Element {
                 Account overview
             </div>
             <div className="account-body">
-                <div className="address">{account.information.address}</div>
+                <div className="address">
+                    {account.information.address}
+                    <div style={{marginTop: 10}}>
+                        <Chip color={"primary"} variant={"outlined"} label={account.information.status} size={"small"}></Chip>
+                    </div>
+
+                </div>
 
                 <div className="props">
                     <Grid container spacing={2}>
@@ -49,6 +56,8 @@ function Account(): JSX.Element {
                                 </div>
                             </div>
 
+
+
                             <div className="property">
                                 <div className="key">
                                     Created assets
@@ -57,6 +66,7 @@ function Account(): JSX.Element {
                                     {account.createdAssets.length}
                                 </div>
                             </div>
+
                         </Grid>
                     </Grid>
                 </div>
@@ -67,7 +77,7 @@ function Account(): JSX.Element {
 
                     <Tabs value="transactions">
                         <Tab label="Transactions" value="transactions" onClick={() => {
-                            navigate('/');
+                            navigate('/account/' + address + '/transactions');
                         }}/>
                     </Tabs>
 

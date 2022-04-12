@@ -35,7 +35,7 @@ function AccountTransactions(): JSX.Element {
                         }
                         }></ContentCopyIcon>
                     </Tooltip>
-                    <Link href="/">{ellipseString(params.row.id, 15)}</Link>
+                    <Link href={"/transaction/" + params.row.id}>{ellipseString(params.row.id, 30)}</Link>
                 </div>;
             }
         },
@@ -67,9 +67,17 @@ function AccountTransactions(): JSX.Element {
             flex: 2,
             renderCell: (params: GridValueGetterParams) => {
                 if (account.information.address === params.row.sender) {
-                    return <div>{ellipseString(params.row.sender, 15)}</div>;
+                    return <div>
+                        <Tooltip title="Click to copy">
+                            <ContentCopyIcon className="copy-content" onClick={(ev) => {
+                                copyContent(ev, dispatch, params.row.sender, 'Address copied');
+                            }
+                            }></ContentCopyIcon>
+                        </Tooltip>
+                        <span>{ellipseString(params.row.sender, 30)}</span>
+                    </div>;
                 }
-                
+
                 return <div>
                     <Tooltip title="Click to copy">
                         <ContentCopyIcon className="copy-content" onClick={(ev) => {
@@ -77,7 +85,7 @@ function AccountTransactions(): JSX.Element {
                         }
                         }></ContentCopyIcon>
                     </Tooltip>
-                    <Link href={"/account/" + params.row.sender}>{ellipseString(params.row.sender, 15)}</Link>
+                    <Link href={"/account/" + params.row.sender}>{ellipseString(params.row.sender, 30)}</Link>
                 </div>;
             }
         }

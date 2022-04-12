@@ -35,7 +35,7 @@ function Transactions(): JSX.Element {
                         }
                         }></ContentCopyIcon>
                     </Tooltip>
-                    <Link href="/">{ellipseString(params.row.id, 15)}</Link>
+                    <Link href={"/transaction/" + params.row.id}>{ellipseString(params.row.id, 30)}</Link>
                 </div>;
             }
         },
@@ -73,7 +73,7 @@ function Transactions(): JSX.Element {
                         }
                         }></ContentCopyIcon>
                     </Tooltip>
-                    <Link href={"/account/" + params.row.sender}>{ellipseString(params.row.sender, 15)}</Link>
+                    <Link href={"/account/" + params.row.sender}>{ellipseString(params.row.sender, 30)}</Link>
                 </div>;
             }
         }

@@ -34,7 +34,7 @@ function Accounts(): JSX.Element {
                         }
                         }></ContentCopyIcon>
                     </Tooltip>
-                    <Link href={"/account/" + params.row.address}>{ellipseString(params.row.address, 15)}</Link>
+                    <Link href={"/account/" + params.row.address}>{ellipseString(params.row.address, 30)}</Link>
                 </div>;
             }
         },
