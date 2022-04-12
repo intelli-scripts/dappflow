@@ -69,6 +69,12 @@ export const theme = createTheme({
                     borderRadius: 10
                 }
             }
+        },
+        MuiAppBar: {
+            styleOverrides: {
+                root: {
+                }
+            }
         }
     }
 });

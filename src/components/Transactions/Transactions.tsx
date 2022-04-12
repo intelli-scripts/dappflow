@@ -13,6 +13,7 @@ import {DataGrid, GridColDef, GridValueGetterParams} from "@mui/x-data-grid";
 import {dataGridCellConfig, dataGridStyles} from "../../theme/styles/datagrid";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import {copyContent} from "../../utils/common";
+import AlgoIcon from "../AlgoIcon/AlgoIcon";
 
 
 function Transactions(): JSX.Element {
@@ -48,11 +49,15 @@ function Transactions(): JSX.Element {
             field: 'fee',
             headerName: 'Fee',
             renderCell: (params: GridValueGetterParams) => {
-                return <NumberFormat
-                    value={microalgosToAlgos(params.row.fee)}
-                    displayType={'text'}
-                    thousandSeparator={true}
-                ></NumberFormat>;
+                return <div>
+                    <AlgoIcon></AlgoIcon>
+                    <NumberFormat
+                        value={microalgosToAlgos(params.row.fee)}
+                        displayType={'text'}
+                        thousandSeparator={true}
+                        style={{marginLeft: 5}}
+                    ></NumberFormat>
+                </div>;
             }
         },
         {
