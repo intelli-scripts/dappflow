@@ -2,18 +2,8 @@ import './Transactions.scss';
 import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
-import {
-    Link, Tooltip
-} from "@mui/material";
-import {microalgosToAlgos} from "algosdk";
-import NumberFormat from 'react-number-format';
 import {loadTransactions} from "../../redux/actions/transactions";
-import {ellipseString} from "../../packages/core-sdk/utils";
-import {DataGrid, GridColDef, GridValueGetterParams} from "@mui/x-data-grid";
-import {dataGridCellConfig, dataGridStyles} from "../../theme/styles/datagrid";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import {copyContent} from "../../utils/common";
-import AlgoIcon from "../AlgoIcon/AlgoIcon";
+import TransactionsList from "../TransactionsList/TransactionsList";
 
 
 function Transactions(): JSX.Element {
@@ -21,68 +11,6 @@ function Transactions(): JSX.Element {
     const transactions = useSelector((state: RootState) => state.transactions);
     const {list} = transactions;
 
-    const columns: GridColDef[] = [
-        {
-            ...dataGridCellConfig,
-            field: 'id',
-            headerName: 'Txn ID',
-            flex: 2,
-            renderCell: (params: GridValueGetterParams) => {
-                return <div>
-                    <Tooltip title="Click to copy">
-                        <ContentCopyIcon className="copy-content" onClick={(ev) => {
-                            copyContent(ev, dispatch, params.row.id, 'Txn ID copied');
-                        }
-                        }></ContentCopyIcon>
-                    </Tooltip>
-                    <Link href={"/transaction/" + params.row.id}>{ellipseString(params.row.id, 30)}</Link>
-                </div>;
-            }
-        },
-        {
-            ...dataGridCellConfig,
-            field: 'confirmed-round',
-            headerName: 'Block',
-            renderCell: (params: GridValueGetterParams) => {
-                return <div>
-                    <Link href={"/block/" + params.row["confirmed-round"]}>{params.row["confirmed-round"]}</Link>
-                </div>;
-            }
-        },
-        {
-            ...dataGridCellConfig,
-            field: 'fee',
-            headerName: 'Fee',
-            renderCell: (params: GridValueGetterParams) => {
-                return <div>
-                    <AlgoIcon></AlgoIcon>
-                    <NumberFormat
-                        value={microalgosToAlgos(params.row.fee)}
-                        displayType={'text'}
-                        thousandSeparator={true}
-                        style={{marginLeft: 5}}
-                    ></NumberFormat>
-                </div>;
-            }
-        },
-        {
-            ...dataGridCellConfig,
-            field: 'from',
-            headerName: 'From',
-            flex: 2,
-            renderCell: (params: GridValueGetterParams) => {
-                return <div>
-                    <Tooltip title="Click to copy">
-                        <ContentCopyIcon className="copy-content" onClick={(ev) => {
-                            copyContent(ev, dispatch, params.row.sender, 'Address copied');
-                        }
-                        }></ContentCopyIcon>
-                    </Tooltip>
-                    <Link href={"/account/" + params.row.sender}>{ellipseString(params.row.sender, 30)}</Link>
-                </div>;
-            }
-        }
-    ];
 
     useEffect(() => {
         dispatch(loadTransactions());
@@ -91,17 +19,7 @@ function Transactions(): JSX.Element {
     return (<div className={"transactions-wrapper"}>
         <div className={"transactions-container"}>
             <div className="transactions-body">
-
-                <div style={{ height: 700, width: '100%' }}>
-                    <DataGrid
-                        rows={list}
-                        columns={columns}
-                        pageSize={10}
-                        rowsPerPageOptions={[10]}
-                        disableSelectionOnClick
-                        sx={dataGridStyles}
-                    />
-                </div>
+                <TransactionsList transactions={list}></TransactionsList>
             </div>
         </div>
     </div>);

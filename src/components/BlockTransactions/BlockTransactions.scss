@@ -1,0 +1,19 @@
+@import "../../assets/colors";
+
+.block-transactions-wrapper {
+  .block-transactions-container {
+    .block-transactions-header {
+      margin-top: 40px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .block-transactions-body {
+      margin-top: 50px;
+      .copy-content {
+        font-size: 16px;
+        margin-right: 10px;
+        vertical-align: text-bottom;
+      }
+    }
+  }
+}
