@@ -11,6 +11,8 @@ import Block from "../Block/Block";
 import BlockTransactions from "../BlockTransactions/BlockTransactions";
 import Assets from "../Assets/Assets";
 import AccountCreatedAssets from "../AccountCreatedAssets.tsx/AccountCreatedAssets";
+import Asset from "../Asset/Asset";
+import AssetTransactions from "../AssetTransactions/AssetTransactions";
 
 function AppRouter(): JSX.Element {
     return (<div>
@@ -31,6 +33,10 @@ function AppRouter(): JSX.Element {
                 </Route>
                 <Route path="/block/:id" element={<Block></Block>}>
                     <Route path="transactions" element={<BlockTransactions></BlockTransactions>} />
+                    <Route path="" element={<Navigate to="transactions" replace />}/>
+                </Route>
+                <Route path="/asset/:id" element={<Asset></Asset>}>
+                    <Route path="transactions" element={<AssetTransactions></AssetTransactions>} />
                     <Route path="" element={<Navigate to="transactions" replace />}/>
                 </Route>
                 <Route path="*" element={<Navigate to="/" replace />}/>

@@ -10,6 +10,7 @@ import {dataGridCellConfig, dataGridStyles} from "../../theme/styles/datagrid";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import {copyContent} from "../../utils/common";
 import {ellipseString} from "../../packages/core-sdk/utils";
+import {CoreAsset} from "../../packages/core-sdk/classes/CoreAsset";
 
 
 function AssetsList(props): JSX.Element {
@@ -25,8 +26,9 @@ function AssetsList(props): JSX.Element {
             field: 'name',
             headerName: 'Name',
             renderCell: (params: GridValueGetterParams) => {
+                const assetInstance = new CoreAsset(params.row);
                 return <div>
-                    <Link href={"/asset/" + params.row.index}>{params.row.params.name}</Link>
+                    <Link href={"/asset/" + assetInstance.getIndex()}>{assetInstance.getName()}</Link>
                 </div>;
             }
         },
@@ -35,14 +37,15 @@ function AssetsList(props): JSX.Element {
             field: 'index',
             headerName: 'ID',
             renderCell: (params: GridValueGetterParams) => {
+                const assetInstance = new CoreAsset(params.row);
                 return <div>
                     <Tooltip title="Click to copy">
                         <ContentCopyIcon className="copy-content" onClick={(ev) => {
-                            copyContent(ev, dispatch, params.row.index, 'Asset id copied');
+                            copyContent(ev, dispatch, assetInstance.getIndex().toString(), 'Asset id copied');
                         }
                         }></ContentCopyIcon>
                     </Tooltip>
-                    <Link href={"/asset/" + params.row.index}>{params.row.index}</Link>
+                    <Link href={"/asset/" + assetInstance.getIndex()}>{assetInstance.getIndex()}</Link>
                 </div>;
             }
         },
@@ -51,8 +54,9 @@ function AssetsList(props): JSX.Element {
             field: 'unit',
             headerName: 'Unit',
             renderCell: (params: GridValueGetterParams) => {
+                const assetInstance = new CoreAsset(params.row);
                 return <div>
-                    {params.row.params["unit-name"]}
+                    {assetInstance.getUnitName()}
                 </div>;
             }
         },
@@ -62,8 +66,10 @@ function AssetsList(props): JSX.Element {
             headerName: 'Url',
             flex: 2,
             renderCell: (params: GridValueGetterParams) => {
+                const assetInstance = new CoreAsset(params.row);
+                const url = assetInstance.getUrl();
                 return <div>
-                    {params.row.params.url ? <Link href={params.row.params.url} target={"_blank"}>{params.row.params.url}</Link> : '--None--'}
+                    {url ? <Link href={url} target={"_blank"}>{url}</Link> : '--None--'}
                 </div>;
             }
         },
@@ -73,14 +79,15 @@ function AssetsList(props): JSX.Element {
             headerName: 'Creator',
             flex: 2,
             renderCell: (params: GridValueGetterParams) => {
+                const assetInstance = new CoreAsset(params.row);
                 return <div>
                     <Tooltip title="Click to copy">
                         <ContentCopyIcon className="copy-content" onClick={(ev) => {
-                            copyContent(ev, dispatch, params.row.params.creator, 'Address copied');
+                            copyContent(ev, dispatch, assetInstance.getCreator(), 'Address copied');
                         }
                         }></ContentCopyIcon>
                     </Tooltip>
-                    <Link href={"/account/" + params.row.params.creator}>{ellipseString(params.row.params.creator, 30)}</Link>
+                    <Link href={"/account/" + assetInstance.getCreator()}>{ellipseString(assetInstance.getCreator(), 30)}</Link>
                 </div>;
             }
         }

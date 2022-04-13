@@ -1,7 +1,7 @@
 import { Algodv2} from 'algosdk';
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
 import {
-    A_Asset
+    A_Asset, A_SearchTransaction
 } from "../types";
 import {Network} from "../network";
 
@@ -25,5 +25,10 @@ export class AssetClient{
     async getAssets(): Promise<A_Asset[]> {
         const {assets} = await this.indexer.searchForAssets().do();
         return assets;
+    }
+
+    async getAssetTransactions(id: number): Promise<A_SearchTransaction[]> {
+        const {transactions} = await this.indexer.searchForTransactions().assetID(id).do();
+        return transactions;
     }
 }

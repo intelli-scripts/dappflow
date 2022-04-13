@@ -11,7 +11,7 @@ function Home(): JSX.Element {
             <div className="home-body">
                 <DeveloperBoardIcon className="logo"></DeveloperBoardIcon>
                 <div className="tag-line">
-                    Algorand Blockchain Explorer
+                    Algorand Private Blockchain Explorer
                 </div>
                 <div className="search-container">
                     <InputBase

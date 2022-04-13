@@ -8,6 +8,7 @@ import developerApiReducer from "./actions/developerApi";
 import loaderReducer from "./actions/loader";
 import accountReducer from "./actions/account";
 import blockReducer from "./actions/block";
+import assetReducer from "./actions/asset";
 
 export const store = configureStore({
     reducer: {
@@ -19,7 +20,8 @@ export const store = configureStore({
         developerApi: developerApiReducer,
         loader: loaderReducer,
         account: accountReducer,
-        block: blockReducer
+        block: blockReducer,
+        asset: assetReducer
     },
 });
 
