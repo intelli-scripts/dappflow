@@ -51,8 +51,6 @@ export interface A_AssetParams {
 
 export interface A_Application {
     id: number
-    deleted: boolean
-    "created-at-round": number
     params: A_ApplicationParams
 }
 

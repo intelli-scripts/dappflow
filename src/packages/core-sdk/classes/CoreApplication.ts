@@ -22,11 +22,11 @@ export class CoreApplication {
         return this.application.params.creator;
     }
 
-    isDeleted(): boolean {
-        return this.application.deleted;
+    getApprovalProgram(): string {
+        return this.application.params["approval-program"];
     }
 
-    getCreationBlock(): number {
-        return this.application["created-at-round"];
+    getClearProgram(): string {
+        return this.application.params["clear-state-program"];
     }
 }

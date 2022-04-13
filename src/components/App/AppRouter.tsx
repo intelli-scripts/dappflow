@@ -15,6 +15,8 @@ import Asset from "../Asset/Asset";
 import AssetTransactions from "../AssetTransactions/AssetTransactions";
 import Applications from "../Applications/Applications";
 import AccountCreatedApplications from "../AccountCreatedApplications.tsx/AccountCreatedApplications";
+import Application from "../Application/Application";
+import ApplicationTransactions from "../ApplicationTransactions/ApplicationTransactions";
 
 function AppRouter(): JSX.Element {
     return (<div>
@@ -40,6 +42,10 @@ function AppRouter(): JSX.Element {
                 </Route>
                 <Route path="/asset/:id" element={<Asset></Asset>}>
                     <Route path="transactions" element={<AssetTransactions></AssetTransactions>} />
+                    <Route path="" element={<Navigate to="transactions" replace />}/>
+                </Route>
+                <Route path="/application/:id" element={<Application></Application>}>
+                    <Route path="transactions" element={<ApplicationTransactions></ApplicationTransactions>} />
                     <Route path="" element={<Navigate to="transactions" replace />}/>
                 </Route>
                 <Route path="*" element={<Navigate to="/" replace />}/>

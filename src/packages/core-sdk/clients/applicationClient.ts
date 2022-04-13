@@ -28,7 +28,7 @@ export class ApplicationClient{
         return applications;
     }
 
-    async getApplicationsTransactions(id: number): Promise<A_SearchTransaction[]> {
+    async getApplicationTransactions(id: number): Promise<A_SearchTransaction[]> {
         const {transactions} = await this.indexer.searchForTransactions().applicationID(id).do();
         return transactions;
     }

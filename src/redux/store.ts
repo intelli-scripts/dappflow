@@ -10,6 +10,7 @@ import loaderReducer from "./actions/loader";
 import accountReducer from "./actions/account";
 import blockReducer from "./actions/block";
 import assetReducer from "./actions/asset";
+import applicationReducer from "./actions/application";
 
 export const store = configureStore({
     reducer: {
@@ -23,7 +24,8 @@ export const store = configureStore({
         loader: loaderReducer,
         account: accountReducer,
         block: blockReducer,
-        asset: assetReducer
+        asset: assetReducer,
+        application: applicationReducer
     },
 });
 
