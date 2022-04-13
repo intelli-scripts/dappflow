@@ -28,6 +28,9 @@ function Account(): JSX.Element {
     else if (matchPath("/account/:address/created-assets", pathname)) {
         tabValue = 'created-assets';
     }
+    else if (matchPath("/account/:address/created-applications", pathname)) {
+        tabValue = 'created-applications';
+    }
 
     useEffect(() => {
         dispatch(loadAccount(address));
@@ -75,6 +78,15 @@ function Account(): JSX.Element {
                                 </div>
                             </div>
 
+                            <div className="property">
+                                <div className="key">
+                                    Created applications
+                                </div>
+                                <div className="value">
+                                    {account.createdApplications.length}
+                                </div>
+                            </div>
+
                         </Grid>
                     </Grid>
                 </div>
@@ -89,6 +101,9 @@ function Account(): JSX.Element {
                         }}/>
                         <Tab label="Created assets" value="created-assets" onClick={() => {
                             navigate('/account/' + address + '/created-assets');
+                        }}/>
+                        <Tab label="Created applications" value="created-applications" onClick={() => {
+                            navigate('/account/' + address + '/created-applications');
                         }}/>
                     </Tabs>
 

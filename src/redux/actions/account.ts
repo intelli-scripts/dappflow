@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {A_AccountInformation, A_Asset, A_SearchTransaction} from '../../packages/core-sdk/types';
+import {A_AccountInformation, A_Application, A_Asset, A_SearchTransaction} from '../../packages/core-sdk/types';
 import {handleException} from "./exception";
 import {showLoader, hideLoader} from './loader';
 import explorer from "../../utils/explorer";
@@ -9,7 +9,8 @@ import {CoreAccount} from "../../packages/core-sdk/classes/CoreAccount";
 export interface Account {
     information: A_AccountInformation,
     createdAssets: A_Asset[],
-    transactions: A_SearchTransaction[]
+    transactions: A_SearchTransaction[],
+    createdApplications: A_Application[]
 }
 
 const information: A_AccountInformation = {
@@ -34,7 +35,8 @@ const information: A_AccountInformation = {
 const initialState: Account = {
     information,
     createdAssets: [],
-    transactions: []
+    transactions: [],
+    createdApplications: []
 }
 
 export const loadAccount = createAsyncThunk(
@@ -47,6 +49,7 @@ export const loadAccount = createAsyncThunk(
             dispatch(showLoader("Loading account ..."));
             const accountInfo = await accountClient.getAccountInformation(address);
             dispatch(loadCreatedAssets(accountInfo));
+            dispatch(loadCreatedApplications(accountInfo));
             dispatch(loadTransactions(accountInfo));
             dispatch(hideLoader());
             return accountInfo;
@@ -69,6 +72,24 @@ export const loadCreatedAssets = createAsyncThunk(
             });
 
             return createdAssets;
+        }
+        catch (e: any) {
+            dispatch(handleException(e));
+        }
+    }
+);
+
+export const loadCreatedApplications = createAsyncThunk(
+    'account/loadCreatedApplications',
+    async (information: A_AccountInformation, thunkAPI) => {
+        const {dispatch} = thunkAPI;
+        try {
+            let createdApplications = new CoreAccount(information).getCreatedApplications();
+            createdApplications = createdApplications.sort((a, b) => {
+                return b.id - a.id;
+            });
+
+            return createdApplications;
         }
         catch (e: any) {
             dispatch(handleException(e));
@@ -103,6 +124,9 @@ export const accountSlice = createSlice({
         });
         builder.addCase(loadCreatedAssets.fulfilled, (state, action: PayloadAction<A_Asset[]>) => {
             state.createdAssets = action.payload;
+        });
+        builder.addCase(loadCreatedApplications.fulfilled, (state, action: PayloadAction<A_Application[]>) => {
+            state.createdApplications = action.payload;
         });
         builder.addCase(loadTransactions.fulfilled, (state, action: PayloadAction<A_SearchTransaction[]>) => {
             state.transactions = action.payload;
