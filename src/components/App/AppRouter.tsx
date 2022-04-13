@@ -13,6 +13,7 @@ import Assets from "../Assets/Assets";
 import AccountCreatedAssets from "../AccountCreatedAssets.tsx/AccountCreatedAssets";
 import Asset from "../Asset/Asset";
 import AssetTransactions from "../AssetTransactions/AssetTransactions";
+import Applications from "../Applications/Applications";
 
 function AppRouter(): JSX.Element {
     return (<div>
@@ -24,7 +25,7 @@ function AppRouter(): JSX.Element {
                 <Route path="/accounts" element={<Accounts></Accounts>} />
                 <Route path="/transactions" element={<Transactions></Transactions>} />
                 <Route path="/assets" element={<Assets></Assets>} />
-                <Route path="/applications" element={<div>Applications</div>} />
+                <Route path="/applications" element={<Applications></Applications>} />
                 <Route path="/developer-api" element={<DeveloperApi></DeveloperApi>} />
                 <Route path="/account/:address" element={<Account></Account>}>
                     <Route path="transactions" element={<AccountTransactions></AccountTransactions>} />

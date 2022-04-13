@@ -1,12 +1,11 @@
 import './TransactionsList.scss';
-import React, {useEffect} from "react";
+import React from "react";
 import {useDispatch} from "react-redux";
 import {
     Link, Tooltip
 } from "@mui/material";
 import {microalgosToAlgos} from "algosdk";
 import NumberFormat from 'react-number-format';
-import {loadTransactions} from "../../redux/actions/transactions";
 import {ellipseString} from "../../packages/core-sdk/utils";
 import {DataGrid, GridColDef, GridValueGetterParams} from "@mui/x-data-grid";
 import {dataGridCellConfig, dataGridStyles} from "../../theme/styles/datagrid";
@@ -84,10 +83,6 @@ function TransactionsList(props): JSX.Element {
             }
         }
     ];
-
-    useEffect(() => {
-        dispatch(loadTransactions());
-    }, [dispatch]);
 
     return (<div className={"transactions-list-wrapper"}>
         <div className={"transactions-list-container"}>

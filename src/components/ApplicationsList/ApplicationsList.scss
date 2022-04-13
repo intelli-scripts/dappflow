@@ -1,0 +1,19 @@
+@import "../../assets/colors";
+
+.applications-list-wrapper {
+  .applications-list-container {
+    .applications-list-header {
+      margin-top: 40px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .applications-list-body {
+      margin-top: 50px;
+      .copy-content {
+        font-size: 16px;
+        margin-right: 10px;
+        vertical-align: text-bottom;
+      }
+    }
+  }
+}

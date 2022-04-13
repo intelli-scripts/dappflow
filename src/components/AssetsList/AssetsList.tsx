@@ -1,10 +1,9 @@
 import './AssetsList.scss';
-import React, {useEffect} from "react";
+import React from "react";
 import {useDispatch} from "react-redux";
 import {
     Link, Tooltip
 } from "@mui/material";
-import {loadTransactions} from "../../redux/actions/transactions";
 import {DataGrid, GridColDef, GridValueGetterParams} from "@mui/x-data-grid";
 import {dataGridCellConfig, dataGridStyles} from "../../theme/styles/datagrid";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -92,10 +91,6 @@ function AssetsList(props): JSX.Element {
             }
         }
     ];
-
-    useEffect(() => {
-        dispatch(loadTransactions());
-    }, [dispatch]);
 
     return (<div className={"assets-list-wrapper"}>
         <div className={"assets-list-container"}>

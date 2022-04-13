@@ -3,6 +3,7 @@ import snackbarReducer from './actions/snackbar';
 import accountsReducer from "./actions/accounts";
 import transactionsReducer from "./actions/transactions";
 import assetsReducer from "./actions/assets";
+import applicationsReducer from "./actions/applications";
 import settingsReducer from "./actions/settings";
 import developerApiReducer from "./actions/developerApi";
 import loaderReducer from "./actions/loader";
@@ -16,6 +17,7 @@ export const store = configureStore({
         accounts: accountsReducer,
         transactions: transactionsReducer,
         assets: assetsReducer,
+        applications: applicationsReducer,
         settings: settingsReducer,
         developerApi: developerApiReducer,
         loader: loaderReducer,
