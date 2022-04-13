@@ -8,7 +8,6 @@ import {DataGrid, GridColDef, GridValueGetterParams} from "@mui/x-data-grid";
 import {dataGridCellConfig, dataGridStyles} from "../../theme/styles/datagrid";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import {copyContent} from "../../utils/common";
-import {ellipseString} from "../../packages/core-sdk/utils";
 import {CoreApplication} from "../../packages/core-sdk/classes/CoreApplication";
 
 
@@ -23,7 +22,7 @@ function ApplicationsList(props): JSX.Element {
         {
             ...dataGridCellConfig,
             field: 'id',
-            headerName: 'ID',
+            headerName: 'Application ID',
             renderCell: (params: GridValueGetterParams) => {
                 const appInstance = new CoreApplication(params.row);
                 return <div>
@@ -51,32 +50,10 @@ function ApplicationsList(props): JSX.Element {
                         }
                         }></ContentCopyIcon>
                     </Tooltip>
-                    <Link href={"/account/" + appInstance.getCreator()}>{ellipseString(appInstance.getCreator(), 30)}</Link>
+                    <Link href={"/account/" + appInstance.getCreator()}>{appInstance.getCreator()}</Link>
                 </div>;
             }
-        },
-        {
-            ...dataGridCellConfig,
-            field: 'block',
-            headerName: 'Block',
-            renderCell: (params: GridValueGetterParams) => {
-                const appInstance = new CoreApplication(params.row);
-                return <div>
-                    <Link href={"/block/" + appInstance.getCreationBlock()}>{appInstance.getCreationBlock()}</Link>
-                </div>;
-            }
-        },
-        {
-            ...dataGridCellConfig,
-            field: 'deleted',
-            headerName: 'Deleted',
-            renderCell: (params: GridValueGetterParams) => {
-                const appInstance = new CoreApplication(params.row);
-                return <div>
-                    {appInstance.isDeleted() ? 'True' : 'False'}
-                </div>;
-            }
-        },
+        }
     ];
 
     return (<div className={"applications-list-wrapper"}>
