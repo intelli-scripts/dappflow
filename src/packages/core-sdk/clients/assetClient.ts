@@ -21,4 +21,9 @@ export class AssetClient{
         const asset = await this.client.getAssetByID(id).do();
         return asset as A_Asset;
     }
+
+    async getAssets(): Promise<A_Asset[]> {
+        const {assets} = await this.indexer.searchForAssets().do();
+        return assets;
+    }
 }

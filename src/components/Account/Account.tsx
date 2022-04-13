@@ -1,6 +1,6 @@
 import './Account.scss';
 import React, {useEffect} from "react";
-import {Outlet, useNavigate, useParams} from "react-router-dom";
+import {matchPath, Outlet, useLocation, useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {loadAccount} from "../../redux/actions/account";
 import {RootState} from "../../redux/store";
@@ -19,6 +19,16 @@ function Account(): JSX.Element {
     const {address} = params;
 
     const account = useSelector((state: RootState) => state.account);
+
+    let tabValue = 'transactions';
+    const { pathname } = useLocation();
+
+    if (matchPath("/account/:address/transactions", pathname)) {
+        tabValue = 'transactions';
+    }
+    else if (matchPath("/account/:address/created-assets", pathname)) {
+        tabValue = 'created-assets';
+    }
 
     useEffect(() => {
         dispatch(loadAccount(address));
@@ -74,9 +84,12 @@ function Account(): JSX.Element {
 
                 <div className="account-tabs">
 
-                    <Tabs value="transactions">
+                    <Tabs value={tabValue}>
                         <Tab label="Transactions" value="transactions" onClick={() => {
                             navigate('/account/' + address + '/transactions');
+                        }}/>
+                        <Tab label="Created assets" value="created-assets" onClick={() => {
+                            navigate('/account/' + address + '/created-assets');
                         }}/>
                     </Tabs>
 
