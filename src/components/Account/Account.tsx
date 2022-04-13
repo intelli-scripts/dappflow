@@ -5,11 +5,10 @@ import {useDispatch, useSelector} from "react-redux";
 import {loadAccount} from "../../redux/actions/account";
 import {RootState} from "../../redux/store";
 import {Chip, Grid, Tab, Tabs} from "@mui/material";
-import {AccountClient} from "../../packages/core-sdk/clients/accountClient";
-import explorer from "../../utils/explorer";
 import NumberFormat from "react-number-format";
 import {microalgosToAlgos} from "algosdk";
 import AlgoIcon from "../AlgoIcon/AlgoIcon";
+import {CoreAccount} from "../../packages/core-sdk/classes/CoreAccount";
 
 
 function Account(): JSX.Element {
@@ -57,7 +56,7 @@ function Account(): JSX.Element {
                                 </div>
                                 <div className="value">
                                     <NumberFormat
-                                        value={microalgosToAlgos(new AccountClient(explorer.network).getBalance(account.information))}
+                                        value={microalgosToAlgos(new CoreAccount(account.information).getBalance())}
                                         displayType={'text'}
                                         thousandSeparator={true}
                                     ></NumberFormat>

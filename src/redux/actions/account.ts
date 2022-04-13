@@ -4,12 +4,11 @@ import {handleException} from "./exception";
 import {showLoader, hideLoader} from './loader';
 import explorer from "../../utils/explorer";
 import {AccountClient} from "../../packages/core-sdk/clients/accountClient";
-import {AssetClient} from "../../packages/core-sdk/clients/assetClient";
+import {CoreAccount} from "../../packages/core-sdk/classes/CoreAccount";
 
 export interface Account {
     information: A_AccountInformation,
     createdAssets: A_Asset[],
-    optedAssets: A_Asset[],
     transactions: A_SearchTransaction[]
 }
 
@@ -35,7 +34,6 @@ const information: A_AccountInformation = {
 const initialState: Account = {
     information,
     createdAssets: [],
-    optedAssets: [],
     transactions: []
 }
 
@@ -49,7 +47,6 @@ export const loadAccount = createAsyncThunk(
             dispatch(showLoader("Loading account ..."));
             const accountInfo = await accountClient.getAccountInformation(address);
             dispatch(loadCreatedAssets(accountInfo));
-            dispatch(loadOptedAssets(accountInfo));
             dispatch(loadTransactions(accountInfo));
             dispatch(hideLoader());
             return accountInfo;
@@ -66,56 +63,12 @@ export const loadCreatedAssets = createAsyncThunk(
     async (information: A_AccountInformation, thunkAPI) => {
         const {dispatch} = thunkAPI;
         try {
-            const accountClient = new AccountClient(explorer.network);
-            let createdAssets = accountClient.getCreatedAssets(information);
+            let createdAssets = new CoreAccount(information).getCreatedAssets();
             createdAssets = createdAssets.sort((a, b) => {
                 return b.index - a.index;
             });
 
             return createdAssets;
-        }
-        catch (e: any) {
-            dispatch(handleException(e));
-        }
-    }
-);
-
-export const loadOptedAssets = createAsyncThunk(
-    'account/loadOptedAssets',
-    async (accountInformation: A_AccountInformation, thunkAPI) => {
-        const {dispatch} = thunkAPI;
-        try {
-            const accountClient = new AccountClient(explorer.network);
-            const optedAssets = accountClient.getHoldingAssets(accountInformation);
-
-            optedAssets.forEach((asset) => {
-                const isCreatedAsset = accountClient.isCreatedAsset(asset['asset-id'], accountInformation);
-                if (!isCreatedAsset) {
-                    dispatch(loadOptedAsset(asset['asset-id']));
-                }
-            });
-        }
-        catch (e: any) {
-            dispatch(handleException(e));
-        }
-    }
-);
-
-export const loadOptedAsset = createAsyncThunk(
-    'account/loadOptedAsset',
-    async (id: number, thunkAPI) => {
-        const {dispatch, getState} = thunkAPI;
-        try {
-            const assetClient = new AssetClient(explorer.network);
-
-            const asset = await assetClient.get(id);
-            const appState: any = getState();
-            const {account} = appState;
-
-            return {
-                asset,
-                accountInformation: account.information
-            };
         }
         catch (e: any) {
             dispatch(handleException(e));
@@ -150,18 +103,6 @@ export const accountSlice = createSlice({
         });
         builder.addCase(loadCreatedAssets.fulfilled, (state, action: PayloadAction<A_Asset[]>) => {
             state.createdAssets = action.payload;
-        });
-        builder.addCase(loadOptedAsset.fulfilled, (state, action: PayloadAction<any>) => {
-            if (action.payload) {
-                const {asset, accountInformation} = action.payload;
-                if (asset) {
-                    const accountClient = new AccountClient(explorer.network);
-                    const holdingAsset = accountClient.getHoldingAsset(asset.index, accountInformation);
-                    if (holdingAsset) {
-                        state.optedAssets.push(asset);
-                    }
-                }
-            }
         });
         builder.addCase(loadTransactions.fulfilled, (state, action: PayloadAction<A_SearchTransaction[]>) => {
             state.transactions = action.payload;
