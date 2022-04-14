@@ -29,4 +29,20 @@ export class CoreApplication {
     getClearProgram(): string {
         return this.application.params["clear-state-program"];
     }
+
+    getGlobalSchemaByte(): number {
+        return this.application.params["global-state-schema"]["num-byte-slice"];
+    }
+
+    getGlobalSchemaUint(): number {
+        return this.application.params["global-state-schema"]["num-uint"];
+    }
+
+    getLocalSchemaByte(): number {
+        return this.application.params["local-state-schema"]["num-byte-slice"];
+    }
+
+    getLocalSchemaUint(): number {
+        return this.application.params["local-state-schema"]["num-uint"];
+    }
 }

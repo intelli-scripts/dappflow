@@ -23,6 +23,9 @@
         .property {
           margin-top: 10px;
           word-wrap: anywhere;
+          &.center {
+
+          }
           .key {
             font-family: PoppinsBold !important;
           }

@@ -3,7 +3,7 @@ import React, {useEffect} from "react";
 import {Outlet, useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
-import {Grid, Tab, Tabs} from "@mui/material";
+import {Grid, Link, Tab, Tabs} from "@mui/material";
 import {theme} from "../../theme";
 import pSBC from 'shade-blend-color';
 import {loadApplication} from "../../redux/actions/application";
@@ -62,6 +62,70 @@ function Application(): JSX.Element {
                                 </div>
                             </div>
                         </Grid>
+                    </Grid>
+                </div>
+
+
+                <div className="props" style={{background: shadedClr}}>
+                    <Grid container spacing={2}>
+
+                        <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
+                            <div className="property center">
+                                <div className="key">
+                                    Global state byte
+                                </div>
+                                <div className="value">
+                                    {applicationInstance.getGlobalSchemaByte()}
+                                </div>
+                            </div>
+                        </Grid>
+                        <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
+                            <div className="property center">
+                                <div className="key">
+                                    Global state uint
+                                </div>
+                                <div className="value">
+                                    {applicationInstance.getGlobalSchemaUint()}
+                                </div>
+                            </div>
+                        </Grid>
+
+
+
+                        <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
+                            <div className="property center">
+                                <div className="key">
+                                    Local state byte
+                                </div>
+                                <div className="value">
+                                    {applicationInstance.getLocalSchemaByte()}
+                                </div>
+                            </div>
+                        </Grid>
+                        <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
+                            <div className="property center">
+                                <div className="key">
+                                    Local state uint
+                                </div>
+                                <div className="value">
+                                    {applicationInstance.getLocalSchemaUint()}
+                                </div>
+                            </div>
+                        </Grid>
+
+
+                        <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                            <div className="property">
+                                <div className="key">
+                                    Creator
+                                </div>
+                                <div className="value small">
+                                    <Link href={"/account/" + applicationInstance.getCreator()}>{applicationInstance.getCreator()}</Link>
+                                </div>
+                            </div>
+                        </Grid>
+
+                        <Grid item xs={12} sm={6} md={6} lg={6} xl={6}></Grid>
                     </Grid>
                 </div>
 
