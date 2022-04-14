@@ -6,7 +6,7 @@ export default {
                 fallback: {
                     ...webpackConfig.resolve.fallback,
                     crypto: require.resolve('crypto-browserify'),
-                    stream: require.resolve('stream'),
+                    stream: require.resolve('stream')
                 }
             }
             return webpackConfig;

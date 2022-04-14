@@ -19,6 +19,7 @@
     "@types/react-dom": "^17.0.9",
     "@types/sass-loader": "^8.0.3",
     "algosdk": "^1.15.0",
+    "atob": "^2.1.2",
     "axios": "^0.26.1",
     "copy-to-clipboard": "^3.3.1",
     "crypto-browserify": "^3.12.0",

@@ -72,6 +72,12 @@ export interface A_GlobalState {
     }
 }
 
+export interface A_GlobalStateDecrypted {
+    key: string
+    type: string
+    value: string | number
+}
+
 export interface A_StateSchema {
     "num-byte-slice": number
     "num-uint": number

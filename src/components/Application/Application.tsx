@@ -1,6 +1,6 @@
 import './Application.scss';
 import React, {useEffect} from "react";
-import {Outlet, useNavigate, useParams} from "react-router-dom";
+import {matchPath, Outlet, useLocation, useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {Grid, Link, Tab, Tabs} from "@mui/material";
@@ -15,6 +15,16 @@ function Application(): JSX.Element {
     const navigate = useNavigate();
     const params = useParams();
     const {id} = params;
+
+    let tabValue = 'transactions';
+    const { pathname } = useLocation();
+
+    if (matchPath("/application/:id/transactions", pathname)) {
+        tabValue = 'transactions';
+    }
+    else if (matchPath("/application/:id/global-state", pathname)) {
+        tabValue = 'global-state';
+    }
 
     const application = useSelector((state: RootState) => state.application);
     const shadedClr = pSBC(0.95, theme.palette.primary.main);
@@ -133,7 +143,11 @@ function Application(): JSX.Element {
 
                 <div className="application-tabs">
 
-                    <Tabs value="transactions">
+                    <Tabs value={tabValue}>
+
+                        <Tab label="Global state" value="global-state" onClick={() => {
+                            navigate('/application/' + id + '/global-state');
+                        }}/>
                         <Tab label="Transactions" value="transactions" onClick={() => {
                             navigate('/application/' + id + '/transactions');
                         }}/>
