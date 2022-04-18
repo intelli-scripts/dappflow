@@ -98,28 +98,25 @@ function TransactionsList(props): JSX.Element {
             headerName: 'To',
             flex: 2,
             renderCell: (params: GridValueGetterParams) => {
-                const to = new CoreTransaction(params.row).getToDisplayValue();
+                const to = new CoreTransaction(params.row).getTo();
                 const type = new CoreTransaction(params.row).getType();
+                const appId = new CoreTransaction(params.row).getAppId();
 
                 return <div>
-                    {to ? <div>
+                    {type === TXN_TYPES.PAYMENT || type === TXN_TYPES.ASSET_TRANSFER ? <div>
+                        <ArrowForward fontSize={"small"} style={{verticalAlign: "text-bottom", marginRight: 5}}></ArrowForward>
+                        <Tooltip title="Click to copy">
+                            <ContentCopyIcon className="copy-content" onClick={(ev) => {
+                                copyContent(ev, dispatch, to, 'Address copied');
+                            }
+                            }></ContentCopyIcon>
+                        </Tooltip>
+                        <Link href={"/account/" + to}>{ellipseString(to, 20)}</Link>
+                    </div> : ''}
 
-
-                        {type === TXN_TYPES.PAYMENT || type === TXN_TYPES.ASSET_TRANSFER ? <div>
-                            <ArrowForward fontSize={"small"} style={{verticalAlign: "text-bottom", marginRight: 5}}></ArrowForward>
-                            <Tooltip title="Click to copy">
-                                <ContentCopyIcon className="copy-content" onClick={(ev) => {
-                                    copyContent(ev, dispatch, to, 'Address copied');
-                                }
-                                }></ContentCopyIcon>
-                            </Tooltip>
-                            <Link href={"/account/" + to}>{ellipseString(to, 20)}</Link>
-                        </div> : ''}
-
-                        {type === TXN_TYPES.APP_CALL ? <div>
-                            <Link href={"/application/" + new CoreTransaction(params.row).getTo()}>{to}</Link>
-                        </div> : ''}
-
+                    {type === TXN_TYPES.APP_CALL ? <div>
+                        <ArrowForward fontSize={"small"} style={{verticalAlign: "text-bottom", marginRight: 5}}></ArrowForward>
+                        <Link href={"/application/" + appId}>{'App ID: ' + appId}</Link>
                     </div> : ''}
 
                 </div>;

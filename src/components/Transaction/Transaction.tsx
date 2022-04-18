@@ -10,6 +10,9 @@ import {loadTransaction} from "../../redux/actions/transaction";
 import {CoreTransaction} from "../../packages/core-sdk/classes/CoreTransaction";
 import {microalgosToAlgos} from "algosdk";
 import AlgoIcon from "../AlgoIcon/AlgoIcon";
+import {TXN_TYPES} from "../../packages/core-sdk/constants";
+import PaymentTransaction from '../PaymentTransaction/PaymentTransaction';
+import NumberFormat from "react-number-format";
 
 
 function Transaction(): JSX.Element {
@@ -20,8 +23,8 @@ function Transaction(): JSX.Element {
     const transaction = useSelector((state: RootState) => state.transaction);
     const shadedClr = pSBC(0.95, theme.palette.primary.main);
 
-    console.log(transaction.information);
     const txnInstance = new CoreTransaction(transaction.information);
+    console.log(transaction.information);
 
     useEffect(() => {
         dispatch(loadTransaction(id));
@@ -92,6 +95,85 @@ function Transaction(): JSX.Element {
 
                     </Grid>
                 </div>
+
+
+                {txnInstance.getType() === TXN_TYPES.PAYMENT ? <PaymentTransaction transaction={transaction}></PaymentTransaction> : ''}
+
+
+                <div className="props" style={{background: shadedClr}}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                            <div className="property">
+                                <div className="key">
+                                    Note
+                                </div>
+                                <div className="value small">
+                                    {txnInstance.getNote()}
+                                </div>
+                            </div>
+                        </Grid>
+                    </Grid>
+                </div>
+
+
+                <div className="props" style={{background: shadedClr}}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
+                            <div className="property">
+                                <div className="key">
+                                    First round
+                                </div>
+                                <div className="value">
+                                    {txnInstance.getFirstRound()}
+                                </div>
+                            </div>
+                        </Grid>
+                        <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
+                            <div className="property">
+                                <div className="key">
+                                    Last round
+                                </div>
+                                <div className="value">
+                                    {txnInstance.getLastRound()}
+                                </div>
+                            </div>
+                        </Grid>
+                        <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
+                            <div className="property">
+                                <div className="key">
+                                    Sender rewards
+                                </div>
+                                <div className="value">
+                                    <NumberFormat
+                                        value={microalgosToAlgos(txnInstance.getSenderRewards())}
+                                        displayType={'text'}
+                                        thousandSeparator={true}
+                                        style={{marginRight: 5}}
+                                    ></NumberFormat>
+                                    <AlgoIcon></AlgoIcon>
+                                </div>
+                            </div>
+                        </Grid>
+
+                        <Grid item xs={12} sm={6} md={6} lg={3} xl={3}>
+                            <div className="property">
+                                <div className="key">
+                                    Receiver rewards
+                                </div>
+                                <div className="value">
+                                    <NumberFormat
+                                        value={microalgosToAlgos(txnInstance.getReceiverRewards())}
+                                        displayType={'text'}
+                                        thousandSeparator={true}
+                                        style={{marginRight: 5}}
+                                    ></NumberFormat>
+                                    <AlgoIcon></AlgoIcon>
+                                </div>
+                            </div>
+                        </Grid>
+                    </Grid>
+                </div>
+
 
             </div>
         </div>

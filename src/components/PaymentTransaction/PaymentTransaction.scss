@@ -1,23 +1,15 @@
 @import "../../assets/colors";
 
-.transaction-wrapper {
-  .transaction-container {
-    margin-top: 20px;
-    .transaction-header {
+.payment-transaction-wrapper {
+  .payment-transaction-container {
+    margin-top: 30px;
+    .payment-transaction-header {
       font-size: 20px;
       font-weight: bold;
-      font-family: PoppinsBold !important;
     }
-    .transaction-body {
-      margin-top: 30px;
-      .index {
-        font-size: 18px;
-        margin-bottom: 20px;
-        font-weight: normal;
-      }
-
+    .payment-transaction-body {
       .props {
-        margin-top: 25px;
+        margin-top: 20px;
         border-radius: 10px;
         padding: 20px;
         .property {
@@ -34,10 +26,6 @@
             }
           }
         }
-      }
-
-      .transaction-tabs {
-        margin-top: 25px;
       }
     }
   }

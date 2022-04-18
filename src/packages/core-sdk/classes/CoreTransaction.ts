@@ -2,7 +2,6 @@ import {
     A_SearchTransaction
 } from "../types";
 import {TXN_TYPES} from "../constants";
-import {microalgosToAlgos} from "algosdk";
 
 
 export class CoreTransaction {
@@ -57,62 +56,69 @@ export class CoreTransaction {
 
     getTo(): string {
         const type = this.getType();
+
         if (type === TXN_TYPES.PAYMENT) {
             return this.txn["payment-transaction"].receiver;
         }
-        else if(type === TXN_TYPES.KEY_REGISTRATION) {
-            return '';
-        }
-        else if(type === TXN_TYPES.ASSET_CONFIG) {
-            return '';
-        }
-        else if(type === TXN_TYPES.ASSET_TRANSFER) {
+        if(type === TXN_TYPES.ASSET_TRANSFER) {
             return this.txn["asset-transfer-transaction"].receiver;
         }
-        else if(type === TXN_TYPES.APP_CALL) {
+    }
+
+    getAppId(): number {
+        const type = this.getType();
+
+        if (type === TXN_TYPES.APP_CALL) {
             let appId = this.txn["application-transaction"]["application-id"];
 
             if (!appId) {
                 appId = this.txn["created-application-index"];
             }
 
-            return appId.toString();
+            return appId;
         }
     }
 
-    getToDisplayValue(): string {
-        const type = this.getType();
-        const to = this.getTo();
-
-        if (type === TXN_TYPES.PAYMENT || type === TXN_TYPES.KEY_REGISTRATION || type === TXN_TYPES.ASSET_CONFIG || type === TXN_TYPES.ASSET_TRANSFER) {
-            return to;
-        }
-        else if(type === TXN_TYPES.APP_CALL) {
-            return 'App ID: ' + to;
-        }
-    }
-
-    getAmount(): string {
+    getAmount(): number {
         const type = this.getType();
 
         if (type === TXN_TYPES.PAYMENT) {
-            return microalgosToAlgos(this.txn["payment-transaction"].amount).toString();
+            return this.txn["payment-transaction"].amount;
         }
-        else if(type === TXN_TYPES.KEY_REGISTRATION) {
-            return '';
-        }
-        else if(type === TXN_TYPES.ASSET_CONFIG) {
-            return '';
-        }
-        else if(type === TXN_TYPES.ASSET_TRANSFER) {
-            return this.txn["asset-transfer-transaction"].amount.toString();
-        }
-        else if(type === TXN_TYPES.APP_CALL) {
-            return '';
+        if(type === TXN_TYPES.ASSET_TRANSFER) {
+            return this.txn["asset-transfer-transaction"].amount;
         }
     }
 
     getTimestamp(): number {
         return this.txn["round-time"];
+    }
+
+    getSenderRewards(): number {
+        return this.txn["sender-rewards"];
+    }
+
+    getReceiverRewards(): number {
+        return this.txn["receiver-rewards"]
+    }
+
+    getNote(): string {
+        return this.txn.note;
+    }
+
+    getFirstRound(): number {
+        return this.txn["first-valid"];
+    }
+
+    getLastRound(): number {
+        return this.txn["last-valid"];
+    }
+
+    getGenesisId(): string {
+        return this.txn["genesis-id"];
+    }
+
+    getGenesisHash(): string {
+        return this.txn["genesis-hash"];
     }
 }
