@@ -132,6 +132,11 @@ export interface A_SearchTransaction{
         "asset-id": number
         "close-amount": number
         receiver: string
+    },
+    "payment-transaction"?: {
+        amount: number
+        "close-amount": number
+        receiver: string
     }
 }
 
