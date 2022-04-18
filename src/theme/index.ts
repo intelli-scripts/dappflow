@@ -10,6 +10,9 @@ declare module '@mui/material/styles' {
 }
 
 export const theme = createTheme({
+    shape: {
+        //borderRadius: 10,
+    },
     palette: {
         primary: {
             main: '#3f51b5',

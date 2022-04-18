@@ -14,6 +14,7 @@ import {TXN_TYPES} from "../../packages/core-sdk/constants";
 import PaymentTransaction from '../PaymentTransaction/PaymentTransaction';
 import NumberFormat from "react-number-format";
 import {ExpandMore} from "@mui/icons-material";
+import AssetTransferTransaction from "../AssetTransferTransaction/AssetTransferTransaction";
 
 
 function Transaction(): JSX.Element {
@@ -99,9 +100,10 @@ function Transaction(): JSX.Element {
 
 
                 {txnInstance.getType() === TXN_TYPES.PAYMENT ? <PaymentTransaction transaction={transaction}></PaymentTransaction> : ''}
+                {txnInstance.getType() === TXN_TYPES.ASSET_TRANSFER ? <AssetTransferTransaction transaction={transaction}></AssetTransferTransaction> : ''}
 
 
-                <div className="props" style={{background: shadedClr}}>
+                {txnInstance.getNote() ? <div className="props" style={{background: shadedClr}}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                             <div className="property">
@@ -114,7 +116,8 @@ function Transaction(): JSX.Element {
                             </div>
                         </Grid>
                     </Grid>
-                </div>
+                </div> : ''}
+
 
 
 

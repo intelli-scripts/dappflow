@@ -79,6 +79,17 @@ export class CoreTransaction {
         }
     }
 
+    getAssetId(): number {
+        const type = this.getType();
+
+        if (type === TXN_TYPES.ASSET_TRANSFER) {
+            return  this.txn["asset-transfer-transaction"]["asset-id"];
+        }
+        if (type === TXN_TYPES.ASSET_CONFIG) {
+            return this.txn["created-asset-index"];
+        }
+    }
+
     getAmount(): number {
         const type = this.getType();
 

@@ -1,27 +1,25 @@
-import './PaymentTransaction.scss';
+import './AssetTransferTransaction.scss';
 import React from "react";
 import {Grid, Link} from "@mui/material";
 import {theme} from "../../theme";
 import pSBC from 'shade-blend-color';
 import {CoreTransaction} from "../../packages/core-sdk/classes/CoreTransaction";
-import AlgoIcon from "../AlgoIcon/AlgoIcon";
 import NumberFormat from "react-number-format";
-import {microalgosToAlgos} from "algosdk";
 
 
-function PaymentTransaction(props): JSX.Element {
+function AssetTransferTransaction(props): JSX.Element {
     const transaction = props.transaction;
 
     const shadedClr = pSBC(0.95, theme.palette.primary.main);
     const txnInstance = new CoreTransaction(transaction.information);
 
 
-    return (<div className={"payment-transaction-wrapper"}>
-        <div className={"payment-transaction-container"}>
-            <div className="payment-transaction-header">
-                Payment
+    return (<div className={"asset-transfer-transaction-wrapper"}>
+        <div className={"asset-transfer-transaction-container"}>
+            <div className="asset-transfer-transaction-header">
+                Asset transfer
             </div>
-            <div className="payment-transaction-body">
+            <div className="asset-transfer-transaction-body">
 
                 <div className="props" style={{background: shadedClr}}>
                     <Grid container spacing={2}>
@@ -49,6 +47,16 @@ function PaymentTransaction(props): JSX.Element {
                             </div>
                         </Grid>
 
+                        <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
+                            <div className="property">
+                                <div className="key">
+                                    Asset
+                                </div>
+                                <div className="value">
+                                    <Link href={"/asset/" + txnInstance.getAssetId()}>{txnInstance.getAssetId()}</Link>
+                                </div>
+                            </div>
+                        </Grid>
 
                         <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
                             <div className="property">
@@ -57,12 +65,11 @@ function PaymentTransaction(props): JSX.Element {
                                 </div>
                                 <div className="value">
                                     <NumberFormat
-                                        value={microalgosToAlgos(txnInstance.getAmount())}
+                                        value={txnInstance.getAmount()}
                                         displayType={'text'}
                                         thousandSeparator={true}
                                         style={{marginRight: 5}}
                                     ></NumberFormat>
-                                    <AlgoIcon></AlgoIcon>
                                 </div>
                             </div>
                         </Grid>
@@ -78,4 +85,4 @@ function PaymentTransaction(props): JSX.Element {
     </div>);
 }
 
-export default PaymentTransaction;
+export default AssetTransferTransaction;

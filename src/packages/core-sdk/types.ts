@@ -115,6 +115,7 @@ export interface A_SearchTransaction{
     id: string
     "inner-txns"?: A_SearchTransactionInner[]
     "created-application-index"?: number
+    "created-asset-index"?: number
     "application-transaction"?: {
         accounts: string[]
         "application-args": string[]
