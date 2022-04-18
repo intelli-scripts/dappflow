@@ -75,6 +75,15 @@ export const theme = createTheme({
                 root: {
                 }
             }
+        },
+        MuiAccordion: {
+            styleOverrides: {
+                root: {
+                    '&.rounded': {
+                        borderRadius: 10
+                    }
+                }
+            }
         }
     }
 });
