@@ -2,6 +2,7 @@ import {
     A_SearchTransaction
 } from "../types";
 import {TXN_TYPES} from "../constants";
+import {microalgosToAlgos} from "algosdk";
 
 
 export class CoreTransaction {
@@ -88,6 +89,26 @@ export class CoreTransaction {
         }
         else if(type === TXN_TYPES.APP_CALL) {
             return 'App ID: ' + to;
+        }
+    }
+
+    getAmount(): string {
+        const type = this.getType();
+
+        if (type === TXN_TYPES.PAYMENT) {
+            return microalgosToAlgos(this.txn["payment-transaction"].amount).toString();
+        }
+        else if(type === TXN_TYPES.KEY_REGISTRATION) {
+            return '';
+        }
+        else if(type === TXN_TYPES.ASSET_CONFIG) {
+            return '';
+        }
+        else if(type === TXN_TYPES.ASSET_TRANSFER) {
+            return this.txn["asset-transfer-transaction"].amount.toString();
+        }
+        else if(type === TXN_TYPES.APP_CALL) {
+            return '';
         }
     }
 }

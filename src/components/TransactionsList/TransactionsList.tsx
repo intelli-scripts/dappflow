@@ -14,6 +14,7 @@ import {copyContent} from "../../utils/common";
 import AlgoIcon from "../AlgoIcon/AlgoIcon";
 import {CoreTransaction} from "../../packages/core-sdk/classes/CoreTransaction";
 import {TXN_TYPES} from "../../packages/core-sdk/constants";
+import {ArrowForward} from "@mui/icons-material";
 
 
 function TransactionsList(props): JSX.Element {
@@ -39,18 +40,7 @@ function TransactionsList(props): JSX.Element {
                         }
                         }></ContentCopyIcon>
                     </Tooltip>
-                    <Link href={"/transaction/" + txnId}>{ellipseString(txnId, 30)}</Link>
-                </div>;
-            }
-        },
-        {
-            ...dataGridCellConfig,
-            field: 'confirmed-round',
-            headerName: 'Block',
-            renderCell: (params: GridValueGetterParams) => {
-                const block = new CoreTransaction(params.row).getBlock();
-                return <div>
-                    <Link href={"/block/" + block}>{block}</Link>
+                    <Link href={"/transaction/" + txnId}>{ellipseString(txnId, 20)}</Link>
                 </div>;
             }
         },
@@ -74,6 +64,17 @@ function TransactionsList(props): JSX.Element {
         },
         {
             ...dataGridCellConfig,
+            field: 'confirmed-round',
+            headerName: 'Block',
+            renderCell: (params: GridValueGetterParams) => {
+                const block = new CoreTransaction(params.row).getBlock();
+                return <div>
+                    <Link href={"/block/" + block}>{block}</Link>
+                </div>;
+            }
+        },
+        {
+            ...dataGridCellConfig,
             field: 'from',
             headerName: 'From',
             flex: 2,
@@ -87,7 +88,7 @@ function TransactionsList(props): JSX.Element {
                         }
                         }></ContentCopyIcon>
                     </Tooltip>
-                    <Link href={"/account/" + from}>{ellipseString(from, 30)}</Link>
+                    <Link href={"/account/" + from}>{ellipseString(from, 20)}</Link>
                 </div>;
             }
         },
@@ -105,13 +106,14 @@ function TransactionsList(props): JSX.Element {
 
 
                         {type === TXN_TYPES.PAYMENT || type === TXN_TYPES.ASSET_TRANSFER ? <div>
+                            <ArrowForward fontSize={"small"} style={{verticalAlign: "text-bottom", marginRight: 5}}></ArrowForward>
                             <Tooltip title="Click to copy">
                                 <ContentCopyIcon className="copy-content" onClick={(ev) => {
                                     copyContent(ev, dispatch, to, 'Address copied');
                                 }
                                 }></ContentCopyIcon>
                             </Tooltip>
-                            <Link href={"/account/" + to}>{ellipseString(to, 30)}</Link>
+                            <Link href={"/account/" + to}>{ellipseString(to, 20)}</Link>
                         </div> : ''}
 
                         {type === TXN_TYPES.APP_CALL ? <div>
@@ -133,7 +135,7 @@ function TransactionsList(props): JSX.Element {
                     {type}
                 </div>;
             }
-        },
+        }
     ];
 
     return (<div className={"transactions-list-wrapper"}>
