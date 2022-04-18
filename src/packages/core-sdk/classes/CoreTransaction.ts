@@ -111,4 +111,8 @@ export class CoreTransaction {
             return '';
         }
     }
+
+    getTimestamp(): number {
+        return this.txn["round-time"];
+    }
 }

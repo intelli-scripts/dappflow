@@ -11,6 +11,7 @@ import accountReducer from "./actions/account";
 import blockReducer from "./actions/block";
 import assetReducer from "./actions/asset";
 import applicationReducer from "./actions/application";
+import transactionReducer from "./actions/transaction";
 
 export const store = configureStore({
     reducer: {
@@ -25,7 +26,8 @@ export const store = configureStore({
         account: accountReducer,
         block: blockReducer,
         asset: assetReducer,
-        application: applicationReducer
+        application: applicationReducer,
+        transaction: transactionReducer
     },
 });
 

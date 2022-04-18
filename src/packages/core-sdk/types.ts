@@ -113,7 +113,7 @@ export interface A_SearchTransaction{
     "genesis-hash": string
     "genesis-id": string
     id: string
-    "inner-txns": [A_SearchTransactionInner]
+    "inner-txns"?: A_SearchTransactionInner[]
     "created-application-index"?: number
     "application-transaction"?: {
         accounts: string[]

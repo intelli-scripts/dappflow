@@ -18,6 +18,7 @@ import AccountCreatedApplications from "../AccountCreatedApplications.tsx/Accoun
 import Application from "../Application/Application";
 import ApplicationTransactions from "../ApplicationTransactions/ApplicationTransactions";
 import ApplicationGlobalState from "../ApplicationGlobalState/ApplicationGlobalState";
+import Transaction from "../Transaction/Transaction";
 
 function AppRouter(): JSX.Element {
     return (<div>
@@ -50,6 +51,7 @@ function AppRouter(): JSX.Element {
                     <Route path="transactions" element={<ApplicationTransactions></ApplicationTransactions>} />
                     <Route path="" element={<Navigate to="global-state" replace />}/>
                 </Route>
+                <Route path="/transaction/:id" element={<Transaction></Transaction>}></Route>
                 <Route path="*" element={<Navigate to="/" replace />}/>
             </Routes>
         </BrowserRouter>
