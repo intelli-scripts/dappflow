@@ -15,6 +15,7 @@ import PaymentTransaction from '../PaymentTransaction/PaymentTransaction';
 import NumberFormat from "react-number-format";
 import {ExpandMore} from "@mui/icons-material";
 import AssetTransferTransaction from "../AssetTransferTransaction/AssetTransferTransaction";
+import AssetConfigTransaction from "../AssetConfigTransaction/AssetConfigTransaction";
 
 
 function Transaction(): JSX.Element {
@@ -101,6 +102,7 @@ function Transaction(): JSX.Element {
 
                 {txnInstance.getType() === TXN_TYPES.PAYMENT ? <PaymentTransaction transaction={transaction}></PaymentTransaction> : ''}
                 {txnInstance.getType() === TXN_TYPES.ASSET_TRANSFER ? <AssetTransferTransaction transaction={transaction}></AssetTransferTransaction> : ''}
+                {txnInstance.getType() === TXN_TYPES.ASSET_CONFIG ? <AssetConfigTransaction transaction={transaction}></AssetConfigTransaction> : ''}
 
 
                 {txnInstance.getNote() ? <div className="props" style={{background: shadedClr}}>

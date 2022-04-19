@@ -1,5 +1,9 @@
 import {
-    A_SearchTransaction
+    A_Asset,
+    A_SearchTransaction,
+    A_SearchTransaction_App_Call_Payload,
+    A_SearchTransaction_Asset_Transfer_Payload,
+    A_SearchTransaction_Payment_Payload
 } from "../types";
 import {TXN_TYPES} from "../constants";
 
@@ -65,11 +69,27 @@ export class CoreTransaction {
         }
     }
 
+    getPaymentPayload(): A_SearchTransaction_Payment_Payload {
+        return this.txn["payment-transaction"];
+    }
+
+    getAssetTransferPayload(): A_SearchTransaction_Asset_Transfer_Payload {
+        return this.txn["asset-transfer-transaction"];
+    }
+
+    getAssetConfigPayload(): A_Asset {
+        return this.txn["asset-config-transaction"];
+    }
+
+    getAppCallPayload(): A_SearchTransaction_App_Call_Payload {
+        return this.txn["application-transaction"];
+    }
+
     getAppId(): number {
         const type = this.getType();
 
         if (type === TXN_TYPES.APP_CALL) {
-            let appId = this.txn["application-transaction"]["application-id"];
+            let appId = this.getAppCallPayload()["application-id"];
 
             if (!appId) {
                 appId = this.txn["created-application-index"];
@@ -83,7 +103,7 @@ export class CoreTransaction {
         const type = this.getType();
 
         if (type === TXN_TYPES.ASSET_TRANSFER) {
-            return  this.txn["asset-transfer-transaction"]["asset-id"];
+            return  this.getAssetTransferPayload()["asset-id"];
         }
         if (type === TXN_TYPES.ASSET_CONFIG) {
             return this.txn["created-asset-index"];
@@ -94,10 +114,10 @@ export class CoreTransaction {
         const type = this.getType();
 
         if (type === TXN_TYPES.PAYMENT) {
-            return this.txn["payment-transaction"].amount;
+            return this.getPaymentPayload().amount;
         }
         if(type === TXN_TYPES.ASSET_TRANSFER) {
-            return this.txn["asset-transfer-transaction"].amount;
+            return this.getAssetTransferPayload().amount;
         }
     }
 

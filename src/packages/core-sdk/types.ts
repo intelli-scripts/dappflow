@@ -116,29 +116,36 @@ export interface A_SearchTransaction{
     "inner-txns"?: A_SearchTransactionInner[]
     "created-application-index"?: number
     "created-asset-index"?: number
-    "application-transaction"?: {
-        accounts: string[]
-        "application-args": string[]
-        "application-id": number
-        "approval-program": string
-        "clear-state-program": string
-        "foreign-apps": number[]
-        "foreign-assets": number[]
-        "global-state-schema": A_StateSchema
-        "local-state-schema": A_StateSchema
-        "on-completion": string
-    }
-    "asset-transfer-transaction"?: {
-        amount: number
-        "asset-id": number
-        "close-amount": number
-        receiver: string
-    },
-    "payment-transaction"?: {
-        amount: number
-        "close-amount": number
-        receiver: string
-    }
+    "application-transaction"?: A_SearchTransaction_App_Call_Payload
+    "asset-transfer-transaction"?: A_SearchTransaction_Asset_Transfer_Payload,
+    "payment-transaction"?: A_SearchTransaction_Payment_Payload,
+    "asset-config-transaction"?: A_Asset
+}
+
+export interface A_SearchTransaction_Payment_Payload {
+    amount: number
+    "close-amount": number
+    receiver: string
+}
+
+export interface A_SearchTransaction_Asset_Transfer_Payload {
+    amount: number
+    "asset-id": number
+    "close-amount": number
+    receiver: string
+}
+
+export interface A_SearchTransaction_App_Call_Payload {
+    accounts: string[]
+    "application-args": string[]
+    "application-id": number
+    "approval-program": string
+    "clear-state-program": string
+    "foreign-apps": number[]
+    "foreign-assets": number[]
+    "global-state-schema": A_StateSchema
+    "local-state-schema": A_StateSchema
+    "on-completion": string
 }
 
 export type A_SearchTransactionInner = Omit<A_SearchTransaction, "id,note,genesis-hash,genesis-id,inner-txns">
