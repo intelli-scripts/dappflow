@@ -45,7 +45,7 @@ function AssetConfigTransaction(props): JSX.Element {
                                     Asset ID
                                 </div>
                                 <div className="value">
-                                    {txnInstance.getAssetId()}
+                                    <Link href={"/asset/" + txnInstance.getAssetId()}>{txnInstance.getAssetId()}</Link>
                                 </div>
                             </div>
                         </Grid>
