@@ -1,22 +1,38 @@
 import './Transaction.scss';
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
-import {Accordion, AccordionDetails, AccordionSummary, Grid, Link, Typography} from "@mui/material";
+import {
+    Accordion,
+    AccordionDetails,
+    AccordionSummary,
+    Button,
+    ButtonGroup,
+    Grid,
+    Link,
+    Typography
+} from "@mui/material";
 import {theme} from "../../theme";
 import pSBC from 'shade-blend-color';
 import {loadTransaction} from "../../redux/actions/transaction";
 import {CoreTransaction} from "../../packages/core-sdk/classes/CoreTransaction";
 import {microalgosToAlgos} from "algosdk";
 import AlgoIcon from "../AlgoIcon/AlgoIcon";
-import {TXN_TYPES} from "../../packages/core-sdk/constants";
+import {NOTE_ENCRYPTIONS, TXN_TYPES} from "../../packages/core-sdk/constants";
 import PaymentTransaction from '../PaymentTransaction/PaymentTransaction';
 import NumberFormat from "react-number-format";
 import {ExpandMore} from "@mui/icons-material";
 import AssetTransferTransaction from "../AssetTransferTransaction/AssetTransferTransaction";
 import AssetConfigTransaction from "../AssetConfigTransaction/AssetConfigTransaction";
 
+
+interface TransactionState{
+    noteEncryption: string,
+}
+const initialState: TransactionState = {
+    noteEncryption: NOTE_ENCRYPTIONS.BASE64
+};
 
 function Transaction(): JSX.Element {
     const dispatch = useDispatch();
@@ -28,6 +44,15 @@ function Transaction(): JSX.Element {
 
     const txnInstance = new CoreTransaction(transaction.information);
     console.log(transaction.information);
+
+    const [
+        {noteEncryption},
+        setState
+    ] = useState(initialState);
+
+    function setNoteEncryption(encryption: string) {
+        setState(prevState => ({...prevState, noteEncryption: encryption}));
+    }
 
     useEffect(() => {
         dispatch(loadTransaction(id));
@@ -111,9 +136,15 @@ function Transaction(): JSX.Element {
                             <div className="property">
                                 <div className="key">
                                     Note
+                                    <ButtonGroup variant="outlined" size={"small"} style={{marginLeft: 20}}>
+                                        <Button variant={noteEncryption === NOTE_ENCRYPTIONS.TEXT ? 'contained' : 'outlined'} onClick={() => {setNoteEncryption(NOTE_ENCRYPTIONS.TEXT)}}>Text</Button>
+                                        <Button variant={noteEncryption === NOTE_ENCRYPTIONS.BASE64 ? 'contained' : 'outlined'} onClick={() => {setNoteEncryption(NOTE_ENCRYPTIONS.BASE64)}}>Base 64</Button>
+                                    </ButtonGroup>
                                 </div>
                                 <div className="value small">
-                                    {txnInstance.getNote()}
+                                    <div style={{marginTop: 50}}>
+                                        {txnInstance.getNote(noteEncryption)}
+                                    </div>
                                 </div>
                             </div>
                         </Grid>

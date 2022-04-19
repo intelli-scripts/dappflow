@@ -1493,6 +1493,11 @@
   resolved "https://registry.yarnpkg.com/@leichtgewicht/ip-codec/-/ip-codec-2.0.3.tgz#0300943770e04231041a51bd39f0439b5c7ab4f0"
   integrity sha512-nkalE/f1RvRGChwBnEIoBfSEYOXnCRdleKuv6+lePbMDrMZXeDQnqak5XDOeBgrPPyPfAdcCu/B5z+v3VhplGg==
 
+"@msgpack/msgpack@^2.7.2":
+  version "2.7.2"
+  resolved "https://registry.yarnpkg.com/@msgpack/msgpack/-/msgpack-2.7.2.tgz#f34b8aa0c49f0dd55eb7eba577081299cbf3f90b"
+  integrity sha512-rYEi46+gIzufyYUAoHDnRzkWGxajpD9vVXFQ3g1vbjrBm6P7MBmm+s/fqPa46sxa+8FOUdEuRQKaugo5a4JWpw==
+
 "@mui/base@5.0.0-alpha.75":
   version "5.0.0-alpha.75"
   resolved "https://registry.yarnpkg.com/@mui/base/-/base-5.0.0-alpha.75.tgz#0b352ff951765dfa83723fd1faf46a128dfe63ca"

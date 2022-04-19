@@ -31,7 +31,7 @@ function PaymentTransaction(props): JSX.Element {
                                 <div className="key">
                                     Sender
                                 </div>
-                                <div className="value">
+                                <div className="value small">
                                     <Link href={"/account/" + txnInstance.getFrom()}>{txnInstance.getFrom()}</Link>
                                 </div>
                             </div>
@@ -43,7 +43,7 @@ function PaymentTransaction(props): JSX.Element {
                                 <div className="key">
                                     Receiver
                                 </div>
-                                <div className="value">
+                                <div className="value small">
                                     <Link href={"/account/" + txnInstance.getTo()}>{txnInstance.getTo()}</Link>
                                 </div>
                             </div>

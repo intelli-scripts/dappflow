@@ -5,7 +5,8 @@ import {
     A_SearchTransaction_Asset_Transfer_Payload,
     A_SearchTransaction_Payment_Payload
 } from "../types";
-import {TXN_TYPES} from "../constants";
+import {NOTE_ENCRYPTIONS, TXN_TYPES} from "../constants";
+import atob from 'atob';
 
 
 export class CoreTransaction {
@@ -133,8 +134,13 @@ export class CoreTransaction {
         return this.txn["receiver-rewards"]
     }
 
-    getNote(): string {
-        return this.txn.note;
+    getNote(encryption: string = NOTE_ENCRYPTIONS.BASE64): string | Uint8Array {
+        if(encryption === NOTE_ENCRYPTIONS.BASE64) {
+            return this.txn.note;
+        }
+        if(encryption === NOTE_ENCRYPTIONS.TEXT) {
+            return atob(this.txn.note);
+        }
     }
 
     getFirstRound(): number {

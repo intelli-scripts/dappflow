@@ -5,3 +5,8 @@ export enum TXN_TYPES {
     ASSET_TRANSFER = 'axfer',
     APP_CALL = 'appl'
 }
+
+export enum NOTE_ENCRYPTIONS {
+    BASE64 = 'base64',
+    TEXT = 'text'
+}
