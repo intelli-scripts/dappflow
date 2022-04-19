@@ -7,6 +7,7 @@ import {
 } from "../types";
 import {NOTE_ENCRYPTIONS, TXN_TYPES} from "../constants";
 import atob from 'atob';
+import msgpack from "msgpack-lite";
 
 
 export class CoreTransaction {
@@ -134,12 +135,21 @@ export class CoreTransaction {
         return this.txn["receiver-rewards"]
     }
 
-    getNote(encryption: string = NOTE_ENCRYPTIONS.BASE64): string | Uint8Array {
+    getNote(encryption: string = NOTE_ENCRYPTIONS.BASE64): string {
         if(encryption === NOTE_ENCRYPTIONS.BASE64) {
             return this.txn.note;
         }
         if(encryption === NOTE_ENCRYPTIONS.TEXT) {
             return atob(this.txn.note);
+        }
+        if(encryption === NOTE_ENCRYPTIONS.MSG_PACK) {
+            try {
+                return JSON.stringify(msgpack.decode(Buffer.from(this.txn.note, 'base64')));
+            }
+            catch (e) {
+                return msgpack.decode(Buffer.from(this.txn.note, 'base64'));
+            }
+
         }
     }
 

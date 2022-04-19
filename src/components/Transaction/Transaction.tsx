@@ -139,10 +139,12 @@ function Transaction(): JSX.Element {
                                     <ButtonGroup variant="outlined" size={"small"} style={{marginLeft: 20}}>
                                         <Button variant={noteEncryption === NOTE_ENCRYPTIONS.TEXT ? 'contained' : 'outlined'} onClick={() => {setNoteEncryption(NOTE_ENCRYPTIONS.TEXT)}}>Text</Button>
                                         <Button variant={noteEncryption === NOTE_ENCRYPTIONS.BASE64 ? 'contained' : 'outlined'} onClick={() => {setNoteEncryption(NOTE_ENCRYPTIONS.BASE64)}}>Base 64</Button>
+                                        <Button variant={noteEncryption === NOTE_ENCRYPTIONS.MSG_PACK ? 'contained' : 'outlined'} onClick={() => {setNoteEncryption(NOTE_ENCRYPTIONS.MSG_PACK)}}>Message pack</Button>
                                     </ButtonGroup>
+
                                 </div>
                                 <div className="value small">
-                                    <div style={{marginTop: 50}}>
+                                    <div style={{marginTop: 30}}>
                                         {txnInstance.getNote(noteEncryption)}
                                     </div>
                                 </div>

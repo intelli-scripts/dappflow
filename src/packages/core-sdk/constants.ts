@@ -8,5 +8,6 @@ export enum TXN_TYPES {
 
 export enum NOTE_ENCRYPTIONS {
     BASE64 = 'base64',
-    TEXT = 'text'
+    TEXT = 'text',
+    MSG_PACK = 'msgpack'
 }
