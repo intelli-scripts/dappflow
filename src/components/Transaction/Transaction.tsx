@@ -25,6 +25,7 @@ import NumberFormat from "react-number-format";
 import {ExpandMore} from "@mui/icons-material";
 import AssetTransferTransaction from "../AssetTransferTransaction/AssetTransferTransaction";
 import AssetConfigTransaction from "../AssetConfigTransaction/AssetConfigTransaction";
+import KeyRegTransaction from "../KeyRegTransaction/KeyRegTransaction";
 
 
 interface TransactionState{
@@ -128,6 +129,7 @@ function Transaction(): JSX.Element {
                 {txnInstance.getType() === TXN_TYPES.PAYMENT ? <PaymentTransaction transaction={transaction}></PaymentTransaction> : ''}
                 {txnInstance.getType() === TXN_TYPES.ASSET_TRANSFER ? <AssetTransferTransaction transaction={transaction}></AssetTransferTransaction> : ''}
                 {txnInstance.getType() === TXN_TYPES.ASSET_CONFIG ? <AssetConfigTransaction transaction={transaction}></AssetConfigTransaction> : ''}
+                {txnInstance.getType() === TXN_TYPES.KEY_REGISTRATION ? <KeyRegTransaction transaction={transaction}></KeyRegTransaction> : ''}
 
 
                 {txnInstance.getNote() ? <div className="props" style={{background: shadedClr}}>

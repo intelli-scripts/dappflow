@@ -119,7 +119,17 @@ export interface A_SearchTransaction{
     "application-transaction"?: A_SearchTransaction_App_Call_Payload
     "asset-transfer-transaction"?: A_SearchTransaction_Asset_Transfer_Payload,
     "payment-transaction"?: A_SearchTransaction_Payment_Payload,
-    "asset-config-transaction"?: A_Asset
+    "asset-config-transaction"?: A_Asset,
+    "keyreg-transaction"?: A_SearchTransaction_KeyReg_Payload
+}
+
+export interface A_SearchTransaction_KeyReg_Payload {
+    "non-participation": boolean
+    "selection-participation-key": string
+    "vote-first-valid": number
+    "vote-key-dilution": number
+    "vote-last-valid": number
+    "vote-participation-key": string
 }
 
 export interface A_SearchTransaction_Payment_Payload {

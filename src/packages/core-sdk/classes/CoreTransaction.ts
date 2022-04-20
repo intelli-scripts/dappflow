@@ -2,7 +2,7 @@ import {
     A_Asset,
     A_SearchTransaction,
     A_SearchTransaction_App_Call_Payload,
-    A_SearchTransaction_Asset_Transfer_Payload,
+    A_SearchTransaction_Asset_Transfer_Payload, A_SearchTransaction_KeyReg_Payload,
     A_SearchTransaction_Payment_Payload
 } from "../types";
 import {NOTE_ENCRYPTIONS, TXN_TYPES} from "../constants";
@@ -73,6 +73,10 @@ export class CoreTransaction {
 
     getPaymentPayload(): A_SearchTransaction_Payment_Payload {
         return this.txn["payment-transaction"];
+    }
+
+    getKeyRegPayload(): A_SearchTransaction_KeyReg_Payload {
+        return this.txn["keyreg-transaction"];
     }
 
     getAssetTransferPayload(): A_SearchTransaction_Asset_Transfer_Payload {
