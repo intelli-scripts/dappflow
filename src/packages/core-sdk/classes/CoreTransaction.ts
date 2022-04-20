@@ -112,7 +112,10 @@ export class CoreTransaction {
             return  this.getAssetTransferPayload()["asset-id"];
         }
         if (type === TXN_TYPES.ASSET_CONFIG) {
-            return this.txn["created-asset-index"];
+            if (this.txn["created-asset-index"]) {
+                return this.txn["created-asset-index"];
+            }
+            return  this.getAssetConfigPayload()["asset-id"];
         }
     }
 

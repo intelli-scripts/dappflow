@@ -16,6 +16,8 @@ function AssetConfigTransaction(props): JSX.Element {
     const assetConfig = txnInstance.getAssetConfigPayload();
     const assetInstance = new CoreAsset(assetConfig);
 
+    const isCreate = assetConfig["asset-id"] ? false : true;
+
 
     return (<div className={"asset-config-transaction-wrapper"}>
         <div className={"asset-config-transaction-container"}>
@@ -38,8 +40,7 @@ function AssetConfigTransaction(props): JSX.Element {
                             </div>
                         </Grid>
 
-
-                        <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
+                        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                             <div className="property">
                                 <div className="key">
                                     Asset ID
@@ -50,66 +51,81 @@ function AssetConfigTransaction(props): JSX.Element {
                             </div>
                         </Grid>
 
+                        {isCreate ? [
+                            <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={2}>
+                                <div className="property">
+                                    <div className="key">
+                                        Asset name
+                                    </div>
+                                    <div className="value">
+                                        {assetInstance.getName()}
+                                    </div>
+                                </div>
+                            </Grid>,
+                            <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={3}>
+                                <div className="property">
+                                    <div className="key">
+                                        Asset unit
+                                    </div>
+                                    <div className="value">
+                                        {assetInstance.getUnitName()}
+                                    </div>
+                                </div>
+                            </Grid>,
+                            <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={4}>
+                                <div className="property">
+                                    <div className="key">
+                                        URL
+                                    </div>
+                                    <div className="value small">
+                                        {assetInstance.getUrl() ? <Link href={assetInstance.getUrl()} target={"_blank"}>{assetInstance.getUrl()}</Link> : ''}
+                                    </div>
+                                </div>
+                            </Grid>,
+                            <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={5}>
+                                <div className="property">
+                                    <div className="key">
+                                        Total supply
+                                    </div>
+                                    <div className="value">
+                                        <NumberFormat
+                                            value={assetInstance.getTotalSupply()}
+                                            displayType={'text'}
+                                            thousandSeparator={true}
+                                        ></NumberFormat>
+                                        <span style={{marginLeft: 5}}>{assetInstance.getUnitName()}</span>
+                                    </div>
+                                </div>
+                            </Grid>,
+                            <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={6}>
+                                <div className="property">
+                                    <div className="key">
+                                        Decimals
+                                    </div>
+                                    <div className="value">
+                                        {assetInstance.getDecimals()}
+                                    </div>
+                                </div>
+                            </Grid>,
+                            <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={6}>
+                                <div className="property">
+                                    <div className="key">
+                                        Default frozen
+                                    </div>
+                                    <div className="value">
+                                        {assetInstance.getDefaultFrozen() ? 'True' : 'False'}
+                                    </div>
+                                </div>
+                            </Grid>
+                        ] : ''}
 
-                        <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
-                            <div className="property">
-                                <div className="key">
-                                    Asset name
-                                </div>
-                                <div className="value">
-                                    {assetInstance.getName()}
-                                </div>
-                            </div>
-                        </Grid>
 
-                        <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
-                            <div className="property">
-                                <div className="key">
-                                    Asset unit
-                                </div>
-                                <div className="value">
-                                    {assetInstance.getUnitName()}
-                                </div>
-                            </div>
-                        </Grid>
 
-                        <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
-                            <div className="property">
-                                <div className="key">
-                                    URL
-                                </div>
-                                <div className="value small">
-                                    {assetInstance.getUrl() ? <Link href={assetInstance.getUrl()} target={"_blank"}>{assetInstance.getUrl()}</Link> : ''}
-                                </div>
-                            </div>
-                        </Grid>
 
-                        <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
-                            <div className="property">
-                                <div className="key">
-                                    Total supply
-                                </div>
-                                <div className="value">
-                                    <NumberFormat
-                                        value={assetInstance.getTotalSupply()}
-                                        displayType={'text'}
-                                        thousandSeparator={true}
-                                    ></NumberFormat>
-                                    <span style={{marginLeft: 5}}>{assetInstance.getUnitName()}</span>
-                                </div>
-                            </div>
-                        </Grid>
 
-                        <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
-                            <div className="property">
-                                <div className="key">
-                                    Decimals
-                                </div>
-                                <div className="value">
-                                    {assetInstance.getDecimals()}
-                                </div>
-                            </div>
-                        </Grid>
+
+
+
 
 
                         <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
