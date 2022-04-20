@@ -5,6 +5,7 @@ import {theme} from "../../theme";
 import pSBC from 'shade-blend-color';
 import {CoreTransaction} from "../../packages/core-sdk/classes/CoreTransaction";
 import NumberFormat from "react-number-format";
+import {CoreAsset} from "../../packages/core-sdk/classes/CoreAsset";
 
 
 function AssetTransferTransaction(props): JSX.Element {
@@ -12,6 +13,7 @@ function AssetTransferTransaction(props): JSX.Element {
 
     const shadedClr = pSBC(0.95, theme.palette.primary.main);
     const txnInstance = new CoreTransaction(transaction.information);
+    const assetInstance = new CoreAsset(transaction.asset.information);
 
 
     return (<div className={"asset-transfer-transaction-wrapper"}>
@@ -53,7 +55,7 @@ function AssetTransferTransaction(props): JSX.Element {
                                     Asset
                                 </div>
                                 <div className="value">
-                                    <Link href={"/asset/" + txnInstance.getAssetId()}>{txnInstance.getAssetId()}</Link>
+                                    <Link href={"/asset/" + txnInstance.getAssetId()}>{txnInstance.getAssetId()} ({assetInstance.getName()})</Link>
                                 </div>
                             </div>
                         </Grid>
@@ -65,11 +67,12 @@ function AssetTransferTransaction(props): JSX.Element {
                                 </div>
                                 <div className="value">
                                     <NumberFormat
-                                        value={txnInstance.getAmount()}
+                                        value={assetInstance.getAmountInDecimals(txnInstance.getAmount())}
                                         displayType={'text'}
                                         thousandSeparator={true}
                                         style={{marginRight: 5}}
                                     ></NumberFormat>
+                                    {assetInstance.getUnitName()}
                                 </div>
                             </div>
                         </Grid>

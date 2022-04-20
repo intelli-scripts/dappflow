@@ -2,12 +2,18 @@ import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {handleException} from "./exception";
 import {showLoader, hideLoader} from './loader';
 import explorer from "../../utils/explorer";
-import {A_SearchTransaction} from "../../packages/core-sdk/types";
+import {A_Asset, A_SearchTransaction} from "../../packages/core-sdk/types";
 import {TransactionClient} from "../../packages/core-sdk/clients/transactionClient";
+import {CoreTransaction} from "../../packages/core-sdk/classes/CoreTransaction";
+import {TXN_TYPES} from "../../packages/core-sdk/constants";
+import {AssetClient} from "../../packages/core-sdk/clients/assetClient";
 
 
 export interface Transaction {
-    information: A_SearchTransaction
+    information: A_SearchTransaction,
+    asset: {
+        information: A_Asset
+    }
 }
 
 const initialState: Transaction = {
@@ -30,6 +36,28 @@ const initialState: Transaction = {
         id: "",
         "inner-txns": [],
         "created-application-index": 0,
+    },
+    asset: {
+        information: {
+            index: 0,
+            params: {
+                clawback: "",
+                creator: "",
+                decimals: 0,
+                "default-frozen": false,
+                freeze: "",
+                manager: "",
+                name: "",
+                "name-b64": "",
+                reserve: "",
+                total: 0,
+                "unit-name": "",
+                "unit-name-b64": "",
+                url: "",
+                "url-b64": "",
+                "metadata-hash": "",
+            }
+        },
     }
 }
 
@@ -42,6 +70,12 @@ export const loadTransaction = createAsyncThunk(
             dispatch(resetTransaction());
             dispatch(showLoader("Loading transaction ..."));
             const transactionInfo = await transactionClient.get(id);
+            const txnInstance = new CoreTransaction(transactionInfo);
+
+            if (txnInstance.getType() === TXN_TYPES.ASSET_TRANSFER) {
+                dispatch(loadTxnAsset(txnInstance.getAssetId()));
+            }
+
             dispatch(hideLoader());
             return transactionInfo;
         }
@@ -53,6 +87,21 @@ export const loadTransaction = createAsyncThunk(
 );
 
 
+export const loadTxnAsset = createAsyncThunk(
+    'transaction/loadTxnAsset',
+    async (id: number, thunkAPI) => {
+        const {dispatch} = thunkAPI;
+        try {
+            const assetClient = new AssetClient(explorer.network);
+            const assetInfo = await assetClient.get(id);
+            return assetInfo;
+        }
+        catch (e: any) {
+            dispatch(handleException(e));
+        }
+    }
+);
+
 export const transactionSlice = createSlice({
     name: 'transaction',
     initialState,
@@ -60,8 +109,11 @@ export const transactionSlice = createSlice({
         resetTransaction: state => initialState
     },
     extraReducers: (builder) => {
-        builder.addCase(loadTransaction.fulfilled, (state, action: PayloadAction<any>) => {
+        builder.addCase(loadTransaction.fulfilled, (state, action: PayloadAction<A_SearchTransaction>) => {
             state.information = action.payload;
+        });
+        builder.addCase(loadTxnAsset.fulfilled, (state, action: PayloadAction<A_Asset>) => {
+            state.asset.information = action.payload;
         });
     },
 });

@@ -70,6 +70,10 @@ export class CoreAsset {
         return (this.getTotal() / Math.pow(10, this.getDecimals()));
     }
 
+    getAmountInDecimals(amount: number): number {
+        return (amount / Math.pow(10, this.getDecimals()));
+    }
+
     getCreator(): string {
         return this.asset.params.creator;
     }

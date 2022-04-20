@@ -57,7 +57,7 @@ function AssetConfigTransaction(props): JSX.Element {
                                     Asset ID
                                 </div>
                                 <div className="value">
-                                    <Link href={"/asset/" + txnInstance.getAssetId()}>{txnInstance.getAssetId()} {assetInstance.getUnitName() ? '(' + assetInstance.getUnitName() + ')' : ''}</Link>
+                                    <Link href={"/asset/" + txnInstance.getAssetId()}>{txnInstance.getAssetId()} {assetInstance.getName() ? '(' + assetInstance.getName() + ')' : ''}</Link>
                                 </div>
                             </div>
                         </Grid>
