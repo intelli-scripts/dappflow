@@ -43,13 +43,25 @@ function AssetConfigTransaction(props): JSX.Element {
                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                             <div className="property">
                                 <div className="key">
-                                    Asset ID
+                                    Action
                                 </div>
                                 <div className="value">
-                                    <Link href={"/asset/" + txnInstance.getAssetId()}>{txnInstance.getAssetId()}</Link>
+                                    {isCreate ? 'Creation' : 'Reconfiguration'}
                                 </div>
                             </div>
                         </Grid>
+
+                        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                            <div className="property">
+                                <div className="key">
+                                    Asset ID
+                                </div>
+                                <div className="value">
+                                    <Link href={"/asset/" + txnInstance.getAssetId()}>{txnInstance.getAssetId()} {assetInstance.getUnitName() ? '(' + assetInstance.getUnitName() + ')' : ''}</Link>
+                                </div>
+                            </div>
+                        </Grid>
+
 
                         {isCreate ? [
                             <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={2}>
