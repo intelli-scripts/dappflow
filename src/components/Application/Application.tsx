@@ -8,6 +8,7 @@ import {theme} from "../../theme";
 import pSBC from 'shade-blend-color';
 import {loadApplication} from "../../redux/actions/application";
 import {CoreApplication} from "../../packages/core-sdk/classes/CoreApplication";
+import ApplicationGlobalState from "../ApplicationGlobalState/ApplicationGlobalState";
 
 
 function Application(): JSX.Element {
@@ -44,6 +45,21 @@ function Application(): JSX.Element {
                     #{applicationInstance.getId()}
                 </div>
 
+                <div className="props" style={{background: shadedClr}}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                            <div className="property">
+                                <div className="key">
+                                    Creator
+                                </div>
+                                <div className="value small">
+                                    <Link href={"/account/" + applicationInstance.getCreator()}>{applicationInstance.getCreator()}</Link>
+                                </div>
+                            </div>
+                        </Grid>
+                    </Grid>
+                </div>
+
 
                 <div className="props" style={{background: shadedClr}}>
                     <Grid container spacing={2}>
@@ -65,7 +81,7 @@ function Application(): JSX.Element {
                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                             <div className="property">
                                 <div className="key">
-                                    Clear program
+                                    Clear state program
                                 </div>
                                 <div className="value small" style={{marginTop: 20}}>
                                     {applicationInstance.getClearProgram()}
@@ -124,18 +140,23 @@ function Application(): JSX.Element {
                         </Grid>
 
 
-                        <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                        <Grid item xs={12} sm={6} md={6} lg={6} xl={6}></Grid>
+                    </Grid>
+                </div>
+
+
+                <div className="props" style={{background: shadedClr}}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                             <div className="property">
                                 <div className="key">
-                                    Creator
+                                    Global state
                                 </div>
                                 <div className="value small">
-                                    <Link href={"/account/" + applicationInstance.getCreator()}>{applicationInstance.getCreator()}</Link>
+                                    <ApplicationGlobalState></ApplicationGlobalState>
                                 </div>
                             </div>
                         </Grid>
-
-                        <Grid item xs={12} sm={6} md={6} lg={6} xl={6}></Grid>
                     </Grid>
                 </div>
 
@@ -144,10 +165,6 @@ function Application(): JSX.Element {
                 <div className="application-tabs">
 
                     <Tabs value={tabValue}>
-
-                        <Tab label="Global state" value="global-state" onClick={() => {
-                            navigate('/application/' + id + '/global-state');
-                        }}/>
                         <Tab label="Transactions" value="transactions" onClick={() => {
                             navigate('/application/' + id + '/transactions');
                         }}/>

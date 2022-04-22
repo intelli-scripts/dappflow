@@ -11,6 +11,9 @@ export const dataGridStyles = {
     '.MuiDataGrid-columnSeparator': {
         display: 'none',
     },
+    '.MuiDataGrid-row:nth-of-type(odd)': {
+        backgroundColor: theme.palette.common.white
+    },
     '.MuiDataGrid-row:nth-of-type(even)': {
         backgroundColor: theme.palette.grey["100"]
     },

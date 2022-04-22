@@ -6,6 +6,7 @@ import {CoreApplication} from "../../packages/core-sdk/classes/CoreApplication";
 import {DataGrid, GridColDef, GridValueGetterParams} from "@mui/x-data-grid";
 import {dataGridCellConfig, dataGridStyles} from "../../theme/styles/datagrid";
 import NumberFormat from "react-number-format";
+import {theme} from "../../theme";
 
 
 function ApplicationGlobalState(): JSX.Element {
@@ -63,10 +64,15 @@ function ApplicationGlobalState(): JSX.Element {
                     <DataGrid
                         rows={globalStorage}
                         columns={columns}
-                        pageSize={10}
-                        rowsPerPageOptions={[10]}
+                        rowsPerPageOptions={[]}
                         disableSelectionOnClick
-                        sx={dataGridStyles}
+                        sx={{
+                            ...dataGridStyles,
+                            '.MuiDataGrid-columnHeader': {
+                                background: theme.palette.common.black,
+                                color: theme.palette.common.white
+                            }
+                        }}
                         getRowId={(row) => {
                             return row.key;
                         }}
