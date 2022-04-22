@@ -78,6 +78,15 @@ export interface A_GlobalStateDecrypted {
     value: string | number
 }
 
+export interface A_GlobalStateDelta {
+    key: string
+    value: {
+        bytes: string
+        action: number
+        uint: number
+    }
+}
+
 export interface A_StateSchema {
     "num-byte-slice": number
     "num-uint": number
@@ -120,7 +129,8 @@ export interface A_SearchTransaction{
     "asset-transfer-transaction"?: A_SearchTransaction_Asset_Transfer_Payload,
     "payment-transaction"?: A_SearchTransaction_Payment_Payload,
     "asset-config-transaction"?: A_Asset,
-    "keyreg-transaction"?: A_SearchTransaction_KeyReg_Payload
+    "keyreg-transaction"?: A_SearchTransaction_KeyReg_Payload,
+    "global-state-delta"?: A_GlobalStateDelta[]
 }
 
 export interface A_SearchTransaction_KeyReg_Payload {

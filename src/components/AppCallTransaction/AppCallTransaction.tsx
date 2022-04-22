@@ -4,6 +4,7 @@ import {Grid, Link} from "@mui/material";
 import {theme} from "../../theme";
 import pSBC from 'shade-blend-color';
 import {CoreTransaction} from "../../packages/core-sdk/classes/CoreTransaction";
+import AppCallTxnGlobalStateDelta from "../AppCallTxnGlobalStateDelta/AppCallTxnGlobalStateDelta";
 
 
 function AppCallTransaction(props): JSX.Element {
@@ -13,9 +14,7 @@ function AppCallTransaction(props): JSX.Element {
     const txnInstance = new CoreTransaction(transaction.information);
     const appCallPayload = txnInstance.getAppCallPayload();
 
-
     const isCreate = appCallPayload["application-id"] ? false : true;
-
 
     return (<div className={"app-call-transaction-wrapper"}>
         <div className={"app-call-transaction-container"}>
@@ -173,6 +172,21 @@ function AppCallTransaction(props): JSX.Element {
                                     {appCallPayload["accounts"].map((account) => {
                                         return <Link href={"/account/" + account} key={account}>{account}</Link>;
                                     })}
+                                </div>
+                            </div>
+                        </Grid>
+                    </Grid>
+                </div>
+
+                <div className="props" style={{background: shadedClr}}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                            <div className="property">
+                                <div className="key">
+                                    Global state delta
+                                </div>
+                                <div className="value">
+                                    <AppCallTxnGlobalStateDelta state={transaction.information["global-state-delta"]}></AppCallTxnGlobalStateDelta>
                                 </div>
                             </div>
                         </Grid>
