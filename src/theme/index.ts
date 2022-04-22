@@ -15,7 +15,7 @@ export const theme = createTheme({
     },
     palette: {
         primary: {
-            main: '#3f51b5',
+            main: '#635bff',//635bff//3f51b5
         },
         secondary: {
             main: '#f44336'
@@ -85,6 +85,13 @@ export const theme = createTheme({
                     '&.rounded': {
                         borderRadius: 10
                     }
+                }
+            }
+        },
+        MuiAlert: {
+            styleOverrides: {
+                root: {
+                    borderRadius: 10
                 }
             }
         }

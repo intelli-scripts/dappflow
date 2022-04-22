@@ -1,6 +1,6 @@
 import './AppCallTransaction.scss';
 import React from "react";
-import {Grid, Link} from "@mui/material";
+import {Alert, Grid, Link} from "@mui/material";
 import {theme} from "../../theme";
 import pSBC from 'shade-blend-color';
 import {CoreTransaction} from "../../packages/core-sdk/classes/CoreTransaction";
@@ -138,6 +138,7 @@ function AppCallTransaction(props): JSX.Element {
                                     {appCallPayload["foreign-assets"].map((asset) => {
                                         return <Link href={"/asset/" + asset} key={asset}>{asset}</Link>;
                                     })}
+                                    {appCallPayload["foreign-assets"].length === 0 ? <Alert color={"error"} icon={false}>No foreign assets</Alert> : ''}
                                 </div>
                             </div>
                         </Grid>
@@ -155,6 +156,7 @@ function AppCallTransaction(props): JSX.Element {
                                     {appCallPayload["foreign-apps"].map((app) => {
                                         return <Link href={"/application/" + app} key={app}>{app}</Link>;
                                     })}
+                                    {appCallPayload["foreign-apps"].length === 0 ? <Alert color={"error"} icon={false}>No foreign apps</Alert> : ''}
                                 </div>
                             </div>
                         </Grid>
@@ -172,6 +174,7 @@ function AppCallTransaction(props): JSX.Element {
                                     {appCallPayload["accounts"].map((account) => {
                                         return <Link href={"/account/" + account} key={account}>{account}</Link>;
                                     })}
+                                    {appCallPayload["accounts"].length === 0 ? <Alert color={"error"} icon={false}>No foreign accounts</Alert> : ''}
                                 </div>
                             </div>
                         </Grid>
