@@ -16,11 +16,37 @@ export class CoreGlobalState {
     }
 
     getType(): string {
-        return this.state.value.bytes !== undefined ? 'Bytes' : 'Uint';
+        const action = this.getAction();
+
+        if (action === 1) {
+            return 'Bytes';
+        }
+        if (action === 2) {
+            return 'Uint';
+        }
+
+        return '';
     }
 
     getKey(): string {
         return atob(this.state.key);
+    }
+
+    getAction(): number {
+        return this.state.value.action;
+    }
+
+    getActionDisplayValue() {
+        const action = this.getAction();
+
+        if (action === 1 || action === 2) {
+            return 'Set';
+        }
+        if (action === 3) {
+            return 'Delete';
+        }
+
+        return '';
     }
 
     getValue(): string {

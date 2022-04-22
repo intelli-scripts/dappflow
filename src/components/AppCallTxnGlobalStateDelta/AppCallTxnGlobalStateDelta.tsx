@@ -40,13 +40,25 @@ function AppCallTxnGlobalStateDelta(props): JSX.Element {
         },
         {
             ...dataGridCellConfig,
+            field: 'action',
+            headerName: 'Action',
+            renderCell: (params: GridValueGetterParams) => {
+                const gStateDeltaInstance = new CoreGlobalState(params.row);
+                return <div>
+                    {gStateDeltaInstance.getActionDisplayValue()}
+                </div>;
+            }
+        },
+        {
+            ...dataGridCellConfig,
             field: 'value',
             headerName: 'Value',
             flex: 2,
             renderCell: (params: GridValueGetterParams) => {
                 const gStateDeltaInstance = new CoreGlobalState(params.row);
+                const action = gStateDeltaInstance.getAction();
                 return <div>
-                    {params.row.type === 'Uint' ? <NumberFormat
+                    {action === 2 ? <NumberFormat
                         value={gStateDeltaInstance.getValue()}
                         displayType={'text'}
                         thousandSeparator={true}
