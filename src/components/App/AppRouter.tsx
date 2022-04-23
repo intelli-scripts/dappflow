@@ -2,22 +2,22 @@ import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import React from "react";
 import Header from "../Header/Header";
 import Home from "../Home/Home";
-import Accounts from "../Accounts/Accounts";
-import Transactions from "../Transactions/Transactions";
+import Accounts from "../Lists/Accounts/Accounts";
+import Transactions from "../Lists/Transactions/Transactions";
 import DeveloperApi from '../DeveloperApi/DeveloperApi';
-import Account from "../Account/Account";
-import AccountTransactions from "../AccountTransactions/AccountTransactions";
-import Block from "../Block/Block";
-import BlockTransactions from "../BlockTransactions/BlockTransactions";
-import Assets from "../Assets/Assets";
-import AccountCreatedAssets from "../AccountCreatedAssets.tsx/AccountCreatedAssets";
-import Asset from "../Asset/Asset";
-import AssetTransactions from "../AssetTransactions/AssetTransactions";
-import Applications from "../Applications/Applications";
-import AccountCreatedApplications from "../AccountCreatedApplications.tsx/AccountCreatedApplications";
-import Application from "../Application/Application";
-import ApplicationTransactions from "../ApplicationTransactions/ApplicationTransactions";
-import Transaction from "../Transaction/Transaction";
+import Account from "../Records/Account/Account";
+import AccountTransactions from "../Records/Account/RelatedList/AccountTransactions/AccountTransactions";
+import Block from "../Records/Block/Block";
+import BlockTransactions from "../Records/Block/RelatedList/BlockTransactions/BlockTransactions";
+import Assets from "../Lists/Assets/Assets";
+import AccountCreatedAssets from "../Records/Account/RelatedList/AccountCreatedAssets.tsx/AccountCreatedAssets";
+import Asset from "../Records/Asset/Asset";
+import AssetTransactions from "../Records/Asset/RelatedList/AssetTransactions/AssetTransactions";
+import Applications from "../Lists/Applications/Applications";
+import AccountCreatedApplications from "../Records/Account/RelatedList/AccountCreatedApplications.tsx/AccountCreatedApplications";
+import Application from "../Records/Application/Application";
+import ApplicationTransactions from "../Records/Application/RelatedList/ApplicationTransactions/ApplicationTransactions";
+import Transaction from "../Records/Transaction/Transaction";
 
 function AppRouter(): JSX.Element {
     return (<div>

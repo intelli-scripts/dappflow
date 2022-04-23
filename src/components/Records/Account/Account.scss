@@ -1,0 +1,37 @@
+@import "src/assets/colors";
+
+.account-wrapper {
+  .account-container {
+    margin-top: 20px;
+    .account-header {
+      font-size: 20px;
+      font-weight: bold;
+      font-family: PoppinsBold !important;
+    }
+    .account-body {
+      margin-top: 30px;
+      .address {
+        font-size: 18px;
+        margin-bottom: 20px;
+        font-weight: normal;
+      }
+      .property {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 15px;
+        .key {
+          font-family: PoppinsBold !important;
+        }
+        .value {
+          color: $color-grey-dark;
+          .algo-icon {
+            margin-left: 5px;
+          }
+        }
+      }
+      .account-tabs {
+        margin-top: 50px;
+      }
+    }
+  }
+}

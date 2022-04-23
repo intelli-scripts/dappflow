@@ -1,0 +1,19 @@
+@import "src/assets/colors";
+
+.account-created-applications-wrapper {
+  .account-created-applications-container {
+    .account-created-applications-header {
+      margin-top: 40px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .account-created-applications-body {
+      margin-top: 50px;
+      .copy-content {
+        font-size: 16px;
+        margin-right: 10px;
+        vertical-align: text-bottom;
+      }
+    }
+  }
+}

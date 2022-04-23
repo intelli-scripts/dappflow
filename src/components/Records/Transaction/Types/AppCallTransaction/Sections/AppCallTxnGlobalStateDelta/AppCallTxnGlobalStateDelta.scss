@@ -1,0 +1,19 @@
+@import "src/assets/colors";
+
+.app-call-txn-global-state-delta-wrapper {
+  .app-call-txn-global-state-delta-container {
+    .app-call-txn-global-state-delta-header {
+      margin-top: 40px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .app-call-txn-global-state-delta-body {
+      margin-top: 50px;
+      .copy-content {
+        font-size: 16px;
+        margin-right: 10px;
+        vertical-align: text-bottom;
+      }
+    }
+  }
+}
