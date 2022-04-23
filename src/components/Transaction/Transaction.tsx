@@ -10,7 +10,6 @@ import {
     Button,
     ButtonGroup,
     Grid,
-    Link,
     Typography
 } from "@mui/material";
 import {theme} from "../../theme";
@@ -27,6 +26,7 @@ import AssetTransferTransaction from "../AssetTransferTransaction/AssetTransferT
 import AssetConfigTransaction from "../AssetConfigTransaction/AssetConfigTransaction";
 import KeyRegTransaction from "../KeyRegTransaction/KeyRegTransaction";
 import AppCallTransaction from "../AppCallTransaction/AppCallTransaction";
+import LinkToBlock from "../Links/LinkToBlock";
 
 
 interface TransactionState{
@@ -91,7 +91,7 @@ function Transaction(): JSX.Element {
                                     Block
                                 </div>
                                 <div className="value">
-                                    <Link href={"/block/" + txnInstance.getBlock()}>{txnInstance.getBlock()}</Link>
+                                    <LinkToBlock id={txnInstance.getBlock()}></LinkToBlock>
                                 </div>
                             </div>
                         </Grid>

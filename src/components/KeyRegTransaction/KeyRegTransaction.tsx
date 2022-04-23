@@ -1,10 +1,11 @@
 import './KeyRegTransaction.scss';
 import React from "react";
-import {Grid, Link} from "@mui/material";
+import {Grid} from "@mui/material";
 import {theme} from "../../theme";
 import pSBC from 'shade-blend-color';
 import {CoreTransaction} from "../../packages/core-sdk/classes/CoreTransaction";
 import LinkToAccount from "../Links/LinkToAccount";
+import LinkToBlock from "../Links/LinkToBlock";
 
 
 function KeyRegTransaction(props): JSX.Element {
@@ -65,7 +66,7 @@ function KeyRegTransaction(props): JSX.Element {
                                     Vote first valid
                                 </div>
                                 <div className="value small">
-                                    <Link href={"/block/" + keyRegPayload["vote-first-valid"]}>{keyRegPayload["vote-first-valid"]}</Link>
+                                    <LinkToBlock id={keyRegPayload["vote-first-valid"]}></LinkToBlock>
                                 </div>
                             </div>
                         </Grid>
@@ -76,7 +77,7 @@ function KeyRegTransaction(props): JSX.Element {
                                     Vote last valid
                                 </div>
                                 <div className="value small">
-                                    <Link href={"/block/" + keyRegPayload["vote-last-valid"]}>{keyRegPayload["vote-last-valid"]}</Link>
+                                    <LinkToBlock id={keyRegPayload["vote-last-valid"]}></LinkToBlock>
                                 </div>
                             </div>
                         </Grid>

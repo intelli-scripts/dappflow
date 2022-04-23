@@ -2,11 +2,10 @@ import './TransactionsList.scss';
 import React from "react";
 import {useDispatch} from "react-redux";
 import {
-    Link, Tooltip
+    Tooltip
 } from "@mui/material";
 import {microalgosToAlgos} from "algosdk";
 import NumberFormat from 'react-number-format';
-import {ellipseString} from "../../packages/core-sdk/utils";
 import {DataGrid, GridColDef, GridValueGetterParams} from "@mui/x-data-grid";
 import {dataGridCellConfig, dataGridStyles} from "../../theme/styles/datagrid";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -17,6 +16,8 @@ import {TXN_TYPES} from "../../packages/core-sdk/constants";
 import {ArrowForward} from "@mui/icons-material";
 import LinkToAccount from "../Links/LinkToAccount";
 import LinkToApplication from "../Links/LinkToApplication";
+import LinkToTransaction from "../Links/LinkToTransaction";
+import LinkToBlock from "../Links/LinkToBlock";
 
 
 function TransactionsList(props): JSX.Element {
@@ -42,7 +43,7 @@ function TransactionsList(props): JSX.Element {
                         }
                         }></ContentCopyIcon>
                     </Tooltip>
-                    <Link href={"/transaction/" + txnId}>{ellipseString(txnId, 20)}</Link>
+                    <LinkToTransaction id={txnId} strip={20}></LinkToTransaction>
                 </div>;
             }
         },
@@ -71,7 +72,7 @@ function TransactionsList(props): JSX.Element {
             renderCell: (params: GridValueGetterParams) => {
                 const block = new CoreTransaction(params.row).getBlock();
                 return <div>
-                    <Link href={"/block/" + block}>{block}</Link>
+                    <LinkToBlock id={block}></LinkToBlock>
                 </div>;
             }
         },
