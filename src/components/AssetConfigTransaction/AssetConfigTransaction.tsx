@@ -6,6 +6,7 @@ import pSBC from 'shade-blend-color';
 import {CoreTransaction} from "../../packages/core-sdk/classes/CoreTransaction";
 import NumberFormat from "react-number-format";
 import {CoreAsset} from "../../packages/core-sdk/classes/CoreAsset";
+import LinkToAccount from "../Links/LinkToAccount";
 
 
 function AssetConfigTransaction(props): JSX.Element {
@@ -35,7 +36,7 @@ function AssetConfigTransaction(props): JSX.Element {
                                     Sender
                                 </div>
                                 <div className="value small">
-                                    <Link href={"/account/" + txnInstance.getFrom()}>{txnInstance.getFrom()}</Link>
+                                    <LinkToAccount address={txnInstance.getFrom()}></LinkToAccount>
                                 </div>
                             </div>
                         </Grid>
@@ -146,7 +147,7 @@ function AssetConfigTransaction(props): JSX.Element {
                                     Manager account
                                 </div>
                                 <div className="value small">
-                                    {assetInstance.hasManager() ? <Link href={"/account/" + assetInstance.getManager()}>{assetInstance.getManager()}</Link> : '--None--'}
+                                    {assetInstance.hasManager() ? <LinkToAccount address={assetInstance.getManager()}></LinkToAccount> : '--None--'}
                                 </div>
                             </div>
                         </Grid>
@@ -157,7 +158,7 @@ function AssetConfigTransaction(props): JSX.Element {
                                     Reserve account
                                 </div>
                                 <div className="value small">
-                                    {assetInstance.hasReserve() ? <Link href={"/account/" + assetInstance.getReserve()}>{assetInstance.getReserve()}</Link> : '--None--'}
+                                    {assetInstance.hasReserve() ? <LinkToAccount address={assetInstance.getReserve()}></LinkToAccount> : '--None--'}
                                 </div>
                             </div>
                         </Grid>
@@ -168,7 +169,7 @@ function AssetConfigTransaction(props): JSX.Element {
                                     Freeze account
                                 </div>
                                 <div className="value small">
-                                    {assetInstance.hasFreeze() ? <Link href={"/account/" + assetInstance.getFreeze()}>{assetInstance.getFreeze()}</Link> : '--None--'}
+                                    {assetInstance.hasFreeze() ? <LinkToAccount address={assetInstance.getFreeze()}></LinkToAccount> : '--None--'}
                                 </div>
                             </div>
                         </Grid>
@@ -179,7 +180,7 @@ function AssetConfigTransaction(props): JSX.Element {
                                     Clawback account
                                 </div>
                                 <div className="value small">
-                                    {assetInstance.hasClawback() ? <Link href={"/account/" + assetInstance.getClawback()}>{assetInstance.getClawback()}</Link> : '--None--'}
+                                    {assetInstance.hasClawback() ? <LinkToAccount address={assetInstance.getClawback()}></LinkToAccount> : '--None--'}
                                 </div>
                             </div>
                         </Grid>

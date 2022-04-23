@@ -5,6 +5,7 @@ import {theme} from "../../theme";
 import pSBC from 'shade-blend-color';
 import {CoreTransaction} from "../../packages/core-sdk/classes/CoreTransaction";
 import AppCallTxnGlobalStateDelta from "../AppCallTxnGlobalStateDelta/AppCallTxnGlobalStateDelta";
+import LinkToAccount from "../Links/LinkToAccount";
 
 
 function AppCallTransaction(props): JSX.Element {
@@ -32,7 +33,7 @@ function AppCallTransaction(props): JSX.Element {
                                     Sender
                                 </div>
                                 <div className="value small">
-                                    <Link href={"/account/" + txnInstance.getFrom()}>{txnInstance.getFrom()}</Link>
+                                    <LinkToAccount address={txnInstance.getFrom()}></LinkToAccount>
                                 </div>
                             </div>
                         </Grid>
@@ -172,7 +173,7 @@ function AppCallTransaction(props): JSX.Element {
                                 </div>
                                 <div className="value">
                                     {appCallPayload["accounts"].map((account) => {
-                                        return <Link href={"/account/" + account} key={account}>{account}</Link>;
+                                        return <LinkToAccount address={account}></LinkToAccount>;
                                     })}
                                     {appCallPayload["accounts"].length === 0 ? <Alert color={"error"} icon={false}>No foreign accounts</Alert> : ''}
                                 </div>

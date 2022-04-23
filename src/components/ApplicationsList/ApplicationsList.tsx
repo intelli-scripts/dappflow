@@ -9,6 +9,7 @@ import {dataGridCellConfig, dataGridStyles} from "../../theme/styles/datagrid";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import {copyContent} from "../../utils/common";
 import {CoreApplication} from "../../packages/core-sdk/classes/CoreApplication";
+import LinkToAccount from "../Links/LinkToAccount";
 
 
 function ApplicationsList(props): JSX.Element {
@@ -50,7 +51,7 @@ function ApplicationsList(props): JSX.Element {
                         }
                         }></ContentCopyIcon>
                     </Tooltip>
-                    <Link href={"/account/" + appInstance.getCreator()}>{appInstance.getCreator()}</Link>
+                    <LinkToAccount address={appInstance.getCreator()}></LinkToAccount>;
                 </div>;
             }
         }

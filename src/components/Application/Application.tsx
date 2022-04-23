@@ -3,12 +3,13 @@ import React, {useEffect} from "react";
 import {matchPath, Outlet, useLocation, useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
-import {Grid, Link, Tab, Tabs} from "@mui/material";
+import {Grid, Tab, Tabs} from "@mui/material";
 import {theme} from "../../theme";
 import pSBC from 'shade-blend-color';
 import {loadApplication} from "../../redux/actions/application";
 import {CoreApplication} from "../../packages/core-sdk/classes/CoreApplication";
 import ApplicationGlobalState from "../ApplicationGlobalState/ApplicationGlobalState";
+import LinkToAccount from "../Links/LinkToAccount";
 
 
 function Application(): JSX.Element {
@@ -53,7 +54,7 @@ function Application(): JSX.Element {
                                     Creator
                                 </div>
                                 <div className="value small">
-                                    <Link href={"/account/" + applicationInstance.getCreator()}>{applicationInstance.getCreator()}</Link>
+                                    <LinkToAccount address={applicationInstance.getCreator()}></LinkToAccount>;
                                 </div>
                             </div>
                         </Grid>

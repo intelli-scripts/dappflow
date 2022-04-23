@@ -9,6 +9,7 @@ import {theme} from "../../theme";
 import pSBC from 'shade-blend-color';
 import {CoreAsset} from "../../packages/core-sdk/classes/CoreAsset";
 import NumberFormat from "react-number-format";
+import LinkToAccount from "../Links/LinkToAccount";
 
 
 function Asset(): JSX.Element {
@@ -96,7 +97,7 @@ function Asset(): JSX.Element {
                                     Creator
                                 </div>
                                 <div className="value addr">
-                                    <Link href={"/account/" + assetInstance.getCreator()}>{assetInstance.getCreator()}</Link>
+                                    <LinkToAccount address={assetInstance.getCreator()}></LinkToAccount>;
                                 </div>
                             </div>
                         </Grid>
@@ -125,7 +126,7 @@ function Asset(): JSX.Element {
                                     Manager
                                 </div>
                                 <div className="value addr">
-                                    {assetInstance.hasManager() ? <Link href={"/account/" + assetInstance.getManager()}>{assetInstance.getManager()}</Link> : '--None--'}
+                                    {assetInstance.hasManager() ? <LinkToAccount address={assetInstance.getManager()}></LinkToAccount> : '--None--'}
                                 </div>
                             </div>
                         </Grid>
@@ -136,7 +137,7 @@ function Asset(): JSX.Element {
                                     Reserve
                                 </div>
                                 <div className="value addr">
-                                    {assetInstance.hasReserve() ? <Link href={"/account/" + assetInstance.getReserve()}>{assetInstance.getReserve()}</Link> : '--None--'}
+                                    {assetInstance.hasReserve() ? <LinkToAccount address={assetInstance.getReserve()}></LinkToAccount> : '--None--'}
                                 </div>
                             </div>
                         </Grid>
@@ -147,7 +148,7 @@ function Asset(): JSX.Element {
                                     Freeze
                                 </div>
                                 <div className="value addr">
-                                    {assetInstance.hasFreeze() ? <Link href={"/account/" + assetInstance.getFreeze()}>{assetInstance.getFreeze()}</Link> : '--None--'}
+                                    {assetInstance.hasFreeze() ? <LinkToAccount address={assetInstance.getFreeze()}></LinkToAccount> : '--None--'}
                                 </div>
                             </div>
                         </Grid>
@@ -158,7 +159,7 @@ function Asset(): JSX.Element {
                                     Clawback
                                 </div>
                                 <div className="value addr">
-                                    {assetInstance.hasClawback() ? <Link href={"/account/" + assetInstance.getClawback()}>{assetInstance.getClawback()}</Link> : '--None--'}
+                                    {assetInstance.hasClawback() ? <LinkToAccount address={assetInstance.getClawback()}></LinkToAccount> : '--None--'}
                                 </div>
                             </div>
                         </Grid>

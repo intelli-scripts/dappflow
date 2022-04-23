@@ -8,8 +8,8 @@ import {DataGrid, GridColDef, GridValueGetterParams} from "@mui/x-data-grid";
 import {dataGridCellConfig, dataGridStyles} from "../../theme/styles/datagrid";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import {copyContent} from "../../utils/common";
-import {ellipseString} from "../../packages/core-sdk/utils";
 import {CoreAsset} from "../../packages/core-sdk/classes/CoreAsset";
+import LinkToAccount from "../Links/LinkToAccount";
 
 
 function AssetsList(props): JSX.Element {
@@ -86,7 +86,7 @@ function AssetsList(props): JSX.Element {
                         }
                         }></ContentCopyIcon>
                     </Tooltip>
-                    <Link href={"/account/" + assetInstance.getCreator()}>{ellipseString(assetInstance.getCreator(), 30)}</Link>
+                    <LinkToAccount address={assetInstance.getCreator()} strip={30}></LinkToAccount>
                 </div>;
             }
         }

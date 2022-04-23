@@ -15,6 +15,7 @@ import AlgoIcon from "../AlgoIcon/AlgoIcon";
 import {CoreTransaction} from "../../packages/core-sdk/classes/CoreTransaction";
 import {TXN_TYPES} from "../../packages/core-sdk/constants";
 import {ArrowForward} from "@mui/icons-material";
+import LinkToAccount from "../Links/LinkToAccount";
 
 
 function TransactionsList(props): JSX.Element {
@@ -88,7 +89,7 @@ function TransactionsList(props): JSX.Element {
                         }
                         }></ContentCopyIcon>
                     </Tooltip>
-                    <Link href={"/account/" + from}>{ellipseString(from, 20)}</Link>
+                    <LinkToAccount address={from} strip={20}></LinkToAccount>
                 </div>;
             }
         },
@@ -111,7 +112,7 @@ function TransactionsList(props): JSX.Element {
                             }
                             }></ContentCopyIcon>
                         </Tooltip>
-                        <Link href={"/account/" + to}>{ellipseString(to, 20)}</Link>
+                        <LinkToAccount address={to} strip={20}></LinkToAccount>
                     </div> : ''}
 
                     {type === TXN_TYPES.APP_CALL ? <div>

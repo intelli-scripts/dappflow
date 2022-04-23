@@ -1,12 +1,13 @@
 import './PaymentTransaction.scss';
 import React from "react";
-import {Grid, Link} from "@mui/material";
+import {Grid} from "@mui/material";
 import {theme} from "../../theme";
 import pSBC from 'shade-blend-color';
 import {CoreTransaction} from "../../packages/core-sdk/classes/CoreTransaction";
 import AlgoIcon from "../AlgoIcon/AlgoIcon";
 import NumberFormat from "react-number-format";
 import {microalgosToAlgos} from "algosdk";
+import LinkToAccount from "../Links/LinkToAccount";
 
 
 function PaymentTransaction(props): JSX.Element {
@@ -32,7 +33,7 @@ function PaymentTransaction(props): JSX.Element {
                                     Sender
                                 </div>
                                 <div className="value small">
-                                    <Link href={"/account/" + txnInstance.getFrom()}>{txnInstance.getFrom()}</Link>
+                                    <LinkToAccount address={txnInstance.getFrom()}></LinkToAccount>
                                 </div>
                             </div>
                         </Grid>
@@ -44,7 +45,7 @@ function PaymentTransaction(props): JSX.Element {
                                     Receiver
                                 </div>
                                 <div className="value small">
-                                    <Link href={"/account/" + txnInstance.getTo()}>{txnInstance.getTo()}</Link>
+                                    <LinkToAccount address={txnInstance.getTo()}></LinkToAccount>
                                 </div>
                             </div>
                         </Grid>

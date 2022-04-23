@@ -4,16 +4,16 @@ import {useDispatch, useSelector} from "react-redux";
 import {loadAccounts} from "../../redux/actions/accounts";
 import {RootState} from "../../redux/store";
 import {
-    Link, Tooltip
+    Tooltip
 } from "@mui/material";
 import {microalgosToAlgos} from "algosdk";
 import NumberFormat from 'react-number-format';
-import {ellipseString} from "../../packages/core-sdk/utils";
 import {DataGrid, GridColDef, GridValueGetterParams} from "@mui/x-data-grid";
 import {dataGridCellConfig, dataGridStyles} from "../../theme/styles/datagrid";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import {copyContent} from "../../utils/common";
 import AlgoIcon from "../AlgoIcon/AlgoIcon";
+import LinkToAccount from "../Links/LinkToAccount";
 
 function Accounts(): JSX.Element {
     const dispatch = useDispatch();
@@ -34,7 +34,7 @@ function Accounts(): JSX.Element {
                         }
                         }></ContentCopyIcon>
                     </Tooltip>
-                    <Link href={"/account/" + params.row.address}>{ellipseString(params.row.address, 30)}</Link>
+                    <LinkToAccount address={params.row.address} strip={30}></LinkToAccount>
                 </div>;
             }
         },

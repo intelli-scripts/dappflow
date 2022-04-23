@@ -4,6 +4,7 @@ import {Grid, Link} from "@mui/material";
 import {theme} from "../../theme";
 import pSBC from 'shade-blend-color';
 import {CoreTransaction} from "../../packages/core-sdk/classes/CoreTransaction";
+import LinkToAccount from "../Links/LinkToAccount";
 
 
 function KeyRegTransaction(props): JSX.Element {
@@ -30,7 +31,7 @@ function KeyRegTransaction(props): JSX.Element {
                                     Sender
                                 </div>
                                 <div className="value small">
-                                    <Link href={"/account/" + txnInstance.getFrom()}>{txnInstance.getFrom()}</Link>
+                                    <LinkToAccount address={txnInstance.getFrom()}></LinkToAccount>
                                 </div>
                             </div>
                         </Grid>
