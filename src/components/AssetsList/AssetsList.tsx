@@ -10,6 +10,7 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import {copyContent} from "../../utils/common";
 import {CoreAsset} from "../../packages/core-sdk/classes/CoreAsset";
 import LinkToAccount from "../Links/LinkToAccount";
+import LinkToAsset from "../Links/LinkToAsset";
 
 
 function AssetsList(props): JSX.Element {
@@ -27,7 +28,7 @@ function AssetsList(props): JSX.Element {
             renderCell: (params: GridValueGetterParams) => {
                 const assetInstance = new CoreAsset(params.row);
                 return <div>
-                    <Link href={"/asset/" + assetInstance.getIndex()}>{assetInstance.getName()}</Link>
+                    <LinkToAsset id={assetInstance.getIndex()} name={assetInstance.getName()}></LinkToAsset>
                 </div>;
             }
         },
@@ -44,7 +45,7 @@ function AssetsList(props): JSX.Element {
                         }
                         }></ContentCopyIcon>
                     </Tooltip>
-                    <Link href={"/asset/" + assetInstance.getIndex()}>{assetInstance.getIndex()}</Link>
+                    <LinkToAsset id={assetInstance.getIndex()}></LinkToAsset>
                 </div>;
             }
         },

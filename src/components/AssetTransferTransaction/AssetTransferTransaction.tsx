@@ -1,12 +1,13 @@
 import './AssetTransferTransaction.scss';
 import React from "react";
-import {Grid, Link} from "@mui/material";
+import {Grid} from "@mui/material";
 import {theme} from "../../theme";
 import pSBC from 'shade-blend-color';
 import {CoreTransaction} from "../../packages/core-sdk/classes/CoreTransaction";
 import NumberFormat from "react-number-format";
 import {CoreAsset} from "../../packages/core-sdk/classes/CoreAsset";
 import LinkToAccount from "../Links/LinkToAccount";
+import LinkToAsset from "../Links/LinkToAsset";
 
 
 function AssetTransferTransaction(props): JSX.Element {
@@ -56,7 +57,7 @@ function AssetTransferTransaction(props): JSX.Element {
                                     Asset
                                 </div>
                                 <div className="value">
-                                    <Link href={"/asset/" + txnInstance.getAssetId()}>{txnInstance.getAssetId()} ({assetInstance.getName()})</Link>
+                                    <LinkToAsset id={txnInstance.getAssetId()} name={txnInstance.getAssetId() + '(' + assetInstance.getName() + ')'}></LinkToAsset>
                                 </div>
                             </div>
                         </Grid>

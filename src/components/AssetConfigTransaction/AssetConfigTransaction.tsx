@@ -7,6 +7,7 @@ import {CoreTransaction} from "../../packages/core-sdk/classes/CoreTransaction";
 import NumberFormat from "react-number-format";
 import {CoreAsset} from "../../packages/core-sdk/classes/CoreAsset";
 import LinkToAccount from "../Links/LinkToAccount";
+import LinkToAsset from "../Links/LinkToAsset";
 
 
 function AssetConfigTransaction(props): JSX.Element {
@@ -58,7 +59,7 @@ function AssetConfigTransaction(props): JSX.Element {
                                     Asset ID
                                 </div>
                                 <div className="value">
-                                    <Link href={"/asset/" + txnInstance.getAssetId()}>{txnInstance.getAssetId()} {assetInstance.getName() ? '(' + assetInstance.getName() + ')' : ''}</Link>
+                                    <LinkToAsset id={txnInstance.getAssetId()} name={txnInstance.getAssetId().toString() + (assetInstance.getName() ? '(' + assetInstance.getName() + ')' : '')}></LinkToAsset>
                                 </div>
                             </div>
                         </Grid>

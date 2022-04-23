@@ -6,6 +6,7 @@ import pSBC from 'shade-blend-color';
 import {CoreTransaction} from "../../packages/core-sdk/classes/CoreTransaction";
 import AppCallTxnGlobalStateDelta from "../AppCallTxnGlobalStateDelta/AppCallTxnGlobalStateDelta";
 import LinkToAccount from "../Links/LinkToAccount";
+import LinkToAsset from "../Links/LinkToAsset";
 
 
 function AppCallTransaction(props): JSX.Element {
@@ -137,7 +138,7 @@ function AppCallTransaction(props): JSX.Element {
                                 </div>
                                 <div className="value">
                                     {appCallPayload["foreign-assets"].map((asset) => {
-                                        return <Link href={"/asset/" + asset} key={asset}>{asset}</Link>;
+                                        return <span key={asset}><LinkToAsset id={asset}></LinkToAsset></span>;
                                     })}
                                     {appCallPayload["foreign-assets"].length === 0 ? <Alert color={"error"} icon={false}>No foreign assets</Alert> : ''}
                                 </div>
@@ -173,7 +174,7 @@ function AppCallTransaction(props): JSX.Element {
                                 </div>
                                 <div className="value">
                                     {appCallPayload["accounts"].map((account) => {
-                                        return <LinkToAccount address={account}></LinkToAccount>;
+                                        return <span key={account}><LinkToAccount address={account}></LinkToAccount></span>;
                                     })}
                                     {appCallPayload["accounts"].length === 0 ? <Alert color={"error"} icon={false}>No foreign accounts</Alert> : ''}
                                 </div>
