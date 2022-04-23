@@ -16,6 +16,7 @@ import {CoreTransaction} from "../../packages/core-sdk/classes/CoreTransaction";
 import {TXN_TYPES} from "../../packages/core-sdk/constants";
 import {ArrowForward} from "@mui/icons-material";
 import LinkToAccount from "../Links/LinkToAccount";
+import LinkToApplication from "../Links/LinkToApplication";
 
 
 function TransactionsList(props): JSX.Element {
@@ -117,7 +118,7 @@ function TransactionsList(props): JSX.Element {
 
                     {type === TXN_TYPES.APP_CALL ? <div>
                         <ArrowForward fontSize={"small"} style={{verticalAlign: "text-bottom", marginRight: 5}}></ArrowForward>
-                        <Link href={"/application/" + appId}>{'App ID: ' + appId}</Link>
+                        <LinkToApplication id={appId} name={'App ID: ' + appId}></LinkToApplication>
                     </div> : ''}
 
                 </div>;

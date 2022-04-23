@@ -2,7 +2,7 @@ import './ApplicationsList.scss';
 import React from "react";
 import {useDispatch} from "react-redux";
 import {
-    Link, Tooltip
+    Tooltip
 } from "@mui/material";
 import {DataGrid, GridColDef, GridValueGetterParams} from "@mui/x-data-grid";
 import {dataGridCellConfig, dataGridStyles} from "../../theme/styles/datagrid";
@@ -10,6 +10,7 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import {copyContent} from "../../utils/common";
 import {CoreApplication} from "../../packages/core-sdk/classes/CoreApplication";
 import LinkToAccount from "../Links/LinkToAccount";
+import LinkToApplication from "../Links/LinkToApplication";
 
 
 function ApplicationsList(props): JSX.Element {
@@ -33,7 +34,7 @@ function ApplicationsList(props): JSX.Element {
                         }
                         }></ContentCopyIcon>
                     </Tooltip>
-                    <Link href={"/application/" + appInstance.getId()}>{appInstance.getId()}</Link>
+                    <LinkToApplication id={appInstance.getId()}></LinkToApplication>
                 </div>;
             }
         },

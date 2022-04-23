@@ -1,12 +1,13 @@
 import './AppCallTransaction.scss';
 import React from "react";
-import {Alert, Grid, Link} from "@mui/material";
+import {Alert, Grid} from "@mui/material";
 import {theme} from "../../theme";
 import pSBC from 'shade-blend-color';
 import {CoreTransaction} from "../../packages/core-sdk/classes/CoreTransaction";
 import AppCallTxnGlobalStateDelta from "../AppCallTxnGlobalStateDelta/AppCallTxnGlobalStateDelta";
 import LinkToAccount from "../Links/LinkToAccount";
 import LinkToAsset from "../Links/LinkToAsset";
+import LinkToApplication from "../Links/LinkToApplication";
 
 
 function AppCallTransaction(props): JSX.Element {
@@ -46,7 +47,7 @@ function AppCallTransaction(props): JSX.Element {
                                     Application ID
                                 </div>
                                 <div className="value">
-                                    <Link href={"/application/" + txnInstance.getAppId()}>{txnInstance.getAppId()}</Link>
+                                    <LinkToApplication id={txnInstance.getAppId()}></LinkToApplication>
                                 </div>
                             </div>
                         </Grid>
@@ -156,7 +157,7 @@ function AppCallTransaction(props): JSX.Element {
                                 </div>
                                 <div className="value">
                                     {appCallPayload["foreign-apps"].map((app) => {
-                                        return <Link href={"/application/" + app} key={app}>{app}</Link>;
+                                        return <span key={app}><LinkToApplication id={app}></LinkToApplication></span>
                                     })}
                                     {appCallPayload["foreign-apps"].length === 0 ? <Alert color={"error"} icon={false}>No foreign apps</Alert> : ''}
                                 </div>
