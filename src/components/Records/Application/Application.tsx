@@ -146,17 +146,10 @@ function Application(): JSX.Element {
                 </div>
 
 
-                <div className="props" style={{background: shadedClr}}>
+                <div>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                            <div className="property">
-                                <div className="key">
-                                    Global state
-                                </div>
-                                <div className="value small">
-                                    <ApplicationGlobalState></ApplicationGlobalState>
-                                </div>
-                            </div>
+                            <ApplicationGlobalState></ApplicationGlobalState>
                         </Grid>
                     </Grid>
                 </div>
@@ -165,7 +158,7 @@ function Application(): JSX.Element {
 
                 <div className="application-tabs">
 
-                    <Tabs value={tabValue}>
+                    <Tabs value={tabValue} className="related-list">
                         <Tab label="Transactions" value="transactions" onClick={() => {
                             navigate('/application/' + id + '/transactions');
                         }}/>

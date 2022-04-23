@@ -171,7 +171,7 @@ function Asset(): JSX.Element {
 
                 <div className="asset-tabs">
 
-                    <Tabs value="transactions">
+                    <Tabs value="transactions" className="related-list">
                         <Tab label="Transactions" value="transactions" onClick={() => {
                             navigate('/asset/' + id + '/transactions');
                         }}/>

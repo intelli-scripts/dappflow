@@ -36,6 +36,7 @@ const initialState: Transaction = {
         id: "",
         "inner-txns": [],
         "created-application-index": 0,
+        "global-state-delta": []
     },
     asset: {
         information: {

@@ -1,6 +1,6 @@
 import './AppCallTransaction.scss';
 import React from "react";
-import {Alert, Grid} from "@mui/material";
+import {Grid} from "@mui/material";
 import {theme} from "../../../../../theme";
 import pSBC from 'shade-blend-color';
 import {CoreTransaction} from "../../../../../packages/core-sdk/classes/CoreTransaction";
@@ -113,7 +113,7 @@ function AppCallTransaction(props): JSX.Element {
                 </div> : ''}
 
 
-                <div className="props" style={{background: shadedClr}}>
+                {appCallPayload["application-args"] && appCallPayload["application-args"].length > 0 ? <div className="props" style={{background: shadedClr}}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                             <div className="property">
@@ -128,9 +128,10 @@ function AppCallTransaction(props): JSX.Element {
                             </div>
                         </Grid>
                     </Grid>
-                </div>
+                </div> : ''}
 
-                <div className="props" style={{background: shadedClr}}>
+
+                {appCallPayload["foreign-assets"] && appCallPayload["foreign-assets"].length > 0 ? <div className="props" style={{background: shadedClr}}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                             <div className="property">
@@ -141,14 +142,14 @@ function AppCallTransaction(props): JSX.Element {
                                     {appCallPayload["foreign-assets"].map((asset) => {
                                         return <span key={asset}><LinkToAsset id={asset}></LinkToAsset></span>;
                                     })}
-                                    {appCallPayload["foreign-assets"].length === 0 ? <Alert color={"error"} icon={false}>No foreign assets</Alert> : ''}
                                 </div>
                             </div>
                         </Grid>
                     </Grid>
-                </div>
+                </div> : ''}
 
-                <div className="props" style={{background: shadedClr}}>
+
+                {appCallPayload["foreign-apps"] && appCallPayload["foreign-apps"].length > 0 ? <div className="props" style={{background: shadedClr}}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                             <div className="property">
@@ -159,14 +160,14 @@ function AppCallTransaction(props): JSX.Element {
                                     {appCallPayload["foreign-apps"].map((app) => {
                                         return <span key={app}><LinkToApplication id={app}></LinkToApplication></span>
                                     })}
-                                    {appCallPayload["foreign-apps"].length === 0 ? <Alert color={"error"} icon={false}>No foreign apps</Alert> : ''}
                                 </div>
                             </div>
                         </Grid>
                     </Grid>
-                </div>
+                </div> : ''}
 
-                <div className="props" style={{background: shadedClr}}>
+
+                {appCallPayload["accounts"] && appCallPayload["accounts"].length > 0 ? <div className="props" style={{background: shadedClr}}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                             <div className="property">
@@ -177,27 +178,21 @@ function AppCallTransaction(props): JSX.Element {
                                     {appCallPayload["accounts"].map((account) => {
                                         return <span key={account}><LinkToAccount address={account}></LinkToAccount></span>;
                                     })}
-                                    {appCallPayload["accounts"].length === 0 ? <Alert color={"error"} icon={false}>No foreign accounts</Alert> : ''}
                                 </div>
                             </div>
                         </Grid>
                     </Grid>
-                </div>
+                </div> : ''}
 
-                <div className="props" style={{background: shadedClr}}>
+
+                {transaction.information["global-state-delta"] && transaction.information["global-state-delta"].length > 0 ? <div>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                            <div className="property">
-                                <div className="key">
-                                    Global state delta
-                                </div>
-                                <div className="value">
-                                    <AppCallTxnGlobalStateDelta state={transaction.information["global-state-delta"]}></AppCallTxnGlobalStateDelta>
-                                </div>
-                            </div>
+                            <AppCallTxnGlobalStateDelta state={transaction.information["global-state-delta"]}></AppCallTxnGlobalStateDelta>
                         </Grid>
                     </Grid>
-                </div>
+                </div> : ''}
+
 
             </div>
         </div>

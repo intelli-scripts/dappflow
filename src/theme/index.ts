@@ -94,6 +94,15 @@ export const theme = createTheme({
                     borderRadius: 10
                 }
             }
+        },
+        MuiTabs: {
+            styleOverrides: {
+                root: {
+                    '&.related-list': {
+                        borderBottom: '1px solid #f0f0f0'
+                    }
+                }
+            }
         }
     }
 });

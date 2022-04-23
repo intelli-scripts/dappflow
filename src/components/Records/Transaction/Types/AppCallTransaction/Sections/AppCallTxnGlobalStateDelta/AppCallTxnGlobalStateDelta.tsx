@@ -70,6 +70,9 @@ function AppCallTxnGlobalStateDelta(props): JSX.Element {
 
     return (<div className={"app-call-txn-global-state-delta-wrapper"}>
         <div className={"app-call-txn-global-state-delta-container"}>
+            <div className="app-call-txn-global-state-delta-header">
+                Global state delta
+            </div>
             <div className="app-call-txn-global-state-delta-body">
 
 

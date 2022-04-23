@@ -62,7 +62,7 @@ function Block(): JSX.Element {
 
                 <div className="block-tabs">
 
-                    <Tabs value="transactions">
+                    <Tabs value="transactions" className="related-list">
                         <Tab label="Transactions" value="transactions" onClick={() => {
                             navigate('/block/' + id + '/transactions');
                         }}/>

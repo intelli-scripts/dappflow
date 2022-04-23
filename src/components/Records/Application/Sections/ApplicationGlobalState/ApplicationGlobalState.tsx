@@ -57,6 +57,10 @@ function ApplicationGlobalState(): JSX.Element {
 
     return (<div className={"application-global-state-wrapper"}>
         <div className={"application-global-state-container"}>
+            <div className="application-global-state-header">
+                Global state
+            </div>
+
             <div className="application-global-state-body">
 
 
