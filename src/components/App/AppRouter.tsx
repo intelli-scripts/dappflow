@@ -18,6 +18,7 @@ import AccountCreatedApplications from "../Records/Account/RelatedList/AccountCr
 import Application from "../Records/Application/Application";
 import ApplicationTransactions from "../Records/Application/RelatedList/ApplicationTransactions/ApplicationTransactions";
 import Transaction from "../Records/Transaction/Transaction";
+import Settings from "../Settings/Settings";
 
 function AppRouter(): JSX.Element {
     return (<div>
@@ -52,6 +53,7 @@ function AppRouter(): JSX.Element {
                 <Route path="/transaction/:id" element={<Transaction></Transaction>}></Route>
                 <Route path="*" element={<Navigate to="/" replace />}/>
             </Routes>
+            <Settings></Settings>
         </BrowserRouter>
     </div>);
 }

@@ -6,6 +6,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import {useDispatch} from "react-redux";
 import {showSettings} from "../../redux/actions/settings";
 import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
+import Search from "../Search/Search";
 
 function Header(): JSX.Element {
     const navigate = useNavigate();
@@ -24,6 +25,11 @@ function Header(): JSX.Element {
                 Dappflow
             </div>
             <div>
+
+                <div style={{marginTop: 10, marginBottom: 5}}>
+                    <Search></Search>
+                </div>
+
                 <Grid container>
                     <Tabs value={route}>
                         <Tab label="Home" value="" onClick={() => {
@@ -51,7 +57,21 @@ function Header(): JSX.Element {
                         }}></SettingsIcon>
                     </Tooltip>
                 </Grid>
+
+
+
+
+
+
+
+
+
+
+
+
             </div>
+
+
         </div>
     </div>);
 }

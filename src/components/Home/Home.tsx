@@ -1,9 +1,8 @@
 import './Home.scss';
 import React from "react";
 import DeveloperBoardIcon from "@mui/icons-material/DeveloperBoard";
-import {Button, InputAdornment, InputBase} from "@mui/material";
-import {Search} from "@mui/icons-material";
-import {theme} from "../../theme";
+import Search from '../Search/Search';
+import {Grid} from "@mui/material";
 
 function Home(): JSX.Element {
     return (<div className={"home-wrapper"}>
@@ -13,22 +12,15 @@ function Home(): JSX.Element {
                 <div className="tag-line">
                     Algorand Private Blockchain Explorer
                 </div>
-                <div className="search-container">
-                    <InputBase
-                        placeholder="Address / Transaction / Asset / Application"
-                        style={{marginRight: 20,
-                            width: 420,
-                            padding: 6,
-                            border: '1px solid ' + theme.palette.grey["200"]
-                        }}
-                        startAdornment={<InputAdornment position="start">
-                            <Search />
-                        </InputAdornment>}
-                        onChange={(ev) => {
+                <div className="search-section">
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                            <Search></Search>
+                        </Grid>
+                    </Grid>
 
-                        }}
-                        fullWidth/>
-                    <Button variant={"contained"} color={"primary"} size={"large"}>Explore</Button>
                 </div>
             </div>
         </div>
