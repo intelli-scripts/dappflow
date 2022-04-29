@@ -118,7 +118,7 @@ function Transaction(): JSX.Element {
                                     Timestamp
                                 </div>
                                 <div className="value">
-                                    {txnInstance.getTimestamp()}
+                                    {txnInstance.getTimestampDisplayValue() + ' GMT'}
                                 </div>
                             </div>
                         </Grid>

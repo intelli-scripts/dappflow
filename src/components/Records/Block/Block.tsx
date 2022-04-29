@@ -5,6 +5,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../redux/store";
 import {Grid, Tab, Tabs} from "@mui/material";
 import {loadBlock} from "../../../redux/actions/block";
+import {TIMESTAMP_DISPLAY_FORMAT} from "../../../packages/core-sdk/constants";
+import dateFormat  from "dateformat";
 
 
 function Block(): JSX.Element {
@@ -33,13 +35,13 @@ function Block(): JSX.Element {
 
                 <div className="props">
                     <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
+                        <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
                             <div className="property">
                                 <div className="key">
                                     Timestamp
                                 </div>
                                 <div className="value">
-                                    {block.information.timestamp}
+                                    {dateFormat(new Date(block.information.timestamp * 1000), TIMESTAMP_DISPLAY_FORMAT) + ' GMT'}
                                 </div>
                             </div>
 

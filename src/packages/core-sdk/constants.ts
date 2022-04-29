@@ -11,3 +11,5 @@ export enum NOTE_ENCRYPTIONS {
     TEXT = 'text',
     MSG_PACK = 'msgpack'
 }
+
+export const TIMESTAMP_DISPLAY_FORMAT = 'GMT:ddd, dd mmmm  yyyy HH:MM:ss';

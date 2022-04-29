@@ -5,9 +5,10 @@ import {
     A_SearchTransaction_Asset_Transfer_Payload, A_SearchTransaction_KeyReg_Payload,
     A_SearchTransaction_Payment_Payload
 } from "../types";
-import {NOTE_ENCRYPTIONS, TXN_TYPES} from "../constants";
+import {NOTE_ENCRYPTIONS, TIMESTAMP_DISPLAY_FORMAT, TXN_TYPES} from "../constants";
 import atob from 'atob';
 import msgpack from "msgpack-lite";
+import dateFormat  from "dateformat";
 
 
 export class CoreTransaction {
@@ -132,6 +133,10 @@ export class CoreTransaction {
 
     getTimestamp(): number {
         return this.txn["round-time"];
+    }
+
+    getTimestampDisplayValue(format: string = TIMESTAMP_DISPLAY_FORMAT): string {
+        return dateFormat(new Date(this.getTimestamp() * 1000), format);
     }
 
     getSenderRewards(): number {
