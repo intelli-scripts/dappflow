@@ -1,27 +1,78 @@
 import './Search.scss';
 import React, {useState} from "react";
-import {IconButton, InputBase} from "@mui/material";
-import {Search as SearchIcon} from "@mui/icons-material";
+import {
+    Chip,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    IconButton,
+    InputBase
+} from "@mui/material";
+import {CancelOutlined, Search as SearchIcon} from "@mui/icons-material";
 import {theme} from "../../theme";
 import {isValidAddress} from "algosdk";
 import {useNavigate} from "react-router-dom";
+import {A_Application, A_Asset, A_Block} from "../../packages/core-sdk/types";
+import {AssetClient} from "../../packages/core-sdk/clients/assetClient";
+import {isNumber} from "../../utils/common";
+import explorer from "../../utils/explorer";
+import {ApplicationClient} from "../../packages/core-sdk/clients/applicationClient";
+import {BlockClient} from "../../packages/core-sdk/clients/blockClient";
+import {hideLoader, showLoader} from "../../redux/actions/loader";
+import {useDispatch} from "react-redux";
+
+
+interface searchResult {
+    type: string,
+    asset?: A_Asset,
+    application?: A_Application
+    block?: A_Block
+}
 
 interface SettingsState{
-    searchStr: string
+    searchStr: string,
+    searchResults: searchResult[],
+    showSearchResults: boolean
 }
+
 const initialState: SettingsState = {
-    searchStr: ''
+    searchStr: '',
+    searchResults: [],
+    showSearchResults: false
 };
+
 
 function Search(): JSX.Element {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const [
-        {searchStr},
+        {searchStr, searchResults, showSearchResults},
         setState
     ] = useState(initialState);
 
-    function doSearch() {
+    const clearState = () => {
+        setState({ ...initialState });
+    };
+
+    function redirectToSelectedResult(result: searchResult) {
+        setState(prevState => ({...prevState, searchStr: ""}));
+        if (result.type === 'asset') {
+            navigate('/asset/' + searchStr);
+            return;
+        }
+        if (result.type === 'application') {
+            navigate('/application/' + searchStr);
+            return;
+        }
+        if (result.type === 'block') {
+            navigate('/block/' + searchStr);
+            return;
+        }
+    }
+
+    async function doSearch() {
         if (!searchStr) {
             return;
         }
@@ -35,12 +86,60 @@ function Search(): JSX.Element {
             navigate('/transaction/' + searchStr);
             return;
         }
+
+        const results:searchResult[] = [];
+        if (isNumber(searchStr)) {
+            try {
+                dispatch(showLoader("Searching ..."));
+                const asset = await new AssetClient(explorer.network).get(Number(searchStr));
+                results.push({
+                    type: 'asset',
+                    asset
+                });
+                dispatch(hideLoader());
+            } catch (e) {
+                dispatch(hideLoader());
+            }
+            try {
+                dispatch(showLoader("Searching ..."));
+                const application = await new ApplicationClient(explorer.network).get(Number(searchStr));
+                results.push({
+                    type: 'application',
+                    application
+                });
+                dispatch(hideLoader());
+            } catch (e) {
+                dispatch(hideLoader());
+            }
+            try {
+                dispatch(showLoader("Searching ..."));
+                const block = await new BlockClient(explorer.network).get(Number(searchStr));
+                results.push({
+                    type: 'block',
+                    block
+                });
+                dispatch(hideLoader());
+            } catch (e) {
+                dispatch(hideLoader());
+            }
+        }
+
+        if (results.length > 0) {
+            if (results.length === 1) {
+                redirectToSelectedResult(results[0])
+            }
+            else {
+                setState(prevState => ({...prevState, searchResults: results, showSearchResults: true}));
+            }
+        }
     }
 
     return (<div className={"search-wrapper"}>
         <div className={"search-container"}>
-            <InputBase
-                placeholder="Address / Transaction / Asset / Application"
+
+
+             <InputBase
+                 placeholder="Address / Transaction / Asset / Application"
                 style={{
                     padding: 3,
                     paddingLeft: 20,
@@ -62,7 +161,52 @@ function Search(): JSX.Element {
                         doSearch();
                     }
                 }}
-                fullWidth/>
+            fullWidth/>
+
+            {showSearchResults ? <Dialog
+                fullWidth={true}
+                maxWidth={"xs"}
+                open={showSearchResults}
+            >
+                <DialogTitle >
+                    <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                        <div>
+                            <div style={{fontWeight: "bold", fontSize: 18}}>Search results</div>
+                        </div>
+                        <IconButton color="primary" onClick={() => {
+                            setState(prevState => ({...prevState, showSearchResults: false}));
+                        }}>
+                            <CancelOutlined />
+                        </IconButton>
+                    </div>
+                </DialogTitle>
+                <DialogContent>
+                    <div className="search-results-wrapper">
+                        <div className="search-results-container">
+                            <div>
+                                {searchResults.map((result) => {
+                                    return <Chip
+                                        key={result.type}
+                                        label={result.type + ' - ' + searchStr}
+                                        color={"primary"}
+                                        style={{marginLeft: 10}}
+                                        onClick={() => {
+                                            clearState();
+                                            redirectToSelectedResult(result);
+                                        }
+                                        }
+                                        size={"small"}></Chip>
+                                })}
+                            </div>
+                        </div>
+                    </div>
+                </DialogContent>
+                <DialogActions>
+
+                </DialogActions>
+            </Dialog> : ''}
+
+
         </div>
     </div>);
 }
