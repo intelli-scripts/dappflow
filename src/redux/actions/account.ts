@@ -1,12 +1,12 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {A_AccountInformation, A_Application, A_Asset, A_SearchTransaction} from '../../packages/core-sdk/types';
 import {handleException} from "./exception";
-import {showLoader, hideLoader} from './loader';
 import explorer from "../../utils/explorer";
 import {AccountClient} from "../../packages/core-sdk/clients/accountClient";
 import {CoreAccount} from "../../packages/core-sdk/classes/CoreAccount";
 
 export interface Account {
+    loading: boolean,
     information: A_AccountInformation,
     createdAssets: A_Asset[],
     transactions: A_SearchTransaction[],
@@ -33,6 +33,7 @@ const information: A_AccountInformation = {
 }
 
 const initialState: Account = {
+    loading: false,
     information,
     createdAssets: [],
     transactions: [],
@@ -46,17 +47,17 @@ export const loadAccount = createAsyncThunk(
         try {
             const accountClient = new AccountClient(explorer.network);
             dispatch(resetAccount());
-            dispatch(showLoader("Loading account ..."));
+            dispatch(setLoading(true));
             const accountInfo = await accountClient.getAccountInformation(address);
             dispatch(loadCreatedAssets(accountInfo));
             dispatch(loadCreatedApplications(accountInfo));
             dispatch(loadTransactions(accountInfo));
-            dispatch(hideLoader());
+            dispatch(setLoading(false));
             return accountInfo;
         }
         catch (e: any) {
             dispatch(handleException(e));
-            dispatch(hideLoader());
+            dispatch(setLoading(false));
         }
     }
 );
@@ -116,7 +117,10 @@ export const accountSlice = createSlice({
     name: 'account',
     initialState,
     reducers: {
-        resetAccount: state => initialState
+        resetAccount: state => initialState,
+        setLoading: (state, action: PayloadAction<boolean> ) => {
+            state.loading = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(loadAccount.fulfilled, (state, action: PayloadAction<any>) => {
@@ -134,5 +138,5 @@ export const accountSlice = createSlice({
     },
 });
 
-export const {resetAccount} = accountSlice.actions
+export const {resetAccount, setLoading} = accountSlice.actions
 export default accountSlice.reducer

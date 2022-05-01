@@ -10,6 +10,7 @@ import pSBC from 'shade-blend-color';
 import {CoreAsset} from "../../../packages/core-sdk/classes/CoreAsset";
 import NumberFormat from "react-number-format";
 import LinkToAccount from "../../Links/LinkToAccount";
+import LoadingTile from "../../Common/LoadingTile/LoadingTile";
 
 
 function Asset(): JSX.Element {
@@ -32,7 +33,8 @@ function Asset(): JSX.Element {
             <div className="asset-header">
                 Asset overview
             </div>
-            <div className="asset-body">
+
+            {asset.loading ? <LoadingTile></LoadingTile> : <div className="asset-body">
                 <div className="index">
                     #{assetInstance.getIndex()}
                     <div>
@@ -181,7 +183,8 @@ function Asset(): JSX.Element {
 
 
                 </div>
-            </div>
+            </div>}
+
         </div>
     </div>);
 }

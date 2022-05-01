@@ -7,7 +7,6 @@ import ApplicationsList from "../../../../Lists/ApplicationsList/ApplicationsLis
 function AccountCreatedApplications(): JSX.Element {
     const account = useSelector((state: RootState) => state.account);
     const {createdApplications} = account;
-    console.log(createdApplications);
 
     return (<div className={"account-created-applications-wrapper"}>
         <div className={"account-created-applications-container"}>

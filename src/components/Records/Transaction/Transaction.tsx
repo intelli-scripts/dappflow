@@ -27,6 +27,7 @@ import AssetConfigTransaction from "./Types/AssetConfigTransaction/AssetConfigTr
 import KeyRegTransaction from "./Types/KeyRegTransaction/KeyRegTransaction";
 import AppCallTransaction from "./Types/AppCallTransaction/AppCallTransaction";
 import LinkToBlock from "../../Links/LinkToBlock";
+import LoadingTile from "../../Common/LoadingTile/LoadingTile";
 
 
 interface TransactionState{
@@ -45,7 +46,6 @@ function Transaction(): JSX.Element {
     const shadedClr = pSBC(0.95, theme.palette.primary.main);
 
     const txnInstance = new CoreTransaction(transaction.information);
-    console.log(transaction.information);
 
     const [
         {noteEncryption},
@@ -62,10 +62,12 @@ function Transaction(): JSX.Element {
 
     return (<div className={"transaction-wrapper"}>
         <div className={"transaction-container"}>
+
             <div className="transaction-header">
                 Transaction overview
             </div>
-            <div className="transaction-body">
+
+            {transaction.loading ? <LoadingTile></LoadingTile> : <div className="transaction-body">
                 <div className="index">
                     #{txnInstance.getId()}
                 </div>
@@ -239,7 +241,11 @@ function Transaction(): JSX.Element {
 
 
 
-            </div>
+            </div>}
+
+
+
+
         </div>
     </div>);
 }

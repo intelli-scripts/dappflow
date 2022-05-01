@@ -10,6 +10,7 @@ import {loadApplication} from "../../../redux/actions/application";
 import {CoreApplication} from "../../../packages/core-sdk/classes/CoreApplication";
 import ApplicationGlobalState from "./Sections/ApplicationGlobalState/ApplicationGlobalState";
 import LinkToAccount from "../../Links/LinkToAccount";
+import LoadingTile from "../../Common/LoadingTile/LoadingTile";
 
 
 function Application(): JSX.Element {
@@ -41,7 +42,8 @@ function Application(): JSX.Element {
             <div className="application-header">
                 Application overview
             </div>
-            <div className="application-body">
+
+            {application.loading ? <LoadingTile></LoadingTile> : <div className="application-body">
                 <div className="id">
                     #{applicationInstance.getId()}
                 </div>
@@ -168,7 +170,8 @@ function Application(): JSX.Element {
 
 
                 </div>
-            </div>
+            </div>}
+
         </div>
     </div>);
 }

@@ -1,0 +1,46 @@
+@import "../../../assets/colors";
+
+.loading-tile-wrapper {
+  .loading-tile-container {
+
+  margin-top: 50px;
+    .wrapper {
+      .wrapper-cell {
+        .text {
+          .text-line {
+            height: 20px;
+            margin: 10px 0;
+            @extend .animated-background;
+            border-radius: 5px;
+          }
+        }
+      }
+    }
+    @keyframes placeHolderShimmer{
+      0%{
+        background-position: -468px 0
+      }
+      100%{
+        background-position: 468px 0
+      }
+    }
+    .animated-background {
+      animation-duration: 1.25s;
+      animation-fill-mode: forwards;
+      animation-iteration-count: infinite;
+      animation-name: placeHolderShimmer;
+      animation-timing-function: linear;
+      background: linear-gradient(to right, #F6F6F6 8%, #F0F0F0 18%, #F6F6F6 33%);
+    }
+
+
+
+
+
+
+
+
+
+
+  }
+}

@@ -159,7 +159,6 @@ export class CoreTransaction {
                 return JSON.stringify(msgpack.decode(Buffer.from(this.txn.note, 'base64')));
             }
             catch (e) {
-                console.log(Buffer.from(this.txn.note, 'base64'));
                 return msgpack.decode(Buffer.from(this.txn.note, 'base64'));
             }
 

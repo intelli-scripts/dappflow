@@ -9,6 +9,7 @@ import NumberFormat from "react-number-format";
 import {microalgosToAlgos} from "algosdk";
 import AlgoIcon from "../../AlgoIcon/AlgoIcon";
 import {CoreAccount} from "../../../packages/core-sdk/classes/CoreAccount";
+import LoadingTile from "../../Common/LoadingTile/LoadingTile";
 
 
 function Account(): JSX.Element {
@@ -38,10 +39,12 @@ function Account(): JSX.Element {
 
     return (<div className={"account-wrapper"}>
         <div className={"account-container"}>
+
             <div className="account-header">
                 Account overview
             </div>
-            <div className="account-body">
+
+            {account.loading ? <LoadingTile></LoadingTile> : <div className="account-body">
                 <div className="address">
                     {account.information.address}
                     <div style={{marginTop: 10}}>
@@ -111,7 +114,8 @@ function Account(): JSX.Element {
 
 
                 </div>
-            </div>
+            </div>}
+
         </div>
     </div>);
 }

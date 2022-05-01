@@ -1,6 +1,5 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {handleException} from "./exception";
-import {showLoader, hideLoader} from './loader';
 import explorer from "../../utils/explorer";
 import {A_Asset, A_SearchTransaction} from "../../packages/core-sdk/types";
 import {TransactionClient} from "../../packages/core-sdk/clients/transactionClient";
@@ -11,12 +10,14 @@ import {AssetClient} from "../../packages/core-sdk/clients/assetClient";
 
 export interface Transaction {
     information: A_SearchTransaction,
+    loading: boolean,
     asset: {
         information: A_Asset
     }
 }
 
 const initialState: Transaction = {
+    loading: false,
     information: {
         "close-rewards": 0,
         "closing-amount": 0,
@@ -69,7 +70,7 @@ export const loadTransaction = createAsyncThunk(
         try {
             const transactionClient = new TransactionClient(explorer.network);
             dispatch(resetTransaction());
-            dispatch(showLoader("Loading transaction ..."));
+            dispatch(setLoading(true));
             const transactionInfo = await transactionClient.get(id);
             const txnInstance = new CoreTransaction(transactionInfo);
 
@@ -77,12 +78,12 @@ export const loadTransaction = createAsyncThunk(
                 dispatch(loadTxnAsset(txnInstance.getAssetId()));
             }
 
-            dispatch(hideLoader());
+            dispatch(setLoading(false));
             return transactionInfo;
         }
         catch (e: any) {
             dispatch(handleException(e));
-            dispatch(hideLoader());
+            dispatch(setLoading(false));
         }
     }
 );
@@ -107,7 +108,10 @@ export const transactionSlice = createSlice({
     name: 'transaction',
     initialState,
     reducers: {
-        resetTransaction: state => initialState
+        resetTransaction: state => initialState,
+        setLoading: (state, action: PayloadAction<boolean> ) => {
+            state.loading = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(loadTransaction.fulfilled, (state, action: PayloadAction<A_SearchTransaction>) => {
@@ -119,5 +123,5 @@ export const transactionSlice = createSlice({
     },
 });
 
-export const {resetTransaction} = transactionSlice.actions
+export const {resetTransaction, setLoading} = transactionSlice.actions
 export default transactionSlice.reducer

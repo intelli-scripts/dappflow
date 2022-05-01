@@ -1,17 +1,18 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {handleException} from "./exception";
-import {showLoader, hideLoader} from './loader';
 import explorer from "../../utils/explorer";
 import {A_Asset, A_SearchTransaction} from "../../packages/core-sdk/types";
 import {AssetClient} from "../../packages/core-sdk/clients/assetClient";
 
 
 export interface Asset {
+    loading: boolean,
     information: A_Asset,
     transactions: A_SearchTransaction[]
 }
 
 const initialState: Asset = {
+    loading: false,
     information: {
         index: 0,
         params: {
@@ -42,15 +43,15 @@ export const loadAsset = createAsyncThunk(
         try {
             const assetClient = new AssetClient(explorer.network);
             dispatch(resetAsset());
-            dispatch(showLoader("Loading asset ..."));
+            dispatch(setLoading(true));
             const assetInfo = await assetClient.get(id);
             dispatch(loadAssetTransactions(id));
-            dispatch(hideLoader());
+            dispatch(setLoading(false));
             return assetInfo;
         }
         catch (e: any) {
             dispatch(handleException(e));
-            dispatch(hideLoader());
+            dispatch(setLoading(false));
         }
     }
 );
@@ -75,7 +76,10 @@ export const assetSlice = createSlice({
     name: 'asset',
     initialState,
     reducers: {
-        resetAsset: state => initialState
+        resetAsset: state => initialState,
+        setLoading: (state, action: PayloadAction<boolean> ) => {
+            state.loading = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(loadAsset.fulfilled, (state, action: PayloadAction<A_Asset>) => {
@@ -87,5 +91,5 @@ export const assetSlice = createSlice({
     },
 });
 
-export const {resetAsset} = assetSlice.actions
+export const {resetAsset, setLoading} = assetSlice.actions
 export default assetSlice.reducer

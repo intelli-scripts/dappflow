@@ -7,6 +7,7 @@ import {Grid, Tab, Tabs} from "@mui/material";
 import {loadBlock} from "../../../redux/actions/block";
 import {TIMESTAMP_DISPLAY_FORMAT} from "../../../packages/core-sdk/constants";
 import dateFormat  from "dateformat";
+import LoadingTile from "../../Common/LoadingTile/LoadingTile";
 
 
 function Block(): JSX.Element {
@@ -16,7 +17,6 @@ function Block(): JSX.Element {
     const {id} = params;
 
     const block = useSelector((state: RootState) => state.block);
-    console.log(block);
 
     useEffect(() => {
         dispatch(loadBlock(Number(id)));
@@ -27,7 +27,8 @@ function Block(): JSX.Element {
             <div className="block-header">
                 Block overview
             </div>
-            <div className="block-body">
+
+            {block.loading ? <LoadingTile></LoadingTile> : <div className="block-body">
                 <div className="address">
                     #{id}
                 </div>
@@ -74,7 +75,8 @@ function Block(): JSX.Element {
 
 
                 </div>
-            </div>
+            </div>}
+
         </div>
     </div>);
 }
