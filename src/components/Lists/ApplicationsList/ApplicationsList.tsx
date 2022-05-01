@@ -52,7 +52,7 @@ function ApplicationsList(props): JSX.Element {
                         }
                         }></ContentCopyIcon>
                     </Tooltip>
-                    <LinkToAccount address={appInstance.getCreator()}></LinkToAccount>;
+                    <LinkToAccount address={appInstance.getCreator()}></LinkToAccount>
                 </div>;
             }
         }
