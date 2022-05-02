@@ -5,9 +5,9 @@ import {theme} from "../../../../../theme";
 import pSBC from 'shade-blend-color';
 import {CoreTransaction} from "../../../../../packages/core-sdk/classes/CoreTransaction";
 import AppCallTxnGlobalStateDelta from "./Sections/AppCallTxnGlobalStateDelta/AppCallTxnGlobalStateDelta";
-import LinkToAccount from "../../../../Links/LinkToAccount";
-import LinkToAsset from "../../../../Links/LinkToAsset";
-import LinkToApplication from "../../../../Links/LinkToApplication";
+import LinkToAccount from "../../../../Common/Links/LinkToAccount";
+import LinkToAsset from "../../../../Common/Links/LinkToAsset";
+import LinkToApplication from "../../../../Common/Links/LinkToApplication";
 
 
 function AppCallTransaction(props): JSX.Element {

@@ -7,7 +7,7 @@ import {CoreTransaction} from "../../../../../packages/core-sdk/classes/CoreTran
 import AlgoIcon from "../../../../AlgoIcon/AlgoIcon";
 import NumberFormat from "react-number-format";
 import {microalgosToAlgos} from "algosdk";
-import LinkToAccount from "../../../../Links/LinkToAccount";
+import LinkToAccount from "../../../../Common/Links/LinkToAccount";
 
 
 function PaymentTransaction(props): JSX.Element {

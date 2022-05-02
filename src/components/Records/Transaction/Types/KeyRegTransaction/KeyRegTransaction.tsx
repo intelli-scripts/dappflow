@@ -4,8 +4,8 @@ import {Grid} from "@mui/material";
 import {theme} from "../../../../../theme";
 import pSBC from 'shade-blend-color';
 import {CoreTransaction} from "../../../../../packages/core-sdk/classes/CoreTransaction";
-import LinkToAccount from "../../../../Links/LinkToAccount";
-import LinkToBlock from "../../../../Links/LinkToBlock";
+import LinkToAccount from "../../../../Common/Links/LinkToAccount";
+import LinkToBlock from "../../../../Common/Links/LinkToBlock";
 
 
 function KeyRegTransaction(props): JSX.Element {

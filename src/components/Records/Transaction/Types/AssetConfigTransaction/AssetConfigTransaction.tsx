@@ -6,8 +6,8 @@ import pSBC from 'shade-blend-color';
 import {CoreTransaction} from "../../../../../packages/core-sdk/classes/CoreTransaction";
 import NumberFormat from "react-number-format";
 import {CoreAsset} from "../../../../../packages/core-sdk/classes/CoreAsset";
-import LinkToAccount from "../../../../Links/LinkToAccount";
-import LinkToAsset from "../../../../Links/LinkToAsset";
+import LinkToAccount from "../../../../Common/Links/LinkToAccount";
+import LinkToAsset from "../../../../Common/Links/LinkToAsset";
 
 
 function AssetConfigTransaction(props): JSX.Element {

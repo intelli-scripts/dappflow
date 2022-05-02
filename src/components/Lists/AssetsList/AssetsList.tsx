@@ -9,8 +9,8 @@ import {dataGridCellConfig, dataGridStyles} from "../../../theme/styles/datagrid
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import {copyContent} from "../../../utils/common";
 import {CoreAsset} from "../../../packages/core-sdk/classes/CoreAsset";
-import LinkToAccount from "../../Links/LinkToAccount";
-import LinkToAsset from "../../Links/LinkToAsset";
+import LinkToAccount from "../../Common/Links/LinkToAccount";
+import LinkToAsset from "../../Common/Links/LinkToAsset";
 
 
 function AssetsList(props): JSX.Element {

@@ -13,7 +13,7 @@ import {dataGridCellConfig, dataGridStyles} from "../../../theme/styles/datagrid
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import {copyContent} from "../../../utils/common";
 import AlgoIcon from "../../AlgoIcon/AlgoIcon";
-import LinkToAccount from "../../Links/LinkToAccount";
+import LinkToAccount from "../../Common/Links/LinkToAccount";
 
 function Accounts(): JSX.Element {
     const dispatch = useDispatch();

@@ -3,7 +3,7 @@ import './App.scss';
 import AppRouter from './AppRouter';
 import AppSnackbar from "./AppSnackbar";
 import {Grid} from "@mui/material";
-import Loader from "../Loader/Loader";
+import Loader from "../Common/Loader/Loader";
 
 
 function App(): JSX.Element {

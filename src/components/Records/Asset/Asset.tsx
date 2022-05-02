@@ -9,7 +9,7 @@ import {theme} from "../../../theme";
 import pSBC from 'shade-blend-color';
 import {CoreAsset} from "../../../packages/core-sdk/classes/CoreAsset";
 import NumberFormat from "react-number-format";
-import LinkToAccount from "../../Links/LinkToAccount";
+import LinkToAccount from "../../Common/Links/LinkToAccount";
 import LoadingTile from "../../Common/LoadingTile/LoadingTile";
 
 

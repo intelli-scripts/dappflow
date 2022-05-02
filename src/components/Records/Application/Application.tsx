@@ -9,7 +9,7 @@ import pSBC from 'shade-blend-color';
 import {loadApplication} from "../../../redux/actions/application";
 import {CoreApplication} from "../../../packages/core-sdk/classes/CoreApplication";
 import ApplicationGlobalState from "./Sections/ApplicationGlobalState/ApplicationGlobalState";
-import LinkToAccount from "../../Links/LinkToAccount";
+import LinkToAccount from "../../Common/Links/LinkToAccount";
 import LoadingTile from "../../Common/LoadingTile/LoadingTile";
 
 

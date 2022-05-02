@@ -1,6 +1,6 @@
 import './Loader.scss';
 import {useSelector} from "react-redux";
-import {RootState} from "../../redux/store";
+import {RootState} from "../../../redux/store";
 import {CircularProgress} from "@mui/material";
 
 function Loader(): JSX.Element {

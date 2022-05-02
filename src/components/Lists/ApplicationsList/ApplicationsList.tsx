@@ -9,8 +9,8 @@ import {dataGridCellConfig, dataGridStyles} from "../../../theme/styles/datagrid
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import {copyContent} from "../../../utils/common";
 import {CoreApplication} from "../../../packages/core-sdk/classes/CoreApplication";
-import LinkToAccount from "../../Links/LinkToAccount";
-import LinkToApplication from "../../Links/LinkToApplication";
+import LinkToAccount from "../../Common/Links/LinkToAccount";
+import LinkToApplication from "../../Common/Links/LinkToApplication";
 
 
 function ApplicationsList(props): JSX.Element {

@@ -14,10 +14,10 @@ import AlgoIcon from "../../AlgoIcon/AlgoIcon";
 import {CoreTransaction} from "../../../packages/core-sdk/classes/CoreTransaction";
 import {TXN_TYPES} from "../../../packages/core-sdk/constants";
 import {ArrowForward} from "@mui/icons-material";
-import LinkToAccount from "../../Links/LinkToAccount";
-import LinkToApplication from "../../Links/LinkToApplication";
-import LinkToTransaction from "../../Links/LinkToTransaction";
-import LinkToBlock from "../../Links/LinkToBlock";
+import LinkToAccount from "../../Common/Links/LinkToAccount";
+import LinkToApplication from "../../Common/Links/LinkToApplication";
+import LinkToTransaction from "../../Common/Links/LinkToTransaction";
+import LinkToBlock from "../../Common/Links/LinkToBlock";
 
 
 function TransactionsList(props): JSX.Element {
