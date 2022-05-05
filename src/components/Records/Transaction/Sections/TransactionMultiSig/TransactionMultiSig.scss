@@ -1,0 +1,17 @@
+@import "src/assets/colors";
+
+.transaction-multi-sig-wrapper {
+  .transaction-multi-sig-container {
+    margin-top: 30px;
+    .transaction-multi-sig-header {
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .transaction-multi-sig-body {
+      .sub-sig {
+        margin: 12px 0px;
+        font-size: 14px;
+      }
+    }
+  }
+}

@@ -4,13 +4,12 @@ import {matchPath, Outlet, useLocation, useNavigate, useParams} from "react-rout
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../redux/store";
 import {Grid, Tab, Tabs} from "@mui/material";
-import {theme} from "../../../theme";
-import pSBC from 'shade-blend-color';
 import {loadApplication} from "../../../redux/actions/application";
 import {CoreApplication} from "../../../packages/core-sdk/classes/CoreApplication";
 import ApplicationGlobalState from "./Sections/ApplicationGlobalState/ApplicationGlobalState";
 import LinkToAccount from "../../Common/Links/LinkToAccount";
 import LoadingTile from "../../Common/LoadingTile/LoadingTile";
+import {shadedClr} from "../../../utils/common";
 
 
 function Application(): JSX.Element {
@@ -30,7 +29,6 @@ function Application(): JSX.Element {
     }
 
     const application = useSelector((state: RootState) => state.application);
-    const shadedClr = pSBC(0.95, theme.palette.primary.main);
     const applicationInstance = new CoreApplication(application.information);
 
     useEffect(() => {

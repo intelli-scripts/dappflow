@@ -1,17 +1,14 @@
 import './KeyRegTransaction.scss';
 import React from "react";
 import {Grid} from "@mui/material";
-import {theme} from "../../../../../theme";
-import pSBC from 'shade-blend-color';
 import {CoreTransaction} from "../../../../../packages/core-sdk/classes/CoreTransaction";
 import LinkToAccount from "../../../../Common/Links/LinkToAccount";
 import LinkToBlock from "../../../../Common/Links/LinkToBlock";
+import {shadedClr} from "../../../../../utils/common";
 
 
 function KeyRegTransaction(props): JSX.Element {
     const transaction = props.transaction;
-
-    const shadedClr = pSBC(0.95, theme.palette.primary.main);
     const txnInstance = new CoreTransaction(transaction.information);
     const keyRegPayload = txnInstance.getKeyRegPayload();
 
@@ -37,7 +34,7 @@ function KeyRegTransaction(props): JSX.Element {
                             </div>
                         </Grid>
 
-                        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                        {keyRegPayload["vote-participation-key"] ? <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                             <div className="property">
                                 <div className="key">
                                     Vote participation key
@@ -46,9 +43,10 @@ function KeyRegTransaction(props): JSX.Element {
                                     {keyRegPayload["vote-participation-key"]}
                                 </div>
                             </div>
-                        </Grid>
+                        </Grid> : ''}
 
-                        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+
+                        {keyRegPayload["selection-participation-key"] ? <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                             <div className="property">
                                 <div className="key">
                                     Selection participation key
@@ -57,7 +55,8 @@ function KeyRegTransaction(props): JSX.Element {
                                     {keyRegPayload["selection-participation-key"]}
                                 </div>
                             </div>
-                        </Grid>
+                        </Grid> : ''}
+
 
 
                         <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>

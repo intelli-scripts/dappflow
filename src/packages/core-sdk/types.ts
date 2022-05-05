@@ -130,8 +130,21 @@ export interface A_SearchTransaction{
     "payment-transaction"?: A_SearchTransaction_Payment_Payload,
     "asset-config-transaction"?: A_Asset,
     "keyreg-transaction"?: A_SearchTransaction_KeyReg_Payload,
-    "global-state-delta"?: A_GlobalStateDelta[]
+    "global-state-delta"?: A_GlobalStateDelta[],
+    signature: A_SearchTransaction_Signature
 }
+
+export interface A_SearchTransaction_Signature {
+    "multisig"?: {
+        version: number,
+        threshold: number,
+        subsignature: {
+            "public-key": string,
+            signature: string
+        }[]
+    }
+}
+
 
 export interface A_SearchTransaction_KeyReg_Payload {
     "non-participation": boolean

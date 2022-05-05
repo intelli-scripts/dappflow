@@ -15,10 +15,9 @@ import {
     InputBase, InputBaseProps, styled
 } from "@mui/material";
 import {theme} from "../../theme";
-import pSBC from 'shade-blend-color';
 import {getNodeConfig, getNodes} from "../../utils/nodeConfig";
 import {showSnack} from "../../redux/actions/snackbar";
-import {isNumber} from "../../utils/common";
+import {isNumber, shadedClr} from "../../utils/common";
 import {Network} from "../../packages/core-sdk/network";
 import {hideLoader, showLoader} from "../../redux/actions/loader";
 import {useNavigate} from "react-router-dom";
@@ -26,7 +25,6 @@ import {useNavigate} from "react-router-dom";
 const nodeConfig = getNodeConfig();
 
 const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
-    const shadedClr = pSBC(0.95, theme.palette.primary.main);
     return {
         padding: 10,
         marginTop: 5,

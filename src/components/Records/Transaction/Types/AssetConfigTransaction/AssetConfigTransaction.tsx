@@ -1,19 +1,17 @@
 import './AssetConfigTransaction.scss';
 import React from "react";
 import {Grid, Link} from "@mui/material";
-import {theme} from "../../../../../theme";
-import pSBC from 'shade-blend-color';
 import {CoreTransaction} from "../../../../../packages/core-sdk/classes/CoreTransaction";
 import NumberFormat from "react-number-format";
 import {CoreAsset} from "../../../../../packages/core-sdk/classes/CoreAsset";
 import LinkToAccount from "../../../../Common/Links/LinkToAccount";
 import LinkToAsset from "../../../../Common/Links/LinkToAsset";
+import {shadedClr} from "../../../../../utils/common";
 
 
 function AssetConfigTransaction(props): JSX.Element {
     const transaction = props.transaction;
 
-    const shadedClr = pSBC(0.95, theme.palette.primary.main);
     const txnInstance = new CoreTransaction(transaction.information);
     const assetConfig = txnInstance.getAssetConfigPayload();
     const assetInstance = new CoreAsset(assetConfig);

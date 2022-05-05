@@ -5,12 +5,11 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../redux/store";
 import {Grid, Link, Tab, Tabs} from "@mui/material";
 import {loadAsset} from "../../../redux/actions/asset";
-import {theme} from "../../../theme";
-import pSBC from 'shade-blend-color';
 import {CoreAsset} from "../../../packages/core-sdk/classes/CoreAsset";
 import NumberFormat from "react-number-format";
 import LinkToAccount from "../../Common/Links/LinkToAccount";
 import LoadingTile from "../../Common/LoadingTile/LoadingTile";
+import {shadedClr} from "../../../utils/common";
 
 
 function Asset(): JSX.Element {
@@ -20,8 +19,6 @@ function Asset(): JSX.Element {
     const {id} = params;
 
     const asset = useSelector((state: RootState) => state.asset);
-    const shadedClr = pSBC(0.95, theme.palette.primary.main);
-
     const assetInstance = new CoreAsset(asset.information);
 
     useEffect(() => {

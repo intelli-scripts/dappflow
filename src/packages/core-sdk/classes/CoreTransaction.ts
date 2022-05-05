@@ -3,7 +3,7 @@ import {
     A_SearchTransaction,
     A_SearchTransaction_App_Call_Payload,
     A_SearchTransaction_Asset_Transfer_Payload, A_SearchTransaction_KeyReg_Payload,
-    A_SearchTransaction_Payment_Payload
+    A_SearchTransaction_Payment_Payload, A_SearchTransaction_Signature
 } from "../types";
 import {NOTE_ENCRYPTIONS, TIMESTAMP_DISPLAY_FORMAT, TXN_TYPES} from "../constants";
 import atob from 'atob';
@@ -179,5 +179,14 @@ export class CoreTransaction {
 
     getGenesisHash(): string {
         return this.txn["genesis-hash"];
+    }
+
+    getSig(): A_SearchTransaction_Signature {
+        return this.txn.signature;
+    }
+
+    isMultiSig(): boolean {
+        const sig = this.getSig();
+        return sig.multisig !== undefined;
     }
 }

@@ -6,8 +6,6 @@ import {RootState} from "../../../redux/store";
 import {
     Grid
 } from "@mui/material";
-import {theme} from "../../../theme";
-import pSBC from 'shade-blend-color';
 import {loadTransaction} from "../../../redux/actions/transaction";
 import {CoreTransaction} from "../../../packages/core-sdk/classes/CoreTransaction";
 import {microalgosToAlgos} from "algosdk";
@@ -22,6 +20,8 @@ import LinkToBlock from "../../Common/Links/LinkToBlock";
 import LoadingTile from "../../Common/LoadingTile/LoadingTile";
 import TransactionAdditionalDetails from "./Sections/TransactionAdditionalDetails/TransactionAdditionalDetails";
 import TransactionNote from "./Sections/TransactionNotes/TransactionNote";
+import {shadedClr} from "../../../utils/common";
+import TransactionMultiSig from "./Sections/TransactionMultiSig/TransactionMultiSig";
 
 
 
@@ -31,7 +31,6 @@ function Transaction(): JSX.Element {
     const {id} = params;
 
     const transaction = useSelector((state: RootState) => state.transaction);
-    const shadedClr = pSBC(0.95, theme.palette.primary.main);
 
     const txnInstance = new CoreTransaction(transaction.information);
 
@@ -116,14 +115,9 @@ function Transaction(): JSX.Element {
                 {txnInstance.getType() === TXN_TYPES.APP_CALL ? <AppCallTransaction transaction={transaction}></AppCallTransaction> : ''}
 
 
-                {txnInstance.getNote() ? <div className="props" style={{background: shadedClr}}>
-                    <TransactionNote transaction={transaction.information}></TransactionNote>
-                </div> : ''}
-
-                <div className="props" style={{background: shadedClr}}>
-                    <TransactionAdditionalDetails transaction={transaction.information}></TransactionAdditionalDetails>
-                </div>
-
+                <TransactionNote transaction={transaction.information}></TransactionNote>
+                <TransactionMultiSig transaction={transaction.information}></TransactionMultiSig>
+                <TransactionAdditionalDetails transaction={transaction.information}></TransactionAdditionalDetails>
             </div>}
         </div>
     </div>);

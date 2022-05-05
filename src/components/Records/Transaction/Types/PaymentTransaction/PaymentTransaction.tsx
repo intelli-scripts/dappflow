@@ -1,19 +1,16 @@
 import './PaymentTransaction.scss';
 import React from "react";
 import {Grid} from "@mui/material";
-import {theme} from "../../../../../theme";
-import pSBC from 'shade-blend-color';
 import {CoreTransaction} from "../../../../../packages/core-sdk/classes/CoreTransaction";
 import AlgoIcon from "../../../../AlgoIcon/AlgoIcon";
 import NumberFormat from "react-number-format";
 import {microalgosToAlgos} from "algosdk";
 import LinkToAccount from "../../../../Common/Links/LinkToAccount";
+import {shadedClr} from "../../../../../utils/common";
 
 
 function PaymentTransaction(props): JSX.Element {
     const transaction = props.transaction;
-
-    const shadedClr = pSBC(0.95, theme.palette.primary.main);
     const txnInstance = new CoreTransaction(transaction.information);
 
 

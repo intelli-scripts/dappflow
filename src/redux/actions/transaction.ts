@@ -37,7 +37,10 @@ const initialState: Transaction = {
         id: "",
         "inner-txns": [],
         "created-application-index": 0,
-        "global-state-delta": []
+        "global-state-delta": [],
+        signature: {
+
+        }
     },
     asset: {
         information: {

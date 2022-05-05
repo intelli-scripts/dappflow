@@ -1,19 +1,17 @@
 import './AppCallTransaction.scss';
 import React from "react";
 import {Grid} from "@mui/material";
-import {theme} from "../../../../../theme";
-import pSBC from 'shade-blend-color';
 import {CoreTransaction} from "../../../../../packages/core-sdk/classes/CoreTransaction";
 import AppCallTxnGlobalStateDelta from "./Sections/AppCallTxnGlobalStateDelta/AppCallTxnGlobalStateDelta";
 import LinkToAccount from "../../../../Common/Links/LinkToAccount";
 import LinkToAsset from "../../../../Common/Links/LinkToAsset";
 import LinkToApplication from "../../../../Common/Links/LinkToApplication";
+import {shadedClr} from "../../../../../utils/common";
 
 
 function AppCallTransaction(props): JSX.Element {
     const transaction = props.transaction;
 
-    const shadedClr = pSBC(0.95, theme.palette.primary.main);
     const txnInstance = new CoreTransaction(transaction.information);
     const appCallPayload = txnInstance.getAppCallPayload();
 
