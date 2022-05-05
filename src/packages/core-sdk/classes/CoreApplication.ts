@@ -55,23 +55,27 @@ export class CoreApplication {
 
         const gState = this.getGlobalStorage();
 
-        gState.forEach((gStateProp) => {
-            const row:A_GlobalStateDecrypted = {key: "", type: "", value: undefined};
+        console.log(gState);
 
-            row.key = atob(gStateProp.key);
-            const {value} = gStateProp;
+        if (gState) {
+            gState.forEach((gStateProp) => {
+                const row:A_GlobalStateDecrypted = {key: "", type: "", value: undefined};
 
-            if (value.type === 1) {
-                row.type = 'bytes';
-                row.value = atob(value.bytes);
-            }
-            else {
-                row.type = 'uint';
-                row.value = value.uint;
-            }
+                row.key = atob(gStateProp.key);
+                const {value} = gStateProp;
 
-            gStateDecrypted.push(row);
-        });
+                if (value.type === 1) {
+                    row.type = 'bytes';
+                    row.value = atob(value.bytes);
+                }
+                else {
+                    row.type = 'uint';
+                    row.value = value.uint;
+                }
+
+                gStateDecrypted.push(row);
+            });
+        }
 
         return gStateDecrypted;
     }

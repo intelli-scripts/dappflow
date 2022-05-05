@@ -57,34 +57,38 @@ function ApplicationGlobalState(): JSX.Element {
 
     return (<div className={"application-global-state-wrapper"}>
         <div className={"application-global-state-container"}>
-            <div className="application-global-state-header">
-                Global state
-            </div>
 
-            <div className="application-global-state-body">
-
-
-                <div style={{ height: 700, width: '100%' }}>
-                    <DataGrid
-                        rows={globalStorage}
-                        columns={columns}
-                        rowsPerPageOptions={[]}
-                        disableSelectionOnClick
-                        sx={{
-                            ...dataGridStyles,
-                            '.MuiDataGrid-columnHeader': {
-                                background: theme.palette.common.black,
-                                color: theme.palette.common.white
-                            }
-                        }}
-                        getRowId={(row) => {
-                            return row.key;
-                        }}
-                    />
+            {globalStorage && globalStorage.length > 0 ? <div>
+                <div className="application-global-state-header">
+                    Global state
                 </div>
 
+                <div className="application-global-state-body">
 
-            </div>
+
+                    <div style={{ height: 700, width: '100%' }}>
+                        <DataGrid
+                            rows={globalStorage}
+                            columns={columns}
+                            rowsPerPageOptions={[]}
+                            disableSelectionOnClick
+                            sx={{
+                                ...dataGridStyles,
+                                '.MuiDataGrid-columnHeader': {
+                                    background: theme.palette.common.black,
+                                    color: theme.palette.common.white
+                                }
+                            }}
+                            getRowId={(row) => {
+                                return row.key;
+                            }}
+                        />
+                    </div>
+
+
+                </div>
+            </div> : ''}
+
         </div>
     </div>);
 }
