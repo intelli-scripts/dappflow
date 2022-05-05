@@ -10,8 +10,8 @@ function TransactionMultiSig(props): JSX.Element {
 
     const {transaction} = props;
     const txnInstance = new CoreTransaction(transaction);
-    console.log(transaction);
     const sig = txnInstance.getSig();
+    console.log(txnInstance.getMultiSigSubSignatures());
 
     return (<div className={"transaction-multi-sig-wrapper"}>
         <div className={"transaction-multi-sig-container"}>
@@ -49,8 +49,8 @@ function TransactionMultiSig(props): JSX.Element {
                                         Subsignatures
                                     </div>
                                     <div className="value">
-                                        {sig.multisig.subsignature.map((subsig) => {
-                                            return <div className="sub-sig" key={subsig["public-key"]}><LinkToAccount address={subsig["public-key"]}></LinkToAccount></div>;
+                                        {txnInstance.getMultiSigSubSignatures().map((addr) => {
+                                            return <div className="sub-sig" key={addr}><LinkToAccount address={addr}></LinkToAccount></div>;
                                         })}
                                     </div>
                                 </div>

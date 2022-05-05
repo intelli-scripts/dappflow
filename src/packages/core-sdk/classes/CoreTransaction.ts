@@ -9,6 +9,7 @@ import {NOTE_ENCRYPTIONS, TIMESTAMP_DISPLAY_FORMAT, TXN_TYPES} from "../constant
 import atob from 'atob';
 import msgpack from "msgpack-lite";
 import dateFormat  from "dateformat";
+import {encodeAddress} from "algosdk";
 
 
 export class CoreTransaction {
@@ -188,5 +189,20 @@ export class CoreTransaction {
     isMultiSig(): boolean {
         const sig = this.getSig();
         return sig.multisig !== undefined;
+    }
+
+    getMultiSigSubSignatures(): string[] {
+        const addresses: string[] = [];
+        const sig = this.getSig();
+        if (this.isMultiSig()) {
+            const subSigs = sig.multisig.subsignature;
+            subSigs.forEach((subSig) => {
+                const pk = subSig["public-key"];
+                const buf = Buffer.from(pk, "base64");
+                addresses.push(encodeAddress(buf));
+            });
+        }
+
+        return addresses;
     }
 }
