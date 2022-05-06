@@ -21,6 +21,7 @@ import {ApplicationClient} from "../../packages/core-sdk/clients/applicationClie
 import {BlockClient} from "../../packages/core-sdk/clients/blockClient";
 import {hideLoader, showLoader} from "../../redux/actions/loader";
 import {useDispatch} from "react-redux";
+import {showSnack} from "../../redux/actions/snackbar";
 
 
 interface searchResult {
@@ -131,6 +132,12 @@ function Search(): JSX.Element {
             else {
                 setState(prevState => ({...prevState, searchResults: results, showSearchResults: true}));
             }
+        }
+        else {
+            dispatch(showSnack({
+                severity: 'error',
+                message: 'No results found'
+            }));
         }
     }
 

@@ -6,6 +6,7 @@ import React, {useState} from "react";
 import {hideSettings} from "../../redux/actions/settings";
 import {CancelOutlined} from "@mui/icons-material";
 import {
+    Alert,
     Button, Chip,
     Dialog,
     DialogActions,
@@ -26,7 +27,8 @@ const nodeConfig = getNodeConfig();
 
 const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
     return {
-        padding: 10,
+        padding: 5,
+        paddingLeft: 10,
         marginTop: 5,
         background: shadedClr
     };
@@ -137,7 +139,7 @@ function Settings(): JSX.Element {
     return (<div>
         {show ? <Dialog
             fullWidth={true}
-            maxWidth={"xs"}
+            maxWidth={"sm"}
             open={show}
         >
             <DialogTitle >
@@ -157,6 +159,9 @@ function Settings(): JSX.Element {
                 <div className="settings-wrapper">
                     <div className="settings-container">
                         <div className="settings-header">
+                            <Alert
+                                style={{marginBottom: 10, marginTop: -10}}
+                                color={"warning"} icon={false}>Though explorer can connect to any testnet or mainnet node, We highly recommend to use this explorer only for local private sandbox environment.</Alert>
                             {nodes.map((node) => {
                                 return <Chip
                                     key={node.id}
@@ -238,7 +243,7 @@ function Settings(): JSX.Element {
                                         fullWidth/>
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                    <div style={{textAlign: "center", marginTop: 25}}>
+                                    <div style={{textAlign: "center", marginTop: 10}}>
                                         <Button
                                             variant={"outlined"}
                                             size={"large"}
