@@ -67,8 +67,7 @@ export class CoreApplication {
                     const buf = Buffer.from(value.bytes, 'base64');
 
                     if (buf.length === 32) {
-                        console.log(gStateProp);
-                        row.value = encodeAddress(new Uint8Array(Buffer.from(value.bytes, "base64")));
+                        row.value = encodeAddress(new Uint8Array(buf));
                     }
                     else {
                         row.value = atob(value.bytes);

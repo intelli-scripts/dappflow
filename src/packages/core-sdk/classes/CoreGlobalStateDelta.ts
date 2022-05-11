@@ -2,6 +2,7 @@ import {
     A_GlobalStateDelta
 } from "../types";
 import atob from 'atob';
+import {encodeAddress} from "algosdk";
 
 
 export class CoreGlobalState {
@@ -50,6 +51,18 @@ export class CoreGlobalState {
     }
 
     getValue(): string {
-        return this.state.value.bytes !== undefined ? this.state.value.bytes : this.state.value.uint.toString();
+
+        if (this.state.value.bytes !== undefined) {
+            const buf = Buffer.from(this.state.value.bytes, 'base64');
+
+            if (buf.length === 32) {
+                return  encodeAddress(new Uint8Array(buf));
+            }
+            else {
+                return  atob(this.state.value.bytes);
+            }
+        }
+
+        return this.state.value.uint.toString();
     }
 }
