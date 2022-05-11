@@ -2,6 +2,7 @@ import {
     A_Application, A_GlobalState, A_GlobalStateDecrypted
 } from "../types";
 import atob from 'atob';
+import {encodeAddress} from "algosdk";
 
 export class CoreApplication {
     application: A_Application;
@@ -63,7 +64,15 @@ export class CoreApplication {
 
                 if (value.type === 1) {
                     row.type = 'bytes';
-                    row.value = atob(value.bytes);
+                    const buf = Buffer.from(value.bytes, 'base64');
+
+                    if (buf.length === 32) {
+                        console.log(gStateProp);
+                        row.value = encodeAddress(new Uint8Array(Buffer.from(value.bytes, "base64")));
+                    }
+                    else {
+                        row.value = atob(value.bytes);
+                    }
                 }
                 else {
                     row.type = 'uint';
