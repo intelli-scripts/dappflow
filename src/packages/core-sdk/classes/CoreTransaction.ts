@@ -205,4 +205,9 @@ export class CoreTransaction {
 
         return addresses;
     }
+
+    isLogicSig(): boolean {
+        const sig = this.getSig();
+        return sig.logicsig !== undefined;
+    }
 }

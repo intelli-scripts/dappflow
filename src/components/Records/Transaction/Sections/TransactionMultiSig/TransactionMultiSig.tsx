@@ -11,7 +11,6 @@ function TransactionMultiSig(props): JSX.Element {
     const {transaction} = props;
     const txnInstance = new CoreTransaction(transaction);
     const sig = txnInstance.getSig();
-    console.log(txnInstance.getMultiSigSubSignatures());
 
     return (<div className={"transaction-multi-sig-wrapper"}>
         <div className={"transaction-multi-sig-container"}>

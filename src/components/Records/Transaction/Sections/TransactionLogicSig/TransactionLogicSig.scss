@@ -1,0 +1,17 @@
+@import "src/assets/colors";
+
+.transaction-logic-sig-wrapper {
+  .transaction-logic-sig-container {
+    margin-top: 30px;
+    .transaction-logic-sig-header {
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .transaction-logic-sig-body {
+      .sub-sig {
+        margin: 12px 0px;
+        font-size: 14px;
+      }
+    }
+  }
+}

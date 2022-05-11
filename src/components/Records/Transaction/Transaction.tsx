@@ -22,6 +22,7 @@ import TransactionAdditionalDetails from "./Sections/TransactionAdditionalDetail
 import TransactionNote from "./Sections/TransactionNotes/TransactionNote";
 import {shadedClr} from "../../../utils/common";
 import TransactionMultiSig from "./Sections/TransactionMultiSig/TransactionMultiSig";
+import TransactionLogicSig from "./Sections/TransactionLogicSig/TransactionLogicSig";
 
 
 
@@ -117,6 +118,7 @@ function Transaction(): JSX.Element {
 
                 <TransactionNote transaction={transaction.information}></TransactionNote>
                 <TransactionMultiSig transaction={transaction.information}></TransactionMultiSig>
+                <TransactionLogicSig transaction={transaction.information}></TransactionLogicSig>
                 <TransactionAdditionalDetails transaction={transaction.information}></TransactionAdditionalDetails>
             </div>}
         </div>

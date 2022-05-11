@@ -52,10 +52,7 @@ export class CoreApplication {
 
     getGlobalStorageDecrypted(): A_GlobalStateDecrypted[] {
         const gStateDecrypted: A_GlobalStateDecrypted[] = [];
-
         const gState = this.getGlobalStorage();
-
-        console.log(gState);
 
         if (gState) {
             gState.forEach((gStateProp) => {

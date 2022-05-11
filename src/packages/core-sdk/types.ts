@@ -143,6 +143,9 @@ export interface A_SearchTransaction_Signature {
             signature: string
         }[]
     }
+    logicsig?: {
+        logic: string
+    }
 }
 
 
