@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton} from "@mui/material";
 import ReactJson from 'react-json-view'
 import {CancelOutlined} from "@mui/icons-material";
-import {copyContent} from "../../../utils/common";
+import {copyContent, exportData} from "../../../utils/common";
 import {useDispatch} from "react-redux";
 
 interface JsonViewerState{
@@ -70,6 +70,17 @@ function JsonViewer(props): JSX.Element {
                                         copyContent(ev, dispatch, JSON.stringify(obj), 'JSON Copied');
                                     }}
                                 >Copy</Button>
+
+                                <Button
+                                    variant={"outlined"}
+                                    size={"small"}
+                                    style={{marginLeft: 10}}
+                                    color={"primary"}
+                                    onClick={() => {
+                                        exportData(obj);
+                                    }}
+                                >Download</Button>
+
                             </div>
                         </div>
 
