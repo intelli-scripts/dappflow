@@ -10,6 +10,7 @@ import NumberFormat from "react-number-format";
 import LinkToAccount from "../../Common/Links/LinkToAccount";
 import LoadingTile from "../../Common/LoadingTile/LoadingTile";
 import {shadedClr} from "../../../utils/common";
+import JsonViewer from "../../Common/JsonViewer/JsonViewer";
 
 
 function Asset(): JSX.Element {
@@ -28,7 +29,12 @@ function Asset(): JSX.Element {
     return (<div className={"asset-wrapper"}>
         <div className={"asset-container"}>
             <div className="asset-header">
-                Asset overview
+                <div>
+                    Asset overview
+                </div>
+                <div>
+                    <JsonViewer obj={asset.information}></JsonViewer>
+                </div>
             </div>
 
             {asset.loading ? <LoadingTile></LoadingTile> : <div className="asset-body">

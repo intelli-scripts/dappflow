@@ -25,7 +25,9 @@ function Block(): JSX.Element {
     return (<div className={"block-wrapper"}>
         <div className={"block-container"}>
             <div className="block-header">
-                Block overview
+                <div>
+                    Block overview
+                </div>
             </div>
 
             {block.loading ? <LoadingTile></LoadingTile> : <div className="block-body">

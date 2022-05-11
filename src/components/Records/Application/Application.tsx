@@ -10,6 +10,7 @@ import ApplicationGlobalState from "./Sections/ApplicationGlobalState/Applicatio
 import LinkToAccount from "../../Common/Links/LinkToAccount";
 import LoadingTile from "../../Common/LoadingTile/LoadingTile";
 import {shadedClr} from "../../../utils/common";
+import JsonViewer from "../../Common/JsonViewer/JsonViewer";
 
 
 function Application(): JSX.Element {
@@ -38,7 +39,12 @@ function Application(): JSX.Element {
     return (<div className={"application-wrapper"}>
         <div className={"application-container"}>
             <div className="application-header">
-                Application overview
+                <div>
+                    Application overview
+                </div>
+                <div>
+                    <JsonViewer obj={application.information}></JsonViewer>
+                </div>
             </div>
 
             {application.loading ? <LoadingTile></LoadingTile> : <div className="application-body">

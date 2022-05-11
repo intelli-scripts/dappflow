@@ -10,6 +10,7 @@ import {microalgosToAlgos} from "algosdk";
 import AlgoIcon from "../../AlgoIcon/AlgoIcon";
 import {CoreAccount} from "../../../packages/core-sdk/classes/CoreAccount";
 import LoadingTile from "../../Common/LoadingTile/LoadingTile";
+import JsonViewer from "../../Common/JsonViewer/JsonViewer";
 
 
 function Account(): JSX.Element {
@@ -41,7 +42,12 @@ function Account(): JSX.Element {
         <div className={"account-container"}>
 
             <div className="account-header">
-                Account overview
+                <div>
+                    Account overview
+                </div>
+                <div>
+                    <JsonViewer obj={account.information}></JsonViewer>
+                </div>
             </div>
 
             {account.loading ? <LoadingTile></LoadingTile> : <div className="account-body">

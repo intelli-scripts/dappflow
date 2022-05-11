@@ -23,6 +23,7 @@ import TransactionNote from "./Sections/TransactionNotes/TransactionNote";
 import {shadedClr} from "../../../utils/common";
 import TransactionMultiSig from "./Sections/TransactionMultiSig/TransactionMultiSig";
 import TransactionLogicSig from "./Sections/TransactionLogicSig/TransactionLogicSig";
+import JsonViewer from "../../Common/JsonViewer/JsonViewer";
 
 
 
@@ -44,7 +45,12 @@ function Transaction(): JSX.Element {
         <div className={"transaction-container"}>
 
             <div className="transaction-header">
-                Transaction overview
+                <div>
+                    Transaction overview
+                </div>
+                <div>
+                    <JsonViewer obj={transaction.information}></JsonViewer>
+                </div>
             </div>
 
             {transaction.loading ? <LoadingTile></LoadingTile> : <div className="transaction-body">
