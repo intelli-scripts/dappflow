@@ -3,6 +3,8 @@ import React, {useState} from "react";
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton} from "@mui/material";
 import ReactJson from 'react-json-view'
 import {CancelOutlined} from "@mui/icons-material";
+import {copyContent} from "../../../utils/common";
+import {useDispatch} from "react-redux";
 
 interface JsonViewerState{
     show: boolean,
@@ -17,6 +19,7 @@ function JsonViewer(props): JSX.Element {
         {show},
         setState
     ] = useState(initialState);
+    const dispatch = useDispatch();
 
     let {obj} = props;
     if (!obj) {
@@ -45,15 +48,31 @@ function JsonViewer(props): JSX.Element {
                         <div>
                             <div style={{fontWeight: "bold", fontSize: 18}}>Raw JSON</div>
                         </div>
-                        <IconButton color="primary" onClick={() => {
-                            setState(prevState => ({...prevState, show: false}));
-                        }}>
-                            <CancelOutlined />
-                        </IconButton>
+                        <div>
+                            <IconButton color="primary" onClick={() => {
+                                setState(prevState => ({...prevState, show: false}));
+                            }}>
+                                <CancelOutlined />
+                            </IconButton>
+                        </div>
+
                     </div>
                 </DialogTitle>
                 <DialogContent>
                     <div className="json-viewer-content">
+                        <div className="json-viewer-content-header">
+                            <div>
+                                <Button
+                                    variant={"outlined"}
+                                    size={"small"}
+                                    color={"primary"}
+                                    onClick={(ev) => {
+                                        copyContent(ev, dispatch, JSON.stringify(obj), 'JSON Copied');
+                                    }}
+                                >Copy</Button>
+                            </div>
+                        </div>
+
                         <ReactJson src={obj} name={false} displayObjectSize={false} displayDataTypes={false} enableClipboard={false} iconStyle={"square"}/>
                     </div>
                 </DialogContent>
