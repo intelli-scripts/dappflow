@@ -67,6 +67,20 @@ function Application(): JSX.Element {
                     </Grid>
                 </div>
 
+                <div className="props" style={{background: shadedClr}}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                            <div className="property">
+                                <div className="key">
+                                    Application address
+                                </div>
+                                <div className="value small">
+                                    <LinkToAccount address={applicationInstance.getApplicationAddress()}></LinkToAccount>
+                                </div>
+                            </div>
+                        </Grid>
+                    </Grid>
+                </div>
 
                 <div className="props" style={{background: shadedClr}}>
                     <Grid container spacing={2}>

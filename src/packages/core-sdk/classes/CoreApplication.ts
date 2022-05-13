@@ -2,7 +2,7 @@ import {
     A_Application, A_GlobalState, A_GlobalStateDecrypted
 } from "../types";
 import atob from 'atob';
-import {encodeAddress} from "algosdk";
+import {encodeAddress, getApplicationAddress} from "algosdk";
 
 export class CoreApplication {
     application: A_Application;
@@ -83,5 +83,9 @@ export class CoreApplication {
         }
 
         return gStateDecrypted;
+    }
+
+    getApplicationAddress(): string {
+        return getApplicationAddress(this.getId());
     }
 }

@@ -138,6 +138,18 @@ function TransactionsList(props): JSX.Element {
                     {type}
                 </div>;
             }
+        },
+        {
+            ...dataGridCellConfig,
+            field: 'timestamp',
+            headerName: 'Timestamp',
+            flex: 2,
+            renderCell: (params: GridValueGetterParams) => {
+                const timestamp = new CoreTransaction(params.row).getTimestampDisplayValue('GMT:dd mmmm  yyyy HH:MM:ss');
+                return <div>
+                    {timestamp}
+                </div>;
+            }
         }
     ];
 
@@ -153,7 +165,12 @@ function TransactionsList(props): JSX.Element {
                         pageSize={10}
                         rowsPerPageOptions={[10]}
                         disableSelectionOnClick
-                        sx={dataGridStyles}
+                        sx={{
+                            ...dataGridStyles,
+                            '.MuiDataGrid-cell': {
+                                fontSize: 13
+                            },
+                        }}
                         components={{
                             NoRowsOverlay: CustomNoRowsOverlay
                         }}
