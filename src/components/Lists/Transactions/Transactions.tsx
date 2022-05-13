@@ -19,7 +19,7 @@ function Transactions(): JSX.Element {
     return (<div className={"transactions-wrapper"}>
         <div className={"transactions-container"}>
             <div className="transactions-body">
-                <TransactionsList transactions={list}></TransactionsList>
+                <TransactionsList transactions={list} loading={transactions.loading}></TransactionsList>
             </div>
         </div>
     </div>);

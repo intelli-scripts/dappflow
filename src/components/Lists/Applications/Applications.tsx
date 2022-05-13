@@ -19,7 +19,7 @@ function Applications(): JSX.Element {
     return (<div className={"applications-wrapper"}>
         <div className={"applications-container"}>
             <div className="applications-body">
-                <ApplicationsList applications={list}></ApplicationsList>
+                <ApplicationsList applications={list} loading={applications.loading}></ApplicationsList>
             </div>
         </div>
     </div>);

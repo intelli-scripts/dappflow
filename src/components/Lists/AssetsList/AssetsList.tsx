@@ -11,13 +11,17 @@ import {copyContent} from "../../../utils/common";
 import {CoreAsset} from "../../../packages/core-sdk/classes/CoreAsset";
 import LinkToAccount from "../../Common/Links/LinkToAccount";
 import LinkToAsset from "../../Common/Links/LinkToAsset";
+import CustomNoRowsOverlay from "../../Common/CustomNoRowsOverlay/CustomNoRowsOverlay";
 
 
 function AssetsList(props): JSX.Element {
     const dispatch = useDispatch();
-    let {assets} = props;
+    let {assets, loading} = props;
     if (!assets) {
         assets = [];
+    }
+    if (!loading) {
+        loading = false;
     }
 
     const columns: GridColDef[] = [
@@ -99,6 +103,7 @@ function AssetsList(props): JSX.Element {
 
                 <div style={{ height: 700, width: '100%' }}>
                     <DataGrid
+                        loading={loading}
                         rows={assets}
                         columns={columns}
                         pageSize={10}
@@ -107,6 +112,9 @@ function AssetsList(props): JSX.Element {
                         sx={dataGridStyles}
                         getRowId={(row) => {
                             return row.index;
+                        }}
+                        components={{
+                            NoRowsOverlay: CustomNoRowsOverlay
                         }}
                     />
                 </div>

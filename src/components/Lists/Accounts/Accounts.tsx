@@ -14,11 +14,12 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import {copyContent} from "../../../utils/common";
 import AlgoIcon from "../../AlgoIcon/AlgoIcon";
 import LinkToAccount from "../../Common/Links/LinkToAccount";
+import CustomNoRowsOverlay from "../../Common/CustomNoRowsOverlay/CustomNoRowsOverlay";
 
 function Accounts(): JSX.Element {
     const dispatch = useDispatch();
     const accounts = useSelector((state: RootState) => state.accounts);
-    const {list} = accounts;
+    const {list, loading} = accounts;
 
     const columns: GridColDef[] = [
         {
@@ -80,6 +81,7 @@ function Accounts(): JSX.Element {
             <div className="accounts-body">
                 <div style={{ height: 700, width: '100%' }}>
                     <DataGrid
+                        loading={loading}
                         rows={list}
                         columns={columns}
                         pageSize={10}
@@ -89,6 +91,9 @@ function Accounts(): JSX.Element {
                         }}
                         disableSelectionOnClick
                         sx={dataGridStyles}
+                        components={{
+                            NoRowsOverlay: CustomNoRowsOverlay,
+                        }}
                     />
                 </div>
             </div>

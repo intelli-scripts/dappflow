@@ -11,13 +11,17 @@ import {copyContent} from "../../../utils/common";
 import {CoreApplication} from "../../../packages/core-sdk/classes/CoreApplication";
 import LinkToAccount from "../../Common/Links/LinkToAccount";
 import LinkToApplication from "../../Common/Links/LinkToApplication";
+import CustomNoRowsOverlay from "../../Common/CustomNoRowsOverlay/CustomNoRowsOverlay";
 
 
 function ApplicationsList(props): JSX.Element {
     const dispatch = useDispatch();
-    let {applications} = props;
+    let {applications, loading} = props;
     if (!applications) {
         applications = [];
+    }
+    if (!loading) {
+        loading = false;
     }
 
     const columns: GridColDef[] = [
@@ -64,12 +68,16 @@ function ApplicationsList(props): JSX.Element {
 
                 <div style={{ height: 700, width: '100%' }}>
                     <DataGrid
+                        loading={loading}
                         rows={applications}
                         columns={columns}
                         pageSize={10}
                         rowsPerPageOptions={[10]}
                         disableSelectionOnClick
                         sx={dataGridStyles}
+                        components={{
+                            NoRowsOverlay: CustomNoRowsOverlay
+                        }}
                     />
                 </div>
             </div>

@@ -19,7 +19,7 @@ function Assets(): JSX.Element {
     return (<div className={"assets-wrapper"}>
         <div className={"assets-container"}>
             <div className="assets-body">
-                <AssetsList assets={list}></AssetsList>
+                <AssetsList assets={list} loading={assets.loading}></AssetsList>
             </div>
         </div>
     </div>);

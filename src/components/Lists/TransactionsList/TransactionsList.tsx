@@ -18,13 +18,16 @@ import LinkToAccount from "../../Common/Links/LinkToAccount";
 import LinkToApplication from "../../Common/Links/LinkToApplication";
 import LinkToTransaction from "../../Common/Links/LinkToTransaction";
 import LinkToBlock from "../../Common/Links/LinkToBlock";
-
+import CustomNoRowsOverlay from "../../Common/CustomNoRowsOverlay/CustomNoRowsOverlay";
 
 function TransactionsList(props): JSX.Element {
     const dispatch = useDispatch();
-    let {transactions} = props;
+    let {transactions, loading} = props;
     if (!transactions) {
         transactions = [];
+    }
+    if (!loading) {
+        loading = false;
     }
 
     const columns: GridColDef[] = [
@@ -144,12 +147,16 @@ function TransactionsList(props): JSX.Element {
 
                 <div style={{ height: 700, width: '100%' }}>
                     <DataGrid
+                        loading={loading}
                         rows={transactions}
                         columns={columns}
                         pageSize={10}
                         rowsPerPageOptions={[10]}
                         disableSelectionOnClick
                         sx={dataGridStyles}
+                        components={{
+                            NoRowsOverlay: CustomNoRowsOverlay
+                        }}
                     />
                 </div>
             </div>

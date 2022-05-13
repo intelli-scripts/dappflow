@@ -1,19 +1,22 @@
 import './LoadingTile.scss';
 import React from "react";
 
-function LoadingTile(): JSX.Element {
+interface TilesProps {
+    count?: number
+}
+
+function LoadingTile({count = 5}: TilesProps): JSX.Element {
     return (<div className={"loading-tile-wrapper"}>
         <div className={"loading-tile-container"}>
-
 
             <div className="wrapper">
                 <div className="wrapper-cell">
                     <div className="text">
-                        <div className="text-line"></div>
-                        <div className="text-line"></div>
-                        <div className="text-line"></div>
-                        <div className="text-line"></div>
-                        <div className="text-line"></div>
+
+                        {[...Array(count)].map((value, index) => {
+                            return <div className="text-line" key={index}></div>;
+                        })}
+
                     </div>
                 </div>
             </div>
