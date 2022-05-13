@@ -5,9 +5,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../redux/store";
 import {Grid, Tab, Tabs} from "@mui/material";
 import {loadBlock} from "../../../redux/actions/block";
-import {TIMESTAMP_DISPLAY_FORMAT} from "../../../packages/core-sdk/constants";
-import dateFormat  from "dateformat";
 import LoadingTile from "../../Common/LoadingTile/LoadingTile";
+import {CoreBlock} from "../../../packages/core-sdk/classes/CoreBlock";
 
 
 function Block(): JSX.Element {
@@ -17,6 +16,10 @@ function Block(): JSX.Element {
     const {id} = params;
 
     const block = useSelector((state: RootState) => state.block);
+
+    const blockInstance = new CoreBlock(block.information);
+    console.log(block);
+    blockInstance.getTransactionsTypesCount();
 
     useEffect(() => {
         dispatch(loadBlock(Number(id)));
@@ -32,7 +35,7 @@ function Block(): JSX.Element {
 
             {block.loading ? <LoadingTile></LoadingTile> : <div className="block-body">
                 <div className="address">
-                    #{id}
+                    #{blockInstance.getRound()}
                 </div>
 
 
@@ -44,7 +47,7 @@ function Block(): JSX.Element {
                                     Timestamp
                                 </div>
                                 <div className="value">
-                                    {dateFormat(new Date(block.information.timestamp * 1000), TIMESTAMP_DISPLAY_FORMAT) + ' GMT'}
+                                    {blockInstance.getTimestampDisplayValue() + ' GMT'}
                                 </div>
                             </div>
 
@@ -55,7 +58,16 @@ function Block(): JSX.Element {
                                     Txn count
                                 </div>
                                 <div className="value">
-                                    {block.information.transactions.length}
+                                    {blockInstance.getTransactionsCount()}
+                                </div>
+                            </div>
+
+                            <div className="property">
+                                <div className="key">
+                                    Txn types
+                                </div>
+                                <div className="value">
+                                    {blockInstance.getTransactionsTypesCount() ? blockInstance.getTransactionsTypesCount() : '-'}
                                 </div>
                             </div>
 
