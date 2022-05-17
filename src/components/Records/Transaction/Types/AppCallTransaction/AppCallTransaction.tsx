@@ -7,6 +7,7 @@ import LinkToAccount from "../../../../Common/Links/LinkToAccount";
 import LinkToAsset from "../../../../Common/Links/LinkToAsset";
 import LinkToApplication from "../../../../Common/Links/LinkToApplication";
 import {shadedClr} from "../../../../../utils/common";
+import AppCallTxnLocalStateDelta from "./Sections/AppCallTxnLocalStateDelta/AppCallTxnLocalStateDelta";
 
 
 function AppCallTransaction(props): JSX.Element {
@@ -187,6 +188,14 @@ function AppCallTransaction(props): JSX.Element {
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                             <AppCallTxnGlobalStateDelta state={transaction.information["global-state-delta"]}></AppCallTxnGlobalStateDelta>
+                        </Grid>
+                    </Grid>
+                </div> : ''}
+
+                {txnInstance.hasLocalStateDelta() ? <div>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                            <AppCallTxnLocalStateDelta state={transaction.information["local-state-delta"]}></AppCallTxnLocalStateDelta>
                         </Grid>
                     </Grid>
                 </div> : ''}

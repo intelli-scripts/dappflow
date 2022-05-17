@@ -87,6 +87,20 @@ export interface A_GlobalStateDelta {
     }
 }
 
+export interface A_LocalStateDelta {
+    address: string,
+    delta: A_AppStateDelta[]
+}
+
+export interface A_AppStateDelta {
+    key: string
+    value: {
+        bytes: string
+        action: number
+        uint: number
+    }
+}
+
 export interface A_StateSchema {
     "num-byte-slice": number
     "num-uint": number
@@ -132,6 +146,7 @@ export interface A_SearchTransaction{
     "asset-config-transaction"?: A_Asset,
     "keyreg-transaction"?: A_SearchTransaction_KeyReg_Payload,
     "global-state-delta"?: A_GlobalStateDelta[],
+    "local-state-delta"?: A_LocalStateDelta[]
     signature: A_SearchTransaction_Signature
 }
 

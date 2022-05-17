@@ -214,4 +214,8 @@ export class CoreTransaction {
     getGroup(): string {
         return this.txn.group;
     }
+
+    hasLocalStateDelta(): boolean {
+        return this.txn["local-state-delta"] && this.txn["local-state-delta"].length > 0;
+    }
 }
