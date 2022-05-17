@@ -13,8 +13,13 @@ function Header(): JSX.Element {
     const location = useLocation();
     const dispatch = useDispatch();
 
-    let route = location.pathname;
+    let route: string | boolean = location.pathname;
     route = route.substring(1);
+
+    const routes = ["", "accounts", "transactions", "assets", "applications", "developer-api"];
+    if (routes.indexOf(route) === -1) {
+        route = false;
+    }
 
     return (<div className={"header-wrapper"}>
         <div className={"header-container"}>
