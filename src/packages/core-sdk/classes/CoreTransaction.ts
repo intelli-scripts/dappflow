@@ -210,4 +210,8 @@ export class CoreTransaction {
         const sig = this.getSig();
         return sig.logicsig !== undefined;
     }
+
+    getGroup(): string {
+        return this.txn.group;
+    }
 }

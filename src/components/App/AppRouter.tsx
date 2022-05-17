@@ -19,6 +19,8 @@ import Application from "../Records/Application/Application";
 import ApplicationTransactions from "../Records/Application/RelatedList/ApplicationTransactions/ApplicationTransactions";
 import Transaction from "../Records/Transaction/Transaction";
 import Settings from "../Settings/Settings";
+import Group from "../Records/Group/Group";
+import GroupTransactions from "../Records/Group/RelatedList/GroupTransactions/GroupTransactions";
 
 function AppRouter(): JSX.Element {
     return (<div>
@@ -51,6 +53,10 @@ function AppRouter(): JSX.Element {
                     <Route path="" element={<Navigate to="transactions" replace />}/>
                 </Route>
                 <Route path="/transaction/:id" element={<Transaction></Transaction>}></Route>
+                <Route path="/group/:id/:blockId" element={<Group></Group>}>
+                    <Route path="transactions" element={<GroupTransactions></GroupTransactions>} />
+                    <Route path="" element={<Navigate to="transactions" replace />}/>
+                </Route>
                 <Route path="*" element={<Navigate to="/" replace />}/>
             </Routes>
             <Settings></Settings>

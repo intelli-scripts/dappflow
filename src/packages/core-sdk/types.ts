@@ -122,6 +122,7 @@ export interface A_SearchTransaction{
     "genesis-hash": string
     "genesis-id": string
     id: string
+    group?: string
     "inner-txns"?: A_SearchTransactionInner[]
     "created-application-index"?: number
     "created-asset-index"?: number
@@ -212,5 +213,12 @@ export type A_NodeConfig = {
     indexerUrl: string,
     indexerPort: string,
     indexerToken: string
+};
+
+export type A_Group = {
+    id: string
+    block: number
+    timestamp: number
+    transactions: A_SearchTransaction[]
 };
 

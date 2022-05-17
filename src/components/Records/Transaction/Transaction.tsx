@@ -24,6 +24,7 @@ import {shadedClr} from "../../../utils/common";
 import TransactionMultiSig from "./Sections/TransactionMultiSig/TransactionMultiSig";
 import TransactionLogicSig from "./Sections/TransactionLogicSig/TransactionLogicSig";
 import JsonViewer from "../../Common/JsonViewer/JsonViewer";
+import LinkToGroup from "../../Common/Links/LinkToGroup";
 
 
 
@@ -110,6 +111,17 @@ function Transaction(): JSX.Element {
                                 </div>
                             </div>
                         </Grid>
+
+                        {txnInstance.getGroup() ? <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                            <div className="property">
+                                <div className="key">
+                                    Group
+                                </div>
+                                <div className="value small">
+                                    <LinkToGroup id={txnInstance.getGroup()} blockId={txnInstance.getBlock()}></LinkToGroup>
+                                </div>
+                            </div>
+                        </Grid> : ''}
 
                     </Grid>
                 </div>

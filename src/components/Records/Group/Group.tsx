@@ -1,39 +1,41 @@
-import './Block.scss';
+import './Group.scss';
 import React, {useEffect} from "react";
 import {Outlet, useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../redux/store";
 import {Grid, Tab, Tabs} from "@mui/material";
-import {loadBlock} from "../../../redux/actions/block";
 import LoadingTile from "../../Common/LoadingTile/LoadingTile";
-import {CoreBlock} from "../../../packages/core-sdk/classes/CoreBlock";
+import {loadGroup} from "../../../redux/actions/group";
+import {CoreGroup} from "../../../packages/core-sdk/classes/CoreGroup";
+import LinkToBlock from "../../Common/Links/LinkToBlock";
 
 
-function Block(): JSX.Element {
+function Group(): JSX.Element {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const params = useParams();
-    const {id} = params;
+    const {id, blockId} = params;
 
-    const block = useSelector((state: RootState) => state.block);
+    const group = useSelector((state: RootState) => state.group);
 
-    const blockInstance = new CoreBlock(block.information);
+    const groupInstance = new CoreGroup(group.information);
+    groupInstance.getTransactionsTypesCount();
 
     useEffect(() => {
-        dispatch(loadBlock(Number(id)));
-    }, [dispatch, id]);
+        dispatch(loadGroup({id, blockId: Number(blockId)}));
+    }, [dispatch, id, blockId]);
 
-    return (<div className={"block-wrapper"}>
-        <div className={"block-container"}>
-            <div className="block-header">
+    return (<div className={"group-wrapper"}>
+        <div className={"group-container"}>
+            <div className="group-header">
                 <div>
-                    Block overview
+                    Group transactions overview
                 </div>
             </div>
 
-            {block.loading ? <LoadingTile></LoadingTile> : <div className="block-body">
-                <div className="address">
-                    #{blockInstance.getRound()}
+            {group.loading ? <LoadingTile></LoadingTile> : <div className="group-body">
+                <div className="id">
+                    {groupInstance.getId()}
                 </div>
 
 
@@ -42,10 +44,19 @@ function Block(): JSX.Element {
                         <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
                             <div className="property">
                                 <div className="key">
+                                    Block
+                                </div>
+                                <div className="value">
+                                    <LinkToBlock id={groupInstance.getBlock()}></LinkToBlock>
+                                </div>
+                            </div>
+
+                            <div className="property">
+                                <div className="key">
                                     Timestamp
                                 </div>
                                 <div className="value">
-                                    {blockInstance.getTimestampDisplayValue() + ' GMT'}
+                                    {groupInstance.getTimestampDisplayValue() + ' GMT'}
                                 </div>
                             </div>
 
@@ -56,7 +67,7 @@ function Block(): JSX.Element {
                                     Txn count
                                 </div>
                                 <div className="value">
-                                    {blockInstance.getTransactionsCount()}
+                                    {groupInstance.getTransactionsCount()}
                                 </div>
                             </div>
 
@@ -65,7 +76,7 @@ function Block(): JSX.Element {
                                     Txn types
                                 </div>
                                 <div className="value">
-                                    {blockInstance.getTransactionsTypesCount() ? blockInstance.getTransactionsTypesCount() : '-'}
+                                    {groupInstance.getTransactionsTypesCount() ? groupInstance.getTransactionsTypesCount() : '-'}
                                 </div>
                             </div>
 
@@ -75,7 +86,7 @@ function Block(): JSX.Element {
 
 
 
-                <div className="block-tabs">
+                <div className="group-tabs">
 
                     <Tabs value="transactions" className="related-list">
                         <Tab label="Transactions" value="transactions" onClick={() => {
@@ -93,4 +104,4 @@ function Block(): JSX.Element {
     </div>);
 }
 
-export default Block;
+export default Group;
