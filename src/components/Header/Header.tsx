@@ -5,8 +5,8 @@ import {Grid, Tab, Tabs, Tooltip} from "@mui/material";
 import SettingsIcon from '@mui/icons-material/Settings';
 import {useDispatch} from "react-redux";
 import {showSettings} from "../../redux/actions/settings";
-import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
 import Search from "../Search/Search";
+import Logo from '../../assets/images/logo-black.png';
 
 function Header(): JSX.Element {
     const navigate = useNavigate();
@@ -26,7 +26,7 @@ function Header(): JSX.Element {
             <div className="logo" onClick={() => {
                 navigate('/');
             }}>
-                <DeveloperBoardIcon fontSize={"medium"}></DeveloperBoardIcon>
+                <img src={Logo} alt="logo"/>
                 Dappflow
             </div>
             <div>

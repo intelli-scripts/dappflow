@@ -1,14 +1,14 @@
 import './Home.scss';
 import React from "react";
-import DeveloperBoardIcon from "@mui/icons-material/DeveloperBoard";
 import Search from '../Search/Search';
 import {Grid} from "@mui/material";
+import Logo from "../../assets/images/logo-blue.png";
 
 function Home(): JSX.Element {
     return (<div className={"home-wrapper"}>
         <div className={"home-container"}>
             <div className="home-body">
-                <DeveloperBoardIcon className="logo"></DeveloperBoardIcon>
+                <img src={Logo} alt="logo" className="logo"/>
                 <div className="tag-line">
                     Algorand Private Blockchain Explorer
                 </div>
