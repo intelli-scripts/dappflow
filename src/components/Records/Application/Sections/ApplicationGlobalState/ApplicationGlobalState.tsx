@@ -66,12 +66,13 @@ function ApplicationGlobalState(): JSX.Element {
                 <div className="application-global-state-body">
 
 
-                    <div style={{ height: 700, width: '100%' }}>
+                    <div style={{ width: '100%' }}>
                         <DataGrid
                             rows={globalStorage}
                             columns={columns}
                             rowsPerPageOptions={[]}
                             disableSelectionOnClick
+                            autoHeight
                             sx={{
                                 ...dataGridStyles,
                                 '.MuiDataGrid-columnHeader': {

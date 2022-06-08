@@ -83,12 +83,13 @@ function AppCallTxnLocalStateDelta(props): JSX.Element {
                                 {accountLocalState.address}
                             </div>
                             <div className="state-delta">
-                                <div style={{ height: 400, width: '100%' }}>
+                                <div style={{ width: '100%' }}>
                                     <DataGrid
                                         rows={accountLocalState.delta}
                                         columns={columns}
                                         rowsPerPageOptions={[]}
                                         disableSelectionOnClick
+                                        autoHeight
                                         sx={{
                                             ...dataGridStyles,
                                             '.MuiDataGrid-columnHeader': {

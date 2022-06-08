@@ -76,12 +76,13 @@ function AppCallTxnGlobalStateDelta(props): JSX.Element {
             <div className="app-call-txn-global-state-delta-body">
 
 
-                <div style={{ height: 700, width: '100%' }}>
+                <div style={{ width: '100%' }}>
                     <DataGrid
                         rows={globalStateDelta}
                         columns={columns}
                         rowsPerPageOptions={[]}
                         disableSelectionOnClick
+                        autoHeight
                         sx={{
                             ...dataGridStyles,
                             '.MuiDataGrid-columnHeader': {
