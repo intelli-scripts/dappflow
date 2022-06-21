@@ -8,6 +8,7 @@ import LinkToAsset from "../../../../Common/Links/LinkToAsset";
 import LinkToApplication from "../../../../Common/Links/LinkToApplication";
 import {shadedClr} from "../../../../../utils/common";
 import AppCallTxnLocalStateDelta from "./Sections/AppCallTxnLocalStateDelta/AppCallTxnLocalStateDelta";
+import AppCallTxnInnerTxns from "./Sections/AppCallTxnInnerTxns/AppCallTxnInnerTxns";
 
 
 function AppCallTransaction(props): JSX.Element {
@@ -184,7 +185,7 @@ function AppCallTransaction(props): JSX.Element {
                 </div> : ''}
 
 
-                {transaction.information["global-state-delta"] && transaction.information["global-state-delta"].length > 0 ? <div>
+                {txnInstance.hasGlobalStateDelta() ? <div>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                             <AppCallTxnGlobalStateDelta state={transaction.information["global-state-delta"]}></AppCallTxnGlobalStateDelta>
@@ -200,6 +201,13 @@ function AppCallTransaction(props): JSX.Element {
                     </Grid>
                 </div> : ''}
 
+                {txnInstance.hasInnerTransactions() ? <div>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                            <AppCallTxnInnerTxns txns={transaction.information["inner-txns"]}></AppCallTxnInnerTxns>
+                        </Grid>
+                    </Grid>
+                </div> : ''}
 
             </div>
         </div>

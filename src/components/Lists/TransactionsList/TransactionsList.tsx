@@ -104,9 +104,11 @@ function TransactionsList(props): JSX.Element {
             headerName: 'To',
             flex: 2,
             renderCell: (params: GridValueGetterParams) => {
-                const to = new CoreTransaction(params.row).getTo();
-                const type = new CoreTransaction(params.row).getType();
-                const appId = new CoreTransaction(params.row).getAppId();
+                const txnInstance = new CoreTransaction(params.row);
+
+                const to = txnInstance.getTo();
+                const type = txnInstance.getType();
+                const appId = txnInstance.getAppId();
 
                 return <div>
                     {type === TXN_TYPES.PAYMENT || type === TXN_TYPES.ASSET_TRANSFER ? <div>

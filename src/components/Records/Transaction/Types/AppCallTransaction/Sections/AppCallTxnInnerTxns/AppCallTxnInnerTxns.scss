@@ -1,0 +1,19 @@
+@import "src/assets/colors";
+
+.app-call-txn-inner-txns-wrapper {
+  .app-call-txn-inner-txns-container {
+    .app-call-txn-inner-txns-header {
+      margin-top: 40px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .app-call-txn-inner-txns-body {
+      margin-top: 25px;
+      .copy-content {
+        font-size: 16px;
+        margin-right: 10px;
+        vertical-align: text-bottom;
+      }
+    }
+  }
+}

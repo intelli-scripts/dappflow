@@ -55,10 +55,10 @@ export class CoreTransaction {
             return 'Asset config';
         }
         else if(type === 'axfer') {
-            return 'Asset transfer';
+            return 'Transfer';
         }
         else if(type === 'appl') {
-            return 'Application call';
+            return 'App call';
         }
     }
 
@@ -217,5 +217,13 @@ export class CoreTransaction {
 
     hasLocalStateDelta(): boolean {
         return this.txn["local-state-delta"] && this.txn["local-state-delta"].length > 0;
+    }
+
+    hasGlobalStateDelta(): boolean {
+        return this.txn["global-state-delta"] && this.txn["global-state-delta"].length > 0;
+    }
+
+    hasInnerTransactions(): boolean {
+        return this.txn["inner-txns"] && this.txn["inner-txns"].length > 0;
     }
 }
