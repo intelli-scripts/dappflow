@@ -10,9 +10,9 @@ import {shadedClr} from "../../../../../utils/common";
 
 
 function AssetTransferTransaction(props): JSX.Element {
-    const transaction = props.transaction;
-    const txnInstance = new CoreTransaction(transaction.information);
-    const assetInstance = new CoreAsset(transaction.asset.information);
+    const {transaction, asset} = props;
+    const txnInstance = new CoreTransaction(transaction);
+    const assetInstance = new CoreAsset(asset);
 
 
     return (<div className={"asset-transfer-transaction-wrapper"}>

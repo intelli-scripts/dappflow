@@ -3,7 +3,7 @@ import {
     A_SearchTransaction,
     A_SearchTransaction_App_Call_Payload,
     A_SearchTransaction_Asset_Transfer_Payload, A_SearchTransaction_KeyReg_Payload,
-    A_SearchTransaction_Payment_Payload, A_SearchTransaction_Signature
+    A_SearchTransaction_Payment_Payload, A_SearchTransaction_Signature, A_SearchTransactionInner
 } from "../types";
 import {NOTE_ENCRYPTIONS, TIMESTAMP_DISPLAY_FORMAT, TXN_TYPES} from "../constants";
 import atob from 'atob';
@@ -225,5 +225,14 @@ export class CoreTransaction {
 
     hasInnerTransactions(): boolean {
         return this.txn["inner-txns"] && this.txn["inner-txns"].length > 0;
+    }
+
+    getInnerTransactions(): A_SearchTransactionInner[] {
+        return this.txn["inner-txns"];
+    }
+
+    getInnerTransaction(index: number): A_SearchTransactionInner {
+        const txns = this.getInnerTransactions();
+        return txns[index];
     }
 }

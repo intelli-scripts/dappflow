@@ -8,11 +8,13 @@ import {CoreTransaction} from "../../../../../../../packages/core-sdk/classes/Co
 import LinkToAccount from "../../../../../../Common/Links/LinkToAccount";
 import {TXN_TYPES} from "../../../../../../../packages/core-sdk/constants";
 import LinkToApplication from "../../../../../../Common/Links/LinkToApplication";
+import LinkToInnerTransaction from "../../../../../../Common/Links/LinkToInnerTransaction";
 
 
 function AppCallTxnInnerTxns(props): JSX.Element {
 
     let txns: A_SearchTransactionInner[] = props.txns;
+    const id = props.id;
     if (!txns) {
         txns = [];
     }
@@ -25,7 +27,7 @@ function AppCallTxnInnerTxns(props): JSX.Element {
             renderCell: (params: GridValueGetterParams) => {
                 const txnInstance = new CoreTransaction(params.row);
                 return <div>
-                    {txnInstance.getTypeDisplayValue()}
+                    <LinkToInnerTransaction id={id} index={0} name={txnInstance.getTypeDisplayValue()}></LinkToInnerTransaction>
                 </div>;
             }
         },

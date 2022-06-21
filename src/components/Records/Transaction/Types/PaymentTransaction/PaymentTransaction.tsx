@@ -10,8 +10,8 @@ import {shadedClr} from "../../../../../utils/common";
 
 
 function PaymentTransaction(props): JSX.Element {
-    const transaction = props.transaction;
-    const txnInstance = new CoreTransaction(transaction.information);
+    const {transaction} = props;
+    const txnInstance = new CoreTransaction(transaction);
 
 
     return (<div className={"payment-transaction-wrapper"}>

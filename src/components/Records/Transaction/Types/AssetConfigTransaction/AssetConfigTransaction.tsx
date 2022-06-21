@@ -10,9 +10,9 @@ import {shadedClr} from "../../../../../utils/common";
 
 
 function AssetConfigTransaction(props): JSX.Element {
-    const transaction = props.transaction;
+    const {transaction} = props;
 
-    const txnInstance = new CoreTransaction(transaction.information);
+    const txnInstance = new CoreTransaction(transaction);
     const assetConfig = txnInstance.getAssetConfigPayload();
     const assetInstance = new CoreAsset(assetConfig);
 

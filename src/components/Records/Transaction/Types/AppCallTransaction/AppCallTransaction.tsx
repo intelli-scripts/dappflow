@@ -12,9 +12,9 @@ import AppCallTxnInnerTxns from "./Sections/AppCallTxnInnerTxns/AppCallTxnInnerT
 
 
 function AppCallTransaction(props): JSX.Element {
-    const transaction = props.transaction;
+    const {transaction} = props;
 
-    const txnInstance = new CoreTransaction(transaction.information);
+    const txnInstance = new CoreTransaction(transaction);
     const appCallPayload = txnInstance.getAppCallPayload();
 
     const isCreate = appCallPayload["application-id"] ? false : true;
@@ -188,7 +188,7 @@ function AppCallTransaction(props): JSX.Element {
                 {txnInstance.hasGlobalStateDelta() ? <div>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                            <AppCallTxnGlobalStateDelta state={transaction.information["global-state-delta"]}></AppCallTxnGlobalStateDelta>
+                            <AppCallTxnGlobalStateDelta state={transaction["global-state-delta"]}></AppCallTxnGlobalStateDelta>
                         </Grid>
                     </Grid>
                 </div> : ''}
@@ -196,7 +196,7 @@ function AppCallTransaction(props): JSX.Element {
                 {txnInstance.hasLocalStateDelta() ? <div>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                            <AppCallTxnLocalStateDelta state={transaction.information["local-state-delta"]}></AppCallTxnLocalStateDelta>
+                            <AppCallTxnLocalStateDelta state={transaction["local-state-delta"]}></AppCallTxnLocalStateDelta>
                         </Grid>
                     </Grid>
                 </div> : ''}
@@ -204,7 +204,7 @@ function AppCallTransaction(props): JSX.Element {
                 {txnInstance.hasInnerTransactions() ? <div>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                            <AppCallTxnInnerTxns txns={transaction.information["inner-txns"]}></AppCallTxnInnerTxns>
+                            <AppCallTxnInnerTxns id={txnInstance.getId()} txns={transaction["inner-txns"]}></AppCallTxnInnerTxns>
                         </Grid>
                     </Grid>
                 </div> : ''}

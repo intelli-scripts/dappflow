@@ -8,8 +8,8 @@ import {shadedClr} from "../../../../../utils/common";
 
 
 function KeyRegTransaction(props): JSX.Element {
-    const transaction = props.transaction;
-    const txnInstance = new CoreTransaction(transaction.information);
+    const {transaction} = props;
+    const txnInstance = new CoreTransaction(transaction);
     const keyRegPayload = txnInstance.getKeyRegPayload();
 
 

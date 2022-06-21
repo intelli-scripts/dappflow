@@ -6,7 +6,7 @@ import {RootState} from "../../../redux/store";
 import {
     Grid
 } from "@mui/material";
-import {loadTransaction} from "../../../redux/actions/transaction";
+import {loadTransaction, loadTxnAsset} from "../../../redux/actions/transaction";
 import {CoreTransaction} from "../../../packages/core-sdk/classes/CoreTransaction";
 import {microalgosToAlgos} from "algosdk";
 import AlgoIcon from "../../AlgoIcon/AlgoIcon";
@@ -25,17 +25,37 @@ import TransactionMultiSig from "./Sections/TransactionMultiSig/TransactionMulti
 import TransactionLogicSig from "./Sections/TransactionLogicSig/TransactionLogicSig";
 import JsonViewer from "../../Common/JsonViewer/JsonViewer";
 import LinkToGroup from "../../Common/Links/LinkToGroup";
+import LinkToTransaction from "../../Common/Links/LinkToTransaction";
 
 
 
-function Transaction(): JSX.Element {
+function Transaction(props): JSX.Element {
+    let {inner} = props;
+    if (!inner) {
+        inner = false;
+    }
+
     const dispatch = useDispatch();
     const params = useParams();
     const {id} = params;
 
     const transaction = useSelector((state: RootState) => state.transaction);
+    const asset = transaction.asset.information;
 
-    const txnInstance = new CoreTransaction(transaction.information);
+    let txnObj = transaction.information;
+    let txnInstance = new CoreTransaction(txnObj);
+
+    if (!transaction.loading && inner) {
+        const innerTxnObj = txnInstance.getInnerTransaction(Number(params.index));
+        if (innerTxnObj) {
+            if (innerTxnObj["tx-type"] === TXN_TYPES.ASSET_TRANSFER) {
+                dispatch(loadTxnAsset(innerTxnObj["asset-transfer-transaction"]["asset-id"]));
+            }
+
+            txnObj = innerTxnObj;
+            txnInstance = new CoreTransaction(innerTxnObj);
+        }
+    }
 
 
     useEffect(() => {
@@ -47,16 +67,16 @@ function Transaction(): JSX.Element {
 
             <div className="transaction-header">
                 <div>
-                    Transaction overview
+                    {inner ? 'Inner transaction overview' : 'Transaction overview'}
                 </div>
                 <div>
-                    <JsonViewer obj={transaction.information}></JsonViewer>
+                    <JsonViewer obj={txnObj}></JsonViewer>
                 </div>
             </div>
 
             {transaction.loading ? <LoadingTile></LoadingTile> : <div className="transaction-body">
                 <div className="index">
-                    #{txnInstance.getId()}
+                    {inner ? '' : txnInstance.getId()}
                 </div>
 
 
@@ -123,21 +143,32 @@ function Transaction(): JSX.Element {
                             </div>
                         </Grid> : ''}
 
+                        {inner ? <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                            <div className="property">
+                                <div className="key">
+                                    Parent transaction id
+                                </div>
+                                <div className="value small">
+                                    <LinkToTransaction id={new CoreTransaction(transaction.information).getId()}></LinkToTransaction>
+                                </div>
+                            </div>
+                        </Grid> : ''}
+
                     </Grid>
                 </div>
 
 
-                {txnInstance.getType() === TXN_TYPES.PAYMENT ? <PaymentTransaction transaction={transaction}></PaymentTransaction> : ''}
-                {txnInstance.getType() === TXN_TYPES.ASSET_TRANSFER ? <AssetTransferTransaction transaction={transaction}></AssetTransferTransaction> : ''}
-                {txnInstance.getType() === TXN_TYPES.ASSET_CONFIG ? <AssetConfigTransaction transaction={transaction}></AssetConfigTransaction> : ''}
-                {txnInstance.getType() === TXN_TYPES.KEY_REGISTRATION ? <KeyRegTransaction transaction={transaction}></KeyRegTransaction> : ''}
-                {txnInstance.getType() === TXN_TYPES.APP_CALL ? <AppCallTransaction transaction={transaction}></AppCallTransaction> : ''}
+                {txnInstance.getType() === TXN_TYPES.PAYMENT ? <PaymentTransaction transaction={txnObj}></PaymentTransaction> : ''}
+                {txnInstance.getType() === TXN_TYPES.ASSET_TRANSFER ? <AssetTransferTransaction transaction={txnObj} asset={asset}></AssetTransferTransaction> : ''}
+                {txnInstance.getType() === TXN_TYPES.ASSET_CONFIG ? <AssetConfigTransaction transaction={txnObj}></AssetConfigTransaction> : ''}
+                {txnInstance.getType() === TXN_TYPES.KEY_REGISTRATION ? <KeyRegTransaction transaction={txnObj}></KeyRegTransaction> : ''}
+                {txnInstance.getType() === TXN_TYPES.APP_CALL ? <AppCallTransaction transaction={txnObj}></AppCallTransaction> : ''}
 
 
-                <TransactionNote transaction={transaction.information}></TransactionNote>
-                <TransactionMultiSig transaction={transaction.information}></TransactionMultiSig>
-                <TransactionLogicSig transaction={transaction.information}></TransactionLogicSig>
-                <TransactionAdditionalDetails transaction={transaction.information}></TransactionAdditionalDetails>
+                <TransactionNote transaction={txnObj}></TransactionNote>
+                {inner ? '' : <TransactionMultiSig transaction={txnObj}></TransactionMultiSig>}
+                {inner ? '' : <TransactionLogicSig transaction={txnObj}></TransactionLogicSig>}
+                <TransactionAdditionalDetails transaction={txnObj}></TransactionAdditionalDetails>
             </div>}
         </div>
     </div>);
