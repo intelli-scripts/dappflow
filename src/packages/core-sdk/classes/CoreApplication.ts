@@ -1,8 +1,8 @@
 import {
     A_Application, A_GlobalState, A_GlobalStateDecrypted
 } from "../types";
-import atob from 'atob';
 import {encodeAddress, getApplicationAddress} from "algosdk";
+import isUtf8 from 'is-utf8';
 
 export class CoreApplication {
     application: A_Application;
@@ -59,7 +59,15 @@ export class CoreApplication {
             gState.forEach((gStateProp) => {
                 const row:A_GlobalStateDecrypted = {key: "", type: "", value: undefined};
 
-                row.key = atob(gStateProp.key);
+                let key = Buffer.from(gStateProp.key, 'base64');
+
+                if (isUtf8(key)) {
+                    row.key = key.toString();
+                }
+                else {
+                    row.key = '0x' + key.toString('hex');
+                }
+
                 const {value} = gStateProp;
 
                 if (value.type === 1) {
@@ -70,7 +78,13 @@ export class CoreApplication {
                         row.value = encodeAddress(new Uint8Array(buf));
                     }
                     else {
-                        row.value = atob(value.bytes);
+                        let val = Buffer.from(value.bytes, 'base64');
+                        if (isUtf8(val)) {
+                            row.value = val.toString();
+                        }
+                        else {
+                            row.value = val.toString('base64');
+                        }
                     }
                 }
                 else {
