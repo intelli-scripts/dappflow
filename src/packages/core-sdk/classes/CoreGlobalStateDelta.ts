@@ -1,8 +1,8 @@
 import {
     A_GlobalStateDelta
 } from "../types";
-import atob from 'atob';
 import {encodeAddress} from "algosdk";
+import isUtf8 from 'is-utf8';
 
 
 export class CoreGlobalState {
@@ -30,7 +30,14 @@ export class CoreGlobalState {
     }
 
     getKey(): string {
-        return atob(this.state.key);
+        const key = Buffer.from(this.state.key, 'base64');
+
+        if (isUtf8(key)) {
+            return  key.toString();
+        }
+        else {
+            return  '0x' + key.toString('hex');
+        }
     }
 
     getAction(): number {
@@ -59,7 +66,14 @@ export class CoreGlobalState {
                 return  encodeAddress(new Uint8Array(buf));
             }
             else {
-                return  atob(this.state.value.bytes);
+                let val = Buffer.from(this.state.value.bytes, 'base64');
+
+                if (isUtf8(val)) {
+                    return  val.toString();
+                }
+                else {
+                    return  val.toString('base64');
+                }
             }
         }
 
