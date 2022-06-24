@@ -113,6 +113,7 @@ function AppCallTransaction(props): JSX.Element {
                 </div> : ''}
 
 
+                
                 {appCallPayload["application-args"] && appCallPayload["application-args"].length > 0 ? <div className="props" style={{background: shadedClr}}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
