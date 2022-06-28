@@ -25,9 +25,10 @@ function AppCallTxnInnerTxns(props): JSX.Element {
             field: 'type',
             headerName: 'Type',
             renderCell: (params: GridValueGetterParams) => {
+                const index = params.api.getRowIndex(params.id);
                 const txnInstance = new CoreTransaction(params.row);
                 return <div>
-                    <LinkToInnerTransaction id={id} index={0} name={txnInstance.getTypeDisplayValue()}></LinkToInnerTransaction>
+                    <LinkToInnerTransaction id={id} index={index} name={txnInstance.getTypeDisplayValue()}></LinkToInnerTransaction>
                 </div>;
             }
         },
