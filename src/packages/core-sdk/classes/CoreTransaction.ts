@@ -235,4 +235,24 @@ export class CoreTransaction {
         const txns = this.getInnerTransactions();
         return txns[index];
     }
+
+    hasAppCallArguments(): boolean {
+        const appCallPayload = this.getAppCallPayload();
+        return appCallPayload && appCallPayload["application-args"] && appCallPayload["application-args"].length > 0;
+    }
+
+    hasAppCallForeignAssets(): boolean {
+        const appCallPayload = this.getAppCallPayload();
+        return appCallPayload && appCallPayload["foreign-assets"] && appCallPayload["foreign-assets"].length > 0;
+    }
+
+    hasAppCallForeignApps(): boolean {
+        const appCallPayload = this.getAppCallPayload();
+        return appCallPayload && appCallPayload["foreign-apps"] && appCallPayload["foreign-apps"].length > 0;
+    }
+
+    hasAppCallForeignAccounts(): boolean {
+        const appCallPayload = this.getAppCallPayload();
+        return appCallPayload && appCallPayload["accounts"] && appCallPayload["accounts"].length > 0;
+    }
 }

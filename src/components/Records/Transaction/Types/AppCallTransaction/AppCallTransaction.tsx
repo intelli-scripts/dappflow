@@ -4,11 +4,14 @@ import {Grid} from "@mui/material";
 import {CoreTransaction} from "../../../../../packages/core-sdk/classes/CoreTransaction";
 import AppCallTxnGlobalStateDelta from "./Sections/AppCallTxnGlobalStateDelta/AppCallTxnGlobalStateDelta";
 import LinkToAccount from "../../../../Common/Links/LinkToAccount";
-import LinkToAsset from "../../../../Common/Links/LinkToAsset";
 import LinkToApplication from "../../../../Common/Links/LinkToApplication";
 import {shadedClr} from "../../../../../utils/common";
 import AppCallTxnLocalStateDelta from "./Sections/AppCallTxnLocalStateDelta/AppCallTxnLocalStateDelta";
 import AppCallTxnInnerTxns from "./Sections/AppCallTxnInnerTxns/AppCallTxnInnerTxns";
+import AppCallTxnArguments from "./Sections/AppCallTxnArguments/AppCallTxnArguments";
+import AppCallTxnForeignAssets from "./Sections/AppCallTxnForeignAssets/AppCallTxnForeignAssets";
+import AppCallTxnForeignApps from "./Sections/AppCallTxnForeignApps/AppCallTxnForeignApps";
+import AppCallTxnForeignAccounts from "./Sections/AppCallTxnForeignAccounts/AppCallTxnForeignAccounts";
 
 
 function AppCallTransaction(props): JSX.Element {
@@ -113,78 +116,38 @@ function AppCallTransaction(props): JSX.Element {
                 </div> : ''}
 
 
-                
-                {appCallPayload["application-args"] && appCallPayload["application-args"].length > 0 ? <div className="props" style={{background: shadedClr}}>
+                {txnInstance.hasAppCallArguments() ? <div>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                            <div className="property">
-                                <div className="key">
-                                    Application args
-                                </div>
-                                <div className="value small">
-                                    {appCallPayload["application-args"].map((arg, index) => {
-                                        return <div key={index + '_' + arg}>{arg}</div>;
-                                    })}
-                                </div>
-                            </div>
+                            <AppCallTxnArguments args={appCallPayload['application-args']}></AppCallTxnArguments>
                         </Grid>
                     </Grid>
                 </div> : ''}
 
 
-                {appCallPayload["foreign-assets"] && appCallPayload["foreign-assets"].length > 0 ? <div className="props" style={{background: shadedClr}}>
+                {txnInstance.hasAppCallForeignAssets() ? <div>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                            <div className="property">
-                                <div className="key">
-                                    Foreign assets
-                                </div>
-                                <div className="value">
-                                    {appCallPayload["foreign-assets"].map((asset) => {
-                                        return <span key={asset}><LinkToAsset id={asset}></LinkToAsset></span>;
-                                    })}
-                                </div>
-                            </div>
+                            <AppCallTxnForeignAssets assets={appCallPayload['foreign-assets']}></AppCallTxnForeignAssets>
                         </Grid>
                     </Grid>
                 </div> : ''}
 
-
-                {appCallPayload["foreign-apps"] && appCallPayload["foreign-apps"].length > 0 ? <div className="props" style={{background: shadedClr}}>
+                {txnInstance.hasAppCallForeignApps() ? <div>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                            <div className="property">
-                                <div className="key">
-                                    Foreign apps
-                                </div>
-                                <div className="value">
-                                    {appCallPayload["foreign-apps"].map((app) => {
-                                        return <span key={app}><LinkToApplication id={app}></LinkToApplication></span>
-                                    })}
-                                </div>
-                            </div>
+                            <AppCallTxnForeignApps apps={appCallPayload['foreign-apps']}></AppCallTxnForeignApps>
                         </Grid>
                     </Grid>
                 </div> : ''}
 
-
-                {appCallPayload["accounts"] && appCallPayload["accounts"].length > 0 ? <div className="props" style={{background: shadedClr}}>
+                {txnInstance.hasAppCallForeignAccounts() ? <div>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                            <div className="property">
-                                <div className="key">
-                                    Foreign accounts
-                                </div>
-                                <div className="value">
-                                    {appCallPayload["accounts"].map((account) => {
-                                        return <span key={account}><LinkToAccount address={account}></LinkToAccount></span>;
-                                    })}
-                                </div>
-                            </div>
+                            <AppCallTxnForeignAccounts accounts={appCallPayload['accounts']}></AppCallTxnForeignAccounts>
                         </Grid>
                     </Grid>
                 </div> : ''}
-
 
                 {txnInstance.hasGlobalStateDelta() ? <div>
                     <Grid container spacing={2}>
