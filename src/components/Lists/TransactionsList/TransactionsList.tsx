@@ -52,30 +52,24 @@ function TransactionsList(props): JSX.Element {
         },
         {
             ...dataGridCellConfig,
-            field: 'fee',
-            headerName: 'Fee',
-            renderCell: (params: GridValueGetterParams) => {
-                const fee = new CoreTransaction(params.row).getFee();
-
-                return <div>
-                    <AlgoIcon></AlgoIcon>
-                    <NumberFormat
-                        value={microalgosToAlgos(fee)}
-                        displayType={'text'}
-                        thousandSeparator={true}
-                        style={{marginLeft: 5}}
-                    ></NumberFormat>
-                </div>;
-            }
-        },
-        {
-            ...dataGridCellConfig,
             field: 'confirmed-round',
             headerName: 'Block',
             renderCell: (params: GridValueGetterParams) => {
                 const block = new CoreTransaction(params.row).getBlock();
                 return <div>
                     <LinkToBlock id={block}></LinkToBlock>
+                </div>;
+            }
+        },
+        {
+            ...dataGridCellConfig,
+            field: 'timestamp',
+            headerName: 'Timestamp',
+            flex: 2,
+            renderCell: (params: GridValueGetterParams) => {
+                const timestamp = new CoreTransaction(params.row).getTimestampDisplayValue('GMT:dd mmmm  yyyy HH:MM:ss');
+                return <div>
+                    {timestamp}
                 </div>;
             }
         },
@@ -88,12 +82,6 @@ function TransactionsList(props): JSX.Element {
                 const from = new CoreTransaction(params.row).getFrom();
 
                 return <div>
-                    <Tooltip title="Click to copy">
-                        <ContentCopyIcon className="copy-content" onClick={(ev) => {
-                            copyContent(ev, dispatch, from, 'Address copied');
-                        }
-                        }></ContentCopyIcon>
-                    </Tooltip>
                     <LinkToAccount address={from} strip={20}></LinkToAccount>
                 </div>;
             }
@@ -113,20 +101,32 @@ function TransactionsList(props): JSX.Element {
                 return <div>
                     {type === TXN_TYPES.PAYMENT || type === TXN_TYPES.ASSET_TRANSFER ? <div>
                         <ArrowForward fontSize={"small"} style={{verticalAlign: "text-bottom", marginRight: 5}}></ArrowForward>
-                        <Tooltip title="Click to copy">
-                            <ContentCopyIcon className="copy-content" onClick={(ev) => {
-                                copyContent(ev, dispatch, to, 'Address copied');
-                            }
-                            }></ContentCopyIcon>
-                        </Tooltip>
                         <LinkToAccount address={to} strip={20}></LinkToAccount>
                     </div> : ''}
 
                     {type === TXN_TYPES.APP_CALL ? <div>
                         <ArrowForward fontSize={"small"} style={{verticalAlign: "text-bottom", marginRight: 5}}></ArrowForward>
-                        <LinkToApplication id={appId} name={'App ID: ' + appId}></LinkToApplication>
+                        <LinkToApplication id={appId} name={'Application: ' + appId}></LinkToApplication>
                     </div> : ''}
 
+                </div>;
+            }
+        },
+        {
+            ...dataGridCellConfig,
+            field: 'fee',
+            headerName: 'Fee',
+            renderCell: (params: GridValueGetterParams) => {
+                const fee = new CoreTransaction(params.row).getFee();
+
+                return <div>
+                    <AlgoIcon></AlgoIcon>
+                    <NumberFormat
+                        value={microalgosToAlgos(fee)}
+                        displayType={'text'}
+                        thousandSeparator={true}
+                        style={{marginLeft: 5}}
+                    ></NumberFormat>
                 </div>;
             }
         },
@@ -138,18 +138,6 @@ function TransactionsList(props): JSX.Element {
                 const type = new CoreTransaction(params.row).getTypeDisplayValue();
                 return <div>
                     {type}
-                </div>;
-            }
-        },
-        {
-            ...dataGridCellConfig,
-            field: 'timestamp',
-            headerName: 'Timestamp',
-            flex: 2,
-            renderCell: (params: GridValueGetterParams) => {
-                const timestamp = new CoreTransaction(params.row).getTimestampDisplayValue('GMT:dd mmmm  yyyy HH:MM:ss');
-                return <div>
-                    {timestamp}
                 </div>;
             }
         }
