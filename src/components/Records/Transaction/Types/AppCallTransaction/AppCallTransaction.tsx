@@ -168,7 +168,7 @@ function AppCallTransaction(props): JSX.Element {
                 {txnInstance.hasInnerTransactions() ? <div>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                            <AppCallTxnInnerTxns id={txnInstance.getId()} txns={transaction["inner-txns"]}></AppCallTxnInnerTxns>
+                            <AppCallTxnInnerTxns transaction={transaction}></AppCallTxnInnerTxns>
                         </Grid>
                     </Grid>
                 </div> : ''}

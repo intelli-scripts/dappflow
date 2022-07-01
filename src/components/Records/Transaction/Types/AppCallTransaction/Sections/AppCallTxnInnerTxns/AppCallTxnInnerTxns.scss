@@ -9,11 +9,15 @@
     }
     .app-call-txn-inner-txns-body {
       margin-top: 25px;
-      .copy-content {
-        font-size: 16px;
-        margin-right: 10px;
-        vertical-align: text-bottom;
+      .txn-row {
+        padding: 25px;
+        border-radius: 10px;
+        .item {
+          font-size: 13px;
+          margin-left: 10px;
+        }
       }
+
     }
   }
 }
