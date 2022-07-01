@@ -10,11 +10,17 @@
     .app-call-txn-inner-txns-body {
       margin-top: 25px;
       .txn-row {
-        padding: 25px;
+        padding: 25px 25px 25px 10px;
         border-radius: 10px;
         .item {
-          font-size: 13px;
-          margin-left: 10px;
+          &.type {
+            width: 150px;
+            display: inline-block;
+          }
+          &.small {
+            font-size: 13px;
+            margin-left: 10px;
+          }
         }
       }
 

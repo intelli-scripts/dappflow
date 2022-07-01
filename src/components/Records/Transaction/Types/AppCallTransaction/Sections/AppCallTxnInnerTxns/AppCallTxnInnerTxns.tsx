@@ -1,18 +1,25 @@
 import './AppCallTxnInnerTxns.scss';
-import React from "react";
-import {GridColDef, GridValueGetterParams} from "@mui/x-data-grid";
-import {dataGridCellConfig} from "../../../../../../../theme/styles/datagrid";
-import {A_SearchTransaction, A_SearchTransactionInner} from "../../../../../../../packages/core-sdk/types";
+import React, {useState} from "react";
+import {A_Asset, A_SearchTransaction, A_SearchTransactionInner} from "../../../../../../../packages/core-sdk/types";
 import {CoreTransaction} from "../../../../../../../packages/core-sdk/classes/CoreTransaction";
 import LinkToAccount from "../../../../../../Common/Links/LinkToAccount";
 import {TXN_TYPES} from "../../../../../../../packages/core-sdk/constants";
 import LinkToApplication from "../../../../../../Common/Links/LinkToApplication";
-import LinkToInnerTransaction from "../../../../../../Common/Links/LinkToInnerTransaction";
 import SvgIcon, {SvgIconProps} from '@mui/material/SvgIcon';
 import { alpha, styled } from '@mui/material/styles';
 import TreeView from '@mui/lab/TreeView';
-import TreeItem, { TreeItemProps, treeItemClasses } from '@mui/lab/TreeItem';
-import {ArrowForward} from "@mui/icons-material";
+import TreeItem, {treeItemClasses } from '@mui/lab/TreeItem';
+import {ArrowForward, CancelOutlined} from "@mui/icons-material";
+import {
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    IconButton
+} from "@mui/material";
+import InnerTransaction from "../../../../InnerTransaction/InnerTransaction";
+import {AssetClient} from "../../../../../../../packages/core-sdk/clients/assetClient";
+import explorer from "../../../../../../../utils/explorer";
 
 function MinusSquare(props: SvgIconProps) {
     return (
@@ -44,66 +51,95 @@ function CloseSquare(props: SvgIconProps) {
     );
 }
 
-const StyledTreeItem = styled((props: any) => {
 
-    const {
-        txn,
-        nodeId,
-        parentTxnId
-    } = props;
 
-    console.log(txn);
-    const txnInstance = new CoreTransaction(txn);
-
-    const to = txnInstance.getTo();
-    const type = txnInstance.getType();
-    const appId = txnInstance.getAppId();
-
-    return <TreeItem {...props} label={<div style={{padding: 25}} className="txn-row">
-        <span className="item">
-        <LinkToInnerTransaction id={parentTxnId} index={nodeId} name={txnInstance.getTypeDisplayValue()}></LinkToInnerTransaction>
-        </span>
-        <span className="item"><LinkToAccount address={txnInstance.getFrom()} strip={30}></LinkToAccount></span>
-        <span className="item">
-            <ArrowForward fontSize={"small"} style={{verticalAlign: "text-bottom", marginRight: 5}}></ArrowForward>
-            {type === TXN_TYPES.PAYMENT || type === TXN_TYPES.ASSET_TRANSFER ? <span>
-                <LinkToAccount address={to} strip={30}></LinkToAccount>
-            </span> : ''}
-
-            {type === TXN_TYPES.APP_CALL ? <span>
-                <LinkToApplication id={appId} name={'Application: ' + appId}></LinkToApplication>
-            </span> : ''}
-        </span>
-
-    </div>}/>;
-    }
-
-)(({ theme }) => ({
-    [`& .${treeItemClasses.iconContainer}`]: {
-        '& .close': {
-            opacity: 0.3,
-        },
-    },
-    [`& .${treeItemClasses.group}`]: {
-        marginLeft: 15,
-        paddingLeft: 18,
-        borderLeft: `1px dashed ${alpha(theme.palette.text.primary, 0.4)}`,
-    },
-}));
-
+interface AppCallTxnInnerTxnsState{
+    showTxn: boolean,
+    innerTxn?: A_SearchTransactionInner,
+    asset?: A_Asset
+}
+const initialState: AppCallTxnInnerTxnsState = {
+    showTxn: false
+};
 
 function AppCallTxnInnerTxns(props): JSX.Element {
 
     let transaction: A_SearchTransaction = props.transaction;
-
-    console.log(transaction);
     let counter = -2;
+
+    const [
+        {showTxn, innerTxn, asset},
+        setState
+    ] = useState(initialState);
+
+    const clearState = () => {
+        setState({ ...initialState });
+    };
+
+
+
+    const StyledTreeItem = styled((props: any) => {
+
+            const {
+                txn,
+                nodeId
+            } = props;
+
+            console.log(txn);
+            const txnInstance = new CoreTransaction(txn);
+
+            const to = txnInstance.getTo();
+            const type = txnInstance.getType();
+            const appId = txnInstance.getAppId();
+
+            return <TreeItem {...props} label={<div className="txn-row">
+                {nodeId === '-1' ? 'Current transaction' : <div>
+            <span className="item type" onClick={async () => {
+                if (txnInstance.getType() === TXN_TYPES.ASSET_TRANSFER) {
+                    const assetClient = new AssetClient(explorer.network);
+                    const asset = await assetClient.get(txnInstance.getAssetId());
+                    setState(prevState => ({...prevState, innerTxn: txn, asset}));
+                }
+                setState(prevState => ({...prevState, innerTxn: txn, showTxn: true}));
+            }
+            }>
+            {txnInstance.getTypeDisplayValue()}
+        </span>
+                    <span className="item small"><LinkToAccount address={txnInstance.getFrom()} strip={30}></LinkToAccount></span>
+                    <span className="item small">
+            <ArrowForward fontSize={"small"} style={{verticalAlign: "text-bottom", marginRight: 5}}></ArrowForward>
+                        {type === TXN_TYPES.PAYMENT || type === TXN_TYPES.ASSET_TRANSFER ? <span>
+                <LinkToAccount address={to} strip={30}></LinkToAccount>
+            </span> : ''}
+
+                        {type === TXN_TYPES.APP_CALL ? <span>
+                <LinkToApplication id={appId} name={'Application: ' + appId}></LinkToApplication>
+            </span> : ''}
+        </span>
+                </div>}
+            </div>}/>;
+        }
+
+    )(({ theme }) => ({
+        [`& .${treeItemClasses.iconContainer}`]: {
+            '& .close': {
+                opacity: 0.3,
+            },
+        },
+        [`& .${treeItemClasses.group}`]: {
+            marginLeft: 15,
+            paddingLeft: 30,
+            borderLeft: `1px dashed ${alpha(theme.palette.text.primary, 0.4)}`,
+        }
+    }));
+
+
 
     const renderTree = (txn) => {
         const innerTxns = txn['inner-txns'];
         counter++
 
-        return <StyledTreeItem parentTxnId={transaction.id} nodeId={counter.toString()} txn={txn} key={counter}>
+        return <StyledTreeItem nodeId={counter.toString()} txn={txn} key={counter}>
             {Array.isArray(innerTxns) ? innerTxns.map((innerTxn) => renderTree(innerTxn)) : null}
         </StyledTreeItem>
     };
@@ -127,6 +163,37 @@ function AppCallTxnInnerTxns(props): JSX.Element {
 
             </div>
         </div>
+
+
+
+        {showTxn ? <Dialog
+            fullWidth={true}
+            maxWidth={"xl"}
+            open={showTxn}
+        >
+            <DialogTitle >
+                <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                    <div>
+                        &nbsp;
+                    </div>
+                    <IconButton color="primary" onClick={() => {
+                        clearState();
+                    }}>
+                        <CancelOutlined />
+                    </IconButton>
+                </div>
+            </DialogTitle>
+            <DialogContent>
+                <div>
+                    <InnerTransaction txn={innerTxn} asset={asset}></InnerTransaction>
+                </div>
+            </DialogContent>
+            <DialogActions>
+
+            </DialogActions>
+        </Dialog> : ''}
+
+
     </div>);
 }
 

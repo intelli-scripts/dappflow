@@ -2,11 +2,10 @@ import './Transaction.scss';
 import React, {useEffect} from "react";
 import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../../redux/store";
 import {
     Grid
 } from "@mui/material";
-import {loadTransaction, loadTxnAsset} from "../../../redux/actions/transaction";
+import {loadTransaction} from "../../../redux/actions/transaction";
 import {CoreTransaction} from "../../../packages/core-sdk/classes/CoreTransaction";
 import {microalgosToAlgos} from "algosdk";
 import AlgoIcon from "../../AlgoIcon/AlgoIcon";
@@ -25,16 +24,10 @@ import TransactionMultiSig from "./Sections/TransactionMultiSig/TransactionMulti
 import TransactionLogicSig from "./Sections/TransactionLogicSig/TransactionLogicSig";
 import JsonViewer from "../../Common/JsonViewer/JsonViewer";
 import LinkToGroup from "../../Common/Links/LinkToGroup";
-import LinkToTransaction from "../../Common/Links/LinkToTransaction";
+import {RootState} from "../../../redux/store";
 
 
-
-function Transaction(props): JSX.Element {
-    let {inner} = props;
-    if (!inner) {
-        inner = false;
-    }
-
+function Transaction(): JSX.Element {
     const dispatch = useDispatch();
     const params = useParams();
     const {id} = params;
@@ -44,18 +37,6 @@ function Transaction(props): JSX.Element {
 
     let txnObj = transaction.information;
     let txnInstance = new CoreTransaction(txnObj);
-
-    if (!transaction.loading && inner) {
-        const innerTxnObj = txnInstance.getInnerTransaction(Number(params.index));
-        if (innerTxnObj) {
-            if (innerTxnObj["tx-type"] === TXN_TYPES.ASSET_TRANSFER) {
-                dispatch(loadTxnAsset(innerTxnObj["asset-transfer-transaction"]["asset-id"]));
-            }
-
-            txnObj = innerTxnObj;
-            txnInstance = new CoreTransaction(innerTxnObj);
-        }
-    }
 
 
     useEffect(() => {
@@ -67,7 +48,7 @@ function Transaction(props): JSX.Element {
 
             <div className="transaction-header">
                 <div>
-                    {inner ? 'Inner transaction overview' : 'Transaction overview'}
+                    Transaction overview
                 </div>
                 <div>
                     <JsonViewer obj={txnObj}></JsonViewer>
@@ -76,7 +57,7 @@ function Transaction(props): JSX.Element {
 
             {transaction.loading ? <LoadingTile></LoadingTile> : <div className="transaction-body">
                 <div className="index">
-                    {inner ? '' : txnInstance.getId()}
+                    {txnInstance.getId()}
                 </div>
 
 
@@ -143,17 +124,6 @@ function Transaction(props): JSX.Element {
                             </div>
                         </Grid> : ''}
 
-                        {inner ? <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                            <div className="property">
-                                <div className="key">
-                                    Parent transaction id
-                                </div>
-                                <div className="value small">
-                                    <LinkToTransaction id={new CoreTransaction(transaction.information).getId()}></LinkToTransaction>
-                                </div>
-                            </div>
-                        </Grid> : ''}
-
                     </Grid>
                 </div>
 
@@ -166,8 +136,8 @@ function Transaction(props): JSX.Element {
 
 
                 <TransactionNote transaction={txnObj}></TransactionNote>
-                {inner ? '' : <TransactionMultiSig transaction={txnObj}></TransactionMultiSig>}
-                {inner ? '' : <TransactionLogicSig transaction={txnObj}></TransactionLogicSig>}
+                <TransactionMultiSig transaction={txnObj}></TransactionMultiSig>
+                <TransactionLogicSig transaction={txnObj}></TransactionLogicSig>
                 <TransactionAdditionalDetails transaction={txnObj}></TransactionAdditionalDetails>
             </div>}
         </div>

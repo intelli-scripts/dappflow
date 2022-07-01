@@ -23,6 +23,8 @@ import Group from "../Records/Group/Group";
 import GroupTransactions from "../Records/Group/RelatedList/GroupTransactions/GroupTransactions";
 
 function AppRouter(): JSX.Element {
+
+
     return (<div>
 
         <BrowserRouter>
@@ -53,7 +55,6 @@ function AppRouter(): JSX.Element {
                     <Route path="" element={<Navigate to="transactions" replace />}/>
                 </Route>
                 <Route path="/transaction/:id" element={<Transaction></Transaction>}></Route>
-                <Route path="/transaction/:id/inner-txn/:index" element={<Transaction inner={true}></Transaction>}></Route>
                 <Route path="/group/:id/:blockId" element={<Group></Group>}>
                     <Route path="transactions" element={<GroupTransactions></GroupTransactions>} />
                     <Route path="" element={<Navigate to="transactions" replace />}/>
