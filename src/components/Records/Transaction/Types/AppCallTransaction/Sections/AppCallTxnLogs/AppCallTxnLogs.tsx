@@ -15,7 +15,7 @@ function AppCallTxnLogs(props): JSX.Element {
             <div className="props" style={{background: shadedClr}}>
                 <div className="property">
                     <div className="key">
-                        Application args
+                        Logs
                     </div>
                     <div className="value small">
                         {logs.map((log, index) => {
