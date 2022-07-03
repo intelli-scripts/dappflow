@@ -12,6 +12,7 @@ import AppCallTxnArguments from "./Sections/AppCallTxnArguments/AppCallTxnArgume
 import AppCallTxnForeignAssets from "./Sections/AppCallTxnForeignAssets/AppCallTxnForeignAssets";
 import AppCallTxnForeignApps from "./Sections/AppCallTxnForeignApps/AppCallTxnForeignApps";
 import AppCallTxnForeignAccounts from "./Sections/AppCallTxnForeignAccounts/AppCallTxnForeignAccounts";
+import AppCallTxnLogs from "./Sections/AppCallTxnLogs/AppCallTxnLogs";
 
 
 function AppCallTransaction(props): JSX.Element {
@@ -169,6 +170,14 @@ function AppCallTransaction(props): JSX.Element {
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                             <AppCallTxnInnerTxns transaction={transaction}></AppCallTxnInnerTxns>
+                        </Grid>
+                    </Grid>
+                </div> : ''}
+
+                {txnInstance.hasLogs() ? <div>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                            <AppCallTxnLogs logs={transaction.logs}></AppCallTxnLogs>
                         </Grid>
                     </Grid>
                 </div> : ''}

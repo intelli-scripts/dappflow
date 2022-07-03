@@ -147,7 +147,8 @@ export interface A_SearchTransaction{
     "keyreg-transaction"?: A_SearchTransaction_KeyReg_Payload,
     "global-state-delta"?: A_GlobalStateDelta[],
     "local-state-delta"?: A_LocalStateDelta[]
-    signature: A_SearchTransaction_Signature
+    signature: A_SearchTransaction_Signature,
+    logs?: string[]
 }
 
 export interface A_SearchTransaction_Signature {

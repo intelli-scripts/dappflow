@@ -255,4 +255,8 @@ export class CoreTransaction {
         const appCallPayload = this.getAppCallPayload();
         return appCallPayload && appCallPayload["accounts"] && appCallPayload["accounts"].length > 0;
     }
+
+    hasLogs(): boolean {
+        return this.txn.logs && this.txn.logs.length > 0;
+    }
 }
