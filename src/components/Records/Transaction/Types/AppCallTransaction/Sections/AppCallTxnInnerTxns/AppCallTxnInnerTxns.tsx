@@ -11,6 +11,7 @@ import TreeView from '@mui/lab/TreeView';
 import TreeItem, {treeItemClasses } from '@mui/lab/TreeItem';
 import {ArrowForward, CancelOutlined} from "@mui/icons-material";
 import {
+    Chip,
     Dialog,
     DialogActions,
     DialogContent,
@@ -85,7 +86,6 @@ function AppCallTxnInnerTxns(props): JSX.Element {
                 nodeId
             } = props;
 
-            console.log(txn);
             const txnInstance = new CoreTransaction(txn);
 
             const to = txnInstance.getTo();
@@ -94,16 +94,20 @@ function AppCallTxnInnerTxns(props): JSX.Element {
 
             return <TreeItem {...props} label={<div className="txn-row">
                 {nodeId === '-1' ? 'Current transaction' : <div>
-            <span className="item type" onClick={async () => {
-                if (txnInstance.getType() === TXN_TYPES.ASSET_TRANSFER) {
-                    const assetClient = new AssetClient(explorer.network);
-                    const asset = await assetClient.get(txnInstance.getAssetId());
-                    setState(prevState => ({...prevState, innerTxn: txn, asset}));
-                }
-                setState(prevState => ({...prevState, innerTxn: txn, showTxn: true}));
-            }
-            }>
+            <span className="item type">
             {txnInstance.getTypeDisplayValue()}
+
+                <Chip color={"primary"} variant={"filled"} style={{marginLeft: 10}} label="View" size={"small"} onClick={async (ev) => {
+                    if (txnInstance.getType() === TXN_TYPES.ASSET_TRANSFER) {
+                        const assetClient = new AssetClient(explorer.network);
+                        const asset = await assetClient.get(txnInstance.getAssetId());
+                        setState(prevState => ({...prevState, innerTxn: txn, asset}));
+                    }
+                    setState(prevState => ({...prevState, innerTxn: txn, showTxn: true}));
+                    ev.stopPropagation();
+                    ev.preventDefault();
+                }
+                }></Chip>
         </span>
                     <span className="item small"><LinkToAccount address={txnInstance.getFrom()} strip={30}></LinkToAccount></span>
                     <span className="item small">
