@@ -78,6 +78,38 @@ function AssetTransferTransaction(props): JSX.Element {
 
 
 
+                        {txnInstance.getCloseTo() ? <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                            <div className="property">
+                                <div className="key">
+                                    Close account
+                                </div>
+                                <div className="value small">
+                                    <LinkToAccount address={txnInstance.getCloseTo()}></LinkToAccount>
+                                </div>
+                            </div>
+                        </Grid> : ''}
+
+
+
+
+                        {txnInstance.getCloseTo() ? <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
+                            <div className="property">
+                                <div className="key">
+                                    Close amount
+                                </div>
+                                <div className="value">
+                                    <NumberFormat
+                                        value={assetInstance.getAmountInDecimals(txnInstance.getCloseAmount())}
+                                        displayType={'text'}
+                                        thousandSeparator={true}
+                                        style={{marginRight: 5}}
+                                    ></NumberFormat>
+                                    {assetInstance.getUnitName()}
+                                </div>
+                            </div>
+                        </Grid> : ''}
+
+
 
                     </Grid>
                 </div>

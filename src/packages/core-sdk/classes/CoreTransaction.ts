@@ -259,4 +259,26 @@ export class CoreTransaction {
     hasLogs(): boolean {
         return this.txn.logs && this.txn.logs.length > 0;
     }
+
+    getCloseTo(): string  {
+        if (this.getType() === TXN_TYPES.ASSET_TRANSFER) {
+            const payload = this.getAssetTransferPayload();
+            return payload["close-to"];
+        }
+        if (this.getType() === TXN_TYPES.PAYMENT) {
+            const payload = this.getPaymentPayload();
+            return payload["close-remainder-to"];
+        }
+    }
+
+    getCloseAmount(): number  {
+        if (this.getType() === TXN_TYPES.ASSET_TRANSFER) {
+            const payload = this.getAssetTransferPayload();
+            return payload["close-amount"];
+        }
+        if (this.getType() === TXN_TYPES.PAYMENT) {
+            const payload = this.getPaymentPayload();
+            return payload["close-amount"];
+        }
+    }
 }

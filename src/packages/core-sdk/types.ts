@@ -179,6 +179,7 @@ export interface A_SearchTransaction_Payment_Payload {
     amount: number
     "close-amount": number
     receiver: string
+    "close-remainder-to": string
 }
 
 export interface A_SearchTransaction_Asset_Transfer_Payload {
@@ -186,6 +187,7 @@ export interface A_SearchTransaction_Asset_Transfer_Payload {
     "asset-id": number
     "close-amount": number
     receiver: string
+    "close-to": string
 }
 
 export interface A_SearchTransaction_App_Call_Payload {

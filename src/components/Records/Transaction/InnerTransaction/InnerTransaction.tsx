@@ -16,7 +16,6 @@ import TransactionAdditionalDetails from "../Sections/TransactionAdditionalDetai
 import TransactionNote from "../Sections/TransactionNotes/TransactionNote";
 import {shadedClr} from "../../../../utils/common";
 import JsonViewer from "../../../Common/JsonViewer/JsonViewer";
-import LinkToGroup from "../../../Common/Links/LinkToGroup";
 
 
 function InnerTransaction(props): JSX.Element {
@@ -76,7 +75,7 @@ function InnerTransaction(props): JSX.Element {
                                     Group
                                 </div>
                                 <div className="value small">
-                                    <LinkToGroup id={txnInstance.getGroup()} blockId={txnInstance.getBlock()}></LinkToGroup>
+                                    {txnInstance.getGroup()}
                                 </div>
                             </div>
                         </Grid> : ''}
