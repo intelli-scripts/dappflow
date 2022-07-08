@@ -42,6 +42,10 @@ export class Network {
         return url;
     }
 
+    getAlgodToken(): string | AlgodTokenHeader | CustomTokenHeader {
+        return this.algodToken;
+    }
+
     getIndexerUrl(): string {
         let url = this.indexer;
 

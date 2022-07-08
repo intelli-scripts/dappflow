@@ -41,10 +41,14 @@ export class ApplicationClient{
         const baseUrl = this.network.getAlgodUrl();
         const url = baseUrl + '/v2/teal/disassemble';
 
+        // @ts-ignore
         return axios({
             method: 'post',
             url,
             data: bytes,
+            headers: {
+                'x-algo-api-token': this.network.getAlgodToken()
+            }
         });
     }
 }
