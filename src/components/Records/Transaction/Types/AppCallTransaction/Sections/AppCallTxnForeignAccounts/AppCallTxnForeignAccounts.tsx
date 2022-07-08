@@ -17,11 +17,9 @@ function AppCallTxnForeignAccounts(props): JSX.Element {
                     <div className="key">
                         Foreign accounts
                     </div>
-                    <div className="value small">
-                        {accounts.map((account) => {
-                            return <span key={account}><LinkToAccount address={account}></LinkToAccount></span>;
-                        })}
-                    </div>
+                    {accounts.map((account) => {
+                        return <div className="value small" key={account}><LinkToAccount address={account}></LinkToAccount></div>;
+                    })}
                 </div>
             </div>
 

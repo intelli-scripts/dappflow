@@ -17,11 +17,9 @@ function AppCallTxnForeignAssets(props): JSX.Element {
                     <div className="key">
                         Foreign assets
                     </div>
-                    <div className="value">
-                        {assets.map((asset) => {
-                            return <span key={asset}><LinkToAsset id={asset}></LinkToAsset></span>;
-                        })}
-                    </div>
+                    {assets.map((asset) => {
+                        return <div className="value" key={asset}><LinkToAsset id={asset}></LinkToAsset></div>;
+                    })}
                 </div>
             </div>
 
