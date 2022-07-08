@@ -5,6 +5,8 @@ import {
     A_SearchTransaction
 } from "../types";
 import {Network} from "../network";
+import axios from 'axios';
+import atob from 'atob';
 
 
 export class ApplicationClient{
@@ -31,5 +33,20 @@ export class ApplicationClient{
     async getApplicationTransactions(id: number): Promise<A_SearchTransaction[]> {
         const {transactions} = await this.indexer.searchForTransactions().applicationID(id).do();
         return transactions;
+    }
+
+    async decompileProgram(program: string) {
+        const bytes = atob(program);
+
+        const baseUrl = this.network.getAlgodUrl();
+        const url = baseUrl + '/v2/teal/disassemble';
+
+        const result = await axios({
+            method: 'post',
+            url,
+            data: bytes,
+        });
+
+        return result.data.result;
     }
 }

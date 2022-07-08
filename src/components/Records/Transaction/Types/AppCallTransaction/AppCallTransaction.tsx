@@ -13,6 +13,7 @@ import AppCallTxnForeignAssets from "./Sections/AppCallTxnForeignAssets/AppCallT
 import AppCallTxnForeignApps from "./Sections/AppCallTxnForeignApps/AppCallTxnForeignApps";
 import AppCallTxnForeignAccounts from "./Sections/AppCallTxnForeignAccounts/AppCallTxnForeignAccounts";
 import AppCallTxnLogs from "./Sections/AppCallTxnLogs/AppCallTxnLogs";
+import ApplicationProgram from "../../../Application/Sections/ApplicationProgram/ApplicationProgram";
 
 
 function AppCallTransaction(props): JSX.Element {
@@ -85,35 +86,17 @@ function AppCallTransaction(props): JSX.Element {
                 </div>
 
 
-                {appCallPayload["approval-program"] ? <div className="props" style={{background: shadedClr}}>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                            <div className="property">
-                                <div className="key">
-                                    Approval program
-                                </div>
-                                <div className="value small">
-                                    {appCallPayload["approval-program"]}
-                                </div>
-                            </div>
-                        </Grid>
-                    </Grid>
+                {appCallPayload["approval-program"] ? <div>
+
+                    <ApplicationProgram name="Approval program" program={appCallPayload["approval-program"]}></ApplicationProgram>
+
                 </div> : ''}
 
 
-                {appCallPayload["clear-state-program"] ? <div className="props" style={{background: shadedClr}}>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                            <div className="property">
-                                <div className="key">
-                                    Clear state program
-                                </div>
-                                <div className="value small">
-                                    {appCallPayload["clear-state-program"]}
-                                </div>
-                            </div>
-                        </Grid>
-                    </Grid>
+                {appCallPayload["clear-state-program"] ? <div>
+
+                    <ApplicationProgram name="Clear state program" program={appCallPayload["clear-state-program"]}></ApplicationProgram>
+
                 </div> : ''}
 
 

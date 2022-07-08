@@ -11,6 +11,7 @@ import LinkToAccount from "../../Common/Links/LinkToAccount";
 import LoadingTile from "../../Common/LoadingTile/LoadingTile";
 import {shadedClr} from "../../../utils/common";
 import JsonViewer from "../../Common/JsonViewer/JsonViewer";
+import ApplicationProgram from "./Sections/ApplicationProgram/ApplicationProgram";
 
 
 function Application(): JSX.Element {
@@ -82,35 +83,9 @@ function Application(): JSX.Element {
                     </Grid>
                 </div>
 
-                <div className="props" style={{background: shadedClr}}>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                            <div className="property">
-                                <div className="key">
-                                    Approval program
-                                </div>
-                                <div className="value small" style={{marginTop: 20}}>
-                                    {applicationInstance.getApprovalProgram()}
-                                </div>
-                            </div>
-                        </Grid>
-                    </Grid>
-                </div>
+                <ApplicationProgram name="Approval program" program={applicationInstance.getApprovalProgram()}></ApplicationProgram>
+                <ApplicationProgram name="Clear state program" program={applicationInstance.getClearProgram()}></ApplicationProgram>
 
-                <div className="props" style={{background: shadedClr}}>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                            <div className="property">
-                                <div className="key">
-                                    Clear state program
-                                </div>
-                                <div className="value small" style={{marginTop: 20}}>
-                                    {applicationInstance.getClearProgram()}
-                                </div>
-                            </div>
-                        </Grid>
-                    </Grid>
-                </div>
 
 
                 <div className="props" style={{background: shadedClr}}>

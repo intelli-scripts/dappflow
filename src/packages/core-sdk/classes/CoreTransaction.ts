@@ -5,7 +5,7 @@ import {
     A_SearchTransaction_Asset_Transfer_Payload, A_SearchTransaction_KeyReg_Payload,
     A_SearchTransaction_Payment_Payload, A_SearchTransaction_Signature, A_SearchTransactionInner
 } from "../types";
-import {NOTE_ENCRYPTIONS, TIMESTAMP_DISPLAY_FORMAT, TXN_TYPES} from "../constants";
+import {TEXT_ENCODING, TIMESTAMP_DISPLAY_FORMAT, TXN_TYPES} from "../constants";
 import atob from 'atob';
 import msgpack from "msgpack-lite";
 import dateFormat  from "dateformat";
@@ -148,14 +148,14 @@ export class CoreTransaction {
         return this.txn["receiver-rewards"]
     }
 
-    getNote(encryption: string = NOTE_ENCRYPTIONS.BASE64): string {
-        if(encryption === NOTE_ENCRYPTIONS.BASE64) {
+    getNote(encoding: string = TEXT_ENCODING.BASE64): string {
+        if(encoding === TEXT_ENCODING.BASE64) {
             return this.txn.note;
         }
-        if(encryption === NOTE_ENCRYPTIONS.TEXT) {
+        if(encoding === TEXT_ENCODING.TEXT) {
             return atob(this.txn.note);
         }
-        if(encryption === NOTE_ENCRYPTIONS.MSG_PACK) {
+        if(encoding === TEXT_ENCODING.MSG_PACK) {
             try {
                 return JSON.stringify(msgpack.decode(Buffer.from(this.txn.note, 'base64')));
             }
