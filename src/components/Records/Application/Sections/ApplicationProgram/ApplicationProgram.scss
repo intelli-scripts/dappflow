@@ -4,6 +4,11 @@
   .application-program-container {
     margin-top: 40px;
     .source {
+      border-radius: 10px;
+      > span {
+        border-radius: 10px;
+        padding: 20px;
+      }
     }
   }
 }

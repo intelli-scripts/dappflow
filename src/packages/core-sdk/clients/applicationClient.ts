@@ -41,12 +41,10 @@ export class ApplicationClient{
         const baseUrl = this.network.getAlgodUrl();
         const url = baseUrl + '/v2/teal/disassemble';
 
-        const result = await axios({
+        return axios({
             method: 'post',
             url,
             data: bytes,
         });
-
-        return result.data.result;
     }
 }

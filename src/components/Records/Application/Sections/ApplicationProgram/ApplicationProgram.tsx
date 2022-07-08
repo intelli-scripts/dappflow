@@ -7,6 +7,8 @@ import {ApplicationClient} from "../../../../../packages/core-sdk/clients/applic
 import explorer from "../../../../../utils/explorer";
 import {useDispatch} from "react-redux";
 import {hideLoader, showLoader} from "../../../../../redux/actions/loader";
+import {handleException} from "../../../../../redux/actions/exception";
+import {CodeBlock, googlecode} from "react-code-blocks";
 
 interface ApplicationApprovalProgramState{
     encoding: string,
@@ -30,9 +32,8 @@ function ApplicationProgram(props): JSX.Element {
     });
 
     async function setTextEncoding(encoding: string) {
-        setState(prevState => ({...prevState, encoding}));
         if (encoding === PROGRAM_ENCODING.BASE64) {
-            setState(prevState => ({...prevState, prg: program}));
+            setState(prevState => ({...prevState, prg: program, encoding}));
         } else if (encoding === PROGRAM_ENCODING.TEAL) {
 
             try {
@@ -40,10 +41,11 @@ function ApplicationProgram(props): JSX.Element {
                 const applicationClient = new ApplicationClient(explorer.network);
                 const result = await applicationClient.decompileProgram(program);
                 dispatch(hideLoader());
-                setState(prevState => ({...prevState, prg: result}));
+                setState(prevState => ({...prevState, prg: result.data.result, encoding}));
             }
-            catch (e) {
+            catch (e: any) {
                 dispatch(hideLoader());
+                dispatch(handleException(e));
             }
 
         }
@@ -65,12 +67,15 @@ function ApplicationProgram(props): JSX.Element {
                                 </ButtonGroup>
 
                             </div>
-                            <div className="value small" style={{marginTop: 20}}>
-                                {encoding === PROGRAM_ENCODING.BASE64 ? prg : <pre className="source">
-                                    <code>
-                                        {prg}
-                                    </code>
-                                </pre>}
+                            <div className="value" style={{marginTop: 20}}>
+                                {encoding === PROGRAM_ENCODING.BASE64 ? prg : <div className="source">
+                                    <CodeBlock
+                                        text={prg}
+                                        theme={googlecode}
+                                        language="swift"
+                                        showLineNumbers={false}
+                                    />
+                                </div>}
 
                             </div>
                         </div>
