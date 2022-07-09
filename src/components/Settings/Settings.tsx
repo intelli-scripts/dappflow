@@ -21,7 +21,6 @@ import {showSnack} from "../../redux/actions/snackbar";
 import {isNumber, shadedClr} from "../../utils/common";
 import {Network} from "../../packages/core-sdk/network";
 import {hideLoader, showLoader} from "../../redux/actions/loader";
-import {useNavigate} from "react-router-dom";
 
 const nodeConfig = getNodeConfig();
 
@@ -59,7 +58,6 @@ function Settings(): JSX.Element {
     const {show} = settings;
     const primaryClr = theme.palette.primary.main;
     const nodes = getNodes();
-    const navigate = useNavigate();
 
 
     const [
@@ -98,7 +96,6 @@ function Settings(): JSX.Element {
             const client = network.getClient();
             await client.status().do();
             dispatch(hideLoader());
-            navigate('/');
         } catch (e) {
             dispatch(hideLoader());
             dispatch(showSnack({

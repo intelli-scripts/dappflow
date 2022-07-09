@@ -16,6 +16,9 @@ export class CoreTransaction {
     txn: A_SearchTransaction;
 
     constructor(txn: A_SearchTransaction) {
+        if (!txn) {
+            throw new Error("Invalid transaction");
+        }
         this.txn = txn;
     }
 

@@ -7,12 +7,14 @@ import {ApplicationClient} from "../../packages/core-sdk/clients/applicationClie
 
 export interface Application {
     loading: boolean,
+    error: boolean,
     information: A_Application,
     transactions: A_SearchTransaction[]
 }
 
 const initialState: Application = {
     loading: false,
+    error: false,
     information: {
         id: 0,
         params: {
@@ -48,6 +50,7 @@ export const loadApplication = createAsyncThunk(
         }
         catch (e: any) {
             dispatch(handleException(e));
+            dispatch(setError(true));
             dispatch(setLoading(false));
         }
     }
@@ -77,16 +80,23 @@ export const applicationSlice = createSlice({
         setLoading: (state, action: PayloadAction<boolean> ) => {
             state.loading = action.payload;
         },
+        setError: (state, action: PayloadAction<boolean> ) => {
+            state.error = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(loadApplication.fulfilled, (state, action: PayloadAction<A_Application>) => {
-            state.information = action.payload;
+            if (action.payload) {
+                state.information = action.payload;
+            }
         });
         builder.addCase(loadApplicationTransactions.fulfilled, (state, action: PayloadAction<A_SearchTransaction[]>) => {
-            state.transactions = action.payload;
+            if (action.payload) {
+                state.transactions = action.payload;
+            }
         });
     },
 });
 
-export const {resetApplication, setLoading} = applicationSlice.actions
+export const {resetApplication, setLoading, setError} = applicationSlice.actions
 export default applicationSlice.reducer

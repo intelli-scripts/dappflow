@@ -8,6 +8,9 @@ export class CoreApplication {
     application: A_Application;
 
     constructor(application: A_Application) {
+        if (!application) {
+            throw new Error("Invalid application");
+        }
         this.application = application;
     }
 

@@ -7,6 +7,9 @@ export class CoreAccount {
     account: A_AccountInformation;
 
     constructor(account: A_AccountInformation) {
+        if (!account) {
+            throw new Error("Invalid account");
+        }
         this.account = account;
     }
 

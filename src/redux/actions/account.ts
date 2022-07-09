@@ -7,6 +7,7 @@ import {CoreAccount} from "../../packages/core-sdk/classes/CoreAccount";
 
 export interface Account {
     loading: boolean,
+    error: boolean,
     information: A_AccountInformation,
     createdAssets: A_Asset[],
     transactions: A_SearchTransaction[],
@@ -34,6 +35,7 @@ const information: A_AccountInformation = {
 
 const initialState: Account = {
     loading: false,
+    error: false,
     information,
     createdAssets: [],
     transactions: [],
@@ -57,6 +59,7 @@ export const loadAccount = createAsyncThunk(
         }
         catch (e: any) {
             dispatch(handleException(e));
+            dispatch(setError(true));
             dispatch(setLoading(false));
         }
     }
@@ -121,22 +124,33 @@ export const accountSlice = createSlice({
         setLoading: (state, action: PayloadAction<boolean> ) => {
             state.loading = action.payload;
         },
+        setError: (state, action: PayloadAction<boolean> ) => {
+            state.error = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(loadAccount.fulfilled, (state, action: PayloadAction<any>) => {
-            state.information = action.payload;
+            if (action.payload) {
+                state.information = action.payload;
+            }
         });
         builder.addCase(loadCreatedAssets.fulfilled, (state, action: PayloadAction<A_Asset[]>) => {
-            state.createdAssets = action.payload;
+            if (action.payload) {
+                state.createdAssets = action.payload;
+            }
         });
         builder.addCase(loadCreatedApplications.fulfilled, (state, action: PayloadAction<A_Application[]>) => {
-            state.createdApplications = action.payload;
+            if (action.payload) {
+                state.createdApplications = action.payload;
+            }
         });
         builder.addCase(loadTransactions.fulfilled, (state, action: PayloadAction<A_SearchTransaction[]>) => {
-            state.transactions = action.payload;
+            if (action.payload) {
+                state.transactions = action.payload;
+            }
         });
     },
 });
 
-export const {resetAccount, setLoading} = accountSlice.actions
+export const {resetAccount, setLoading, setError} = accountSlice.actions
 export default accountSlice.reducer

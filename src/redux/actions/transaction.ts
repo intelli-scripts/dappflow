@@ -11,6 +11,7 @@ import {AssetClient} from "../../packages/core-sdk/clients/assetClient";
 export interface Transaction {
     information: A_SearchTransaction,
     loading: boolean,
+    error: boolean,
     asset: {
         information: A_Asset
     }
@@ -18,6 +19,7 @@ export interface Transaction {
 
 const initialState: Transaction = {
     loading: false,
+    error: false,
     information: {
         "close-rewards": 0,
         "closing-amount": 0,
@@ -86,6 +88,7 @@ export const loadTransaction = createAsyncThunk(
         }
         catch (e: any) {
             dispatch(handleException(e));
+            dispatch(setError(true));
             dispatch(setLoading(false));
         }
     }
@@ -111,20 +114,31 @@ export const transactionSlice = createSlice({
     name: 'transaction',
     initialState,
     reducers: {
-        resetTransaction: state => initialState,
+        resetTransaction: (state ) => {
+            state = {
+                ...initialState
+            };
+        },
         setLoading: (state, action: PayloadAction<boolean> ) => {
             state.loading = action.payload;
+        },
+        setError: (state, action: PayloadAction<boolean> ) => {
+            state.error = action.payload;
         },
     },
     extraReducers: (builder) => {
         builder.addCase(loadTransaction.fulfilled, (state, action: PayloadAction<A_SearchTransaction>) => {
-            state.information = action.payload;
+            if (action.payload) {
+                state.information = action.payload;
+            }
         });
         builder.addCase(loadTxnAsset.fulfilled, (state, action: PayloadAction<A_Asset>) => {
-            state.asset.information = action.payload;
+            if (action.payload) {
+                state.asset.information = action.payload;
+            }
         });
     },
 });
 
-export const {resetTransaction, setLoading} = transactionSlice.actions
+export const {resetTransaction, setLoading, setError} = transactionSlice.actions
 export default transactionSlice.reducer

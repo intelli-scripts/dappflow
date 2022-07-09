@@ -7,6 +7,9 @@ export class CoreAsset {
     asset: A_Asset;
 
     constructor(asset: A_Asset) {
+        if (!asset) {
+            throw new Error("Invalid asset");
+        }
         this.asset = asset;
     }
 

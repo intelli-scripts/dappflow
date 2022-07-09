@@ -25,6 +25,7 @@ import TransactionLogicSig from "./Sections/TransactionLogicSig/TransactionLogic
 import JsonViewer from "../../Common/JsonViewer/JsonViewer";
 import LinkToGroup from "../../Common/Links/LinkToGroup";
 import {RootState} from "../../../redux/store";
+import CustomError from '../../Common/CustomError/CustomError';
 
 
 function Transaction(): JSX.Element {
@@ -46,100 +47,107 @@ function Transaction(): JSX.Element {
     return (<div className={"transaction-wrapper"}>
         <div className={"transaction-container"}>
 
-            <div className="transaction-header">
-                <div>
-                    Transaction overview
-                </div>
-                <div>
-                    <JsonViewer obj={txnObj}></JsonViewer>
-                </div>
-            </div>
-
-            {transaction.loading ? <LoadingTile></LoadingTile> : <div className="transaction-body">
-                <div className="index">
-                    {txnInstance.getId()}
+            {transaction.error ? <CustomError></CustomError> : <div>
+                <div className="transaction-header">
+                    <div>
+                        Transaction overview
+                    </div>
+                    <div>
+                        <JsonViewer obj={txnObj}></JsonViewer>
+                    </div>
                 </div>
 
+                {transaction.loading ? <LoadingTile></LoadingTile> : <div className="transaction-body">
+                    <div className="index">
+                        {txnInstance.getId()}
+                    </div>
 
-                <div className="props" style={{background: shadedClr}}>
-                    <Grid container spacing={2}>
 
-                        <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
-                            <div className="property">
-                                <div className="key">
-                                    Type
+                    <div className="props" style={{background: shadedClr}}>
+                        <Grid container spacing={2}>
+
+                            <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
+                                <div className="property">
+                                    <div className="key">
+                                        Type
+                                    </div>
+                                    <div className="value">
+                                        {txnInstance.getTypeDisplayValue()}
+                                    </div>
                                 </div>
-                                <div className="value">
-                                    {txnInstance.getTypeDisplayValue()}
+                            </Grid>
+
+                            <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
+                                <div className="property">
+                                    <div className="key">
+                                        Block
+                                    </div>
+                                    <div className="value">
+                                        <LinkToBlock id={txnInstance.getBlock()}></LinkToBlock>
+                                    </div>
                                 </div>
-                            </div>
+                            </Grid>
+
+
+                            <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
+                                <div className="property">
+                                    <div className="key">
+                                        Fee
+                                    </div>
+                                    <div className="value">
+                                        {microalgosToAlgos(txnInstance.getFee())}
+                                        <span style={{marginLeft: 5}}><AlgoIcon></AlgoIcon></span>
+
+                                    </div>
+                                </div>
+                            </Grid>
+
+
+
+                            <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
+                                <div className="property">
+                                    <div className="key">
+                                        Timestamp
+                                    </div>
+                                    <div className="value">
+                                        {txnInstance.getTimestampDisplayValue() + ' GMT'}
+                                    </div>
+                                </div>
+                            </Grid>
+
+                            {txnInstance.getGroup() ? <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                <div className="property">
+                                    <div className="key">
+                                        Group
+                                    </div>
+                                    <div className="value small">
+                                        <LinkToGroup id={txnInstance.getGroup()} blockId={txnInstance.getBlock()}></LinkToGroup>
+                                    </div>
+                                </div>
+                            </Grid> : ''}
+
                         </Grid>
-
-                        <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
-                            <div className="property">
-                                <div className="key">
-                                    Block
-                                </div>
-                                <div className="value">
-                                    <LinkToBlock id={txnInstance.getBlock()}></LinkToBlock>
-                                </div>
-                            </div>
-                        </Grid>
+                    </div>
 
 
-                        <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
-                            <div className="property">
-                                <div className="key">
-                                    Fee
-                                </div>
-                                <div className="value">
-                                    {microalgosToAlgos(txnInstance.getFee())}
-                                    <span style={{marginLeft: 5}}><AlgoIcon></AlgoIcon></span>
-
-                                </div>
-                            </div>
-                        </Grid>
+                    {txnInstance.getType() === TXN_TYPES.PAYMENT ? <PaymentTransaction transaction={txnObj}></PaymentTransaction> : ''}
+                    {txnInstance.getType() === TXN_TYPES.ASSET_TRANSFER ? <AssetTransferTransaction transaction={txnObj} asset={asset}></AssetTransferTransaction> : ''}
+                    {txnInstance.getType() === TXN_TYPES.ASSET_CONFIG ? <AssetConfigTransaction transaction={txnObj}></AssetConfigTransaction> : ''}
+                    {txnInstance.getType() === TXN_TYPES.KEY_REGISTRATION ? <KeyRegTransaction transaction={txnObj}></KeyRegTransaction> : ''}
+                    {txnInstance.getType() === TXN_TYPES.APP_CALL ? <AppCallTransaction transaction={txnObj}></AppCallTransaction> : ''}
 
 
+                    <TransactionNote transaction={txnObj}></TransactionNote>
+                    <TransactionMultiSig transaction={txnObj}></TransactionMultiSig>
+                    <TransactionLogicSig transaction={txnObj}></TransactionLogicSig>
+                    <TransactionAdditionalDetails transaction={txnObj}></TransactionAdditionalDetails>
+                </div>}
 
-                        <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
-                            <div className="property">
-                                <div className="key">
-                                    Timestamp
-                                </div>
-                                <div className="value">
-                                    {txnInstance.getTimestampDisplayValue() + ' GMT'}
-                                </div>
-                            </div>
-                        </Grid>
-
-                        {txnInstance.getGroup() ? <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                            <div className="property">
-                                <div className="key">
-                                    Group
-                                </div>
-                                <div className="value small">
-                                    <LinkToGroup id={txnInstance.getGroup()} blockId={txnInstance.getBlock()}></LinkToGroup>
-                                </div>
-                            </div>
-                        </Grid> : ''}
-
-                    </Grid>
-                </div>
-
-
-                {txnInstance.getType() === TXN_TYPES.PAYMENT ? <PaymentTransaction transaction={txnObj}></PaymentTransaction> : ''}
-                {txnInstance.getType() === TXN_TYPES.ASSET_TRANSFER ? <AssetTransferTransaction transaction={txnObj} asset={asset}></AssetTransferTransaction> : ''}
-                {txnInstance.getType() === TXN_TYPES.ASSET_CONFIG ? <AssetConfigTransaction transaction={txnObj}></AssetConfigTransaction> : ''}
-                {txnInstance.getType() === TXN_TYPES.KEY_REGISTRATION ? <KeyRegTransaction transaction={txnObj}></KeyRegTransaction> : ''}
-                {txnInstance.getType() === TXN_TYPES.APP_CALL ? <AppCallTransaction transaction={txnObj}></AppCallTransaction> : ''}
-
-
-                <TransactionNote transaction={txnObj}></TransactionNote>
-                <TransactionMultiSig transaction={txnObj}></TransactionMultiSig>
-                <TransactionLogicSig transaction={txnObj}></TransactionLogicSig>
-                <TransactionAdditionalDetails transaction={txnObj}></TransactionAdditionalDetails>
             </div>}
+
+
+
+
         </div>
     </div>);
 }

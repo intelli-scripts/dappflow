@@ -7,12 +7,14 @@ import {AssetClient} from "../../packages/core-sdk/clients/assetClient";
 
 export interface Asset {
     loading: boolean,
+    error: boolean,
     information: A_Asset,
     transactions: A_SearchTransaction[]
 }
 
 const initialState: Asset = {
     loading: false,
+    error: false,
     information: {
         index: 0,
         params: {
@@ -51,6 +53,7 @@ export const loadAsset = createAsyncThunk(
         }
         catch (e: any) {
             dispatch(handleException(e));
+            dispatch(setError(true));
             dispatch(setLoading(false));
         }
     }
@@ -80,16 +83,23 @@ export const assetSlice = createSlice({
         setLoading: (state, action: PayloadAction<boolean> ) => {
             state.loading = action.payload;
         },
+        setError: (state, action: PayloadAction<boolean> ) => {
+            state.error = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(loadAsset.fulfilled, (state, action: PayloadAction<A_Asset>) => {
-            state.information = action.payload;
+            if (action.payload) {
+                state.information = action.payload;
+            }
         });
         builder.addCase(loadAssetTransactions.fulfilled, (state, action: PayloadAction<A_SearchTransaction[]>) => {
-            state.transactions = action.payload;
+            if (action.payload) {
+                state.transactions = action.payload;
+            }
         });
     },
 });
 
-export const {resetAsset, setLoading} = assetSlice.actions
+export const {resetAsset, setLoading, setError} = assetSlice.actions
 export default assetSlice.reducer
