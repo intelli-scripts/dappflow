@@ -6,8 +6,6 @@ import {
 } from "../types";
 import {Network} from "../network";
 import axios from 'axios';
-import atob from 'atob';
-
 
 export class ApplicationClient{
     client: Algodv2;
@@ -36,7 +34,7 @@ export class ApplicationClient{
     }
 
     async decompileProgram(program: string) {
-        const bytes = atob(program);
+        const bytes = Buffer.from(program, 'base64');
 
         const baseUrl = this.network.getAlgodUrl();
         const url = baseUrl + '/v2/teal/disassemble';
