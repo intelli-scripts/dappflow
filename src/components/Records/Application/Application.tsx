@@ -170,7 +170,7 @@ function Application(): JSX.Element {
             </div>}
 
 
-            
+
 
         </div>
     </div>);
