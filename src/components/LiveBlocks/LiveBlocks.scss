@@ -18,6 +18,11 @@
         justify-content: space-between;
         transition: height 2s;
         .round {
+          .timestamp {
+            margin-top: 15px;
+            font-size: 14px;
+            color: $color-grey-dark;
+          }
           a {
             font-weight: bold;
             font-family: PoppinsBold !important;

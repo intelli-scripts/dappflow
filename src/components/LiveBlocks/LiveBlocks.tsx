@@ -4,6 +4,7 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {shadedClr} from "../../utils/common";
 import LinkToBlock from "../Common/Links/LinkToBlock";
+import {CoreBlock} from "../../packages/core-sdk/classes/CoreBlock";
 
 
 function LiveBlocks(): JSX.Element {
@@ -18,13 +19,22 @@ function LiveBlocks(): JSX.Element {
             </div>
             <div className={"live-blocks-body"} ref={containerRef}>
                 {blocks.map((block) => {
+                    const blockInstance = new CoreBlock(block);
+
                     return <div className="block" key={block.round} style={{background: shadedClr}}>
                         <div className="round">
-                            <LinkToBlock name={'#' + block.round.toString()} id={block.round}></LinkToBlock>
+                            <LinkToBlock name={'#' + blockInstance.getRound()} id={blockInstance.getRound()}></LinkToBlock>
+                            <div className="timestamp">
+                                {blockInstance.getTransactionsTypesCount()}
+                            </div>
+                            <div className="timestamp">
+                                {blockInstance.getTimestampDisplayValue() + ' GMT'}
+                            </div>
                         </div>
                         <div className="txn-count">
                             {block.transactions.length} Transactions
                         </div>
+
                     </div>;
                 })}
             </div>
