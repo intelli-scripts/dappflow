@@ -1,13 +1,14 @@
 import {A_NodeConfig} from "../packages/core-sdk/types";
 
 export function getNodeConfig(): A_NodeConfig {
-    const algodUrl = localStorage.getItem('algodUrl') || 'http://localhost';
-    const algodPort = localStorage.getItem('algodPort') === null ? '4001' : localStorage.getItem('algodPort');
-    const algodToken= localStorage.getItem('algodToken') === null ? 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' : localStorage.getItem('algodToken');
+    const defaultNode = getNodes()[1];
+    const algodUrl = localStorage.getItem('algodUrl') || defaultNode.algodUrl;
+    const algodPort = localStorage.getItem('algodPort') === null ? defaultNode.algodPort : localStorage.getItem('algodPort');
+    const algodToken= localStorage.getItem('algodToken') === null ? defaultNode.algodToken : localStorage.getItem('algodToken');
 
-    const indexerUrl = localStorage.getItem('indexerUrl') || 'http://localhost';
-    const indexerPort = localStorage.getItem('indexerPort') === null ? '8980' : localStorage.getItem('indexerPort');
-    const indexerToken= localStorage.getItem('indexerToken') === null ? '' : localStorage.getItem('indexerToken');
+    const indexerUrl = localStorage.getItem('indexerUrl') || defaultNode.indexerUrl;
+    const indexerPort = localStorage.getItem('indexerPort') === null ? defaultNode.indexerPort : localStorage.getItem('indexerPort');
+    const indexerToken= localStorage.getItem('indexerToken') === null ? defaultNode.indexerToken : localStorage.getItem('indexerToken');
 
     return {
         algodUrl,
