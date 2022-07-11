@@ -1,19 +1,21 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import explorer from "../../utils/explorer";
 import {BlockClient} from "../../packages/core-sdk/clients/blockClient";
-import {A_Block} from "../../packages/core-sdk/types";
+import {A_Block, A_SearchTransaction} from "../../packages/core-sdk/types";
 
 
 export interface LiveData {
     loading: number,
     currentBlock: number,
-    blocks: A_Block[]
+    blocks: A_Block[],
+    transactions: A_SearchTransaction[]
 }
 
 const initialState: LiveData = {
     loading: 0,
     currentBlock: 0,
-    blocks: []
+    blocks: [],
+    transactions: []
 }
 
 export const initLivedata = createAsyncThunk(
@@ -26,9 +28,10 @@ export const initLivedata = createAsyncThunk(
             const {round} = health;
 
             dispatch(setCurrentBlock(round));
-            for (let i = round - 4; i <=round; i++) {
-                dispatch(loadBlockInfo(i));
-            }
+            dispatch(loadBlockInfo(round));
+            // for (let i = round - 4; i <=round; i++) {
+            //     dispatch(loadBlockInfo(i));
+            // }
 
             setInterval(async () => {
                 const state = getState();
@@ -42,7 +45,7 @@ export const initLivedata = createAsyncThunk(
                 if (blockInfo) {
                     dispatch(loadBlockInfo(nextRound));
                 }
-            }, 3000);
+            }, 2000);
         }
         catch (e: any) {
 
@@ -77,10 +80,12 @@ export const liveDataSlice = createSlice({
         builder.addCase(loadBlockInfo.fulfilled, (state, action: PayloadAction<A_Block>) => {
             state.blocks.push(action.payload);
 
-            let {blocks} = state;
+            let {blocks, transactions} = state;
             blocks = blocks.sort((a, b) => b.round - a.round);
 
             state.blocks = blocks;
+            state.transactions = [...action.payload.transactions, ...transactions];
+
         });
     },
 });

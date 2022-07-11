@@ -1,16 +1,16 @@
 @import "../../assets/colors";
 
-.live-blocks-wrapper {
-  .live-blocks-container {
+.live-transactions-wrapper {
+  .live-transactions-container {
     text-align: left;
-    .live-blocks-header {
+    .live-transactions-header {
       font-size: 20px;
       font-weight: bold;
       font-family: PoppinsBold !important;
     }
-    .live-blocks-body {
+    .live-transactions-body {
       margin-top: 20px;
-      .block {
+      .transaction {
         padding: 20px;
         border-radius: 10px;
         margin: 8px 0px;
@@ -26,17 +26,21 @@
           transform: translateX(0);
           transition: opacity 1000ms, transform 1000ms;
         }
-        .round {
+        .basic {
           .sub-text {
             margin-top: 15px;
             font-size: 14px;
             color: $color-grey-dark;
+            a {
+              color: $color-grey-dark !important;
+              text-decoration-color: $color-grey-dark !important;
+              font-size: 13px;
+            }
           }
           a {
-            font-weight: bold;
-            font-family: PoppinsBold !important;
             color: $color-dark !important;
             text-decoration-color: $color-dark !important;
+            font-size: 14px;
           }
         }
       }
