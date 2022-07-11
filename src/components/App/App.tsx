@@ -4,9 +4,14 @@ import AppRouter from './AppRouter';
 import AppSnackbar from "./AppSnackbar";
 import {Grid} from "@mui/material";
 import Loader from "../Common/Loader/Loader";
+import {useDispatch} from "react-redux";
+import {initLivedata} from "../../redux/actions/liveData";
 
 
 function App(): JSX.Element {
+
+    const dispatch = useDispatch();
+    dispatch(initLivedata());
 
   return (
       <div className="app-root">

@@ -3,6 +3,7 @@ import React from "react";
 import Search from '../Search/Search';
 import {Grid} from "@mui/material";
 import Logo from "../../assets/images/logo-blue.png";
+import LiveBlocks from "../LiveBlocks/LiveBlocks";
 
 function Home(): JSX.Element {
     return (<div className={"home-wrapper"}>
@@ -20,7 +21,16 @@ function Home(): JSX.Element {
                             <Search></Search>
                         </Grid>
                     </Grid>
+                </div>
+                <div className="live-section">
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                            <LiveBlocks></LiveBlocks>
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
 
+                        </Grid>
+                    </Grid>
                 </div>
             </div>
         </div>

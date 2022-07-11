@@ -13,6 +13,7 @@ import assetReducer from "./actions/asset";
 import applicationReducer from "./actions/application";
 import transactionReducer from "./actions/transaction";
 import groupReducer from "./actions/group";
+import liveData from "./actions/liveData";
 
 export const store = configureStore({
     reducer: {
@@ -30,6 +31,7 @@ export const store = configureStore({
         application: applicationReducer,
         transaction: transactionReducer,
         group: groupReducer,
+        liveData: liveData
     },
 });
 

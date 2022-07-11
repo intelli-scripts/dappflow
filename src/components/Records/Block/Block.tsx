@@ -7,6 +7,7 @@ import {Grid, Tab, Tabs} from "@mui/material";
 import {loadBlock} from "../../../redux/actions/block";
 import LoadingTile from "../../Common/LoadingTile/LoadingTile";
 import {CoreBlock} from "../../../packages/core-sdk/classes/CoreBlock";
+import CustomError from "../../Common/CustomError/CustomError";
 
 
 function Block(): JSX.Element {
@@ -25,69 +26,74 @@ function Block(): JSX.Element {
 
     return (<div className={"block-wrapper"}>
         <div className={"block-container"}>
-            <div className="block-header">
-                <div>
-                    Block overview
-                </div>
-            </div>
 
-            {block.loading ? <LoadingTile></LoadingTile> : <div className="block-body">
-                <div className="address">
-                    #{blockInstance.getRound()}
+            {block.error ? <CustomError></CustomError> : <div>
+                <div className="block-header">
+                    <div>
+                        Block overview
+                    </div>
                 </div>
 
-
-                <div className="props">
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
-                            <div className="property">
-                                <div className="key">
-                                    Timestamp
-                                </div>
-                                <div className="value">
-                                    {blockInstance.getTimestampDisplayValue() + ' GMT'}
-                                </div>
-                            </div>
+                {block.loading ? <LoadingTile></LoadingTile> : <div className="block-body">
+                    <div className="address">
+                        #{blockInstance.getRound()}
+                    </div>
 
 
+                    <div className="props">
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
+                                <div className="property">
+                                    <div className="key">
+                                        Timestamp
+                                    </div>
+                                    <div className="value">
+                                        {blockInstance.getTimestampDisplayValue() + ' GMT'}
+                                    </div>
+                                </div>
 
-                            <div className="property">
-                                <div className="key">
-                                    Txn count
-                                </div>
-                                <div className="value">
-                                    {blockInstance.getTransactionsCount()}
-                                </div>
-                            </div>
 
-                            <div className="property">
-                                <div className="key">
-                                    Txn types
-                                </div>
-                                <div className="value">
-                                    {blockInstance.getTransactionsTypesCount() ? blockInstance.getTransactionsTypesCount() : '-'}
-                                </div>
-                            </div>
 
+                                <div className="property">
+                                    <div className="key">
+                                        Txn count
+                                    </div>
+                                    <div className="value">
+                                        {blockInstance.getTransactionsCount()}
+                                    </div>
+                                </div>
+
+                                <div className="property">
+                                    <div className="key">
+                                        Txn types
+                                    </div>
+                                    <div className="value">
+                                        {blockInstance.getTransactionsTypesCount() ? blockInstance.getTransactionsTypesCount() : '-'}
+                                    </div>
+                                </div>
+
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </div>
+                    </div>
 
 
 
-                <div className="block-tabs">
+                    <div className="block-tabs">
 
-                    <Tabs value="transactions" className="related-list">
-                        <Tab label="Transactions" value="transactions" onClick={() => {
-                            navigate('/block/' + id + '/transactions');
-                        }}/>
-                    </Tabs>
+                        <Tabs value="transactions" className="related-list">
+                            <Tab label="Transactions" value="transactions" onClick={() => {
+                                navigate('/block/' + id + '/transactions');
+                            }}/>
+                        </Tabs>
 
-                    <Outlet />
+                        <Outlet />
 
 
-                </div>
+                    </div>
+                </div>}
             </div>}
+
+
 
         </div>
     </div>);

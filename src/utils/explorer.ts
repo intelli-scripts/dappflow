@@ -19,9 +19,6 @@ class Explorer {
         this.network = getNetwork();
     }
 
-    changeNetwork(): void {
-        this.network = getNetwork();
-    }
 }
 
 export default new Explorer();
