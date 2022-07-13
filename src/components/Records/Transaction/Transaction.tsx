@@ -26,6 +26,7 @@ import JsonViewer from "../../Common/JsonViewer/JsonViewer";
 import LinkToGroup from "../../Common/Links/LinkToGroup";
 import {RootState} from "../../../redux/store";
 import CustomError from '../../Common/CustomError/CustomError';
+import AssetFreezeTransaction from "./Types/AssetFreezeTransaction/AssetFreezeTransaction";
 
 
 function Transaction(): JSX.Element {
@@ -132,6 +133,7 @@ function Transaction(): JSX.Element {
 
                     {txnInstance.getType() === TXN_TYPES.PAYMENT ? <PaymentTransaction transaction={txnObj}></PaymentTransaction> : ''}
                     {txnInstance.getType() === TXN_TYPES.ASSET_TRANSFER ? <AssetTransferTransaction transaction={txnObj} asset={asset}></AssetTransferTransaction> : ''}
+                    {txnInstance.getType() === TXN_TYPES.ASSET_FREEZE ? <AssetFreezeTransaction transaction={txnObj} asset={asset}></AssetFreezeTransaction> : ''}
                     {txnInstance.getType() === TXN_TYPES.ASSET_CONFIG ? <AssetConfigTransaction transaction={txnObj}></AssetConfigTransaction> : ''}
                     {txnInstance.getType() === TXN_TYPES.KEY_REGISTRATION ? <KeyRegTransaction transaction={txnObj}></KeyRegTransaction> : ''}
                     {txnInstance.getType() === TXN_TYPES.APP_CALL ? <AppCallTransaction transaction={txnObj}></AppCallTransaction> : ''}

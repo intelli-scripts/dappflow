@@ -79,7 +79,8 @@ export const loadTransaction = createAsyncThunk(
             const transactionInfo = await transactionClient.get(id);
             const txnInstance = new CoreTransaction(transactionInfo);
 
-            if (txnInstance.getType() === TXN_TYPES.ASSET_TRANSFER) {
+            const type = txnInstance.getType();
+            if ( type === TXN_TYPES.ASSET_TRANSFER || type === TXN_TYPES.ASSET_FREEZE) {
                 dispatch(loadTxnAsset(txnInstance.getAssetId()));
             }
 

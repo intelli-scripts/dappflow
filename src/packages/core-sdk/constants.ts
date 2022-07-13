@@ -3,6 +3,7 @@ export enum TXN_TYPES {
     KEY_REGISTRATION = 'keyreg',
     ASSET_CONFIG = 'acfg',
     ASSET_TRANSFER = 'axfer',
+    ASSET_FREEZE = 'afrz',
     APP_CALL = 'appl'
 }
 

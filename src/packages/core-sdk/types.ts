@@ -142,6 +142,7 @@ export interface A_SearchTransaction{
     "created-asset-index"?: number
     "application-transaction"?: A_SearchTransaction_App_Call_Payload
     "asset-transfer-transaction"?: A_SearchTransaction_Asset_Transfer_Payload,
+    "asset-freeze-transaction"?: A_SearchTransaction_Asset_Freeze_Payload
     "payment-transaction"?: A_SearchTransaction_Payment_Payload,
     "asset-config-transaction"?: A_Asset,
     "keyreg-transaction"?: A_SearchTransaction_KeyReg_Payload,
@@ -190,6 +191,11 @@ export interface A_SearchTransaction_Asset_Transfer_Payload {
     "close-to": string
 }
 
+export interface A_SearchTransaction_Asset_Freeze_Payload {
+    "address": string,
+    "asset-id": number,
+    "new-freeze-status": boolean
+}
 export interface A_SearchTransaction_App_Call_Payload {
     accounts: string[]
     "application-args": string[]

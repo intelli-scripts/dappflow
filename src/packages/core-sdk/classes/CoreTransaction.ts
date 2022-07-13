@@ -1,7 +1,7 @@
 import {
     A_Asset,
     A_SearchTransaction,
-    A_SearchTransaction_App_Call_Payload,
+    A_SearchTransaction_App_Call_Payload, A_SearchTransaction_Asset_Freeze_Payload,
     A_SearchTransaction_Asset_Transfer_Payload, A_SearchTransaction_KeyReg_Payload,
     A_SearchTransaction_Payment_Payload, A_SearchTransaction_Signature, A_SearchTransactionInner
 } from "../types";
@@ -57,6 +57,9 @@ export class CoreTransaction {
         else if(type === 'acfg') {
             return 'Asset config';
         }
+        else if(type === 'afrz') {
+            return 'Asset freeze';
+        }
         else if(type === 'axfer') {
             return 'Transfer';
         }
@@ -92,6 +95,10 @@ export class CoreTransaction {
         return this.txn["asset-config-transaction"];
     }
 
+    getAssetFreezePayload(): A_SearchTransaction_Asset_Freeze_Payload {
+        return this.txn["asset-freeze-transaction"];
+    }
+
     getAppCallPayload(): A_SearchTransaction_App_Call_Payload {
         return this.txn["application-transaction"];
     }
@@ -122,7 +129,27 @@ export class CoreTransaction {
             }
             return  this.getAssetConfigPayload()["asset-id"];
         }
+        if (type === TXN_TYPES.ASSET_FREEZE) {
+            return  this.getAssetFreezePayload()["asset-id"];
+        }
     }
+
+    getAssetFreezeAccount(): string {
+        const type = this.getType();
+
+        if (type === TXN_TYPES.ASSET_FREEZE) {
+            return  this.getAssetFreezePayload()["address"];
+        }
+    }
+
+    getAssetFreezeStatus(): boolean {
+        const type = this.getType();
+
+        if (type === TXN_TYPES.ASSET_FREEZE) {
+            return  this.getAssetFreezePayload()["new-freeze-status"];
+        }
+    }
+
 
     getAmount(): number {
         const type = this.getType();
