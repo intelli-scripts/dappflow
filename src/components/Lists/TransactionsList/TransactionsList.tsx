@@ -2,11 +2,20 @@ import './TransactionsList.scss';
 import React from "react";
 import {useDispatch} from "react-redux";
 import {
+    CircularProgress,
+    Pagination,
     Tooltip
 } from "@mui/material";
 import {microalgosToAlgos} from "algosdk";
 import NumberFormat from 'react-number-format';
-import {DataGrid, GridColDef, GridValueGetterParams} from "@mui/x-data-grid";
+import {
+    DataGrid,
+    GridColDef, gridPageCountSelector,
+    gridPageSelector,
+    GridValueGetterParams,
+    useGridApiContext,
+    useGridSelector
+} from "@mui/x-data-grid";
 import {dataGridCellConfig, dataGridStyles} from "../../../theme/styles/datagrid";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import {copyContent} from "../../../utils/common";
@@ -19,15 +28,39 @@ import LinkToApplication from "../../Common/Links/LinkToApplication";
 import LinkToTransaction from "../../Common/Links/LinkToTransaction";
 import LinkToBlock from "../../Common/Links/LinkToBlock";
 import CustomNoRowsOverlay from "../../Common/CustomNoRowsOverlay/CustomNoRowsOverlay";
+import {A_SearchTransaction} from "../../../packages/core-sdk/types";
 
-function TransactionsList(props): JSX.Element {
+interface TransactionsListProps {
+    transactions: A_SearchTransaction[];
+    loading?: boolean;
+    reachedLastPage?: Function
+}
+
+
+function TransactionsList({transactions = [], loading = false, reachedLastPage = () => {}}: TransactionsListProps): JSX.Element {
     const dispatch = useDispatch();
-    let {transactions, loading} = props;
-    if (!transactions) {
-        transactions = [];
-    }
-    if (!loading) {
-        loading = false;
+
+    function CustomPagination({loading}) {
+        const apiRef = useGridApiContext();
+        const page = useGridSelector(apiRef, gridPageSelector);
+        const pageCount = useGridSelector(apiRef, gridPageCountSelector);
+
+        return (
+            <div style={{display: "flex", justifyContent: "space-between"}}>
+                {loading ? <div style={{marginTop: 5, marginRight: 20}}><CircularProgress size={25}></CircularProgress></div> : ''}
+                <Pagination
+                    count={pageCount}
+                    page={page + 1}
+                    onChange={(event, value) => {
+                        if (value === apiRef.current.state.pagination.pageCount) {
+                            reachedLastPage(value);
+                        }
+                        return apiRef.current.setPage(value - 1);
+                    }}
+                />
+            </div>
+
+        );
     }
 
     const columns: GridColDef[] = [
@@ -153,8 +186,8 @@ function TransactionsList(props): JSX.Element {
                         rows={transactions}
                         columns={columns}
                         pageSize={10}
-                        rowsPerPageOptions={[10]}
                         disableSelectionOnClick
+                        pagination
                         sx={{
                             ...dataGridStyles,
                             '.MuiDataGrid-cell': {
@@ -162,7 +195,11 @@ function TransactionsList(props): JSX.Element {
                             },
                         }}
                         components={{
-                            NoRowsOverlay: CustomNoRowsOverlay
+                            NoRowsOverlay: CustomNoRowsOverlay,
+                            Pagination: CustomPagination
+                        }}
+                        componentsProps={{
+                            pagination: { loading },
                         }}
                     />
                 </div>

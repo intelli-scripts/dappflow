@@ -6,6 +6,11 @@ import {
 import {Network} from "../network";
 
 
+export type A_AssetTransactionsResponse = {
+    'next-token': string,
+    transactions: A_SearchTransaction[]
+};
+
 export class AssetClient{
     client: Algodv2;
     indexer: IndexerClient;
@@ -27,8 +32,13 @@ export class AssetClient{
         return assets;
     }
 
-    async getAssetTransactions(id: number): Promise<A_SearchTransaction[]> {
-        const {transactions} = await this.indexer.searchForTransactions().assetID(id).do();
-        return transactions;
+    async getAssetTransactions(id: number, token?: string): Promise<A_AssetTransactionsResponse> {
+        const req = this.indexer.searchForTransactions().assetID(id);
+        if (token) {
+            req.nextToken(token);
+        }
+
+        const response = await req.do();
+        return response as A_AssetTransactionsResponse;
     }
 }
