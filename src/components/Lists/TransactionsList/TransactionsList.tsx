@@ -57,7 +57,7 @@ function TransactionsList({transactions = [], loading = false, reachedLastPage =
                     page={page + 1}
                     onChange={(event, value) => {
                         if (value === apiRef.current.state.pagination.pageCount) {
-                            reachedLastPage(value);
+                            reachedLastPage();
                         }
                         return apiRef.current.setPage(value - 1);
                     }}

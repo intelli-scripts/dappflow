@@ -12,7 +12,7 @@ function AssetTransactions(): JSX.Element {
     const {transactions} = asset.transactionsDetails;
     const dispatch = useDispatch();
 
-    function reachedLastPage(value) {
+    function reachedLastPage() {
         dispatch(loadAssetTransactions(asset.information.index));
     }
 

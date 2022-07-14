@@ -121,9 +121,9 @@ export const loadAccountTransactions = createAsyncThunk(
 
             dispatch(setTxnsLoading(true));
             const accountClient = new AccountClient(explorer.network);
-            const transactions = await accountClient.getAccountTransactions(information.address, account.transactionsDetails["next-token"]);
+            const response = await accountClient.getAccountTransactions(information.address, account.transactionsDetails["next-token"]);
             dispatch(setTxnsLoading(false));
-            return transactions;
+            return response;
         }
         catch (e: any) {
             dispatch(setTxnsLoading(false));

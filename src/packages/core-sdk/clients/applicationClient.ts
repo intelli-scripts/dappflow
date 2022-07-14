@@ -7,6 +7,11 @@ import {
 import {Network} from "../network";
 import axios from 'axios';
 
+export type A_ApplicationTransactionsResponse = {
+    'next-token': string,
+    transactions: A_SearchTransaction[]
+};
+
 export class ApplicationClient{
     client: Algodv2;
     indexer: IndexerClient;
@@ -28,9 +33,14 @@ export class ApplicationClient{
         return applications;
     }
 
-    async getApplicationTransactions(id: number): Promise<A_SearchTransaction[]> {
-        const {transactions} = await this.indexer.searchForTransactions().applicationID(id).do();
-        return transactions;
+    async getApplicationTransactions(id: number, token?: string): Promise<A_ApplicationTransactionsResponse> {
+        const req = this.indexer.searchForTransactions().applicationID(id);
+        if (token) {
+            req.nextToken(token);
+        }
+
+        const response = await req.do();
+        return response as A_ApplicationTransactionsResponse;
     }
 
     async decompileProgram(program: string) {
