@@ -11,6 +11,11 @@ export type A_AccountsResponse = {
     accounts: A_SearchAccount[]
 };
 
+export type A_AccountTransactionsResponse = {
+    'next-token': string,
+    transactions: A_SearchTransaction[]
+};
+
 export class AccountClient{
     client: Algodv2;
     indexer: IndexerClient;
@@ -37,8 +42,14 @@ export class AccountClient{
         return response as A_AccountsResponse;
     }
 
-    async getAccountTransactions(address: string): Promise<A_SearchTransaction[]> {
-        const {transactions} = await this.indexer.searchForTransactions().address(address).do();
-        return transactions;
+    async getAccountTransactions(address: string, token?: string): Promise<A_AccountTransactionsResponse> {
+        const req = this.indexer.searchForTransactions().address(address);
+        if (token) {
+            req.nextToken(token);
+        }
+
+        const response = await req.do();
+        return response as A_AccountTransactionsResponse;
+
     }
 }

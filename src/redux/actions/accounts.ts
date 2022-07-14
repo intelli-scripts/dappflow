@@ -55,8 +55,13 @@ export const accountsSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(loadAccounts.fulfilled, (state, action: PayloadAction<A_AccountsResponse>) => {
             if (action.payload) {
-                state["next-token"] = action.payload["next-token"];
+                const nextToken = action.payload["next-token"];
+
+                state["next-token"] = nextToken;
                 state.list = [...state.list, ...action.payload.accounts];
+                if (!nextToken) {
+                    state.completed = true;
+                }
             }
         })
     },

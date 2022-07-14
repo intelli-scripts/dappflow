@@ -1,8 +1,8 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {A_AccountInformation, A_Application, A_Asset, A_SearchTransaction} from '../../packages/core-sdk/types';
+import {A_AccountInformation, A_Application, A_Asset} from '../../packages/core-sdk/types';
 import {handleException} from "./exception";
 import explorer from "../../utils/explorer";
-import {AccountClient} from "../../packages/core-sdk/clients/accountClient";
+import {A_AccountTransactionsResponse, AccountClient} from "../../packages/core-sdk/clients/accountClient";
 import {CoreAccount} from "../../packages/core-sdk/classes/CoreAccount";
 
 export interface Account {
@@ -10,7 +10,7 @@ export interface Account {
     error: boolean,
     information: A_AccountInformation,
     createdAssets: A_Asset[],
-    transactions: A_SearchTransaction[],
+    transactionsDetails: A_AccountTransactionsResponse & {completed: boolean, loading: boolean}
     createdApplications: A_Application[]
 }
 
@@ -38,7 +38,12 @@ const initialState: Account = {
     error: false,
     information,
     createdAssets: [],
-    transactions: [],
+    transactionsDetails: {
+        "next-token": "",
+        completed: false,
+        loading: false,
+        transactions: []
+    },
     createdApplications: []
 }
 
@@ -53,7 +58,7 @@ export const loadAccount = createAsyncThunk(
             const accountInfo = await accountClient.getAccountInformation(address);
             dispatch(loadCreatedAssets(accountInfo));
             dispatch(loadCreatedApplications(accountInfo));
-            dispatch(loadTransactions(accountInfo));
+            dispatch(loadAccountTransactions(accountInfo));
             dispatch(setLoading(false));
             return accountInfo;
         }
@@ -101,16 +106,27 @@ export const loadCreatedApplications = createAsyncThunk(
     }
 );
 
-export const loadTransactions = createAsyncThunk(
-    'account/loadTransactions',
+export const loadAccountTransactions = createAsyncThunk(
+    'account/loadAccountTransactions',
     async (information: A_AccountInformation, thunkAPI) => {
-        const {dispatch} = thunkAPI;
+        const {dispatch, getState} = thunkAPI;
         try {
+
+            // @ts-ignore
+            const {account} = getState();
+
+            if (account.transactionsDetails.completed) {
+                return;
+            }
+
+            dispatch(setTxnsLoading(true));
             const accountClient = new AccountClient(explorer.network);
-            const transactions = await accountClient.getAccountTransactions(information.address);
+            const transactions = await accountClient.getAccountTransactions(information.address, account.transactionsDetails["next-token"]);
+            dispatch(setTxnsLoading(false));
             return transactions;
         }
         catch (e: any) {
+            dispatch(setTxnsLoading(false));
             dispatch(handleException(e));
         }
     }
@@ -123,6 +139,9 @@ export const accountSlice = createSlice({
         resetAccount: state => initialState,
         setLoading: (state, action: PayloadAction<boolean> ) => {
             state.loading = action.payload;
+        },
+        setTxnsLoading: (state, action: PayloadAction<boolean> ) => {
+            state.transactionsDetails.loading = action.payload;
         },
         setError: (state, action: PayloadAction<boolean> ) => {
             state.error = action.payload;
@@ -144,13 +163,20 @@ export const accountSlice = createSlice({
                 state.createdApplications = action.payload;
             }
         });
-        builder.addCase(loadTransactions.fulfilled, (state, action: PayloadAction<A_SearchTransaction[]>) => {
+        builder.addCase(loadAccountTransactions.fulfilled, (state, action: PayloadAction<A_AccountTransactionsResponse>) => {
             if (action.payload) {
-                state.transactions = action.payload;
+                const nextToken = action.payload["next-token"];
+
+                state.transactionsDetails["next-token"] = nextToken;
+                state.transactionsDetails.transactions = [...state.transactionsDetails.transactions, ...action.payload.transactions];
+
+                if (!nextToken) {
+                    state.transactionsDetails.completed = true;
+                }
             }
         });
     },
 });
 
-export const {resetAccount, setLoading, setError} = accountSlice.actions
+export const {resetAccount, setLoading, setError, setTxnsLoading} = accountSlice.actions
 export default accountSlice.reducer

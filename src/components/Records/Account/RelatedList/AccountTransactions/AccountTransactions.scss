@@ -2,13 +2,10 @@
 
 .account-transactions-wrapper {
   .account-transactions-container {
-    .account-transactions-header {
-      margin-top: 40px;
-      font-size: 20px;
-      font-weight: bold;
-    }
     .account-transactions-body {
-      margin-top: 50px;
+      .transactions-list-body {
+        margin-top: 20px;
+      }
       .copy-content {
         font-size: 16px;
         margin-right: 10px;

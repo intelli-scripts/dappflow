@@ -2,13 +2,10 @@
 
 .account-created-assets-wrapper {
   .account-created-assets-container {
-    .account-created-assets-header {
-      margin-top: 40px;
-      font-size: 20px;
-      font-weight: bold;
-    }
     .account-created-assets-body {
-      margin-top: 50px;
+      .assets-list-body {
+        margin-top: 20px;
+      }
       .copy-content {
         font-size: 16px;
         margin-right: 10px;
