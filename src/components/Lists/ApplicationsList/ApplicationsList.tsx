@@ -2,9 +2,17 @@ import './ApplicationsList.scss';
 import React from "react";
 import {useDispatch} from "react-redux";
 import {
+    CircularProgress, Pagination,
     Tooltip
 } from "@mui/material";
-import {DataGrid, GridColDef, GridValueGetterParams} from "@mui/x-data-grid";
+import {
+    DataGrid,
+    GridColDef, gridPageCountSelector,
+    gridPageSelector,
+    GridValueGetterParams,
+    useGridApiContext,
+    useGridSelector
+} from "@mui/x-data-grid";
 import {dataGridCellConfig, dataGridStyles} from "../../../theme/styles/datagrid";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import {copyContent} from "../../../utils/common";
@@ -12,16 +20,42 @@ import {CoreApplication} from "../../../packages/core-sdk/classes/CoreApplicatio
 import LinkToAccount from "../../Common/Links/LinkToAccount";
 import LinkToApplication from "../../Common/Links/LinkToApplication";
 import CustomNoRowsOverlay from "../../Common/CustomNoRowsOverlay/CustomNoRowsOverlay";
+import {A_Application} from "../../../packages/core-sdk/types";
 
+interface ApplicationsListProps {
+    applications: A_Application[];
+    loading?: boolean;
+    reachedLastPage?: Function
+}
 
-function ApplicationsList(props): JSX.Element {
+function ApplicationsList({applications = [], loading = false, reachedLastPage = () => {}}: ApplicationsListProps): JSX.Element {
     const dispatch = useDispatch();
-    let {applications, loading} = props;
-    if (!applications) {
-        applications = [];
-    }
-    if (!loading) {
-        loading = false;
+
+    function CustomPagination({loading}) {
+        const apiRef = useGridApiContext();
+        const page = useGridSelector(apiRef, gridPageSelector);
+        const pageCount = useGridSelector(apiRef, gridPageCountSelector);
+
+        return (
+            <div style={{display: "flex", justifyContent: "space-between"}}>
+                {loading ? <div style={{marginTop: 5, marginRight: 20}}><CircularProgress size={25}></CircularProgress></div> : ''}
+                <Pagination
+                    color="primary"
+                    shape="rounded"
+                    showFirstButton
+                    showLastButton
+                    count={pageCount}
+                    page={page + 1}
+                    onChange={(event, value) => {
+                        if (value === apiRef.current.state.pagination.pageCount) {
+                            reachedLastPage();
+                        }
+                        return apiRef.current.setPage(value - 1);
+                    }}
+                />
+            </div>
+
+        );
     }
 
     const columns: GridColDef[] = [
@@ -66,17 +100,21 @@ function ApplicationsList(props): JSX.Element {
         <div className={"applications-list-container"}>
             <div className="applications-list-body">
 
-                <div style={{ height: 700, width: '100%' }}>
+                <div style={{ width: '100%' }}>
                     <DataGrid
                         loading={loading}
                         rows={applications}
                         columns={columns}
                         pageSize={10}
-                        rowsPerPageOptions={[10]}
+                        autoHeight
                         disableSelectionOnClick
                         sx={dataGridStyles}
                         components={{
-                            NoRowsOverlay: CustomNoRowsOverlay
+                            NoRowsOverlay: CustomNoRowsOverlay,
+                            Pagination: CustomPagination
+                        }}
+                        componentsProps={{
+                            pagination: { loading },
                         }}
                     />
                 </div>

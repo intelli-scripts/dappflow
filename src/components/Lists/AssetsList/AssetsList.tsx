@@ -135,7 +135,7 @@ function AssetsList({assets = [], loading = false, reachedLastPage = () => {}}: 
         <div className={"assets-list-container"}>
             <div className="assets-list-body">
 
-                <div style={{ height: 700, width: '100%' }}>
+                <div style={{ width: '100%' }}>
                     <DataGrid
                         loading={loading}
                         rows={assets}

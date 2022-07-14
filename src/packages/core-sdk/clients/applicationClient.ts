@@ -8,6 +8,10 @@ import axios from 'axios';
 import {A_TransactionsResponse} from "./transactionClient";
 
 export type A_ApplicationTransactionsResponse = A_TransactionsResponse;
+export type A_ApplicationsResponse = {
+    'next-token': string,
+    applications: A_Application[]
+};
 
 export class ApplicationClient{
     client: Algodv2;
@@ -25,9 +29,14 @@ export class ApplicationClient{
         return app as A_Application;
     }
 
-    async getApplications(): Promise<A_Application[]> {
-        const {applications} = await this.indexer.searchForApplications().do();
-        return applications;
+    async getApplications(token?: string): Promise<A_ApplicationsResponse> {
+        const req = this.indexer.searchForApplications();
+        if (token) {
+            req.nextToken(token);
+        }
+
+        const response = await req.do();
+        return response as A_ApplicationsResponse;
     }
 
     async getApplicationTransactions(id: number, token?: string): Promise<A_ApplicationTransactionsResponse> {
