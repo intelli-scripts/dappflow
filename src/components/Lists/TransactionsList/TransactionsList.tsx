@@ -49,6 +49,10 @@ function TransactionsList({transactions = [], loading = false, reachedLastPage =
             <div style={{display: "flex", justifyContent: "space-between"}}>
                 {loading ? <div style={{marginTop: 5, marginRight: 20}}><CircularProgress size={25}></CircularProgress></div> : ''}
                 <Pagination
+                    color="primary"
+                    shape="rounded"
+                    showFirstButton
+                    showLastButton
                     count={pageCount}
                     page={page + 1}
                     onChange={(event, value) => {
@@ -180,13 +184,14 @@ function TransactionsList({transactions = [], loading = false, reachedLastPage =
         <div className={"transactions-list-container"}>
             <div className="transactions-list-body">
 
-                <div style={{ height: 700, width: '100%' }}>
+                <div style={{ width: '100%' }}>
                     <DataGrid
                         loading={loading}
                         rows={transactions}
                         columns={columns}
                         pageSize={10}
                         disableSelectionOnClick
+                        autoHeight
                         pagination
                         sx={{
                             ...dataGridStyles,
