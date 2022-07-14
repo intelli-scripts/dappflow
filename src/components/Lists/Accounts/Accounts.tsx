@@ -4,11 +4,19 @@ import {useDispatch, useSelector} from "react-redux";
 import {loadAccounts} from "../../../redux/actions/accounts";
 import {RootState} from "../../../redux/store";
 import {
+    CircularProgress, Pagination,
     Tooltip
 } from "@mui/material";
 import {microalgosToAlgos} from "algosdk";
 import NumberFormat from 'react-number-format';
-import {DataGrid, GridColDef, GridValueGetterParams} from "@mui/x-data-grid";
+import {
+    DataGrid,
+    GridColDef, gridPageCountSelector,
+    gridPageSelector,
+    GridValueGetterParams,
+    useGridApiContext,
+    useGridSelector
+} from "@mui/x-data-grid";
 import {dataGridCellConfig, dataGridStyles} from "../../../theme/styles/datagrid";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import {copyContent} from "../../../utils/common";
@@ -20,6 +28,33 @@ function Accounts(): JSX.Element {
     const dispatch = useDispatch();
     const accounts = useSelector((state: RootState) => state.accounts);
     const {list, loading} = accounts;
+
+    function CustomPagination({loading}) {
+        const apiRef = useGridApiContext();
+        const page = useGridSelector(apiRef, gridPageSelector);
+        const pageCount = useGridSelector(apiRef, gridPageCountSelector);
+
+        return (
+            <div style={{display: "flex", justifyContent: "space-between"}}>
+                {loading ? <div style={{marginTop: 5, marginRight: 20}}><CircularProgress size={25}></CircularProgress></div> : ''}
+                <Pagination
+                    color="primary"
+                    shape="rounded"
+                    showFirstButton
+                    showLastButton
+                    count={pageCount}
+                    page={page + 1}
+                    onChange={(event, value) => {
+                        if (value === apiRef.current.state.pagination.pageCount) {
+                            dispatch(loadAccounts());
+                        }
+                        return apiRef.current.setPage(value - 1);
+                    }}
+                />
+            </div>
+
+        );
+    }
 
     const columns: GridColDef[] = [
         {
@@ -85,7 +120,7 @@ function Accounts(): JSX.Element {
                         rows={list}
                         columns={columns}
                         pageSize={10}
-                        rowsPerPageOptions={[10]}
+                        autoHeight
                         getRowId={(row) => {
                             return row.address;
                         }}
@@ -93,6 +128,10 @@ function Accounts(): JSX.Element {
                         sx={dataGridStyles}
                         components={{
                             NoRowsOverlay: CustomNoRowsOverlay,
+                            Pagination: CustomPagination
+                        }}
+                        componentsProps={{
+                            pagination: { loading },
                         }}
                     />
                 </div>

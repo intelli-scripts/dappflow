@@ -6,6 +6,11 @@ import {
 } from "../types";
 import {Network} from "../network";
 
+export type A_AccountsResponse = {
+    'next-token': string,
+    accounts: A_SearchAccount[]
+};
+
 export class AccountClient{
     client: Algodv2;
     indexer: IndexerClient;
@@ -22,9 +27,14 @@ export class AccountClient{
         return accountInformation;
     }
 
-    async getAccounts(): Promise<A_SearchAccount[]> {
-        const {accounts} = await this.indexer.searchAccounts().do();
-        return accounts;
+    async getAccounts(token?: string): Promise<A_AccountsResponse> {
+        const req = this.indexer.searchAccounts();
+        if (token) {
+            req.nextToken(token);
+        }
+
+        const response = await req.do();
+        return response as A_AccountsResponse;
     }
 
     async getAccountTransactions(address: string): Promise<A_SearchTransaction[]> {

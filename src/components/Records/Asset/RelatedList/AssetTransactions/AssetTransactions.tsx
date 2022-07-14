@@ -11,7 +11,6 @@ function AssetTransactions(): JSX.Element {
     const asset = useSelector((state: RootState) => state.asset);
     const {transactions} = asset.transactionsDetails;
     const dispatch = useDispatch();
-    console.log(asset.transactionsDetails.loading);
 
     function reachedLastPage(value) {
         dispatch(loadAssetTransactions(asset.information.index));

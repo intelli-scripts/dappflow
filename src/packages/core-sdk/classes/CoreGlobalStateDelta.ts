@@ -25,6 +25,12 @@ export class CoreGlobalState {
         if (action === 2) {
             return 'Uint';
         }
+        if (action === 3) {
+            if (this.state.value.bytes !== undefined) {
+                return 'Bytes';
+            }
+            return 'Uint';
+        }
 
         return '';
     }

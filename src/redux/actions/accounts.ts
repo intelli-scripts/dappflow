@@ -2,29 +2,40 @@ import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {handleException} from "./exception";
 import explorer from "../../utils/explorer";
 import {A_SearchAccount} from "../../packages/core-sdk/types";
-import {AccountClient} from "../../packages/core-sdk/clients/accountClient";
+import {A_AccountsResponse, AccountClient} from "../../packages/core-sdk/clients/accountClient";
 
 
 interface Accounts {
     list: A_SearchAccount[],
-    loading: boolean
+    loading: boolean,
+    completed: boolean,
+    "next-token": string
 }
 
 const initialState: Accounts = {
     list: [],
-    loading: false
+    loading: false,
+    completed: false,
+    "next-token": ''
 }
 
 export const loadAccounts = createAsyncThunk(
     'accounts/loadAccounts',
     async (_, thunkAPI) => {
-        const {dispatch} = thunkAPI;
+        const {dispatch, getState} = thunkAPI;
         try {
+            // @ts-ignore
+            const {accounts} = getState();
+
+            if (accounts.completed) {
+                return;
+            }
+
             const accountClient = new AccountClient(explorer.network);
             dispatch(setLoading(true));
-            const accounts = await accountClient.getAccounts();
+            const response = await accountClient.getAccounts(accounts['next-token']);
             dispatch(setLoading(false));
-            return accounts;
+            return response;
         }
         catch (e: any) {
             dispatch(setLoading(false));
@@ -42,9 +53,10 @@ export const accountsSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(loadAccounts.fulfilled, (state, action: PayloadAction<A_SearchAccount[]>) => {
+        builder.addCase(loadAccounts.fulfilled, (state, action: PayloadAction<A_AccountsResponse>) => {
             if (action.payload) {
-                state.list = action.payload;
+                state["next-token"] = action.payload["next-token"];
+                state.list = [...state.list, ...action.payload.accounts];
             }
         })
     },
