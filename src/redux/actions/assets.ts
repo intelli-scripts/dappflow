@@ -2,29 +2,40 @@ import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {handleException} from "./exception";
 import explorer from "../../utils/explorer";
 import {A_Asset} from "../../packages/core-sdk/types";
-import {AssetClient} from "../../packages/core-sdk/clients/assetClient";
+import {A_AssetsResponse, AssetClient} from "../../packages/core-sdk/clients/assetClient";
 
 
 interface Assets {
     list: A_Asset[],
-    loading: boolean
+    loading: boolean,
+    completed: boolean,
+    "next-token": string
 }
 
 const initialState: Assets = {
     list: [],
-    loading: false
+    loading: false,
+    completed: false,
+    "next-token": ''
 }
 
 export const loadAssets = createAsyncThunk(
     'assets/loadAssets',
     async (_, thunkAPI) => {
-        const {dispatch} = thunkAPI;
+        const {dispatch, getState} = thunkAPI;
         try {
+            // @ts-ignore
+            const {assets} = getState();
+
+            if (assets.completed) {
+                return;
+            }
+
             const assetClient = new AssetClient(explorer.network);
             dispatch(setLoading(true));
-            const assets = await assetClient.getAssets();
+            const response = await assetClient.getAssets(assets["next-token"]);
             dispatch(setLoading(false));
-            return assets;
+            return response;
         }
         catch (e: any) {
             dispatch(setLoading(false));
@@ -42,9 +53,16 @@ export const assetsSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(loadAssets.fulfilled, (state, action: PayloadAction<A_Asset[]>) => {
+        builder.addCase(loadAssets.fulfilled, (state, action: PayloadAction<A_AssetsResponse>) => {
             if (action.payload) {
-                state.list = action.payload;
+                const nextToken = action.payload["next-token"];
+
+                state["next-token"] = nextToken;
+                state.list = [...state.list, ...action.payload.assets];
+
+                if (!nextToken) {
+                    state.completed = true;
+                }
             }
         })
     },

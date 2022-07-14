@@ -2,19 +2,17 @@ import {Algodv2} from "algosdk";
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
 import {
     A_AccountInformation,
-    A_SearchAccount, A_SearchTransaction
+    A_SearchAccount
 } from "../types";
 import {Network} from "../network";
+import {A_TransactionsResponse} from "./transactionClient";
 
 export type A_AccountsResponse = {
     'next-token': string,
     accounts: A_SearchAccount[]
 };
 
-export type A_AccountTransactionsResponse = {
-    'next-token': string,
-    transactions: A_SearchTransaction[]
-};
+export type A_AccountTransactionsResponse = A_TransactionsResponse;
 
 export class AccountClient{
     client: Algodv2;

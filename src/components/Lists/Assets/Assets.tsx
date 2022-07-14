@@ -16,10 +16,14 @@ function Assets(): JSX.Element {
         dispatch(loadAssets());
     }, [dispatch]);
 
+    function reachedLastPage() {
+        dispatch(loadAssets());
+    }
+
     return (<div className={"assets-wrapper"}>
         <div className={"assets-container"}>
             <div className="assets-body">
-                <AssetsList assets={list} loading={assets.loading}></AssetsList>
+                <AssetsList assets={list} loading={assets.loading} reachedLastPage={reachedLastPage}></AssetsList>
             </div>
         </div>
     </div>);

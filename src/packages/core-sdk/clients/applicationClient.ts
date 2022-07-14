@@ -1,16 +1,13 @@
 import { Algodv2} from 'algosdk';
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
 import {
-    A_Application,
-    A_SearchTransaction
+    A_Application
 } from "../types";
 import {Network} from "../network";
 import axios from 'axios';
+import {A_TransactionsResponse} from "./transactionClient";
 
-export type A_ApplicationTransactionsResponse = {
-    'next-token': string,
-    transactions: A_SearchTransaction[]
-};
+export type A_ApplicationTransactionsResponse = A_TransactionsResponse;
 
 export class ApplicationClient{
     client: Algodv2;
