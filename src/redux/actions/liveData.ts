@@ -83,8 +83,8 @@ export const liveDataSlice = createSlice({
             let {blocks, transactions} = state;
             blocks = blocks.sort((a, b) => b.round - a.round);
 
-            state.blocks = blocks;
-            state.transactions = [...action.payload.transactions, ...transactions];
+            state.blocks = blocks.slice(0, 10);
+            state.transactions = [...action.payload.transactions, ...transactions].slice(0, 50);
 
         });
     },
