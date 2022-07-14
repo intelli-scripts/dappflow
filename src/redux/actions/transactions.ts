@@ -2,29 +2,40 @@ import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {handleException} from "./exception";
 import explorer from "../../utils/explorer";
 import {A_SearchTransaction} from "../../packages/core-sdk/types";
-import {TransactionClient} from "../../packages/core-sdk/clients/transactionClient";
+import {A_TransactionsResponse, TransactionClient} from "../../packages/core-sdk/clients/transactionClient";
 
 
 interface Transactions {
     list: A_SearchTransaction[],
-    loading: boolean
+    loading: boolean,
+    completed: boolean,
+    "next-token": string
 }
 
 const initialState: Transactions = {
     list: [],
-    loading: false
+    loading: false,
+    completed: false,
+    "next-token": ''
 }
 
 export const loadTransactions = createAsyncThunk(
     'transactions/loadTransactions',
     async (_, thunkAPI) => {
-        const {dispatch} = thunkAPI;
+        const {dispatch, getState} = thunkAPI;
         try {
+            // @ts-ignore
+            const {transactions} = getState();
+
+            if (transactions.completed) {
+                return;
+            }
+
             const transactionClient = new TransactionClient(explorer.network);
             dispatch(setLoading(true));
-            const transactions = await transactionClient.getTransactions();
+            const response = await transactionClient.getTransactions(transactions["next-token"]);
             dispatch(setLoading(false));
-            return transactions;
+            return response;
         }
         catch (e: any) {
             dispatch(setLoading(false));
@@ -42,9 +53,17 @@ export const transactionsSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(loadTransactions.fulfilled, (state, action: PayloadAction<A_SearchTransaction[]>) => {
+        builder.addCase(loadTransactions.fulfilled, (state, action: PayloadAction<A_TransactionsResponse>) => {
             if (action.payload) {
-                state.list = action.payload;
+
+                const nextToken = action.payload["next-token"];
+
+                state["next-token"] = nextToken;
+                state.list = [...state.list, ...action.payload.transactions];
+
+                if (!nextToken) {
+                    state.completed = true;
+                }
             }
         })
     },

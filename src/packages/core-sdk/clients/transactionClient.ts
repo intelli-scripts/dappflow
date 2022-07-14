@@ -4,6 +4,11 @@ import {Network} from "../network";
 import {A_SearchTransaction} from "../types";
 
 
+export type A_TransactionsResponse = {
+    'next-token': string,
+    transactions: A_SearchTransaction[]
+};
+
 export class TransactionClient {
     client: Algodv2;
     indexer: IndexerClient;
@@ -15,9 +20,14 @@ export class TransactionClient {
         this.indexer = network.getIndexer();
     }
 
-    async getTransactions(): Promise<A_SearchTransaction[]> {
-        const {transactions} = await this.indexer.searchForTransactions().do();
-        return transactions;
+    async getTransactions(token?: string): Promise<A_TransactionsResponse> {
+        const req = this.indexer.searchForTransactions();
+        if (token) {
+            req.nextToken(token);
+        }
+
+        const response = await req.do();
+        return response as A_TransactionsResponse;
     }
 
     async get(id: string): Promise<A_SearchTransaction> {
