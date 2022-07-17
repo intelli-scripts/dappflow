@@ -22,6 +22,8 @@ import Settings from "../Settings/Settings";
 import Group from "../Records/Group/Group";
 import GroupTransactions from "../Records/Group/RelatedList/GroupTransactions/GroupTransactions";
 import AccountAssets from "../Records/Account/RelatedList/AccountAssets/AccountAssets";
+import AccountOptedApplications
+    from "../Records/Account/RelatedList/AccountOptedApplications.tsx/AccountOptedApplications";
 
 function AppRouter(): JSX.Element {
 
@@ -42,6 +44,7 @@ function AppRouter(): JSX.Element {
                     <Route path="transactions" element={<AccountTransactions></AccountTransactions>} />
                     <Route path="created-assets" element={<AccountCreatedAssets></AccountCreatedAssets>} />
                     <Route path="created-applications" element={<AccountCreatedApplications></AccountCreatedApplications>} />
+                    <Route path="opted-applications" element={<AccountOptedApplications></AccountOptedApplications>} />
                     <Route path="" element={<Navigate to="assets" replace />}/>
                 </Route>
                 <Route path="/block/:id" element={<Block></Block>}>

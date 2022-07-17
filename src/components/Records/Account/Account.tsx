@@ -34,6 +34,9 @@ function Account(): JSX.Element {
     else if (matchPath("/account/:address/created-applications", pathname)) {
         tabValue = 'created-applications';
     }
+    else if (matchPath("/account/:address/opted-applications", pathname)) {
+        tabValue = 'opted-applications';
+    }
 
     useEffect(() => {
         dispatch(loadAccount(address));
@@ -118,6 +121,9 @@ function Account(): JSX.Element {
                             }}/>
                             <Tab label="Created applications" value="created-applications" onClick={() => {
                                 navigate('/account/' + address + '/created-applications');
+                            }}/>
+                            <Tab label="Opted applications" value="opted-applications" onClick={() => {
+                                navigate('/account/' + address + '/opted-applications');
                             }}/>
                         </Tabs>
 

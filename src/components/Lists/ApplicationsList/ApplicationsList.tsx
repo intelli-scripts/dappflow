@@ -20,15 +20,16 @@ import {CoreApplication} from "../../../packages/core-sdk/classes/CoreApplicatio
 import LinkToAccount from "../../Common/Links/LinkToAccount";
 import LinkToApplication from "../../Common/Links/LinkToApplication";
 import CustomNoRowsOverlay from "../../Common/CustomNoRowsOverlay/CustomNoRowsOverlay";
-import {A_Application} from "../../../packages/core-sdk/types";
+import {A_Application, A_AppsLocalState} from "../../../packages/core-sdk/types";
 
 interface ApplicationsListProps {
-    applications: A_Application[];
+    applications: A_Application[] | A_AppsLocalState[];
     loading?: boolean;
-    reachedLastPage?: Function
+    reachedLastPage?: Function;
+    fields?: string[]
 }
 
-function ApplicationsList({applications = [], loading = false, reachedLastPage = () => {}}: ApplicationsListProps): JSX.Element {
+function ApplicationsList({applications = [], loading = false, fields=['id', 'creator'], reachedLastPage = () => {}}: ApplicationsListProps): JSX.Element {
     const dispatch = useDispatch();
 
     function CustomPagination({loading}) {
@@ -58,8 +59,8 @@ function ApplicationsList({applications = [], loading = false, reachedLastPage =
         );
     }
 
-    const columns: GridColDef[] = [
-        {
+    const fieldsMap = {
+        'id': {
             ...dataGridCellConfig,
             field: 'id',
             headerName: 'Application ID',
@@ -76,7 +77,7 @@ function ApplicationsList({applications = [], loading = false, reachedLastPage =
                 </div>;
             }
         },
-        {
+        'creator': {
             ...dataGridCellConfig,
             field: 'creator',
             headerName: 'Creator',
@@ -94,7 +95,15 @@ function ApplicationsList({applications = [], loading = false, reachedLastPage =
                 </div>;
             }
         }
+    };
+
+    const columns: GridColDef[] = [
+
     ];
+
+    fields.forEach((field) => {
+        columns.push(fieldsMap[field]);
+    });
 
     return (<div className={"applications-list-wrapper"}>
         <div className={"applications-list-container"}>

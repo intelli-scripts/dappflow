@@ -1,5 +1,5 @@
 import {
-    A_AccountInformation, A_Application, A_Asset, A_AssetHolding
+    A_AccountInformation, A_Application, A_AppsLocalState, A_Asset, A_AssetHolding
 } from "../types";
 
 
@@ -25,6 +25,11 @@ export class CoreAccount {
     getCreatedApplications(): A_Application[]{
         const createdApps = this.account['created-apps'];
         return createdApps;
+    }
+
+    getOptedApplications(): A_AppsLocalState[]{
+        const optedApps = this.account['apps-local-state'];
+        return optedApps;
     }
 
     getBalance(): number {

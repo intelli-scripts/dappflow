@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {A_AccountInformation, A_Application, A_Asset} from '../../packages/core-sdk/types';
+import {A_AccountInformation, A_Application, A_AppsLocalState, A_Asset} from '../../packages/core-sdk/types';
 import {handleException} from "./exception";
 import explorer from "../../utils/explorer";
 import {A_AccountTransactionsResponse, AccountClient} from "../../packages/core-sdk/clients/accountClient";
@@ -13,7 +13,8 @@ export interface Account {
     createdAssets: A_Asset[],
     optedAssets: A_Asset[],
     transactionsDetails: A_AccountTransactionsResponse & {completed: boolean, loading: boolean}
-    createdApplications: A_Application[]
+    createdApplications: A_Application[],
+    optedApplications: A_AppsLocalState[]
 }
 
 const information: A_AccountInformation = {
@@ -47,7 +48,8 @@ const initialState: Account = {
         loading: false,
         transactions: []
     },
-    createdApplications: []
+    createdApplications: [],
+    optedApplications: []
 }
 
 export const loadAccount = createAsyncThunk(
@@ -61,6 +63,7 @@ export const loadAccount = createAsyncThunk(
             const accountInfo = await accountClient.getAccountInformation(address);
             dispatch(loadCreatedAssets(accountInfo));
             dispatch(loadCreatedApplications(accountInfo));
+            dispatch(loadOptedApplications(accountInfo));
             dispatch(loadAccountTransactions(accountInfo));
             dispatch(loadOptedAssets(accountInfo));
             dispatch(setLoading(false));
@@ -103,6 +106,25 @@ export const loadCreatedApplications = createAsyncThunk(
             });
 
             return createdApplications;
+        }
+        catch (e: any) {
+            dispatch(handleException(e));
+        }
+    }
+);
+
+export const loadOptedApplications = createAsyncThunk(
+    'account/loadOptedApplications',
+    async (information: A_AccountInformation, thunkAPI) => {
+        const {dispatch} = thunkAPI;
+        try {
+            let optedApplications = new CoreAccount(information).getOptedApplications();
+
+            optedApplications = optedApplications.sort((a, b) => {
+                return b.id - a.id;
+            });
+
+            return optedApplications;
         }
         catch (e: any) {
             dispatch(handleException(e));
@@ -171,7 +193,7 @@ export const loadOptedAsset = createAsyncThunk(
             dispatch(addOptedAsset(assetInfo));
         }
         catch (e: any) {
-            dispatch(handleException(e));
+
         }
     }
 );
@@ -208,6 +230,11 @@ export const accountSlice = createSlice({
         builder.addCase(loadCreatedApplications.fulfilled, (state, action: PayloadAction<A_Application[]>) => {
             if (action.payload) {
                 state.createdApplications = action.payload;
+            }
+        });
+        builder.addCase(loadOptedApplications.fulfilled, (state, action: PayloadAction<A_AppsLocalState[]>) => {
+            if (action.payload) {
+                state.optedApplications = action.payload;
             }
         });
         builder.addCase(loadAccountTransactions.fulfilled, (state, action: PayloadAction<A_AccountTransactionsResponse>) => {
