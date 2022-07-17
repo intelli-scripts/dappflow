@@ -1,5 +1,5 @@
 import {
-    A_AccountInformation, A_Application, A_Asset
+    A_AccountInformation, A_Application, A_Asset, A_AssetHolding
 } from "../types";
 
 
@@ -31,4 +31,52 @@ export class CoreAccount {
         return this.account.amount;
     }
 
+    getHoldingAssets(): A_AssetHolding[]{
+        return this.account['assets'];
+    }
+
+    isCreatedAsset(assetId: number): boolean {
+        const createdAssets = this.getCreatedAssets();
+
+        for (const asset of createdAssets) {
+            if (asset.index === assetId) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    getCreatedAsset(assetId: number): A_Asset {
+        const createdAssets = this.getCreatedAssets();
+
+        for (const asset of createdAssets) {
+            if (asset.index === assetId) {
+                return asset;
+            }
+        }
+    }
+
+    getHoldingAsset(assetId: number): A_AssetHolding {
+        const assets = this.getHoldingAssets();
+        for (const asset of assets) {
+            if (asset['asset-id'] === assetId) {
+                return asset;
+            }
+        }
+    }
+
+    balanceOf(assetId: number): number {
+        const asset = this.getHoldingAsset(assetId);
+
+        if (asset) {
+            return asset.amount;
+        }
+
+        return 0;
+    }
+
+    getAssetBal(asset: A_Asset): number {
+        return this.balanceOf(asset.index) / Math.pow(10, asset.params.decimals);
+    }
 }

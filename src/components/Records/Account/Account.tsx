@@ -22,7 +22,7 @@ function Account(): JSX.Element {
 
     const account = useSelector((state: RootState) => state.account);
 
-    let tabValue = 'transactions';
+    let tabValue = 'assets';
     const { pathname } = useLocation();
 
     if (matchPath("/account/:address/transactions", pathname)) {
@@ -107,6 +107,9 @@ function Account(): JSX.Element {
                     <div className="account-tabs">
 
                         <Tabs value={tabValue} className="related-list">
+                            <Tab label="Assets" value="assets" onClick={() => {
+                                navigate('/account/' + address + '/assets');
+                            }}/>
                             <Tab label="Transactions" value="transactions" onClick={() => {
                                 navigate('/account/' + address + '/transactions');
                             }}/>

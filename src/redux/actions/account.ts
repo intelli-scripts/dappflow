@@ -4,12 +4,14 @@ import {handleException} from "./exception";
 import explorer from "../../utils/explorer";
 import {A_AccountTransactionsResponse, AccountClient} from "../../packages/core-sdk/clients/accountClient";
 import {CoreAccount} from "../../packages/core-sdk/classes/CoreAccount";
+import {AssetClient} from "../../packages/core-sdk/clients/assetClient";
 
 export interface Account {
     loading: boolean,
     error: boolean,
     information: A_AccountInformation,
     createdAssets: A_Asset[],
+    optedAssets: A_Asset[],
     transactionsDetails: A_AccountTransactionsResponse & {completed: boolean, loading: boolean}
     createdApplications: A_Application[]
 }
@@ -38,6 +40,7 @@ const initialState: Account = {
     error: false,
     information,
     createdAssets: [],
+    optedAssets: [],
     transactionsDetails: {
         "next-token": "",
         completed: false,
@@ -59,6 +62,7 @@ export const loadAccount = createAsyncThunk(
             dispatch(loadCreatedAssets(accountInfo));
             dispatch(loadCreatedApplications(accountInfo));
             dispatch(loadAccountTransactions(accountInfo));
+            dispatch(loadOptedAssets(accountInfo));
             dispatch(setLoading(false));
             return accountInfo;
         }
@@ -132,6 +136,46 @@ export const loadAccountTransactions = createAsyncThunk(
     }
 );
 
+export const loadOptedAssets = createAsyncThunk(
+    'account/loadOptedAssets',
+    async (accountInformation: A_AccountInformation, thunkAPI) => {
+        const {dispatch} = thunkAPI;
+        try {
+            const accountInstance = new CoreAccount(accountInformation);
+            const optedAssets = accountInstance.getHoldingAssets();
+
+            optedAssets.forEach((asset) => {
+                const assetId = asset['asset-id'];
+                const isCreatedAsset = accountInstance.isCreatedAsset(assetId);
+                if (isCreatedAsset) {
+                    dispatch(addOptedAsset(accountInstance.getCreatedAsset(assetId)));
+                }
+                else {
+                    dispatch(loadOptedAsset(assetId));
+                }
+            });
+        }
+        catch (e: any) {
+            dispatch(handleException(e));
+        }
+    }
+);
+
+export const loadOptedAsset = createAsyncThunk(
+    'account/loadOptedAsset',
+    async (id: number, thunkAPI) => {
+        const {dispatch} = thunkAPI;
+        try {
+            const assetClient = new AssetClient(explorer.network);
+            const assetInfo = await assetClient.get(id);
+            dispatch(addOptedAsset(assetInfo));
+        }
+        catch (e: any) {
+            dispatch(handleException(e));
+        }
+    }
+);
+
 export const accountSlice = createSlice({
     name: 'account',
     initialState,
@@ -145,6 +189,9 @@ export const accountSlice = createSlice({
         },
         setError: (state, action: PayloadAction<boolean> ) => {
             state.error = action.payload;
+        },
+        addOptedAsset: (state, action: PayloadAction<A_Asset> ) => {
+            state.optedAssets.push(action.payload);
         },
     },
     extraReducers: (builder) => {
@@ -178,5 +225,5 @@ export const accountSlice = createSlice({
     },
 });
 
-export const {resetAccount, setLoading, setError, setTxnsLoading} = accountSlice.actions
+export const {resetAccount, setLoading, setError, setTxnsLoading, addOptedAsset} = accountSlice.actions
 export default accountSlice.reducer
