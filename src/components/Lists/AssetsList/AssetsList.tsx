@@ -20,15 +20,19 @@ import {CoreAsset} from "../../../packages/core-sdk/classes/CoreAsset";
 import LinkToAccount from "../../Common/Links/LinkToAccount";
 import LinkToAsset from "../../Common/Links/LinkToAsset";
 import CustomNoRowsOverlay from "../../Common/CustomNoRowsOverlay/CustomNoRowsOverlay";
-import {A_Asset} from "../../../packages/core-sdk/types";
+import {A_AccountInformation, A_Asset} from "../../../packages/core-sdk/types";
+import {CoreAccount} from "../../../packages/core-sdk/classes/CoreAccount";
+import NumberFormat from "react-number-format";
 
 interface AssetsListProps {
     assets: A_Asset[];
     loading?: boolean;
-    reachedLastPage?: Function
+    reachedLastPage?: Function,
+    fields?: string[],
+    accountInfo?: A_AccountInformation
 }
 
-function AssetsList({assets = [], loading = false, reachedLastPage = () => {}}: AssetsListProps): JSX.Element {
+function AssetsList({assets = [], loading = false, accountInfo, fields = ['name', 'index', 'uint', 'url', 'creator'], reachedLastPage = () => {}}: AssetsListProps): JSX.Element {
     const dispatch = useDispatch();
 
     function CustomPagination({loading}) {
@@ -58,8 +62,8 @@ function AssetsList({assets = [], loading = false, reachedLastPage = () => {}}: 
         );
     }
 
-    const columns: GridColDef[] = [
-        {
+    const fieldsMap = {
+        name: {
             ...dataGridCellConfig,
             field: 'name',
             headerName: 'Name',
@@ -70,7 +74,7 @@ function AssetsList({assets = [], loading = false, reachedLastPage = () => {}}: 
                 </div>;
             }
         },
-        {
+        index: {
             ...dataGridCellConfig,
             field: 'index',
             headerName: 'ID',
@@ -87,7 +91,7 @@ function AssetsList({assets = [], loading = false, reachedLastPage = () => {}}: 
                 </div>;
             }
         },
-        {
+        uint: {
             ...dataGridCellConfig,
             field: 'unit',
             headerName: 'Unit',
@@ -98,7 +102,7 @@ function AssetsList({assets = [], loading = false, reachedLastPage = () => {}}: 
                 </div>;
             }
         },
-        {
+        url: {
             ...dataGridCellConfig,
             field: 'url',
             headerName: 'Url',
@@ -111,7 +115,7 @@ function AssetsList({assets = [], loading = false, reachedLastPage = () => {}}: 
                 </div>;
             }
         },
-        {
+        creator: {
             ...dataGridCellConfig,
             field: 'creator',
             headerName: 'Creator',
@@ -128,8 +132,34 @@ function AssetsList({assets = [], loading = false, reachedLastPage = () => {}}: 
                     <LinkToAccount address={assetInstance.getCreator()} strip={30}></LinkToAccount>
                 </div>;
             }
+        },
+        balance: {
+            ...dataGridCellConfig,
+            field: 'balance',
+            headerName: 'Balance',
+            renderCell: (params: GridValueGetterParams) => {
+                const accountInstance = new CoreAccount(accountInfo);
+                const bal = accountInstance.getAssetBal(params.row);
+
+                const assetInstance = new CoreAsset(params.row);
+                return <div>
+                    <NumberFormat
+                        value={bal}
+                        displayType={'text'}
+                        thousandSeparator={true}
+                    ></NumberFormat>
+                    &nbsp; {assetInstance.getUnitName()}
+                </div>;
+            }
         }
+    };
+
+    const columns: GridColDef[] = [
     ];
+
+    fields.forEach((field) => {
+        columns.push(fieldsMap[field]);
+    });
 
     return (<div className={"assets-list-wrapper"}>
         <div className={"assets-list-container"}>

@@ -80,8 +80,22 @@ function Account(): JSX.Element {
                                         <AlgoIcon></AlgoIcon>
                                     </div>
                                 </div>
+                            </Grid>
+                        </Grid>
+                        <Grid container spacing={2} style={{marginTop: 5}}>
 
 
+
+
+                            <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
+                                <div className="property">
+                                    <div className="key">
+                                        Holding assets
+                                    </div>
+                                    <div className="value">
+                                        {account.optedAssets.length}
+                                    </div>
+                                </div>
 
                                 <div className="property">
                                     <div className="key">
@@ -91,7 +105,9 @@ function Account(): JSX.Element {
                                         {account.createdAssets.length}
                                     </div>
                                 </div>
-
+                            </Grid>
+                            <Grid item xs={12} sm={3} md={1} lg={1} xl={1}></Grid>
+                            <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
                                 <div className="property">
                                     <div className="key">
                                         Created applications
@@ -101,7 +117,17 @@ function Account(): JSX.Element {
                                     </div>
                                 </div>
 
+                                <div className="property">
+                                    <div className="key">
+                                        Opted applications
+                                    </div>
+                                    <div className="value">
+                                        {account.optedApplications.length}
+                                    </div>
+                                </div>
                             </Grid>
+
+
                         </Grid>
                     </div>
 

@@ -2,7 +2,7 @@ import './AccountAssets.scss';
 import React from "react";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../../redux/store";
-import OptedAssetsList from "../../../../Lists/OptedAssetsList/OptedAssetsList";
+import AssetsList from "../../../../Lists/AssetsList/AssetsList";
 
 function AccountAssets(): JSX.Element {
     const account = useSelector((state: RootState) => state.account);
@@ -11,7 +11,7 @@ function AccountAssets(): JSX.Element {
     return (<div className={"account-assets-wrapper"}>
         <div className={"account-assets-container"}>
             <div className="account-assets-body">
-                <OptedAssetsList assets={optedAssets} accountInfo={account.information}></OptedAssetsList>
+                <AssetsList assets={optedAssets} accountInfo={account.information} fields={['name', 'index', 'balance']}></AssetsList>
             </div>
         </div>
     </div>);

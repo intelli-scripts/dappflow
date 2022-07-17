@@ -29,7 +29,7 @@ interface ApplicationsListProps {
     fields?: string[]
 }
 
-function ApplicationsList({applications = [], loading = false, fields=['id', 'creator'], reachedLastPage = () => {}}: ApplicationsListProps): JSX.Element {
+function ApplicationsList({applications = [], loading = false, fields = ['id', 'creator'], reachedLastPage = () => {}}: ApplicationsListProps): JSX.Element {
     const dispatch = useDispatch();
 
     function CustomPagination({loading}) {
