@@ -110,11 +110,11 @@ function Account(): JSX.Element {
                     <div className="account-tabs">
 
                         <Tabs value={tabValue} className="related-list">
-                            <Tab label="Assets" value="assets" onClick={() => {
-                                navigate('/account/' + address + '/assets');
-                            }}/>
                             <Tab label="Transactions" value="transactions" onClick={() => {
                                 navigate('/account/' + address + '/transactions');
+                            }}/>
+                            <Tab label="Assets" value="assets" onClick={() => {
+                                navigate('/account/' + address + '/assets');
                             }}/>
                             <Tab label="Created assets" value="created-assets" onClick={() => {
                                 navigate('/account/' + address + '/created-assets');

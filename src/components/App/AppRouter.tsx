@@ -45,7 +45,7 @@ function AppRouter(): JSX.Element {
                     <Route path="created-assets" element={<AccountCreatedAssets></AccountCreatedAssets>} />
                     <Route path="created-applications" element={<AccountCreatedApplications></AccountCreatedApplications>} />
                     <Route path="opted-applications" element={<AccountOptedApplications></AccountOptedApplications>} />
-                    <Route path="" element={<Navigate to="assets" replace />}/>
+                    <Route path="" element={<Navigate to="transactions" replace />}/>
                 </Route>
                 <Route path="/block/:id" element={<Block></Block>}>
                     <Route path="transactions" element={<BlockTransactions></BlockTransactions>} />
