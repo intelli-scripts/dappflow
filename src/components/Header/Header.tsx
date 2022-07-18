@@ -1,12 +1,13 @@
 import './Header.scss';
 import React from "react";
 import {useNavigate, useLocation} from "react-router-dom";
-import {Grid, Tab, Tabs, Tooltip} from "@mui/material";
+import {Box, Grid, Tab, Tabs, Tooltip} from "@mui/material";
 import SettingsIcon from '@mui/icons-material/Settings';
 import {useDispatch} from "react-redux";
 import {showSettings} from "../../redux/actions/settings";
 import Search from "../Search/Search";
 import Logo from '../../assets/images/logo-black.png';
+import explorer from "../../utils/explorer";
 
 function Header(): JSX.Element {
     const navigate = useNavigate();
@@ -28,6 +29,13 @@ function Header(): JSX.Element {
             }}>
                 <img src={Logo} alt="logo"/>
                 Dappflow
+
+                <div className="url">
+                    <Box sx={{ color: 'grey.500'}}>
+                        Node: {explorer.network.getAlgodUrl()}
+                    </Box>
+                </div>
+
             </div>
             <div>
 
