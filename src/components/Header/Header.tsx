@@ -30,8 +30,12 @@ function Header(): JSX.Element {
                 <img src={Logo} alt="logo"/>
                 Dappflow
 
-                <div className="url">
-                    <Box sx={{ color: 'grey.500'}}>
+                <div className="url" onClick={(ev) => {
+                    dispatch(showSettings());
+                    ev.stopPropagation();
+                    ev.preventDefault();
+                }}>
+                    <Box sx={{ color: 'primary.dark'}}>
                         Node: {explorer.network.getAlgodUrl()}
                     </Box>
                 </div>
