@@ -35,8 +35,9 @@ function Header(): JSX.Element {
                     ev.stopPropagation();
                     ev.preventDefault();
                 }}>
-                    <Box sx={{ color: 'primary.dark'}}>
-                        Node: {explorer.network.getAlgodUrl()}
+                    Node :
+                    <Box sx={{ color: 'grey.500', display: 'inline-block', marginLeft: '5px'}}>
+                        {explorer.network.getAlgodUrl()}
                     </Box>
                 </div>
 
