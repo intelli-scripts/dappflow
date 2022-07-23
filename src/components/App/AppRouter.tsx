@@ -31,6 +31,8 @@ import {Grid} from "@mui/material";
 import LeftBar from "../LeftBar/LeftBar";
 import Settings from "../Settings/Settings";
 import ArcPortal from "../Modules/ArcPortal/ArcPortal/ArcPortal";
+import Loader from "../Common/Loader/Loader";
+import AppSnackbar from "./AppSnackbar";
 
 function AppRouter(): JSX.Element {
 
@@ -90,6 +92,8 @@ function AppRouter(): JSX.Element {
 
 
             <Settings></Settings>
+            <Loader></Loader>
+            <AppSnackbar></AppSnackbar>
         </BrowserRouter>
     </div>);
 }
