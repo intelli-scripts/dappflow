@@ -16,7 +16,10 @@ function LiveBlocks(): JSX.Element {
     return (<div className={"live-blocks-wrapper"}>
         <div className={"live-blocks-container"}>
             <div className={"live-blocks-header"}>
-                Latest Blocks
+                <Box sx={{ color: 'primary.main'}}>
+                    Latest Blocks
+                </Box>
+
             </div>
             <div className={"live-blocks-body"}>
                 <TransitionGroup component="div">

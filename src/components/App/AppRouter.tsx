@@ -41,45 +41,48 @@ function AppRouter(): JSX.Element {
                     <LeftBar></LeftBar>
                 </Grid>
                 <Grid item xs={12} sm={12} md={9} lg={10} xl={10}>
-                    <div className="content">
-                        <Routes>
-                            <Route path="/explorer" element={<Explorer></Explorer>}>
-                                <Route path="/explorer/home" element={<Home></Home>} />
-                                <Route path="/explorer/accounts" element={<Accounts></Accounts>} />
-                                <Route path="/explorer/transactions" element={<Transactions></Transactions>} />
-                                <Route path="/explorer/assets" element={<Assets></Assets>} />
-                                <Route path="/explorer/applications" element={<Applications></Applications>} />
-                                <Route path="/explorer/account/:address" element={<Account></Account>}>
-                                    <Route path="assets" element={<AccountAssets></AccountAssets>} />
-                                    <Route path="transactions" element={<AccountTransactions></AccountTransactions>} />
-                                    <Route path="created-assets" element={<AccountCreatedAssets></AccountCreatedAssets>} />
-                                    <Route path="created-applications" element={<AccountCreatedApplications></AccountCreatedApplications>} />
-                                    <Route path="opted-applications" element={<AccountOptedApplications></AccountOptedApplications>} />
-                                    <Route path="" element={<Navigate to="transactions" replace />}/>
+                    <div className="content-wrapper">
+                        <div className="content-container">
+                            <Routes>
+                                <Route path="/explorer" element={<Explorer></Explorer>}>
+                                    <Route path="/explorer/home" element={<Home></Home>} />
+                                    <Route path="/explorer/accounts" element={<Accounts></Accounts>} />
+                                    <Route path="/explorer/transactions" element={<Transactions></Transactions>} />
+                                    <Route path="/explorer/assets" element={<Assets></Assets>} />
+                                    <Route path="/explorer/applications" element={<Applications></Applications>} />
+                                    <Route path="/explorer/account/:address" element={<Account></Account>}>
+                                        <Route path="assets" element={<AccountAssets></AccountAssets>} />
+                                        <Route path="transactions" element={<AccountTransactions></AccountTransactions>} />
+                                        <Route path="created-assets" element={<AccountCreatedAssets></AccountCreatedAssets>} />
+                                        <Route path="created-applications" element={<AccountCreatedApplications></AccountCreatedApplications>} />
+                                        <Route path="opted-applications" element={<AccountOptedApplications></AccountOptedApplications>} />
+                                        <Route path="" element={<Navigate to="transactions" replace />}/>
+                                    </Route>
+                                    <Route path="/explorer/block/:id" element={<Block></Block>}>
+                                        <Route path="transactions" element={<BlockTransactions></BlockTransactions>} />
+                                        <Route path="" element={<Navigate to="transactions" replace />}/>
+                                    </Route>
+                                    <Route path="/explorer/asset/:id" element={<Asset></Asset>}>
+                                        <Route path="transactions" element={<AssetTransactions></AssetTransactions>} />
+                                        <Route path="" element={<Navigate to="transactions" replace />}/>
+                                    </Route>
+                                    <Route path="/explorer/application/:id" element={<Application></Application>}>
+                                        <Route path="transactions" element={<ApplicationTransactions></ApplicationTransactions>} />
+                                        <Route path="" element={<Navigate to="transactions" replace />}/>
+                                    </Route>
+                                    <Route path="/explorer/transaction/:id" element={<Transaction></Transaction>}></Route>
+                                    <Route path="/explorer/group/:id/:blockId" element={<Group></Group>}>
+                                        <Route path="transactions" element={<GroupTransactions></GroupTransactions>} />
+                                        <Route path="" element={<Navigate to="transactions" replace />}/>
+                                    </Route>
+                                    <Route index element={<Navigate to="home" replace />} />
                                 </Route>
-                                <Route path="/explorer/block/:id" element={<Block></Block>}>
-                                    <Route path="transactions" element={<BlockTransactions></BlockTransactions>} />
-                                    <Route path="" element={<Navigate to="transactions" replace />}/>
-                                </Route>
-                                <Route path="/explorer/asset/:id" element={<Asset></Asset>}>
-                                    <Route path="transactions" element={<AssetTransactions></AssetTransactions>} />
-                                    <Route path="" element={<Navigate to="transactions" replace />}/>
-                                </Route>
-                                <Route path="/explorer/application/:id" element={<Application></Application>}>
-                                    <Route path="transactions" element={<ApplicationTransactions></ApplicationTransactions>} />
-                                    <Route path="" element={<Navigate to="transactions" replace />}/>
-                                </Route>
-                                <Route path="/explorer/transaction/:id" element={<Transaction></Transaction>}></Route>
-                                <Route path="/explorer/group/:id/:blockId" element={<Group></Group>}>
-                                    <Route path="transactions" element={<GroupTransactions></GroupTransactions>} />
-                                    <Route path="" element={<Navigate to="transactions" replace />}/>
-                                </Route>
-                                <Route index element={<Navigate to="home" replace />} />
-                            </Route>
-                            <Route path="/developer-api" element={<DeveloperApi></DeveloperApi>} />
-                            <Route path="/arcs" element={<div style={{marginTop: 200, fontSize: 30}}>Coming soon ...</div>} />
-                            <Route path="*" element={<Navigate to="/explorer" replace />}/>
-                        </Routes>
+                                <Route path="/developer-api" element={<DeveloperApi></DeveloperApi>} />
+                                <Route path="/arcs" element={<div style={{marginTop: 200, fontSize: 30}}>Coming soon ...</div>} />
+                                <Route path="*" element={<Navigate to="/explorer" replace />}/>
+                            </Routes>
+                        </div>
+
                     </div>
                 </Grid>
             </Grid>

@@ -1,5 +1,9 @@
 .app-root {
-  .content {
-    margin: 20px 100px 100px 100px;
+  .content-wrapper {
+    height: 100vh;
+    overflow: auto;
+    .content-container {
+      margin: 20px 100px 100px 100px;
+    }
   }
 }

@@ -19,7 +19,10 @@ function LiveTransactions(): JSX.Element {
     return (<div className={"live-transactions-wrapper"}>
         <div className={"live-transactions-container"}>
             <div className={"live-transactions-header"}>
-                Latest Transactions
+
+                <Box sx={{ color: 'primary.main'}}>
+                    Latest Transactions
+                </Box>
             </div>
             <div className={"live-transactions-body"}>
                 <TransitionGroup component="div">
