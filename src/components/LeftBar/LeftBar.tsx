@@ -12,7 +12,10 @@ import {useLocation, useNavigate} from "react-router-dom";
 import CircleIcon from "@mui/icons-material/Circle";
 import explorer from "../../utils/dappflow";
 import {RootState} from "../../redux/store";
-import {shadedClr} from "../../utils/common";
+import {shadedClr, shadedClr1} from "../../utils/common";
+import CodeIcon from '@mui/icons-material/Code';
+import StorageIcon from '@mui/icons-material/Storage';
+import GavelIcon from '@mui/icons-material/Gavel';
 
 
 function LeftBar(): JSX.Element {
@@ -43,14 +46,14 @@ function LeftBar(): JSX.Element {
               <div className="menu-list">
 
                   <Tabs value={route} orientation={"vertical"}>
-                      <Tab label="Explorer" value="explorer" onClick={() => {
+                      <Tab icon={<StorageIcon></StorageIcon>} iconPosition="start" label="Explorer" value="explorer" onClick={() => {
                           navigate('/explorer');
                       }}/>
-                      <Tab label="Developer API" value="developer-api" onClick={() => {
+                      <Tab icon={<CodeIcon></CodeIcon>} iconPosition="start" label="Developer API" value="developer-api" onClick={() => {
                           navigate('/developer-api');
                       }}/>
-                      <Tab label="ARC's" value="arcs" onClick={() => {
-                          navigate('/arcs');
+                      <Tab icon={<GavelIcon></GavelIcon>} iconPosition="start" label="ARC Portal" value="arc-portal" onClick={() => {
+                          navigate('/arc-portal');
                       }}/>
 
                   </Tabs>
@@ -60,7 +63,16 @@ function LeftBar(): JSX.Element {
 
               </div>
 
-              <div className="footer">
+              <div className="footer" style={{background: shadedClr1}}>
+
+                  <Button variant={"text"}
+                          size={"large"}
+                          fullWidth
+                          startIcon={<SettingsIcon></SettingsIcon>}
+                          onClick={() => {
+                              dispatch(showSettings());
+                          }}
+                  >Settings</Button>
 
                   <div className="node" onClick={(ev) => {
                       dispatch(showSettings());
@@ -76,14 +88,7 @@ function LeftBar(): JSX.Element {
                       </Box>
                   </div>
 
-                  <Button variant={"text"}
-                          size={"large"}
-                          fullWidth
-                          startIcon={<SettingsIcon></SettingsIcon>}
-                          onClick={() => {
-                              dispatch(showSettings());
-                          }}
-                  >Settings</Button>
+
 
               </div>
 

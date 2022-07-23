@@ -1,35 +1,36 @@
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import React from "react";
 
-import Explorer from "../Explorer/Explorer/Explorer";
-import Home from "../Explorer/Home/Home";
-import Accounts from "../Explorer/Lists/Accounts/Accounts";
-import Transactions from "../Explorer/Lists/Transactions/Transactions";
-import Assets from "../Explorer/Lists/Assets/Assets";
-import Applications from "../Explorer/Lists/Applications/Applications";
-import DeveloperApi from "../DeveloperApi/DeveloperApi";
-import Account from "../Explorer/Records/Account/Account";
-import AccountAssets from "../Explorer/Records/Account/RelatedList/AccountAssets/AccountAssets";
-import AccountTransactions from "../Explorer/Records/Account/RelatedList/AccountTransactions/AccountTransactions";
+import Explorer from "../Modules/Explorer/Explorer/Explorer";
+import Home from "../Modules/Explorer/Home/Home";
+import Accounts from "../Modules/Explorer/Lists/Accounts/Accounts";
+import Transactions from "../Modules/Explorer/Lists/Transactions/Transactions";
+import Assets from "../Modules/Explorer/Lists/Assets/Assets";
+import Applications from "../Modules/Explorer/Lists/Applications/Applications";
+import DeveloperApi from "../Modules/DeveloperApi/DeveloperApi";
+import Account from "../Modules/Explorer/Records/Account/Account";
+import AccountAssets from "../Modules/Explorer/Records/Account/RelatedList/AccountAssets/AccountAssets";
+import AccountTransactions from "../Modules/Explorer/Records/Account/RelatedList/AccountTransactions/AccountTransactions";
 import AccountCreatedAssets
-    from "../Explorer/Records/Account/RelatedList/AccountCreatedAssets.tsx/AccountCreatedAssets";
+    from "../Modules/Explorer/Records/Account/RelatedList/AccountCreatedAssets.tsx/AccountCreatedAssets";
 import AccountCreatedApplications
-    from "../Explorer/Records/Account/RelatedList/AccountCreatedApplications.tsx/AccountCreatedApplications";
+    from "../Modules/Explorer/Records/Account/RelatedList/AccountCreatedApplications.tsx/AccountCreatedApplications";
 import AccountOptedApplications
-    from "../Explorer/Records/Account/RelatedList/AccountOptedApplications.tsx/AccountOptedApplications";
-import Block from "../Explorer/Records/Block/Block";
-import BlockTransactions from "../Explorer/Records/Block/RelatedList/BlockTransactions/BlockTransactions";
-import Asset from "../Explorer/Records/Asset/Asset";
-import AssetTransactions from "../Explorer/Records/Asset/RelatedList/AssetTransactions/AssetTransactions";
-import Application from "../Explorer/Records/Application/Application";
+    from "../Modules/Explorer/Records/Account/RelatedList/AccountOptedApplications.tsx/AccountOptedApplications";
+import Block from "../Modules/Explorer/Records/Block/Block";
+import BlockTransactions from "../Modules/Explorer/Records/Block/RelatedList/BlockTransactions/BlockTransactions";
+import Asset from "../Modules/Explorer/Records/Asset/Asset";
+import AssetTransactions from "../Modules/Explorer/Records/Asset/RelatedList/AssetTransactions/AssetTransactions";
+import Application from "../Modules/Explorer/Records/Application/Application";
 import ApplicationTransactions
-    from "../Explorer/Records/Application/RelatedList/ApplicationTransactions/ApplicationTransactions";
-import Transaction from "../Explorer/Records/Transaction/Transaction";
-import Group from "../Explorer/Records/Group/Group";
-import GroupTransactions from "../Explorer/Records/Group/RelatedList/GroupTransactions/GroupTransactions";
+    from "../Modules/Explorer/Records/Application/RelatedList/ApplicationTransactions/ApplicationTransactions";
+import Transaction from "../Modules/Explorer/Records/Transaction/Transaction";
+import Group from "../Modules/Explorer/Records/Group/Group";
+import GroupTransactions from "../Modules/Explorer/Records/Group/RelatedList/GroupTransactions/GroupTransactions";
 import {Grid} from "@mui/material";
 import LeftBar from "../LeftBar/LeftBar";
 import Settings from "../Settings/Settings";
+import ArcPortal from "../Modules/ArcPortal/ArcPortal/ArcPortal";
 
 function AppRouter(): JSX.Element {
 
@@ -78,7 +79,7 @@ function AppRouter(): JSX.Element {
                                     <Route index element={<Navigate to="home" replace />} />
                                 </Route>
                                 <Route path="/developer-api" element={<DeveloperApi></DeveloperApi>} />
-                                <Route path="/arcs" element={<div style={{marginTop: 200, fontSize: 30}}>Coming soon ...</div>} />
+                                <Route path="/arc-portal" element={<ArcPortal></ArcPortal>} />
                                 <Route path="*" element={<Navigate to="/explorer" replace />}/>
                             </Routes>
                         </div>
