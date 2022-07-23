@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {handleException} from "./exception";
-import explorer from "../../utils/explorer";
+import explorer from "../../utils/dappflow";
 import indexerApi from '../../packages/core-sdk/swagger/indexerApi.json';
 
 

@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {handleException} from "./exception";
-import explorer from "../../utils/explorer";
+import explorer from "../../utils/dappflow";
 import {A_SearchAccount} from "../../packages/core-sdk/types";
 import {A_AccountsResponse, AccountClient} from "../../packages/core-sdk/clients/accountClient";
 

@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {handleException} from "./exception";
-import explorer from "../../utils/explorer";
+import explorer from "../../utils/dappflow";
 import {A_Asset} from "../../packages/core-sdk/types";
 import {A_AssetsResponse, AssetClient} from "../../packages/core-sdk/clients/assetClient";
 

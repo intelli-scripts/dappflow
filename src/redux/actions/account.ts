@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {A_AccountInformation, A_Application, A_AppsLocalState, A_Asset} from '../../packages/core-sdk/types';
 import {handleException} from "./exception";
-import explorer from "../../utils/explorer";
+import explorer from "../../utils/dappflow";
 import {A_AccountTransactionsResponse, AccountClient} from "../../packages/core-sdk/clients/accountClient";
 import {CoreAccount} from "../../packages/core-sdk/classes/CoreAccount";
 import {AssetClient} from "../../packages/core-sdk/clients/assetClient";
