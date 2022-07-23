@@ -8,14 +8,20 @@ export interface LiveData {
     loading: number,
     currentBlock: number,
     blocks: A_Block[],
-    transactions: A_SearchTransaction[]
+    transactions: A_SearchTransaction[],
+    connection: {
+        success: boolean
+    }
 }
 
 const initialState: LiveData = {
     loading: 0,
     currentBlock: 0,
     blocks: [],
-    transactions: []
+    transactions: [],
+    connection: {
+        success: true
+    }
 }
 
 export const initLivedata = createAsyncThunk(
@@ -29,9 +35,7 @@ export const initLivedata = createAsyncThunk(
 
             dispatch(setCurrentBlock(round));
             dispatch(loadBlockInfo(round));
-            // for (let i = round - 4; i <=round; i++) {
-            //     dispatch(loadBlockInfo(i));
-            // }
+            dispatch(setConnectionSuccess(true));
 
             setInterval(async () => {
                 const state = getState();
@@ -48,7 +52,7 @@ export const initLivedata = createAsyncThunk(
             }, 2000);
         }
         catch (e: any) {
-
+            dispatch(setConnectionSuccess(false));
         }
     }
 );
@@ -75,6 +79,9 @@ export const liveDataSlice = createSlice({
         setCurrentBlock: (state, action: PayloadAction<number> ) => {
             state.currentBlock = action.payload;
         },
+        setConnectionSuccess: (state, action: PayloadAction<boolean> ) => {
+            state.connection.success = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(loadBlockInfo.fulfilled, (state, action: PayloadAction<A_Block>) => {
@@ -90,5 +97,5 @@ export const liveDataSlice = createSlice({
     },
 });
 
-export const {resetLiveData, setCurrentBlock} = liveDataSlice.actions
+export const {resetLiveData, setCurrentBlock, setConnectionSuccess} = liveDataSlice.actions
 export default liveDataSlice.reducer

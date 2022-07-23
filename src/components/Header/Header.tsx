@@ -3,16 +3,20 @@ import React from "react";
 import {useNavigate, useLocation} from "react-router-dom";
 import {Box, Grid, Tab, Tabs, Tooltip} from "@mui/material";
 import SettingsIcon from '@mui/icons-material/Settings';
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {showSettings} from "../../redux/actions/settings";
 import Search from "../Search/Search";
 import Logo from '../../assets/images/logo-black.png';
 import explorer from "../../utils/explorer";
+import CircleIcon from '@mui/icons-material/Circle';
+import {RootState} from "../../redux/store";
 
 function Header(): JSX.Element {
     const navigate = useNavigate();
     const location = useLocation();
     const dispatch = useDispatch();
+    const liveData = useSelector((state: RootState) => state.liveData);
+    const {connection} = liveData;
 
     let route: string | boolean = location.pathname;
     route = route.substring(1);
@@ -35,6 +39,12 @@ function Header(): JSX.Element {
                     ev.stopPropagation();
                     ev.preventDefault();
                 }}>
+
+                    <Tooltip title={connection.success ? 'Connected' : 'Unable to connect'}>
+                        <CircleIcon color={connection.success ? 'success' : 'secondary'} fontSize={"small"} sx={{fontSize: 14, marginTop: -5}}></CircleIcon>
+                    </Tooltip>
+
+
                     Node :
                     <Box sx={{ color: 'grey.500', display: 'inline-block', marginLeft: '5px'}}>
                         {explorer.network.getAlgodUrl()}
