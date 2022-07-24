@@ -2,9 +2,8 @@ import './ArcOverview.scss';
 import React from "react";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../../redux/store";
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 import {ARC} from "../../../../../packages/arc-portal/classes/ARC";
+import MuiMarkdown from 'mui-markdown';
 
 function ArcOverview(): JSX.Element {
 
@@ -12,11 +11,12 @@ function ArcOverview(): JSX.Element {
     const arcInstance = new ARC(arc.information);
 
 
+
     return (<div className={"arc-overview-wrapper"}>
         <div className={"arc-overview-container"}>
-
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{arcInstance.getMarkdown()}</ReactMarkdown>
-
+            <MuiMarkdown
+                options={{forceBlock: true}}
+                >{arcInstance.getMarkdown()}</MuiMarkdown>;
         </div>
     </div>);
 }
