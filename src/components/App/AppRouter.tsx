@@ -33,6 +33,8 @@ import Settings from "../Settings/Settings";
 import ArcPortal from "../Modules/ArcPortal/ArcPortal/ArcPortal";
 import Loader from "../Common/Loader/Loader";
 import AppSnackbar from "./AppSnackbar";
+import Arc from "../Modules/ArcPortal/Arc/Arc";
+import ArcOverview from "../Modules/ArcPortal/Arc/RelatedList/ArcOverview";
 
 function AppRouter(): JSX.Element {
 
@@ -81,7 +83,12 @@ function AppRouter(): JSX.Element {
                                     <Route index element={<Navigate to="home" replace />} />
                                 </Route>
                                 <Route path="/developer-api" element={<DeveloperApi></DeveloperApi>} />
-                                <Route path="/arc-portal" element={<ArcPortal></ArcPortal>} />
+                                <Route path="/arc-portal" element={<ArcPortal></ArcPortal>}>
+                                    <Route path="/arc-portal/arc/:id" element={<Arc></Arc>}>
+                                        <Route path="overview" element={<ArcOverview></ArcOverview>} />
+                                        <Route path="" element={<Navigate to="overview" replace />}/>
+                                    </Route>
+                                </Route>
                                 <Route path="*" element={<Navigate to="/explorer" replace />}/>
                             </Routes>
                         </div>

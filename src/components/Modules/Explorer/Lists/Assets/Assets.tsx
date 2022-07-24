@@ -3,7 +3,7 @@ import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../../redux/store";
 import AssetsList from "../AssetsList/AssetsList";
-import {loadAssets} from "../../../../../redux/actions/assets";
+import {loadAssets} from "../../../../../redux/explorer/actions/assets";
 
 
 function Assets(): JSX.Element {

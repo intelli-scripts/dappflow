@@ -1,6 +1,6 @@
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
-import {hideSnack} from '../../redux/actions/snackbar';
+import {hideSnack} from '../../redux/common/actions/snackbar';
 import {Alert, Snackbar} from "@mui/material";
 
 

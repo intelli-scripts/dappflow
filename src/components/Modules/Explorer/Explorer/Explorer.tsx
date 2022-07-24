@@ -1,7 +1,7 @@
 import React from 'react';
 import './Explorer.scss';
 import {useDispatch} from "react-redux";
-import {initLivedata} from "../../../../redux/actions/liveData";
+import {initLivedata} from "../../../../redux/explorer/actions/liveData";
 import {Outlet} from "react-router-dom";
 import Header from "../Header/Header";
 

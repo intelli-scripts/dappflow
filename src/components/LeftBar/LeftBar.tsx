@@ -6,7 +6,7 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import React from "react";
 import SettingsIcon from '@mui/icons-material/Settings';
-import {showSettings} from "../../redux/actions/settings";
+import {showSettings} from "../../redux/settings/actions/settings";
 import Logo from '../../assets/images/logo-black.png';
 import {useLocation, useNavigate} from "react-router-dom";
 import CircleIcon from "@mui/icons-material/Circle";

@@ -3,7 +3,7 @@ import React from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../../../../redux/store";
 import TransactionsList from "../../../../Lists/TransactionsList/TransactionsList";
-import {loadAssetTransactions} from "../../../../../../../redux/actions/asset";
+import {loadAssetTransactions} from "../../../../../../../redux/explorer/actions/asset";
 
 
 function AssetTransactions(): JSX.Element {

@@ -1,39 +1,39 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {handleException} from "./exception";
-import explorer from "../../utils/dappflow";
-import {A_SearchTransaction} from "../../packages/core-sdk/types";
-import {A_TransactionsResponse, TransactionClient} from "../../packages/core-sdk/clients/transactionClient";
+import {handleException} from "../../common/actions/exception";
+import explorer from "../../../utils/dappflow";
+import {A_SearchAccount} from "../../../packages/core-sdk/types";
+import {A_AccountsResponse, AccountClient} from "../../../packages/core-sdk/clients/accountClient";
 
 
-interface Transactions {
-    list: A_SearchTransaction[],
+interface Accounts {
+    list: A_SearchAccount[],
     loading: boolean,
     completed: boolean,
     "next-token": string
 }
 
-const initialState: Transactions = {
+const initialState: Accounts = {
     list: [],
     loading: false,
     completed: false,
     "next-token": ''
 }
 
-export const loadTransactions = createAsyncThunk(
-    'transactions/loadTransactions',
+export const loadAccounts = createAsyncThunk(
+    'accounts/loadAccounts',
     async (_, thunkAPI) => {
         const {dispatch, getState} = thunkAPI;
         try {
             // @ts-ignore
-            const {transactions} = getState();
+            const {accounts} = getState();
 
-            if (transactions.completed) {
+            if (accounts.completed) {
                 return;
             }
 
-            const transactionClient = new TransactionClient(explorer.network);
+            const accountClient = new AccountClient(explorer.network);
             dispatch(setLoading(true));
-            const response = await transactionClient.getTransactions(transactions["next-token"]);
+            const response = await accountClient.getAccounts(accounts['next-token']);
             dispatch(setLoading(false));
             return response;
         }
@@ -44,8 +44,8 @@ export const loadTransactions = createAsyncThunk(
     }
 );
 
-export const transactionsSlice = createSlice({
-    name: 'transactions',
+export const accountsSlice = createSlice({
+    name: 'accounts',
     initialState,
     reducers: {
         setLoading: (state, action: PayloadAction<boolean> ) => {
@@ -53,14 +53,12 @@ export const transactionsSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(loadTransactions.fulfilled, (state, action: PayloadAction<A_TransactionsResponse>) => {
+        builder.addCase(loadAccounts.fulfilled, (state, action: PayloadAction<A_AccountsResponse>) => {
             if (action.payload) {
-
                 const nextToken = action.payload["next-token"];
 
                 state["next-token"] = nextToken;
-                state.list = [...state.list, ...action.payload.transactions];
-
+                state.list = [...state.list, ...action.payload.accounts];
                 if (!nextToken) {
                     state.completed = true;
                 }
@@ -69,5 +67,5 @@ export const transactionsSlice = createSlice({
     },
 });
 
-export const { setLoading } = transactionsSlice.actions
-export default transactionsSlice.reducer
+export const { setLoading } = accountsSlice.actions
+export default accountsSlice.reducer

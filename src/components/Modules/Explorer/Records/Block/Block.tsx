@@ -4,7 +4,7 @@ import {Outlet, useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../../redux/store";
 import {Grid, Tab, Tabs} from "@mui/material";
-import {loadBlock} from "../../../../../redux/actions/block";
+import {loadBlock} from "../../../../../redux/explorer/actions/block";
 import LoadingTile from "../../../../Common/LoadingTile/LoadingTile";
 import {CoreBlock} from "../../../../../packages/core-sdk/classes/CoreBlock";
 import CustomError from "../../Common/CustomError/CustomError";

@@ -2,7 +2,7 @@ import './Applications.scss';
 import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../../redux/store";
-import {loadApplications} from "../../../../../redux/actions/applications";
+import {loadApplications} from "../../../../../redux/explorer/actions/applications";
 import ApplicationsList from "../ApplicationsList/ApplicationsList";
 
 

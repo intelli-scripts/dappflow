@@ -6,8 +6,8 @@ import {PROGRAM_ENCODING} from "../../../../../../../packages/core-sdk/constants
 import {ApplicationClient} from "../../../../../../../packages/core-sdk/clients/applicationClient";
 import explorer from "../../../../../../../utils/dappflow";
 import {useDispatch} from "react-redux";
-import {hideLoader, showLoader} from "../../../../../../../redux/actions/loader";
-import {handleException} from "../../../../../../../redux/actions/exception";
+import {hideLoader, showLoader} from "../../../../../../../redux/common/actions/loader";
+import {handleException} from "../../../../../../../redux/common/actions/exception";
 import {CodeBlock, googlecode} from "react-code-blocks";
 
 interface ApplicationApprovalProgramState{

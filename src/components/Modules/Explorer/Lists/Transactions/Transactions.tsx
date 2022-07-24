@@ -2,7 +2,7 @@ import './Transactions.scss';
 import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../../redux/store";
-import {loadTransactions} from "../../../../../redux/actions/transactions";
+import {loadTransactions} from "../../../../../redux/explorer/actions/transactions";
 import TransactionsList from "../TransactionsList/TransactionsList";
 
 

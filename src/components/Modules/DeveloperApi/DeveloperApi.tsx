@@ -3,7 +3,7 @@ import React, {useEffect} from "react";
 import SwaggerUI from "swagger-ui-react"
 import "swagger-ui-react/swagger-ui.css"
 import {useDispatch, useSelector} from "react-redux";
-import {loadIndexerSpec} from "../../../redux/actions/developerApi";
+import {loadIndexerSpec} from "../../../redux/developerApi/actions/developerApi";
 import {RootState} from "../../../redux/store";
 
 function DeveloperApi(): JSX.Element {

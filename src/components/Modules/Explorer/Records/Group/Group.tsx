@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../../redux/store";
 import {Grid, Tab, Tabs} from "@mui/material";
 import LoadingTile from "../../../../Common/LoadingTile/LoadingTile";
-import {loadGroup} from "../../../../../redux/actions/group";
+import {loadGroup} from "../../../../../redux/explorer/actions/group";
 import {CoreGroup} from "../../../../../packages/core-sdk/classes/CoreGroup";
 import LinkToBlock from "../../Common/Links/LinkToBlock";
 

@@ -1,7 +1,7 @@
 import './Accounts.scss';
 import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {loadAccounts} from "../../../../../redux/actions/accounts";
+import {loadAccounts} from "../../../../../redux/explorer/actions/accounts";
 import {RootState} from "../../../../../redux/store";
 import {
     CircularProgress, Pagination,

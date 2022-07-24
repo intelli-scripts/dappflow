@@ -1,8 +1,8 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {handleException} from "./exception";
-import explorer from "../../utils/dappflow";
-import {A_Application} from "../../packages/core-sdk/types";
-import {A_ApplicationTransactionsResponse, ApplicationClient} from "../../packages/core-sdk/clients/applicationClient";
+import {handleException} from "../../common/actions/exception";
+import explorer from "../../../utils/dappflow";
+import {A_Application} from "../../../packages/core-sdk/types";
+import {A_ApplicationTransactionsResponse, ApplicationClient} from "../../../packages/core-sdk/clients/applicationClient";
 
 export interface Application {
     loading: boolean,

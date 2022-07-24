@@ -1,8 +1,8 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {handleException} from "./exception";
-import explorer from "../../utils/dappflow";
-import {BlockClient} from "../../packages/core-sdk/clients/blockClient";
-import {A_Block} from "../../packages/core-sdk/types";
+import {handleException} from "../../common/actions/exception";
+import explorer from "../../../utils/dappflow";
+import {BlockClient} from "../../../packages/core-sdk/clients/blockClient";
+import {A_Block} from "../../../packages/core-sdk/types";
 
 
 export interface Block {

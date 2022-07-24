@@ -2,7 +2,7 @@ import './Account.scss';
 import React, {useEffect} from "react";
 import {matchPath, Outlet, useLocation, useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {loadAccount} from "../../../../../redux/actions/account";
+import {loadAccount} from "../../../../../redux/explorer/actions/account";
 import {RootState} from "../../../../../redux/store";
 import {Chip, Grid, Tab, Tabs} from "@mui/material";
 import NumberFormat from "react-number-format";

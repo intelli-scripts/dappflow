@@ -4,7 +4,7 @@ import {Outlet, useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../../redux/store";
 import {Grid, Link, Tab, Tabs} from "@mui/material";
-import {loadAsset} from "../../../../../redux/actions/asset";
+import {loadAsset} from "../../../../../redux/explorer/actions/asset";
 import {CoreAsset} from "../../../../../packages/core-sdk/classes/CoreAsset";
 import NumberFormat from "react-number-format";
 import LinkToAccount from "../../Common/Links/LinkToAccount";

@@ -2,7 +2,7 @@ import './CustomError.scss';
 import React from "react";
 import {Button, Grid, Typography} from "@mui/material";
 import {Alert} from "@mui/lab";
-import {showSettings} from "../../../../../redux/actions/settings";
+import {showSettings} from "../../../../../redux/settings/actions/settings";
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
 

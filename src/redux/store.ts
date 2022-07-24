@@ -1,19 +1,21 @@
 import { configureStore } from '@reduxjs/toolkit';
-import snackbarReducer from './actions/snackbar';
-import accountsReducer from "./actions/accounts";
-import transactionsReducer from "./actions/transactions";
-import assetsReducer from "./actions/assets";
-import applicationsReducer from "./actions/applications";
-import settingsReducer from "./actions/settings";
-import developerApiReducer from "./actions/developerApi";
-import loaderReducer from "./actions/loader";
-import accountReducer from "./actions/account";
-import blockReducer from "./actions/block";
-import assetReducer from "./actions/asset";
-import applicationReducer from "./actions/application";
-import transactionReducer from "./actions/transaction";
-import groupReducer from "./actions/group";
-import liveData from "./actions/liveData";
+import snackbarReducer from './common/actions/snackbar';
+import accountsReducer from "./explorer/actions/accounts";
+import transactionsReducer from "./explorer/actions/transactions";
+import assetsReducer from "./explorer/actions/assets";
+import applicationsReducer from "./explorer/actions/applications";
+import settingsReducer from "./settings/actions/settings";
+import developerApiReducer from "./developerApi/actions/developerApi";
+import loaderReducer from "./common/actions/loader";
+import accountReducer from "./explorer/actions/account";
+import blockReducer from "./explorer/actions/block";
+import assetReducer from "./explorer/actions/asset";
+import applicationReducer from "./explorer/actions/application";
+import transactionReducer from "./explorer/actions/transaction";
+import groupReducer from "./explorer/actions/group";
+import liveData from "./explorer/actions/liveData";
+import arcs from "./arcPortal/actions/arcs";
+import arc from "./arcPortal/actions/arc";
 
 export const store = configureStore({
     reducer: {
@@ -31,7 +33,9 @@ export const store = configureStore({
         application: applicationReducer,
         transaction: transactionReducer,
         group: groupReducer,
-        liveData: liveData
+        liveData: liveData,
+        arcs: arcs,
+        arc: arc
     },
 });
 

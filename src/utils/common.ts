@@ -1,5 +1,5 @@
 import copy from "copy-to-clipboard";
-import {showSnack} from "../redux/actions/snackbar";
+import {showSnack} from "../redux/common/actions/snackbar";
 import {theme} from "../theme";
 import pSBC from 'shade-blend-color';
 

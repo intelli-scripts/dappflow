@@ -4,7 +4,7 @@ import {matchPath, Outlet, useLocation, useNavigate, useParams} from "react-rout
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../../redux/store";
 import {Grid, Tab, Tabs} from "@mui/material";
-import {loadApplication} from "../../../../../redux/actions/application";
+import {loadApplication} from "../../../../../redux/explorer/actions/application";
 import {CoreApplication} from "../../../../../packages/core-sdk/classes/CoreApplication";
 import ApplicationGlobalState from "./Sections/ApplicationGlobalState/ApplicationGlobalState";
 import LinkToAccount from "../../Common/Links/LinkToAccount";

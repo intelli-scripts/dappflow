@@ -19,9 +19,9 @@ import {isNumber} from "../../../../utils/common";
 import explorer from "../../../../utils/dappflow";
 import {ApplicationClient} from "../../../../packages/core-sdk/clients/applicationClient";
 import {BlockClient} from "../../../../packages/core-sdk/clients/blockClient";
-import {hideLoader, showLoader} from "../../../../redux/actions/loader";
+import {hideLoader, showLoader} from "../../../../redux/common/actions/loader";
 import {useDispatch} from "react-redux";
-import {showSnack} from "../../../../redux/actions/snackbar";
+import {showSnack} from "../../../../redux/common/actions/snackbar";
 
 
 interface searchResult {

@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {
     Grid
 } from "@mui/material";
-import {loadTransaction} from "../../../../../redux/actions/transaction";
+import {loadTransaction} from "../../../../../redux/explorer/actions/transaction";
 import {CoreTransaction} from "../../../../../packages/core-sdk/classes/CoreTransaction";
 import {microalgosToAlgos} from "algosdk";
 import AlgoIcon from "../../AlgoIcon/AlgoIcon";

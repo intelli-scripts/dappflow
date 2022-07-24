@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
-import explorer from "../../utils/dappflow";
-import {BlockClient} from "../../packages/core-sdk/clients/blockClient";
-import {A_Block, A_SearchTransaction} from "../../packages/core-sdk/types";
+import explorer from "../../../utils/dappflow";
+import {BlockClient} from "../../../packages/core-sdk/clients/blockClient";
+import {A_Block, A_SearchTransaction} from "../../../packages/core-sdk/types";
 
 
 export interface LiveData {
