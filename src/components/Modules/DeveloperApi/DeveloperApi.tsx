@@ -22,7 +22,7 @@ function DeveloperApi(): JSX.Element {
     return (<div className={"developer-api-wrapper"}>
         <div className={"developer-api-container"}>
 
-            <Grid container>
+            <Grid container sx={{textAlign: "center"}}>
                 <Tabs value={route} style={{marginLeft: -20}}>
                     <Tab label="Indexer" value="indexer" onClick={() => {
                         navigate('/developer-api/indexer');

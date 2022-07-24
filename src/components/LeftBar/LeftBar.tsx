@@ -18,6 +18,7 @@ import StorageIcon from '@mui/icons-material/Storage';
 import GavelIcon from '@mui/icons-material/Gavel';
 
 
+
 function LeftBar(): JSX.Element {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -45,7 +46,13 @@ function LeftBar(): JSX.Element {
 
               <div className="menu-list">
 
-                  <Tabs value={route} orientation={"vertical"}>
+                  <Tabs value={route} orientation={"vertical"} sx={{'.Mui-selected': {
+                          backgroundColor: shadedClr1,
+                      },
+                      '.MuiTabs-indicator': {
+                            display: "none"
+                      }
+                  }}>
                       <Tab icon={<StorageIcon></StorageIcon>} iconPosition="start" label="Explorer" value="explorer" onClick={() => {
                           navigate('/explorer');
                       }}/>
@@ -63,7 +70,7 @@ function LeftBar(): JSX.Element {
 
               </div>
 
-              <div className="footer" style={{background: shadedClr1}}>
+              <div className="footer">
 
                   <Button variant={"text"}
                           size={"large"}
