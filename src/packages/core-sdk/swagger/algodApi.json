@@ -1,15 +1,5 @@
 {
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
-  "schemes": [
-    "http",
-    "https"
-  ],
-  "swagger": "2.0",
+  "openapi": "3.0.1",
   "info": {
     "description": "API endpoint for algod operations.",
     "title": "Algod REST API.",
@@ -20,19 +10,11 @@
     },
     "version": "0.0.1"
   },
-  "host": "localhost",
-  "basePath": "/",
   "paths": {
     "/health": {
       "get": {
         "tags": [
           "common"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
         ],
         "summary": "Returns OK if healthy.",
         "operationId": "HealthCheck",
@@ -50,12 +32,6 @@
       "get": {
         "tags": [
           "common"
-        ],
-        "produces": [
-          "text/plain"
-        ],
-        "schemes": [
-          "http"
         ],
         "summary": "Return metrics about algod functioning.",
         "operationId": "Metrics",
@@ -75,20 +51,11 @@
         "tags": [
           "common"
         ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
         "summary": "Gets the genesis information.",
         "operationId": "GetGenesis",
         "responses": {
           "200": {
-            "description": "The genesis file in json.",
-            "schema": {
-              "type": "string"
-            }
+            "description": "The genesis file in json."
           },
           "default": {
             "description": "Unknown Error"
@@ -102,20 +69,11 @@
         "tags": [
           "common"
         ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
         "summary": "Gets the current swagger spec.",
         "operationId": "SwaggerJSON",
         "responses": {
           "200": {
-            "description": "The current swagger spec",
-            "schema": {
-              "type": "string"
-            }
+            "description": "The current swagger spec"
           },
           "default": {
             "description": "Unknown Error"
@@ -129,12 +87,6 @@
         "tags": [
           "common"
         ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
         "operationId": "GetVersion",
         "responses": {
           "200": {
@@ -146,19 +98,10 @@
     "/v2/accounts/{address}": {
       "get": {
         "description": "Given a specific account public key, this call returns the accounts status, balance and spendable amounts",
-        "produces": [
-          "application/json",
-          "application/msgpack"
-        ],
-        "schemes": [
-          "http"
-        ],
         "summary": "Get account information.",
         "operationId": "AccountInformation",
         "parameters": [
           {
-            "pattern": "[A-Z0-9]{58}",
-            "type": "string",
             "description": "An account public key",
             "name": "address",
             "in": "path",
@@ -168,12 +111,7 @@
             "name": "exclude",
             "description": "When set to `all` will exclude asset holdings, application local state, created asset parameters, any created application parameters. Defaults to `none`.",
             "in": "query",
-            "required": false,
-            "type": "string",
-            "enum": [
-              "all",
-              "none"
-            ]
+            "required": false
           },
           {
             "$ref": "#/parameters/format"
@@ -184,22 +122,13 @@
             "$ref": "#/responses/AccountResponse"
           },
           "400": {
-            "description": "Bad request",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
+            "description": "Bad request"
           },
           "401": {
-            "description": "Invalid API Token",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
+            "description": "Invalid API Token"
           },
           "500": {
-            "description": "Internal Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
+            "description": "Internal Error"
           },
           "default": {
             "description": "Unknown Error"
@@ -208,17 +137,11 @@
       },
       "parameters": [
         {
-          "type": "string",
           "name": "address",
           "in": "path",
           "required": true
         },
         {
-          "enum": [
-            "json",
-            "msgpack"
-          ],
-          "type": "string",
           "name": "format",
           "in": "query"
         }
@@ -227,26 +150,16 @@
     "/v2/accounts/{address}/assets/{asset-id}": {
       "get": {
         "description": "Given a specific account public key and asset ID, this call returns the account's asset holding and asset parameters (if either exist). Asset parameters will only be returned if the provided address is the asset's creator.",
-        "produces": [
-          "application/json",
-          "application/msgpack"
-        ],
-        "schemes": [
-          "http"
-        ],
         "summary": "Get account information about a given asset.",
         "operationId": "AccountAssetInformation",
         "parameters": [
           {
-            "pattern": "[A-Z0-9]{58}",
-            "type": "string",
             "description": "An account public key",
             "name": "address",
             "in": "path",
             "required": true
           },
           {
-            "type": "integer",
             "description": "An asset identifier",
             "name": "asset-id",
             "in": "path",
@@ -261,22 +174,13 @@
             "$ref": "#/responses/AccountAssetResponse"
           },
           "400": {
-            "description": "Malformed address or asset ID",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
+            "description": "Malformed address or asset ID"
           },
           "401": {
-            "description": "Invalid API Token",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
+            "description": "Invalid API Token"
           },
           "500": {
-            "description": "Internal Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
+            "description": "Internal Error"
           },
           "default": {
             "description": "Unknown Error"
@@ -285,17 +189,11 @@
       },
       "parameters": [
         {
-          "type": "string",
           "name": "address",
           "in": "path",
           "required": true
         },
         {
-          "enum": [
-            "json",
-            "msgpack"
-          ],
-          "type": "string",
           "name": "format",
           "in": "query"
         }
@@ -304,26 +202,16 @@
     "/v2/accounts/{address}/applications/{application-id}": {
       "get": {
         "description": "Given a specific account public key and application ID, this call returns the account's application local state and global state (AppLocalState and AppParams, if either exists). Global state will only be returned if the provided address is the application's creator.",
-        "produces": [
-          "application/json",
-          "application/msgpack"
-        ],
-        "schemes": [
-          "http"
-        ],
         "summary": "Get account information about a given app.",
         "operationId": "AccountApplicationInformation",
         "parameters": [
           {
-            "pattern": "[A-Z0-9]{58}",
-            "type": "string",
             "description": "An account public key",
             "name": "address",
             "in": "path",
             "required": true
           },
           {
-            "type": "integer",
             "description": "An application identifier",
             "name": "application-id",
             "in": "path",
@@ -338,22 +226,13 @@
             "$ref": "#/responses/AccountApplicationResponse"
           },
           "400": {
-            "description": "Malformed address or application ID",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
+            "description": "Malformed address or application ID"
           },
           "401": {
-            "description": "Invalid API Token",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
+            "description": "Invalid API Token"
           },
           "500": {
-            "description": "Internal Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
+            "description": "Internal Error"
           },
           "default": {
             "description": "Unknown Error"
@@ -362,17 +241,11 @@
       },
       "parameters": [
         {
-          "type": "string",
           "name": "address",
           "in": "path",
           "required": true
         },
         {
-          "enum": [
-            "json",
-            "msgpack"
-          ],
-          "type": "string",
           "name": "format",
           "in": "query"
         }
@@ -381,19 +254,10 @@
     "/v2/accounts/{address}/transactions/pending": {
       "get": {
         "description": "Get the list of pending transactions by address, sorted by priority, in decreasing order, truncated at the end at MAX. If MAX = 0, returns all pending transactions.\n",
-        "produces": [
-          "application/json",
-          "application/msgpack"
-        ],
-        "schemes": [
-          "http"
-        ],
         "summary": "Get a list of unconfirmed transactions currently in the transaction pool by address.",
         "operationId": "GetPendingTransactionsByAddress",
         "parameters": [
           {
-            "pattern": "[A-Z0-9]{58}",
-            "type": "string",
             "description": "An account public key",
             "name": "address",
             "in": "path",
@@ -411,29 +275,17 @@
             "$ref": "#/responses/PendingTransactionsResponse"
           },
           "400": {
-            "description": "Max must be a non-negative integer",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Max must be a non-negative integer"
+            },
           "401": {
-            "description": "Invalid API Token",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Invalid API Token"
+            },
           "500": {
-            "description": "Internal Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Internal Error"
+            },
           "503": {
-            "description": "Service Temporarily Unavailable",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Service Temporarily Unavailable"
+            },
           "default": {
             "description": "Unknown Error"
           }
@@ -441,7 +293,6 @@
       },
       "parameters": [
         {
-          "type": "string",
           "name": "address",
           "in": "path",
           "required": true
@@ -450,19 +301,10 @@
     },
     "/v2/blocks/{round}": {
       "get": {
-        "produces": [
-          "application/json",
-          "application/msgpack"
-        ],
-        "schemes": [
-          "http"
-        ],
         "summary": "Get the block for the given round.",
         "operationId": "GetBlock",
         "parameters": [
           {
-            "minimum": 0,
-            "type": "integer",
             "description": "The round from which to fetch block information.",
             "name": "round",
             "in": "path",
@@ -477,29 +319,17 @@
             "$ref": "#/responses/BlockResponse"
           },
           "400": {
-            "description": "Bad Request - Non integer number",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Bad Request - Non integer number"
+            },
           "401": {
-            "description": "Invalid API Token",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Invalid API Token"
+            },
           "404": {
-            "description": "None existing block ",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "None existing block "
+            },
           "500": {
-            "description": "Internal Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Internal Error"
+            },
           "default": {
             "description": "Unknown Error"
           }
@@ -507,17 +337,11 @@
       },
       "parameters": [
         {
-          "type": "string",
           "name": "round",
           "in": "path",
           "required": true
         },
         {
-          "enum": [
-            "json",
-            "msgpack"
-          ],
-          "type": "string",
           "name": "format",
           "in": "query"
         }
@@ -525,36 +349,22 @@
     },
     "/v2/blocks/{round}/transactions/{txid}/proof": {
       "get": {
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
         "summary": "Get a Merkle proof for a transaction in a block.",
         "operationId": "GetProof",
         "parameters": [
           {
-            "type": "integer",
             "description": "The round in which the transaction appears.",
             "name": "round",
             "in": "path",
             "required": true
           },
           {
-            "type": "string",
-            "pattern": "[A-Z0-9]+",
             "description": "The transaction ID for which to generate a proof.",
             "name": "txid",
             "in": "path",
             "required": true
           },
           {
-            "type": "string",
-            "enum": [
-              "sha512_256",
-              "sha256"
-            ],
             "description": "The type of hash function used to create the proof, must be one of: \n* sha512_256 \n* sha256",
             "name": "hashtype",
             "in": "query",
@@ -569,29 +379,17 @@
             "$ref": "#/responses/ProofResponse"
           },
           "400": {
-            "description": "Malformed round number or transaction ID",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Malformed round number or transaction ID"
+            },
           "401": {
-            "description": "Invalid API token",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Invalid API token"
+            },
           "404": {
-            "description": "Non-existent block or transaction",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Non-existent block or transaction"
+            },
           "500": {
-            "description": "Internal error, including protocol not supporting Merkle proofs.",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Internal error, including protocol not supporting Merkle proofs."
+            },
           "default": {
             "description": "Unknown error"
           }
@@ -599,13 +397,11 @@
       },
       "parameters": [
         {
-          "type": "integer",
           "name": "round",
           "in": "path",
           "required": true
         },
         {
-          "type": "string",
           "name": "txid",
           "in": "path",
           "required": true
@@ -614,12 +410,6 @@
     },
     "/v2/ledger/supply": {
       "get": {
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
         "summary": "Get the current supply reported by the ledger.",
         "operationId": "GetSupply",
         "responses": {
@@ -627,11 +417,8 @@
             "$ref": "#/responses/SupplyResponse"
           },
           "401": {
-            "description": "Invalid API Token",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Invalid API Token"
+            },
           "default": {
             "description": "Unknown Error"
           }
@@ -644,43 +431,23 @@
           "private"
         ],
         "description": "Return a list of participation keys",
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
         "summary": "Return a list of participation keys",
         "operationId": "GetParticipationKeys",
         "responses": {
           "200": {
-            "description": "OK",
-            "$ref": "#/responses/ParticipationKeysResponse"
-          },
+            },
           "400": {
-            "description": "Bad Request",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Bad Request"
+            },
           "401": {
-            "description": "Invalid API Token",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Invalid API Token"
+            },
           "404": {
-            "description": "Participation Key Not Found",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Participation Key Not Found"
+            },
           "500": {
-            "description": "Internal Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Internal Error"
+            },
           "default": {
             "description": "Unknown Error"
           }
@@ -689,15 +456,6 @@
       "post": {
         "tags": [
           "private"
-        ],
-        "consumes": [
-          "application/msgpack"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
         ],
         "summary": "Add a participation key to the node",
         "operationId": "AddParticipationKey",
@@ -718,35 +476,20 @@
             "$ref": "#/responses/PostParticipationResponse"
           },
           "400": {
-            "description": "Bad Request",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Bad Request"
+            },
           "401": {
-            "description": "Invalid API Token",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Invalid API Token"
+            },
           "404": {
-            "description": "Participation Key Not Found",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Participation Key Not Found"
+            },
           "500": {
-            "description": "Internal Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Internal Error"
+            },
           "503": {
-            "description": "Service Temporarily Unavailable",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Service Temporarily Unavailable"
+            },
           "default": {
             "description": "Unknown Error"
           }
@@ -759,12 +502,6 @@
           "private"
         ],
         "description": "Delete a given participation key by ID",
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
         "summary": "Delete a given participation key by ID",
         "operationId": "DeleteParticipationKeyByID",
         "responses": {
@@ -772,29 +509,17 @@
             "description": "Participation key got deleted by ID"
           },
           "400": {
-            "description": "Bad Request",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Bad Request"
+            },
           "401": {
-            "description": "Invalid API Token",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Invalid API Token"
+            },
           "404": {
-            "description": "Participation Key Not Found",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Participation Key Not Found"
+            },
           "500": {
-            "description": "Internal Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Internal Error"
+            },
           "default": {
             "description": "Unknown Error"
           }
@@ -805,43 +530,23 @@
           "private"
         ],
         "description": "Given a participation ID, return information about that participation key",
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
         "summary": "Get participation key info given a participation ID",
         "operationId": "GetParticipationKeyByID",
         "responses": {
           "200": {
-            "description": "OK",
-            "$ref": "#/responses/ParticipationKeyResponse"
-          },
+            },
           "400": {
-            "description": "Bad Request",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Bad Request"
+            },
           "401": {
-            "description": "Invalid API Token",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Invalid API Token"
+            },
           "404": {
-            "description": "Participation Key Not Found",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Participation Key Not Found"
+            },
           "500": {
-            "description": "Internal Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Internal Error"
+            },
           "default": {
             "description": "Unknown Error"
           }
@@ -852,12 +557,6 @@
           "private"
         ],
         "description": "Given a participation ID, append state proof keys to a particular set of participation keys",
-        "consumes": [
-          "application/msgpack"
-        ],
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "description": "The state proof keys to add to an existing participation ID",
@@ -870,40 +569,23 @@
             }
           }
         ],
-        "schemes": [
-          "http"
-        ],
         "summary": "Append state proof keys to a participation key",
         "operationId": "AppendKeys",
         "responses": {
           "200": {
-            "description": "OK",
-            "$ref": "#/responses/ParticipationKeyResponse"
-          },
+            },
           "400": {
-            "description": "Bad Request",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Bad Request"
+            },
           "401": {
-            "description": "Invalid API Token",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Invalid API Token"
+            },
           "404": {
-            "description": "Participation Key Not Found",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Participation Key Not Found"
+            },
           "500": {
-            "description": "Internal Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Internal Error"
+            },
           "default": {
             "description": "Unknown Error"
           }
@@ -911,7 +593,6 @@
       },
       "parameters": [
         {
-          "type": "string",
           "name": "participation-id",
           "in": "path",
           "required": true
@@ -927,8 +608,6 @@
         "operationId": "ShutdownNode",
         "parameters": [
           {
-            "type": "integer",
-            "default": 0,
             "name": "timeout",
             "in": "query"
           }
@@ -944,12 +623,6 @@
     },
     "/v2/status": {
       "get": {
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
         "summary": "Gets the current node status.",
         "operationId": "GetStatus",
         "responses": {
@@ -957,17 +630,11 @@
             "$ref": "#/responses/NodeStatusResponse"
           },
           "401": {
-            "description": "Invalid API Token",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Invalid API Token"
+            },
           "500": {
-            "description": "Internal Error",
-            "schema": {
-              "type": "string"
-            }
-          },
+            "description": "Internal Error"
+            },
           "default": {
             "description": "Unknown Error"
           }
@@ -977,18 +644,10 @@
     "/v2/status/wait-for-block-after/{round}": {
       "get": {
         "description": "Waits for a block to appear after round {round} and returns the node's status at the time.",
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
         "summary": "Gets the node status after waiting for the given round.",
         "operationId": "WaitForBlock",
         "parameters": [
           {
-            "minimum": 0,
-            "type": "integer",
             "description": "The round to wait until returning status",
             "name": "round",
             "in": "path",
@@ -1000,29 +659,17 @@
             "$ref": "#/responses/NodeStatusResponse"
           },
           "400": {
-            "description": "Bad Request -- number must be non-negative integer ",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Bad Request -- number must be non-negative integer "
+            },
           "401": {
-            "description": "Invalid API Token",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Invalid API Token"
+            },
           "500": {
-            "description": "Internal Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Internal Error"
+            },
           "503": {
-            "description": "Service Temporarily Unavailable",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Service Temporarily Unavailable"
+            },
           "default": {
             "description": "Unknown Error"
           }
@@ -1030,7 +677,6 @@
       },
       "parameters": [
         {
-          "type": "string",
           "name": "round",
           "in": "path",
           "required": true
@@ -1039,15 +685,6 @@
     },
     "/v2/transactions": {
       "post": {
-        "consumes": [
-          "application/x-binary"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
         "summary": "Broadcasts a raw transaction to the network.",
         "operationId": "RawTransaction",
         "parameters": [
@@ -1067,29 +704,17 @@
             "$ref": "#/responses/PostTransactionsResponse"
           },
           "400": {
-            "description": "Bad Request - Malformed Algorand transaction ",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Bad Request - Malformed Algorand transaction "
+            },
           "401": {
-            "description": "Invalid API Token",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Invalid API Token"
+            },
           "500": {
-            "description": "Internal Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Internal Error"
+            },
           "503": {
-            "description": "Service Temporarily Unavailable",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Service Temporarily Unavailable"
+            },
           "default": {
             "description": "Unknown Error"
           }
@@ -1098,12 +723,6 @@
     },
     "/v2/transactions/params": {
       "get": {
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
         "summary": "Get parameters for constructing a new transaction",
         "operationId": "TransactionParams",
         "responses": {
@@ -1111,23 +730,14 @@
             "$ref": "#/responses/TransactionParametersResponse"
           },
           "401": {
-            "description": "Invalid API Token",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Invalid API Token"
+            },
           "500": {
-            "description": "Internal Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Internal Error"
+            },
           "503": {
-            "description": "Service Temporarily Unavailable",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Service Temporarily Unavailable"
+            },
           "default": {
             "description": "Unknown Error"
           }
@@ -1137,13 +747,6 @@
     "/v2/transactions/pending": {
       "get": {
         "description": "Get the list of pending transactions, sorted by priority, in decreasing order, truncated at the end at MAX. If MAX = 0, returns all pending transactions.\n",
-        "produces": [
-          "application/json",
-          "application/msgpack"
-        ],
-        "schemes": [
-          "http"
-        ],
         "summary": "Get a list of unconfirmed transactions currently in the transaction pool.",
         "operationId": "GetPendingTransactions",
         "parameters": [
@@ -1159,23 +762,14 @@
             "$ref": "#/responses/PendingTransactionsResponse"
           },
           "401": {
-            "description": "Invalid API Token",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Invalid API Token"
+            },
           "500": {
-            "description": "Internal Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Internal Error"
+            },
           "503": {
-            "description": "Service Temporarily Unavailable",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Service Temporarily Unavailable"
+            },
           "default": {
             "description": "Unknown Error"
           }
@@ -1185,19 +779,10 @@
     "/v2/transactions/pending/{txid}": {
       "get": {
         "description": "Given a transaction ID of a recently submitted transaction, it returns information about it.  There are several cases when this might succeed:\n- transaction committed (committed round \u003e 0)\n- transaction still in the pool (committed round = 0, pool error = \"\")\n- transaction removed from pool due to error (committed round = 0, pool error != \"\")\nOr the transaction may have happened sufficiently long ago that the node no longer remembers it, and this will return an error.\n",
-        "produces": [
-          "application/json",
-          "application/msgpack"
-        ],
-        "schemes": [
-          "http"
-        ],
         "summary": "Get a specific pending transaction.",
         "operationId": "PendingTransactionInformation",
         "parameters": [
           {
-            "pattern": "[A-Z0-9]+",
-            "type": "string",
             "description": "A transaction ID",
             "name": "txid",
             "in": "path",
@@ -1209,29 +794,17 @@
         ],
         "responses": {
           "200": {
-            "description": "Given a transaction ID of a recently submitted transaction, it returns information about it.  There are several cases when this might succeed:\n- transaction committed (committed round \u003e 0)\n- transaction still in the pool (committed round = 0, pool error = \"\")\n- transaction removed from pool due to error (committed round = 0, pool error != \"\")\n\nOr the transaction may have happened sufficiently long ago that the node no longer remembers it, and this will return an error.",
-            "schema": {
-              "$ref": "#/definitions/PendingTransactionResponse"
-            }
-          },
+            "description": "Given a transaction ID of a recently submitted transaction, it returns information about it.  There are several cases when this might succeed:\n- transaction committed (committed round \u003e 0)\n- transaction still in the pool (committed round = 0, pool error = \"\")\n- transaction removed from pool due to error (committed round = 0, pool error != \"\")\n\nOr the transaction may have happened sufficiently long ago that the node no longer remembers it, and this will return an error."
+            },
           "400": {
-            "description": "Bad Request",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
+            "description": "Bad Request"
           },
           "401": {
-            "description": "Invalid API Token",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Invalid API Token"
+            },
           "404": {
-            "description": "Transaction Not Found",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Transaction Not Found"
+            },
           "default": {
             "description": "Unknown Error"
           }
@@ -1239,7 +812,6 @@
       },
       "parameters": [
         {
-          "type": "string",
           "name": "txid",
           "in": "path",
           "required": true
@@ -1249,17 +821,10 @@
     "/v2/applications/{application-id}": {
       "get": {
         "description": "Given a application ID, it returns application information including creator, approval and clear programs, global and local schemas, and global state.",
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
         "summary": "Get application information.",
         "operationId": "GetApplicationByID",
         "parameters": [
           {
-            "type": "integer",
             "description": "An application identifier",
             "name": "application-id",
             "in": "path",
@@ -1268,32 +833,18 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "$ref": "#/responses/ApplicationResponse"
-          },
+            },
           "400": {
-            "description": "Bad Request",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
+            "description": "Bad Request"
           },
           "401": {
-            "description": "Invalid API Token",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Invalid API Token"
+            },
           "404": {
-            "description": "Application Not Found",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Application Not Found"
+            },
           "500": {
-            "description": "Internal Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
+            "description": "Internal Error"
           },
           "default": {
             "description": "Unknown Error"
@@ -1302,7 +853,6 @@
       },
       "parameters": [
         {
-          "type": "integer",
           "name": "application-id",
           "in": "path",
           "required": true
@@ -1312,17 +862,10 @@
     "/v2/assets/{asset-id}": {
       "get": {
         "description": "Given a asset ID, it returns asset information including creator, name, total supply and special addresses.",
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
         "summary": "Get asset information.",
         "operationId": "GetAssetByID",
         "parameters": [
           {
-            "type": "integer",
             "description": "An asset identifier",
             "name": "asset-id",
             "in": "path",
@@ -1331,32 +874,18 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "$ref": "#/responses/AssetResponse"
-          },
+            },
           "400": {
-            "description": "Bad Request",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
+            "description": "Bad Request"
           },
           "401": {
-            "description": "Invalid API Token",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
+            "description": "Invalid API Token"
           },
           "404": {
-            "description": "Application Not Found",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Application Not Found"
+            },
           "500": {
-            "description": "Internal Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
+            "description": "Internal Error"
           },
           "default": {
             "description": "Unknown Error"
@@ -1365,7 +894,6 @@
       },
       "parameters": [
         {
-          "type": "integer",
           "name": "asset-id",
           "in": "path",
           "required": true
@@ -1375,15 +903,6 @@
     "/v2/teal/compile": {
       "post": {
         "description": "Given TEAL source code in plain text, return base64 encoded program bytes and base32 SHA512_256 hash of program bytes (Address style). This endpoint is only enabled when a node's configuration file sets EnableDeveloperAPI to true.",
-        "consumes": [
-          "text/plain"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
         "summary": "Compile TEAL source code to binary, produce its hash",
         "operationId": "TealCompile",
         "parameters": [
@@ -1400,36 +919,24 @@
           {
             "name": "sourcemap",
             "description": "When set to `true`, returns the source map of the program as a JSON. Defaults to `false`.",
-            "in": "query",
-            "type": "boolean"
-          }
+            "in": "query"
+            }
         ],
         "responses": {
           "200": {
-            "description": "Successful compilation",
-            "$ref": "#/responses/CompileResponse"
           },
           "400": {
-            "description": "Bad Request - Teal Compile Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Bad Request - Teal Compile Error"
+            },
           "401": {
-            "description": "Invalid API Token",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
+            "description": "Invalid API Token"
           },
           "404": {
             "description": "Developer API not enabled"
           },
           "500": {
-            "description": "Internal Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Internal Error"
+            },
           "default": {
             "description": "Unknown Error"
           }
@@ -1439,15 +946,6 @@
     "/v2/teal/disassemble": {
       "post": {
         "description": "Given the program bytes, return the TEAL source code in plain text. This endpoint is only enabled when a node's configuration file sets EnableDeveloperAPI to true.",
-        "consumes": [
-          "application/x-binary"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
         "summary": "Disassemble program bytes into the TEAL source code.",
         "operationId": "TealDisassemble",
         "parameters": [
@@ -1464,30 +962,19 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful disassembly",
-            "$ref": "#/responses/DisassembleResponse"
-          },
+            },
           "400": {
-            "description": "Bad Request - Teal Compile Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Bad Request - Teal Compile Error"
+            },
           "401": {
-            "description": "Invalid API Token",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
+            "description": "Invalid API Token"
           },
           "404": {
             "description": "Developer API not enabled"
           },
           "500": {
-            "description": "Internal Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Internal Error"
+            },
           "default": {
             "description": "Unknown Error"
           }
@@ -1500,12 +987,6 @@
           "private"
         ],
         "description": "Given a catchpoint, it starts catching up to this catchpoint",
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
         "summary": "Starts a catchpoint catchup.",
         "operationId": "StartCatchup",
         "parameters": [
@@ -1515,30 +996,17 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "$ref": "#/responses/CatchpointStartResponse"
-          },
+            },
           "201": {
-            "description": "OK",
-            "$ref": "#/responses/CatchpointStartResponse"
-          },
+            },
           "400": {
-            "description": "Bad Request",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
+            "description": "Bad Request"
           },
           "401": {
-            "description": "Invalid API Token",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
+            "description": "Invalid API Token"
           },
           "500": {
-            "description": "Internal Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
+            "description": "Internal Error"
           },
           "default": {
             "description": "Unknown Error"
@@ -1550,12 +1018,6 @@
           "private"
         ],
         "description": "Given a catchpoint, it aborts catching up to this catchpoint",
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
         "summary": "Aborts a catchpoint catchup.",
         "operationId": "AbortCatchup",
         "parameters": [
@@ -1568,22 +1030,13 @@
             "$ref": "#/responses/CatchpointAbortResponse"
           },
           "400": {
-            "description": "Bad Request",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Bad Request"
+            },
           "401": {
-            "description": "Invalid API Token",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
+            "description": "Invalid API Token"
           },
           "500": {
-            "description": "Internal Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
+            "description": "Internal Error"
           },
           "default": {
             "description": "Unknown Error"
@@ -1592,7 +1045,6 @@
       },
       "parameters": [
         {
-          "type": "string",
           "name": "catchpoint",
           "in": "path",
           "required": true
@@ -1602,16 +1054,6 @@
     "/v2/teal/dryrun": {
       "post": {
         "description": "Executes TEAL program(s) in context and returns debugging information about the execution. This endpoint is only enabled when a node's configuration file sets EnableDeveloperAPI to true.",
-        "consumes": [
-          "application/json",
-          "application/msgpack"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
         "summary": "Provide debugging information for a transaction (or group).",
         "operationId": "TealDryrun",
         "parameters": [
@@ -1626,1562 +1068,24 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "$ref": "#/responses/DryrunResponse"
-          },
+            },
           "400": {
-            "description": "Bad Request",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
+            "description": "Bad Request"
           },
           "401": {
-            "description": "Invalid API Token",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
+            "description": "Invalid API Token"
           },
           "404": {
             "description": "Developer API not enabled"
           },
           "500": {
-            "description": "Internal Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
+            "description": "Internal Error"
+            },
           "default": {
             "description": "Unknown Error"
           }
         }
       }
-    }
-  },
-  "definitions": {
-    "Account": {
-      "description": "Account information at a given round.\n\nDefinition:\ndata/basics/userBalance.go : AccountData\n",
-      "type": "object",
-      "required": [
-        "round",
-        "address",
-        "amount",
-        "pending-rewards",
-        "amount-without-pending-rewards",
-        "rewards",
-        "status",
-        "min-balance",
-        "total-apps-opted-in",
-        "total-assets-opted-in",
-        "total-created-apps",
-        "total-created-assets"
-      ],
-      "properties": {
-        "address": {
-          "description": "the account public key",
-          "type": "string"
-        },
-        "amount": {
-          "description": "\\[algo\\] total number of MicroAlgos in the account",
-          "type": "integer"
-        },
-        "min-balance": {
-          "description": "MicroAlgo balance required by the account.\n\nThe requirement grows based on asset and application usage.",
-          "type": "integer"
-        },
-        "amount-without-pending-rewards": {
-          "description": "specifies the amount of MicroAlgos in the account, without the pending rewards.",
-          "type": "integer"
-        },
-        "apps-local-state": {
-          "description": "\\[appl\\] applications local data stored in this account.\n\nNote the raw object uses `map[int] -\u003e AppLocalState` for this type.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ApplicationLocalState"
-          }
-        },
-        "total-apps-opted-in": {
-          "description": "The count of all applications that have been opted in, equivalent to the count of application local data (AppLocalState objects) stored in this account.",
-          "type": "integer"
-        },
-        "apps-total-schema": {
-          "description": "\\[tsch\\] stores the sum of all of the local schemas and global schemas in this account.\n\nNote: the raw account uses `StateSchema` for this type.",
-          "$ref": "#/definitions/ApplicationStateSchema"
-        },
-        "apps-total-extra-pages": {
-          "description": "\\[teap\\] the sum of all extra application program pages for this account.",
-          "type": "integer"
-        },
-        "assets": {
-          "description": "\\[asset\\] assets held by this account.\n\nNote the raw object uses `map[int] -\u003e AssetHolding` for this type.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/AssetHolding"
-          }
-        },
-        "total-assets-opted-in": {
-          "description": "The count of all assets that have been opted in, equivalent to the count of AssetHolding objects held by this account.",
-          "type": "integer"
-        },
-        "created-apps": {
-          "description": "\\[appp\\] parameters of applications created by this account including app global data.\n\nNote: the raw account uses `map[int] -\u003e AppParams` for this type.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Application"
-          }
-        },
-        "total-created-apps": {
-          "description": "The count of all apps (AppParams objects) created by this account.",
-          "type": "integer"
-        },
-        "created-assets": {
-          "description": "\\[apar\\] parameters of assets created by this account.\n\nNote: the raw account uses `map[int] -\u003e Asset` for this type.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Asset"
-          }
-        },
-        "total-created-assets": {
-          "description": "The count of all assets (AssetParams objects) created by this account.",
-          "type": "integer"
-        },
-        "participation": {
-          "$ref": "#/definitions/AccountParticipation"
-        },
-        "pending-rewards": {
-          "description": "amount of MicroAlgos of pending rewards in this account.",
-          "type": "integer"
-        },
-        "reward-base": {
-          "description": "\\[ebase\\] used as part of the rewards computation. Only applicable to accounts which are participating.",
-          "type": "integer"
-        },
-        "rewards": {
-          "description": "\\[ern\\] total rewards of MicroAlgos the account has received, including pending rewards.",
-          "type": "integer"
-        },
-        "round": {
-          "description": "The round for which this information is relevant.",
-          "type": "integer"
-        },
-        "status": {
-          "description": "\\[onl\\] delegation status of the account's MicroAlgos\n* Offline - indicates that the associated account is delegated.\n*  Online  - indicates that the associated account used as part of the delegation pool.\n*   NotParticipating - indicates that the associated account is neither a delegator nor a delegate.",
-          "type": "string"
-        },
-        "sig-type": {
-          "description": "Indicates what type of signature is used by this account, must be one of:\n* sig\n* msig\n* lsig",
-          "type": "string",
-          "enum": [
-            "sig",
-            "msig",
-            "lsig"
-          ]
-        },
-        "auth-addr": {
-          "description": "\\[spend\\] the address against which signing should be checked. If empty, the address of the current account is used. This field can be updated in any transaction by setting the RekeyTo field.",
-          "type": "string",
-          "x-algorand-format": "Address"
-        }
-      }
-    },
-    "AccountParticipation": {
-      "description": "AccountParticipation describes the parameters used by this account in consensus protocol.",
-      "type": "object",
-      "required": [
-        "vote-participation-key",
-        "selection-participation-key",
-        "vote-first-valid",
-        "vote-last-valid",
-        "vote-key-dilution"
-      ],
-      "properties": {
-        "selection-participation-key": {
-          "description": "\\[sel\\] Selection public key (if any) currently registered for this round.",
-          "type": "string",
-          "format": "byte"
-        },
-        "vote-first-valid": {
-          "description": "\\[voteFst\\] First round for which this participation is valid.",
-          "type": "integer"
-        },
-        "vote-key-dilution": {
-          "description": "\\[voteKD\\] Number of subkeys in each batch of participation keys.",
-          "type": "integer"
-        },
-        "vote-last-valid": {
-          "description": "\\[voteLst\\] Last round for which this participation is valid.",
-          "type": "integer"
-        },
-        "vote-participation-key": {
-          "description": "\\[vote\\] root participation public key (if any) currently registered for this round.",
-          "type": "string",
-          "format": "byte"
-        },
-        "state-proof-key": {
-          "description": "\\[stprf\\] Root of the state proof key (if any)",
-          "type": "string",
-          "format": "byte"
-        }
-      }
-    },
-    "Asset": {
-      "description": "Specifies both the unique identifier and the parameters for an asset",
-      "type": "object",
-      "required": [
-        "index",
-        "params"
-      ],
-      "properties": {
-        "index": {
-          "description": "unique asset identifier",
-          "type": "integer"
-        },
-        "params": {
-          "$ref": "#/definitions/AssetParams"
-        }
-      }
-    },
-    "AssetHolding": {
-      "description": "Describes an asset held by an account.\n\nDefinition:\ndata/basics/userBalance.go : AssetHolding",
-      "type": "object",
-      "required": [
-        "asset-id",
-        "amount",
-        "is-frozen"
-      ],
-      "properties": {
-        "amount": {
-          "description": "\\[a\\] number of units held.",
-          "type": "integer",
-          "x-algorand-format": "uint64"
-        },
-        "asset-id": {
-          "description": "Asset ID of the holding.",
-          "type": "integer",
-          "x-go-name": "AssetID"
-        },
-        "is-frozen": {
-          "description": "\\[f\\] whether or not the holding is frozen.",
-          "type": "boolean"
-        }
-      }
-    },
-    "AssetParams": {
-      "description": "AssetParams specifies the parameters for an asset.\n\n\\[apar\\] when part of an AssetConfig transaction.\n\nDefinition:\ndata/transactions/asset.go : AssetParams",
-      "type": "object",
-      "required": [
-        "creator",
-        "total",
-        "decimals"
-      ],
-      "properties": {
-        "clawback": {
-          "description": "\\[c\\] Address of account used to clawback holdings of this asset.  If empty, clawback is not permitted.",
-          "type": "string"
-        },
-        "creator": {
-          "description": "The address that created this asset. This is the address where the parameters for this asset can be found, and also the address where unwanted asset units can be sent in the worst case.",
-          "type": "string"
-        },
-        "decimals": {
-          "description": "\\[dc\\] The number of digits to use after the decimal point when displaying this asset. If 0, the asset is not divisible. If 1, the base unit of the asset is in tenths. If 2, the base unit of the asset is in hundredths, and so on. This value must be between 0 and 19 (inclusive).",
-          "type": "integer",
-          "maximum": 19,
-          "minimum": 0
-        },
-        "default-frozen": {
-          "description": "\\[df\\] Whether holdings of this asset are frozen by default.",
-          "type": "boolean"
-        },
-        "freeze": {
-          "description": "\\[f\\] Address of account used to freeze holdings of this asset.  If empty, freezing is not permitted.",
-          "type": "string"
-        },
-        "manager": {
-          "description": "\\[m\\] Address of account used to manage the keys of this asset and to destroy it.",
-          "type": "string"
-        },
-        "metadata-hash": {
-          "description": "\\[am\\] A commitment to some unspecified asset metadata. The format of this metadata is up to the application.",
-          "type": "string",
-          "format": "byte"
-        },
-        "name": {
-          "description": "\\[an\\] Name of this asset, as supplied by the creator. Included only when the asset name is composed of printable utf-8 characters.",
-          "type": "string"
-        },
-        "name-b64": {
-          "description": "Base64 encoded name of this asset, as supplied by the creator.",
-          "type": "string",
-          "format": "byte"
-        },
-        "reserve": {
-          "description": "\\[r\\] Address of account holding reserve (non-minted) units of this asset.",
-          "type": "string"
-        },
-        "total": {
-          "description": "\\[t\\] The total number of units of this asset.",
-          "type": "integer",
-          "x-algorand-format": "uint64"
-        },
-        "unit-name": {
-          "description": "\\[un\\] Name of a unit of this asset, as supplied by the creator. Included only when the name of a unit of this asset is composed of printable utf-8 characters.",
-          "type": "string"
-        },
-        "unit-name-b64": {
-          "description": "Base64 encoded name of a unit of this asset, as supplied by the creator.",
-          "type": "string",
-          "format": "byte"
-        },
-        "url": {
-          "description": "\\[au\\] URL where more information about the asset can be retrieved. Included only when the URL is composed of printable utf-8 characters.",
-          "type": "string"
-        },
-        "url-b64": {
-          "description": "Base64 encoded URL where more information about the asset can be retrieved.",
-          "type": "string",
-          "format": "byte"
-        }
-      }
-    },
-    "ApplicationStateSchema": {
-      "description": "Specifies maximums on the number of each type that may be stored.",
-      "type": "object",
-      "required": [
-        "num-uint",
-        "num-byte-slice"
-      ],
-      "properties": {
-        "num-uint": {
-          "description": "\\[nui\\] num of uints.",
-          "type": "integer"
-        },
-        "num-byte-slice": {
-          "description": "\\[nbs\\] num of byte slices.",
-          "type": "integer"
-        }
-      }
-    },
-    "ApplicationLocalState": {
-      "description": "Stores local state associated with an application.",
-      "type": "object",
-      "required": [
-        "id",
-        "schema"
-      ],
-      "properties": {
-        "id": {
-          "description": "The application which this local state is for.",
-          "type": "integer"
-        },
-        "schema": {
-          "description": "\\[hsch\\] schema.",
-          "$ref": "#/definitions/ApplicationStateSchema"
-        },
-        "key-value": {
-          "description": "\\[tkv\\] storage.",
-          "$ref": "#/definitions/TealKeyValueStore"
-        }
-      }
-    },
-    "ParticipationKey": {
-      "description": "Represents a participation key used by the node.",
-      "type": "object",
-      "required": [
-        "id",
-        "key",
-        "address"
-      ],
-      "properties": {
-        "id": {
-          "description": "The key's ParticipationID.",
-          "type": "string"
-        },
-        "address": {
-          "description": "Address the key was generated for.",
-          "type": "string",
-          "x-algorand-format": "Address"
-        },
-        "effective-first-valid": {
-          "description": "When registered, this is the first round it may be used.",
-          "type": "integer",
-          "x-algorand-format": "uint64"
-        },
-        "effective-last-valid": {
-          "description": "When registered, this is the last round it may be used.",
-          "type": "integer",
-          "x-algorand-format": "uint64"
-        },
-        "last-vote": {
-          "description": "Round when this key was last used to vote.",
-          "type": "integer"
-        },
-        "last-block-proposal": {
-          "description": "Round when this key was last used to propose a block.",
-          "type": "integer"
-        },
-        "last-state-proof": {
-          "description": "Round when this key was last used to generate a state proof.",
-          "type": "integer"
-        },
-        "key": {
-          "description": "Key information stored on the account.",
-          "$ref": "#/definitions/AccountParticipation"
-        }
-      }
-    },
-    "TealKeyValueStore": {
-      "description": "Represents a key-value store for use in an application.",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/TealKeyValue"
-      }
-    },
-    "TealKeyValue": {
-      "description": "Represents a key-value pair in an application store.",
-      "type": "object",
-      "required": [
-        "key",
-        "value"
-      ],
-      "properties": {
-        "key": {
-          "type": "string"
-        },
-        "value": {
-          "$ref": "#/definitions/TealValue"
-        }
-      }
-    },
-    "TealValue": {
-      "description": "Represents a TEAL value.",
-      "type": "object",
-      "required": [
-        "type",
-        "uint",
-        "bytes"
-      ],
-      "properties": {
-        "type": {
-          "description": "\\[tt\\] value type. Value `1` refers to **bytes**, value `2` refers to **uint**",
-          "type": "integer"
-        },
-        "bytes": {
-          "description": "\\[tb\\] bytes value.",
-          "type": "string"
-        },
-        "uint": {
-          "description": "\\[ui\\] uint value.",
-          "type": "integer",
-          "x-algorand-format": "uint64"
-        }
-      }
-    },
-    "StateDelta": {
-      "description": "Application state delta.",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/EvalDeltaKeyValue"
-      }
-    },
-    "AccountStateDelta": {
-      "description": "Application state delta.",
-      "type": "object",
-      "required": [
-        "address",
-        "delta"
-      ],
-      "properties": {
-        "address": {
-          "type": "string"
-        },
-        "delta": {
-          "$ref": "#/definitions/StateDelta"
-        }
-      }
-    },
-    "EvalDeltaKeyValue": {
-      "description": "Key-value pairs for StateDelta.",
-      "type": "object",
-      "required": [
-        "key",
-        "value"
-      ],
-      "properties": {
-        "key": {
-          "type": "string"
-        },
-        "value": {
-          "$ref": "#/definitions/EvalDelta"
-        }
-      }
-    },
-    "EvalDelta": {
-      "description": "Represents a TEAL value delta.",
-      "type": "object",
-      "required": [
-        "action"
-      ],
-      "properties": {
-        "action": {
-          "description": "\\[at\\] delta action.",
-          "type": "integer"
-        },
-        "bytes": {
-          "description": "\\[bs\\] bytes value.",
-          "type": "string"
-        },
-        "uint": {
-          "description": "\\[ui\\] uint value.",
-          "type": "integer",
-          "x-algorand-format": "uint64"
-        }
-      }
-    },
-    "Application": {
-      "description": "Application index and its parameters",
-      "type": "object",
-      "required": [
-        "id",
-        "params"
-      ],
-      "properties": {
-        "id": {
-          "description": "\\[appidx\\] application index.",
-          "type": "integer"
-        },
-        "params": {
-          "description": "\\[appparams\\] application parameters.",
-          "$ref": "#/definitions/ApplicationParams"
-        }
-      }
-    },
-    "ApplicationParams": {
-      "description": "Stores the global information associated with an application.",
-      "type": "object",
-      "required": [
-        "creator",
-        "approval-program",
-        "clear-state-program"
-      ],
-      "properties": {
-        "creator": {
-          "description": "The address that created this application. This is the address where the parameters and global state for this application can be found.",
-          "type": "string",
-          "x-algorand-format": "Address"
-        },
-        "approval-program": {
-          "description": "\\[approv\\] approval program.",
-          "type": "string",
-          "format": "byte",
-          "x-algorand-format": "TEALProgram"
-        },
-        "clear-state-program": {
-          "description": "\\[clearp\\] approval program.",
-          "type": "string",
-          "format": "byte",
-          "x-algorand-format": "TEALProgram"
-        },
-        "extra-program-pages": {
-          "description": "\\[epp\\] the amount of extra program pages available to this app.",
-          "type": "integer"
-        },
-        "local-state-schema": {
-          "description": "[\\lsch\\] local schema",
-          "$ref": "#/definitions/ApplicationStateSchema"
-        },
-        "global-state-schema": {
-          "description": "[\\gsch\\] global schema",
-          "$ref": "#/definitions/ApplicationStateSchema"
-        },
-        "global-state": {
-          "description": "[\\gs\\] global schema",
-          "$ref": "#/definitions/TealKeyValueStore"
-        }
-      }
-    },
-    "DryrunState": {
-      "description": "Stores the TEAL eval step data",
-      "type": "object",
-      "required": [
-        "line",
-        "pc",
-        "stack"
-      ],
-      "properties": {
-        "line": {
-          "description": "Line number",
-          "type": "integer"
-        },
-        "pc": {
-          "description": "Program counter",
-          "type": "integer"
-        },
-        "stack": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/TealValue"
-          }
-        },
-        "scratch": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/TealValue"
-          }
-        },
-        "error": {
-          "description": "Evaluation error if any",
-          "type": "string"
-        }
-      }
-    },
-    "DryrunTxnResult": {
-      "description": "DryrunTxnResult contains any LogicSig or ApplicationCall program debug information and state updates from a dryrun.",
-      "type": "object",
-      "required": [
-        "disassembly"
-      ],
-      "properties": {
-        "disassembly": {
-          "description": "Disassembled program line by line.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "logic-sig-disassembly": {
-          "description": "Disassembled lsig program line by line.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "logic-sig-trace": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/DryrunState"
-          }
-        },
-        "logic-sig-messages": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "app-call-trace": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/DryrunState"
-          }
-        },
-        "app-call-messages": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "global-delta": {
-          "$ref": "#/definitions/StateDelta"
-        },
-        "local-deltas": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/AccountStateDelta"
-          }
-        },
-        "logs": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "format": "byte"
-          }
-        },
-        "budget-added": {
-          "description": "Budget added during execution of app call transaction.",
-          "type": "integer"
-        },
-        "budget-consumed": {
-          "description": "Budget consumed during execution of app call transaction.",
-          "type": "integer"
-        },
-        "cost": {
-          "description": "Net cost of app execution. Field is DEPRECATED and is subject for removal. Instead, use `budget-added` and `budget-consumed.",
-          "type": "integer"
-        }
-      }
-    },
-    "ErrorResponse": {
-      "description": "An error response with optional data field.",
-      "type": "object",
-      "required": [
-        "message"
-      ],
-      "properties": {
-        "data": {
-          "type": "object"
-        },
-        "message": {
-          "type": "string"
-        }
-      }
-    },
-    "DryrunRequest": {
-      "description": "Request data type for dryrun endpoint. Given the Transactions and simulated ledger state upload, run TEAL scripts and return debugging information.",
-      "type": "object",
-      "required": [
-        "txns",
-        "accounts",
-        "apps",
-        "protocol-version",
-        "round",
-        "latest-timestamp",
-        "sources"
-      ],
-      "properties": {
-        "txns": {
-          "type": "array",
-          "items": {
-            "description": "SignedTxn object. Must be canonically encoded.",
-            "type": "string",
-            "format": "json",
-            "x-algorand-format": "SignedTransaction"
-          }
-        },
-        "accounts": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Account"
-          }
-        },
-        "apps": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Application"
-          }
-        },
-        "protocol-version": {
-          "description": "ProtocolVersion specifies a specific version string to operate under, otherwise whatever the current protocol of the network this algod is running in.",
-          "type": "string"
-        },
-        "round": {
-          "description": "Round is available to some TEAL scripts. Defaults to the current round on the network this algod is attached to.",
-          "type": "integer",
-          "x-algorand-format": "uint64"
-        },
-        "latest-timestamp": {
-          "description": "LatestTimestamp is available to some TEAL scripts. Defaults to the latest confirmed timestamp this algod is attached to.",
-          "type": "integer",
-          "format": "int64"
-        },
-        "sources": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/DryrunSource"
-          }
-        }
-      }
-    },
-    "DryrunSource": {
-      "description": "DryrunSource is TEAL source text that gets uploaded, compiled, and inserted into transactions or application state.",
-      "type": "object",
-      "required": [
-        "field-name",
-        "source",
-        "txn-index",
-        "app-index"
-      ],
-      "properties": {
-        "field-name": {
-          "description": "FieldName is what kind of sources this is. If lsig then it goes into the transactions[this.TxnIndex].LogicSig. If approv or clearp it goes into the Approval Program or Clear State Program of application[this.AppIndex].",
-          "type": "string"
-        },
-        "source": {
-          "type": "string"
-        },
-        "txn-index": {
-          "type": "integer"
-        },
-        "app-index": {
-          "type": "integer",
-          "x-algorand-format": "uint64"
-        }
-      }
-    },
-    "Version": {
-      "description": "algod version information.",
-      "type": "object",
-      "title": "Version contains the current algod version.",
-      "required": [
-        "versions",
-        "genesis_id",
-        "genesis_hash_b64",
-        "build"
-      ],
-      "properties": {
-        "build": {
-          "$ref": "#/definitions/BuildVersion"
-        },
-        "genesis_hash_b64": {
-          "type": "string",
-          "format": "byte"
-        },
-        "genesis_id": {
-          "type": "string"
-        },
-        "versions": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "BuildVersion": {
-      "tags": [
-        "common"
-      ],
-      "type": "object",
-      "title": "BuildVersion contains the current algod build version information.",
-      "required": [
-        "major",
-        "minor",
-        "build_number",
-        "commit_hash",
-        "branch",
-        "channel"
-      ],
-      "properties": {
-        "branch": {
-          "type": "string"
-        },
-        "build_number": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "channel": {
-          "type": "string"
-        },
-        "commit_hash": {
-          "type": "string"
-        },
-        "major": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "minor": {
-          "type": "integer",
-          "format": "int64"
-        }
-      }
-    },
-    "PendingTransactionResponse": {
-      "description": "Details about a pending transaction. If the transaction was recently confirmed, includes confirmation details like the round and reward details.",
-      "type": "object",
-      "required": [
-        "txn",
-        "pool-error"
-      ],
-      "properties": {
-        "asset-index": {
-          "description": "The asset index if the transaction was found and it created an asset.",
-          "type": "integer"
-        },
-        "application-index": {
-          "description": "The application index if the transaction was found and it created an application.",
-          "type": "integer"
-        },
-        "close-rewards": {
-          "description": "Rewards in microalgos applied to the close remainder to account.",
-          "type": "integer"
-        },
-        "closing-amount": {
-          "description": "Closing amount for the transaction.",
-          "type": "integer"
-        },
-        "asset-closing-amount": {
-          "description": "The number of the asset's unit that were transferred to the close-to address.",
-          "type": "integer"
-        },
-        "confirmed-round": {
-          "description": "The round where this transaction was confirmed, if present.",
-          "type": "integer"
-        },
-        "pool-error": {
-          "description": "Indicates that the transaction was kicked out of this node's transaction pool (and specifies why that happened).  An empty string indicates the transaction wasn't kicked out of this node's txpool due to an error.\n",
-          "type": "string"
-        },
-        "receiver-rewards": {
-          "description": "Rewards in microalgos applied to the receiver account.",
-          "type": "integer"
-        },
-        "sender-rewards": {
-          "description": "Rewards in microalgos applied to the sender account.",
-          "type": "integer"
-        },
-        "local-state-delta": {
-          "description": "\\[ld\\] Local state key/value changes for the application being executed by this transaction.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/AccountStateDelta"
-          }
-        },
-        "global-state-delta": {
-          "description": "\\[gd\\] Global state key/value changes for the application being executed by this transaction.",
-          "$ref": "#/definitions/StateDelta"
-        },
-        "logs": {
-          "description": "\\[lg\\] Logs for the application being executed by this transaction.",
-          "type": "array",
-          "items": {
-            "type": "string",
-            "format": "byte"
-          }
-        },
-        "inner-txns": {
-          "description": "Inner transactions produced by application execution.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/PendingTransactionResponse"
-          }
-        },
-        "txn": {
-          "description": "The raw signed transaction.",
-          "type": "object",
-          "x-algorand-format": "SignedTransaction"
-        }
-      }
-    }
-  },
-  "parameters": {
-    "account-id": {
-      "type": "string",
-      "x-go-name": "AccountID",
-      "description": "account string",
-      "name": "account-id",
-      "in": "path",
-      "required": true
-    },
-    "address": {
-      "type": "string",
-      "description": "Only include transactions with this address in one of the transaction fields.",
-      "name": "address",
-      "in": "query"
-    },
-    "address-role": {
-      "enum": [
-        "sender",
-        "receiver",
-        "freeze-target"
-      ],
-      "type": "string",
-      "description": "Combine with the address parameter to define what type of address to search for.",
-      "name": "address-role",
-      "in": "query"
-    },
-    "after-time": {
-      "type": "string",
-      "format": "date-time",
-      "x-algorand-format": "RFC3339 String",
-      "description": "Include results after the given time. Must be an RFC 3339 formatted string.",
-      "name": "after-time",
-      "in": "query"
-    },
-    "asset-id": {
-      "type": "integer",
-      "x-go-name": "AssetID",
-      "description": "Asset ID",
-      "name": "asset-id",
-      "in": "query"
-    },
-    "before-time": {
-      "type": "string",
-      "format": "date-time",
-      "x-algorand-format": "RFC3339 String",
-      "description": "Include results before the given time. Must be an RFC 3339 formatted string.",
-      "name": "before-time",
-      "in": "query"
-    },
-    "catchpoint": {
-      "type": "string",
-      "format": "catchpoint",
-      "pattern": "[0-9]{1,10}#[A-Z0-9]{1,53}",
-      "x-algorand-format": "Catchpoint String",
-      "description": "A catch point",
-      "name": "catchpoint",
-      "in": "path",
-      "required": true
-    },
-    "currency-greater-than": {
-      "type": "integer",
-      "description": "Results should have an amount greater than this value. MicroAlgos are the default currency unless an asset-id is provided, in which case the asset will be used.",
-      "name": "currency-greater-than",
-      "in": "query"
-    },
-    "currency-less-than": {
-      "type": "integer",
-      "description": "Results should have an amount less than this value. MicroAlgos are the default currency unless an asset-id is provided, in which case the asset will be used.",
-      "name": "currency-less-than",
-      "in": "query"
-    },
-    "exclude-close-to": {
-      "type": "boolean",
-      "description": "Combine with address and address-role parameters to define what type of address to search for. The close to fields are normally treated as a receiver, if you would like to exclude them set this parameter to true.",
-      "name": "exclude-close-to",
-      "in": "query"
-    },
-    "format": {
-      "enum": [
-        "json",
-        "msgpack"
-      ],
-      "type": "string",
-      "description": "Configures whether the response object is JSON or MessagePack encoded.",
-      "name": "format",
-      "in": "query"
-    },
-    "limit": {
-      "type": "integer",
-      "description": "Maximum number of results to return.",
-      "name": "limit",
-      "in": "query"
-    },
-    "max": {
-      "type": "integer",
-      "description": "Truncated number of transactions to display. If max=0, returns all pending txns.",
-      "name": "max",
-      "in": "query"
-    },
-    "max-round": {
-      "type": "integer",
-      "description": "Include results at or before the specified max-round.",
-      "name": "max-round",
-      "in": "query"
-    },
-    "min-round": {
-      "type": "integer",
-      "description": "Include results at or after the specified min-round.",
-      "name": "min-round",
-      "in": "query"
-    },
-    "next": {
-      "type": "string",
-      "description": "The next page of results. Use the next token provided by the previous results.",
-      "name": "next",
-      "in": "query"
-    },
-    "note-prefix": {
-      "type": "string",
-      "description": "Specifies a prefix which must be contained in the note field.",
-      "name": "note-prefix",
-      "in": "query",
-      "x-algorand-format": "base64"
-    },
-    "round": {
-      "type": "integer",
-      "description": "Include results for the specified round.",
-      "name": "round",
-      "in": "query"
-    },
-    "round-number": {
-      "type": "integer",
-      "description": "Round number",
-      "name": "round-number",
-      "in": "path",
-      "required": true
-    },
-    "sig-type": {
-      "enum": [
-        "sig",
-        "msig",
-        "lsig"
-      ],
-      "type": "string",
-      "description": "SigType filters just results using the specified type of signature:\n* sig - Standard\n* msig - MultiSig\n* lsig - LogicSig",
-      "name": "sig-type",
-      "in": "query"
-    },
-    "tx-id": {
-      "type": "string",
-      "x-algorand-format": "Address",
-      "x-go-name": "TxID",
-      "description": "Lookup the specific transaction by ID.",
-      "name": "tx-id",
-      "in": "query"
-    },
-    "tx-type": {
-      "enum": [
-        "pay",
-        "keyreg",
-        "acfg",
-        "axfer",
-        "afrz",
-        "appl"
-      ],
-      "type": "string",
-      "name": "tx-type",
-      "in": "query"
-    }
-  },
-  "responses": {
-    "AccountResponse": {
-      "description": "AccountResponse wraps the Account type in a response.",
-      "schema": {
-        "$ref": "#/definitions/Account"
-      }
-    },
-    "AccountAssetResponse": {
-      "description": "AccountAssetResponse describes the account's asset holding and asset parameters (if either exist) for a specific asset ID. Asset parameters will only be returned if the provided address is the asset's creator.",
-      "schema": {
-        "type": "object",
-        "required": [
-          "round"
-        ],
-        "properties": {
-          "round": {
-            "description": "The round for which this information is relevant.",
-            "type": "integer"
-          },
-          "asset-holding": {
-            "description": "\\[asset\\] Details about the asset held by this account.\n\nThe raw account uses `AssetHolding` for this type.",
-            "$ref": "#/definitions/AssetHolding"
-          },
-          "created-asset": {
-            "description": "\\[apar\\] parameters of the asset created by this account.\n\nThe raw account uses `AssetParams` for this type.",
-            "$ref": "#/definitions/AssetParams"
-          }
-        }
-      }
-    },
-    "AccountApplicationResponse": {
-      "description": "AccountApplicationResponse describes the account's application local state and global state (AppLocalState and AppParams, if either exists) for a specific application ID. Global state will only be returned if the provided address is the application's creator.",
-      "schema": {
-        "type": "object",
-        "required": [
-          "round"
-        ],
-        "properties": {
-          "round": {
-            "description": "The round for which this information is relevant.",
-            "type": "integer"
-          },
-          "app-local-state": {
-            "description": "\\[appl\\] the application local data stored in this account.\n\nThe raw account uses `AppLocalState` for this type.",
-            "$ref": "#/definitions/ApplicationLocalState"
-          },
-          "created-app": {
-            "description": "\\[appp\\] parameters of the application created by this account including app global data.\n\nThe raw account uses `AppParams` for this type.",
-            "$ref": "#/definitions/ApplicationParams"
-          }
-        }
-      }
-    },
-    "BlockResponse": {
-      "description": "Encoded block object.",
-      "schema": {
-        "type": "object",
-        "required": [
-          "block"
-        ],
-        "properties": {
-          "block": {
-            "description": "Block header data.",
-            "type": "object",
-            "x-algorand-format": "BlockHeader"
-          },
-          "cert": {
-            "description": "Optional certificate object. This is only included when the format is set to message pack.",
-            "type": "object",
-            "x-algorand-format": "BlockCertificate"
-          }
-        }
-      }
-    },
-    "ProofResponse": {
-      "description": "Proof of transaction in a block.",
-      "schema": {
-        "type": "object",
-        "required": [
-          "proof",
-          "stibhash",
-          "idx",
-          "treedepth",
-          "hashtype"
-        ],
-        "properties": {
-          "proof": {
-            "description": "Merkle proof of transaction membership.",
-            "type": "string",
-            "format": "byte"
-          },
-          "stibhash": {
-            "description": "Hash of SignedTxnInBlock for verifying proof.",
-            "type": "string",
-            "format": "byte"
-          },
-          "treedepth": {
-            "description": "Represents the depth of the tree that is being proven, i.e. the number of edges from a leaf to the root.",
-            "type": "integer"
-          },
-          "idx": {
-            "description": "Index of the transaction in the block's payset.",
-            "type": "integer"
-          },
-          "hashtype": {
-            "type": "string",
-            "enum": [
-              "sha512_256",
-              "sha256"
-            ],
-            "description": "The type of hash function used to create the proof, must be one of: \n* sha512_256 \n* sha256"
-          }
-        }
-      }
-    },
-    "CatchpointStartResponse": {
-      "tags": [
-        "private"
-      ],
-      "schema": {
-        "description": "An catchpoint start response.",
-        "type": "object",
-        "required": [
-          "catchup-message"
-        ],
-        "properties": {
-          "catchup-message": {
-            "description": "Catchup start response string",
-            "type": "string"
-          }
-        }
-      }
-    },
-    "CatchpointAbortResponse":{
-      "tags": [
-        "private"
-      ],
-      "schema": {
-        "description": "An catchpoint abort response.",
-        "type": "object",
-        "required": [
-          "catchup-message"
-        ],
-        "properties": {
-          "catchup-message": {
-            "description": "Catchup abort response string",
-            "type": "string"
-          }
-        }
-      }
-    },
-    "NodeStatusResponse": {
-      "schema": {
-        "description": "NodeStatus contains the information about a node status",
-        "type": "object",
-        "required": [
-          "catchup-time",
-          "last-version",
-          "last-round",
-          "next-version",
-          "next-version-round",
-          "next-version-supported",
-          "stopped-at-unsupported-round",
-          "time-since-last-round"
-        ],
-        "properties": {
-          "catchup-time": {
-            "description": "CatchupTime in nanoseconds",
-            "type": "integer"
-          },
-          "last-round": {
-            "description": "LastRound indicates the last round seen",
-            "type": "integer"
-          },
-          "last-version": {
-            "description": "LastVersion indicates the last consensus version supported",
-            "type": "string"
-          },
-          "next-version": {
-            "description": "NextVersion of consensus protocol to use",
-            "type": "string"
-          },
-          "next-version-round": {
-            "description": "NextVersionRound is the round at which the next consensus version will apply",
-            "type": "integer"
-          },
-          "next-version-supported": {
-            "description": "NextVersionSupported indicates whether the next consensus version is supported by this node",
-            "type": "boolean"
-          },
-          "stopped-at-unsupported-round": {
-            "description": "StoppedAtUnsupportedRound indicates that the node does not support the new rounds and has stopped making progress",
-            "type": "boolean"
-          },
-          "time-since-last-round": {
-            "description": "TimeSinceLastRound in nanoseconds",
-            "type": "integer"
-          },
-          "last-catchpoint": {
-            "description": "The last catchpoint seen by the node",
-            "type": "string"
-          },
-          "catchpoint": {
-            "description": "The current catchpoint that is being caught up to",
-            "type": "string"
-          },
-          "catchpoint-total-accounts": {
-            "description": "The total number of accounts included in the current catchpoint",
-            "type": "integer"
-          },
-          "catchpoint-processed-accounts": {
-            "description": "The number of accounts from the current catchpoint that have been processed so far as part of the catchup",
-            "type": "integer"
-          },
-          "catchpoint-verified-accounts": {
-            "description": "The number of accounts from the current catchpoint that have been verified so far as part of the catchup",
-            "type": "integer"
-          },
-          "catchpoint-total-blocks": {
-            "description": "The total number of blocks that are required to complete the current catchpoint catchup",
-            "type": "integer"
-          },
-          "catchpoint-acquired-blocks": {
-            "description": "The number of blocks that have already been obtained by the node as part of the catchup",
-            "type": "integer"
-          }
-        }
-      }
-    },
-    "PendingTransactionsResponse": {
-      "description": "A potentially truncated list of transactions currently in the node's transaction pool. You can compute whether or not the list is truncated if the number of elements in the **top-transactions** array is fewer than **total-transactions**.",
-      "schema": {
-        "description": "PendingTransactions is an array of signed transactions exactly as they were submitted.",
-        "type": "object",
-        "required": [
-          "top-transactions",
-          "total-transactions"
-        ],
-        "properties": {
-          "top-transactions": {
-            "description": "An array of signed transaction objects.",
-            "type": "array",
-            "items": {
-              "type": "object",
-              "x-algorand-format": "SignedTransaction"
-            }
-          },
-          "total-transactions": {
-            "description": "Total number of transactions in the pool.",
-            "type": "integer"
-          }
-        }
-      }
-    },
-    "ParticipationKeysResponse": {
-      "description": "A list of participation keys",
-      "schema": {
-        "type": "array",
-        "items": {
-          "$ref": "#/definitions/ParticipationKey"
-        }
-      }
-    },
-    "ParticipationKeyResponse": {
-      "description": "A detailed description of a participation ID",
-      "schema": {
-        "$ref": "#/definitions/ParticipationKey"
-      }
-    },
-    "PostParticipationResponse" : {
-      "description": "Participation ID of the submission",
-      "schema": {
-        "type": "object",
-        "required": [
-          "partId"
-        ],
-        "properties": {
-          "partId": {
-            "description": "encoding of the participation ID.",
-            "type": "string"
-          }
-        }
-      }
-
-    },
-
-    "PostTransactionsResponse": {
-      "description": "Transaction ID of the submission.",
-      "schema": {
-        "type": "object",
-        "required": [
-          "txId"
-        ],
-        "properties": {
-          "txId": {
-            "description": "encoding of the transaction hash.",
-            "type": "string"
-          }
-        }
-      }
-    },
-    "SupplyResponse": {
-      "description": "Supply represents the current supply of MicroAlgos in the system.",
-      "schema": {
-        "description": "Supply represents the current supply of MicroAlgos in the system",
-        "type": "object",
-        "required": [
-          "online-money",
-          "current_round",
-          "total-money"
-        ],
-        "properties": {
-          "current_round": {
-            "description": "Round",
-            "type": "integer"
-          },
-          "online-money": {
-            "description": "OnlineMoney",
-            "type": "integer"
-          },
-          "total-money": {
-            "description": "TotalMoney",
-            "type": "integer"
-          }
-        }
-      }
-    },
-    "TransactionParametersResponse": {
-      "description": "TransactionParams contains the parameters that help a client construct a new transaction.",
-      "schema": {
-        "description": "TransactionParams contains the parameters that help a client construct\na new transaction.",
-        "type": "object",
-        "required": [
-          "consensus-version",
-          "fee",
-          "genesis-id",
-          "genesis-hash",
-          "last-round",
-          "min-fee"
-        ],
-        "properties": {
-          "consensus-version": {
-            "description": "ConsensusVersion indicates the consensus protocol version\nas of LastRound.",
-            "type": "string"
-          },
-          "fee": {
-            "description": "Fee is the suggested transaction fee\nFee is in units of micro-Algos per byte.\nFee may fall to zero but transactions must still have a fee of\nat least MinTxnFee for the current network protocol.",
-            "type": "integer"
-          },
-          "genesis-hash": {
-            "description": "GenesisHash is the hash of the genesis block.",
-            "type": "string",
-            "format": "byte"
-          },
-          "genesis-id": {
-            "description": "GenesisID is an ID listed in the genesis block.",
-            "type": "string"
-          },
-          "last-round": {
-            "description": "LastRound indicates the last round seen",
-            "type": "integer"
-          },
-          "min-fee": {
-            "description": "The minimum transaction fee (not per byte) required for the\ntxn to validate for the current network protocol.",
-            "type": "integer"
-          }
-        },
-        "x-go-package": "github.com/algorand/go-algorand/daemon/algod/api/spec/v1"
-      }
-    },
-    "ApplicationResponse": {
-      "description": "Application information",
-      "schema": {
-        "$ref": "#/definitions/Application"
-      }
-    },
-    "AssetResponse": {
-      "description": "Asset information",
-      "schema": {
-        "$ref": "#/definitions/Asset"
-      }
-    },
-    "CompileResponse": {
-      "description": "Teal compile Result",
-      "schema": {
-        "type": "object",
-        "required": [
-          "hash",
-          "result"
-        ],
-        "properties": {
-          "hash": {
-            "description": "base32 SHA512_256 of program bytes (Address style)",
-            "type": "string"
-          },
-          "result": {
-            "description": "base64 encoded program bytes",
-            "type": "string"
-          },
-          "sourcemap": {
-            "description": "JSON of the source map",
-            "type": "object"
-          }
-        }
-      }
-    },
-    "DisassembleResponse": {
-      "description": "Teal disassembly Result",
-      "schema": {
-        "type": "object",
-        "required": [
-          "result"
-        ],
-        "properties": {
-          "result": {
-            "description": "disassembled Teal code",
-            "type": "string"
-          }
-        }
-      }
-    },
-    "DryrunResponse": {
-      "description": "DryrunResponse contains per-txn debug information from a dryrun.",
-      "schema": {
-        "type": "object",
-        "required": [
-          "txns",
-          "protocol-version",
-          "error"
-        ],
-        "properties": {
-          "txns": {
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/DryrunTxnResult"
-            }
-          },
-          "error": {
-            "type": "string"
-          },
-          "protocol-version": {
-            "description": "Protocol version is the protocol version Dryrun was operated under.",
-            "type": "string"
-          }
-        }
-      }
-    },
-    "VersionsResponse": {
-      "description": "VersionsResponse is the response to 'GET /versions'",
-      "schema": {
-        "$ref": "#/definitions/Version"
-      }
-    }
-  },
-  "securityDefinitions": {
-    "api_key": {
-      "description": "Generated header parameter. This token can be generated using the Goal command line tool. Example value ='b7e384d0317b8050ce45900a94a1931e28540e1f69b2d242b424659c341b4697'",
-      "type": "apiKey",
-      "name": "X-Algo-API-Token",
-      "in": "header",
-      "x-example": "b7e384d0317b8050ce45900a94a1931e28540e1f69b2d242b424659c341b4697"
     }
   },
   "security": [

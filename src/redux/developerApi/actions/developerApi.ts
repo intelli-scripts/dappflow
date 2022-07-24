@@ -2,15 +2,18 @@ import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {handleException} from "../../common/actions/exception";
 import explorer from "../../../utils/dappflow";
 import indexerApi from '../../../packages/core-sdk/swagger/indexerApi.json';
+import algodApi from '../../../packages/core-sdk/swagger/algodApi.json';
 
 
 interface DeveloperApi {
     indexerSpec: any,
+    algodSpec: any,
     loading: boolean
 }
 
 const initialState: DeveloperApi = {
     indexerSpec: null,
+    algodSpec: null,
     loading: false
 }
 
@@ -37,6 +40,38 @@ export const loadIndexerSpec = createAsyncThunk(
     }
 );
 
+export const loadAlgodSpec = createAsyncThunk(
+    'developerApi/loadAlgodSpec',
+    async (_, thunkAPI) => {
+        const {dispatch} = thunkAPI;
+        try {
+            dispatch(setLoading(true));
+            const algodUrl = explorer.network.getAlgodUrl();
+            dispatch(setLoading(false));
+
+            // const apiCopy: any = {...algodApi};
+            // apiCopy.schemes = null;
+            //
+            // for (const key in apiCopy.paths) {
+            //     apiCopy.paths[key].schemes  = null;
+            // }
+            //
+            // console.log(apiCopy);
+
+            return {
+                ...algodApi,
+                servers: [{
+                    url: algodUrl
+                }]
+            };
+        }
+        catch (e: any) {
+            dispatch(setLoading(false));
+            dispatch(handleException(e));
+        }
+    }
+);
+
 export const developerApiSlice = createSlice({
     name: 'developerApi',
     initialState,
@@ -50,7 +85,12 @@ export const developerApiSlice = createSlice({
             if (action.payload) {
                 state.indexerSpec = action.payload;
             }
-        })
+        });
+        builder.addCase(loadAlgodSpec.fulfilled, (state, action: PayloadAction<any>) => {
+            if (action.payload) {
+                state.algodSpec = action.payload;
+            }
+        });
     },
 });
 
