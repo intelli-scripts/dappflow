@@ -1,5 +1,13 @@
 {
   "components": {
+    "securitySchemes": {
+      "api_key": {
+        "type": "apiKey",
+        "description": "Generated header parameter. This token can be generated using the Goal command line tool. Example value ='b7e384d0317b8050ce45900a94a1931e28540e1f69b2d242b424659c341b4697'",
+        "name": "X-Algo-API-Token",
+        "in": "header"
+      }
+    },
     "parameters": {
       "account-id": {
         "description": "account string",

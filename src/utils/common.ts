@@ -1,5 +1,5 @@
 import copy from "copy-to-clipboard";
-import {showSnack} from "../redux/actions/snackbar";
+import {showSnack} from "../redux/common/actions/snackbar";
 import {theme} from "../theme";
 import pSBC from 'shade-blend-color';
 
@@ -30,3 +30,4 @@ export function exportData(data: JSON) {
 }
 
 export const shadedClr = pSBC(0.95, theme.palette.primary.main);
+export const shadedClr1 = pSBC(0.9, theme.palette.primary.main);
