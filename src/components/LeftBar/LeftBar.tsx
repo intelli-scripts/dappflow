@@ -12,7 +12,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import CircleIcon from "@mui/icons-material/Circle";
 import explorer from "../../utils/dappflow";
 import {RootState} from "../../redux/store";
-import {shadedClr1} from "../../utils/common";
+import {shadedClr, shadedClr1} from "../../utils/common";
 import CodeIcon from '@mui/icons-material/Code';
 import StorageIcon from '@mui/icons-material/Storage';
 import GavelIcon from '@mui/icons-material/Gavel';
@@ -33,7 +33,7 @@ function LeftBar(): JSX.Element {
 
   return (
       <div className="left-bar-wrapper">
-          <div className="left-bar-container">
+          <div className="left-bar-container" style={{background: shadedClr}}>
               <div className="logo" onClick={() => {
                   navigate('/');
               }}>

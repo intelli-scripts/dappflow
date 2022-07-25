@@ -16,13 +16,14 @@ function ArcOverview(): JSX.Element {
         <div className={"arc-overview-container"}>
             <MuiMarkdown
                 options={{
+                    forceBlock: true,
                     overrides: {
                         h1: {
                             component: "h1",
                             props: {
                                 style: {
-                                    "padding-top": "1em",
-                                    "padding-bottom": "1em",
+                                    "padding-top": "0.5em",
+                                    "padding-bottom": "0.5em",
                                     "font-size": "2em",
                                     "borderBottom": "1px solid #f2f2f2",
                                     "margin-top": "24px",
@@ -36,8 +37,8 @@ function ArcOverview(): JSX.Element {
                             component: "h2",
                             props: {
                                 style: {
-                                    "padding-top": "1em",
-                                    "padding-bottom": "1em",
+                                    "padding-top": "0.5em",
+                                    "padding-bottom": "0.5em",
                                     "font-size": "1.5em",
                                     "borderBottom": "1px solid #f2f2f2",
                                     "margin-top": "24px",
@@ -51,8 +52,8 @@ function ArcOverview(): JSX.Element {
                             component: "h3",
                             props: {
                                 style: {
-                                    "padding-top": "1em",
-                                    "padding-bottom": "1em",
+                                    "padding-top": "0.5em",
+                                    "padding-bottom": "0.5em",
                                     "font-size": "1.5em",
                                     "borderBottom": "1px solid #f2f2f2",
                                     "margin-top": "24px",
@@ -66,8 +67,8 @@ function ArcOverview(): JSX.Element {
                             component: "h4",
                             props: {
                                 style: {
-                                    "padding-top": "1em",
-                                    "padding-bottom": "1em",
+                                    "padding-top": "0.5em",
+                                    "padding-bottom": "0.5em",
                                     "font-size": "1.5em",
                                     "borderBottom": "1px solid #f2f2f2",
                                     "margin-top": "24px",
@@ -83,7 +84,7 @@ function ArcOverview(): JSX.Element {
                                 style: {
                                     "margin-bottom": "16px",
                                     "font-size": "16px",
-                                    "line-height": "2em",
+                                    "line-height": "1.5em",
                                 }
                             },
                         },
@@ -100,6 +101,19 @@ function ArcOverview(): JSX.Element {
                                 }
                             },
                         },
+                        ol: {
+                            component: "ol",
+                            props: {
+                                style: {
+                                    "padding-left": "2em",
+                                    "margin-top": 0,
+                                    "margin-bottom": "16px",
+                                    "font-size": "16px",
+                                    "line-height": "2em",
+                                    "list-style": "decimal"
+                                }
+                            },
+                        },
                         strong: {
                             component: "strong",
                             props: {
@@ -108,6 +122,18 @@ function ArcOverview(): JSX.Element {
                                 }
                             },
                         },
+                        div: {
+                            props: {
+                                className: 'MuiPaper-root',
+                                style: {
+                                    "background": "#f6f6f6",
+                                    "border-radius": "0px",
+                                    "margin-top": "1em",
+                                    "margin-bottom": "1em",
+                                    "border-color": "rebeccapurple"
+                                }
+                            }
+                        }
                     }
                 }}
                 >{arcInstance.getMarkdown()}</MuiMarkdown>
