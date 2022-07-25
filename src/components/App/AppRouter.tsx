@@ -30,7 +30,6 @@ import GroupTransactions from "../Modules/Explorer/Records/Group/RelatedList/Gro
 import {Grid} from "@mui/material";
 import LeftBar from "../LeftBar/LeftBar";
 import Settings from "../Settings/Settings";
-import ArcPortal from "../Modules/ArcPortal/ArcPortal/ArcPortal";
 import Loader from "../Common/Loader/Loader";
 import AppSnackbar from "./AppSnackbar";
 import Arc from "../Modules/ArcPortal/Arc/Arc";
@@ -89,7 +88,8 @@ function AppRouter(): JSX.Element {
                                     <Route path="algod" element={<AlgodApi></AlgodApi>} />
                                     <Route path="" element={<Navigate to="indexer" replace />}/>
                                 </Route>
-                                <Route path="/arc-portal" element={<ArcPortal></ArcPortal>}>
+                                {/*<Route path="/arc-portal" element={<ArcPortal></ArcPortal>}>*/}
+                                <Route path="/arc-portal" element={<div style={{fontSize: 30, marginTop: 100}}>Coming soon ...</div>}>
                                     <Route path="/arc-portal/arc/:id" element={<Arc></Arc>}>
                                         <Route path="overview" element={<ArcOverview></ArcOverview>} />
                                         <Route path="" element={<Navigate to="overview" replace />}/>
