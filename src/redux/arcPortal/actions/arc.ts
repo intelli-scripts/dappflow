@@ -3,6 +3,7 @@ import {handleException} from "../../common/actions/exception";
 import {ArcClient} from "../../../packages/arc-portal/clients/arcClient";
 import {A_Arc} from "../../../packages/arc-portal/types";
 import {getArc} from "../../../packages/arc-portal/utils";
+import {Octokit} from 'octokit';
 
 
 export interface ArcState {
@@ -48,8 +49,12 @@ export const loadMarkdown = createAsyncThunk(
             const arcClient = new ArcClient();
             dispatch(setLoading(true));
             const markdown = await arcClient.loadMarkdown(id);
+            const resp = await new Octokit().request('POST /markdown', {
+                text: markdown,
+                mode: "gfm"
+            });
             dispatch(setLoading(false));
-            return markdown;
+            return resp.data;
         }
         catch (e: any) {
             dispatch(handleException(e));
