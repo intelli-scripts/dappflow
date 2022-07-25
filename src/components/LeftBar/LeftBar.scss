@@ -17,6 +17,7 @@
       bottom: 0px;
       width: 100%;
       padding: 10px 0px;
+      border-top: 1px solid $color-grey-light;
       .node {
         margin: 10px 0px;
         &:hover {
@@ -39,9 +40,9 @@
       font-size: 20px;
       font-weight: bold;
       img {
-        width: 20px;
+        width: 18px;
         margin-right: 5px;
-        vertical-align: bottom;
+        vertical-align: top;
       }
       .text {
         display: inline-block;
