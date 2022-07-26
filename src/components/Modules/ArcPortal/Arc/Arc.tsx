@@ -14,6 +14,7 @@ function Arc(): JSX.Element {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const arc = useSelector((state: RootState) => state.arc);
+    const arcInstance = new ARC(arc.information);
     const params = useParams();
     const {id} = params;
 
@@ -25,15 +26,21 @@ function Arc(): JSX.Element {
         <div className={"arc-container"}>
 
             {arc.loading ? <LoadingTile></LoadingTile> : <div>
-                <div>
-                    <Button variant={"contained"}
-                            size={"large"}
-                            startIcon={<LaunchIcon></LaunchIcon>}
-                            onClick={() => {
-                                const arcInstance = new ARC(arc.information);
-                                window.open(arcInstance.getGithubUrl(), "_blank");
-                            }}
-                    >View on Github</Button>
+                <div className="arc-header">
+                    <div className="arc-name">
+                        {arcInstance.getName()}
+                    </div>
+                    <div>
+                        <Button variant={"contained"}
+                                size={"large"}
+                                startIcon={<LaunchIcon></LaunchIcon>}
+                                onClick={() => {
+
+                                    window.open(arcInstance.getGithubUrl(), "_blank");
+                                }}
+                        >View on Github</Button>
+                    </div>
+
                 </div>
                 <div className="arc-tabs">
 

@@ -2,6 +2,15 @@
 
 .arc-wrapper {
   .arc-container {
+    .arc-header {
+      display: flex;
+      justify-content: space-between;
+      .arc-name {
+        font-family: PoppinsBold !important;
+        font-size: 30px;
+        margin-top: 20px;
+      }
+    }
     .arc-tabs {
       margin-top: 40px;
     }
