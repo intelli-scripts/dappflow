@@ -10,12 +10,11 @@ import {
     InputBase
 } from "@mui/material";
 import {CancelOutlined, Search as SearchIcon} from "@mui/icons-material";
-import {theme} from "../../../../theme";
 import {isValidAddress} from "algosdk";
 import {useNavigate} from "react-router-dom";
 import {A_Application, A_Asset, A_Block} from "../../../../packages/core-sdk/types";
 import {AssetClient} from "../../../../packages/core-sdk/clients/assetClient";
-import {isNumber} from "../../../../utils/common";
+import {isNumber, shadedClr} from "../../../../utils/common";
 import explorer from "../../../../utils/dappflow";
 import {ApplicationClient} from "../../../../packages/core-sdk/clients/applicationClient";
 import {BlockClient} from "../../../../packages/core-sdk/clients/blockClient";
@@ -151,7 +150,7 @@ function Search(): JSX.Element {
                     padding: 3,
                     paddingLeft: 20,
                     fontSize: 14,
-                    border: '1px solid ' + theme.palette.grey["200"]
+                    background: shadedClr
                 }}
                 value={searchStr}
                 endAdornment={<IconButton color="primary" onClick={() => {

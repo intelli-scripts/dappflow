@@ -87,7 +87,7 @@ function LeftBar(): JSX.Element {
                       ev.preventDefault();
                   }}>
 
-                      <Box className="node-url" sx={{ color: 'grey.500'}}>
+                      <Box className="node-url" sx={{ color: 'grey.700'}}>
                           <Tooltip title={connection.success ? 'Connected' : 'Unable to connect'}>
                               <CircleIcon color={connection.success ? 'success' : 'secondary'} fontSize={"small"} sx={{fontSize: 14, marginTop: -5}}></CircleIcon>
                           </Tooltip>

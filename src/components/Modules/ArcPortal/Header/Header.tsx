@@ -28,6 +28,11 @@ function Header(): JSX.Element {
                         id="arc"
                         value={id}
                         label="Select ARC"
+                        sx={{
+                            fieldset: {
+                                borderRadius: "10px"
+                            }
+                        }}
                         onChange={(ev) => {
                             navigate('/arc-portal/arc/' + ev.target.value);
                         }}>

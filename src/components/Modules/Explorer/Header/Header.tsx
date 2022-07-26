@@ -44,7 +44,7 @@ function Header(): JSX.Element {
                 </Grid>
             </div>
 
-            <div style={{minWidth: 500, marginTop: -10}}>
+            <div style={{minWidth: 500, marginTop: -9}}>
                 <Search></Search>
             </div>
 

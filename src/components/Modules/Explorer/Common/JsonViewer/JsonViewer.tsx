@@ -36,7 +36,7 @@ function JsonViewer(props): JSX.Element {
                 onClick={() => {
                     setState(prevState => ({...prevState, show: true}));
                 }}
-            >View raw JSON</Button>
+            >View Raw JSON</Button>
 
             {show ? <Dialog
                 fullWidth={true}
