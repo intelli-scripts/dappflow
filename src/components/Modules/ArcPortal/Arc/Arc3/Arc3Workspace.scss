@@ -1,0 +1,17 @@
+@import "src/assets/colors";
+
+.arc3-workspace-wrapper {
+  .arc3-workspace-container {
+    .arc3-workspace-header {
+      display: flex;
+      justify-content: space-between;
+      .arc3-workspace-name {
+        font-size: 20px;
+        margin-top: 10px;
+      }
+    }
+    .arc3-workspace-body {
+      margin-top: 10px;
+    }
+  }
+}

@@ -1,6 +1,7 @@
 import './InnerTransaction.scss';
 import React from "react";
 import {
+    Chip,
     Grid
 } from "@mui/material";
 import {CoreTransaction} from "../../../../../../packages/core-sdk/classes/CoreTransaction";
@@ -31,6 +32,9 @@ function InnerTransaction(props): JSX.Element {
             <div className="inner-transaction-header">
                 <div>
                     Inner transaction overview
+                    <div style={{marginTop: 15}}>
+                        <Chip color={"primary"} label={txnInstance.getTypeDisplayValue()} size={"small"}></Chip>
+                    </div>
                 </div>
                 <div>
                     <JsonViewer obj={txnObj}></JsonViewer>

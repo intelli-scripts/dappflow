@@ -42,6 +42,7 @@ interface SettingsState{
     indexerPort: string,
     indexerToken: string
 }
+
 const initialState: SettingsState = {
     algodPort: nodeConfig.algodPort,
     algodToken: nodeConfig.algodToken,

@@ -3,6 +3,7 @@ import React, {useEffect} from "react";
 import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {
+    Chip,
     Grid
 } from "@mui/material";
 import {loadTransaction} from "../../../../../redux/explorer/actions/transaction";
@@ -61,6 +62,12 @@ function Transaction(): JSX.Element {
                 {transaction.loading ? <LoadingTile></LoadingTile> : <div className="transaction-body">
                     <div className="index">
                         {txnInstance.getId()}
+                        <div style={{marginTop: 15}}>
+                            <Chip color={"primary"} label={txnInstance.getTypeDisplayValue()} size={"small"}></Chip>
+                            {txnInstance.isMultiSig() ? <Chip style={{marginLeft: 10}} sx={{background: '#000'}} color={"warning"} label="MultiSig" size={"small"} variant={"filled"}></Chip> : ''}
+                            {txnInstance.isLogicSig() ? <Chip style={{marginLeft: 10}} sx={{background: '#000'}} color={"warning"} label="LogicSig" size={"small"}></Chip> : ''}
+                        </div>
+
                     </div>
 
 

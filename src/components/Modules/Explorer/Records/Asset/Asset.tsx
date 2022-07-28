@@ -3,7 +3,7 @@ import React, {useEffect} from "react";
 import {Outlet, useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../../redux/store";
-import {Grid, Link, Tab, Tabs} from "@mui/material";
+import {Chip, Grid, Link, Tab, Tabs} from "@mui/material";
 import {loadAsset} from "../../../../../redux/explorer/actions/asset";
 import {CoreAsset} from "../../../../../packages/core-sdk/classes/CoreAsset";
 import NumberFormat from "react-number-format";
@@ -43,8 +43,11 @@ function Asset(): JSX.Element {
                 {asset.loading ? <LoadingTile></LoadingTile> : <div className="asset-body">
                     <div className="index">
                         #{assetInstance.getIndex()}
-                        <div>
+                        <div style={{marginTop: 5}}>
                             {assetInstance.getUrl() ? <Link href={assetInstance.getUrl()} target={"_blank"} style={{fontSize: 13, marginTop: 10}}>{assetInstance.getUrl()}</Link> : ''}
+                        </div>
+                        <div style={{marginTop: 15}}>
+                            {assetInstance.isArc3() ? <Chip color={"primary"} label={"ARC-3"} size={"small"}></Chip> : ''}
                         </div>
                     </div>
 

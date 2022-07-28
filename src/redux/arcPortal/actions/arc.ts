@@ -20,7 +20,8 @@ const initialState: ArcState = {
         name: "",
         markdownUrl: "",
         markdown: '',
-        github: ''
+        github: '',
+        hasWorkspace: false
     }
 }
 
