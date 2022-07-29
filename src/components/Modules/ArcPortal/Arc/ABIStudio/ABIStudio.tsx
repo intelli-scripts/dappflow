@@ -40,7 +40,7 @@ function ABIStudio(): JSX.Element {
                     ABI Studio
                 </div>
                 <div className={"abi-studio-body"}>
-                    <ABIEditor payload={test}></ABIEditor>
+                    <ABIEditor contract={test}></ABIEditor>
                 </div>
             </div>
 

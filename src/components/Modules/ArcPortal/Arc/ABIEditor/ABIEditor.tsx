@@ -5,7 +5,6 @@ import TreeItem, {treeItemClasses} from "@mui/lab/TreeItem";
 import {Chip} from "@mui/material";
 import TreeView from "@mui/lab/TreeView";
 import {
-    CloseSquare,
     MinusSquare,
     PlusSquare
 } from "../../../Explorer/Records/Transaction/Types/AppCallTransaction/Sections/AppCallTxnInnerTxns/AppCallTxnInnerTxns";
@@ -16,13 +15,13 @@ import {A_ABI, A_ABI_Arg, A_ABI_Method} from "../../../../../packages/core-sdk/t
 function ABIEditor(props): JSX.Element {
     
 
-    let payload: A_ABI = props.payload;
+    let contract: A_ABI = props.contract;
 
-    if (!payload) {
-        payload = {methods: [], name: ""};
+    if (!contract) {
+        contract = {methods: [], name: ""};
     }
 
-    console.log(payload);
+    console.log(contract);
 
     function getThemeStyling(theme) {
         return {
@@ -49,6 +48,12 @@ function ABIEditor(props): JSX.Element {
             <div className="arg-name">
                 {arg.name}
             </div>
+            <div className="arg-param">
+                {arg.type}
+            </div>
+            <div className="arg-param">
+                {arg.desc}
+            </div>
         </div>}/>;
     })(({ theme }) => (getThemeStyling(theme)));
 
@@ -59,15 +64,28 @@ function ABIEditor(props): JSX.Element {
 
 
         return <TreeItem {...props} nodeId={id} label={<div className="method-row">
-            <div className="method-name">
-                {/*{method.name}*/}
-                <Chip color={"primary"} label={method.name + "()"} size={"small"} sx={{margin: "20px"}}></Chip>
+            <div>
+                <Chip color={"primary"} label={method.name} size={"medium"} variant={"outlined"}></Chip>
+            </div>
+            <div className="desc">
+                <span>{method.desc}</span>
             </div>
         </div>}>
+            <div className="args-header">Arguments</div>
             {method.args.map((arg, index) => {
                 const argId = id + "_arg_" + index;
                 return <StyledArgNode id={argId} arg={arg} key={argId}></StyledArgNode>;
-            })}</TreeItem>;
+            })}
+            <div className="returns-header">Returns</div>
+            <TreeItem nodeId={id+ "_returns"} label={<div className="returns-row">
+                <div className="type">
+                    {method.returns.type}
+                </div>
+                <div className="desc">
+                    <span>{method.returns.desc}</span>
+                </div>
+            </div>}></TreeItem>
+        </TreeItem>;
     })(({ theme }) => (getThemeStyling(theme)));
 
 
@@ -78,14 +96,20 @@ function ABIEditor(props): JSX.Element {
 
 
                 <TreeView
-                    defaultExpanded={['-1']}
+                    defaultExpanded={[]}
                     defaultCollapseIcon={<MinusSquare />}
                     defaultExpandIcon={<PlusSquare />}
-                    defaultEndIcon={<CloseSquare />}
                 >
 
-                    <TreeItem nodeId="contract" label={payload.name}>
-                        {payload.methods.map((method, index) => {
+                    <TreeItem nodeId="contract" label={<div className="contract-row">
+                        <div>
+                            {contract.name}
+                        </div>
+                        <div className="desc">
+                            <span>{contract.desc}</span>
+                        </div>
+                    </div>}>
+                        {contract.methods.map((method, index) => {
                             const id = "method_" + index;
                             return <StyledMethodNode id={id} method={method} key={id}></StyledMethodNode>;
                         })}

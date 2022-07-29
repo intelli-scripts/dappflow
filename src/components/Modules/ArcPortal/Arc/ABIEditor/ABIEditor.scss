@@ -4,6 +4,66 @@
   .abi-editor-container {
     .abi-editor-body {
       margin-top: 30px;
+      .contract-row {
+        margin: 15px;
+        display: flex;
+        .desc {
+          margin-left: 20px;
+          font-size: 14px;
+          color: $color-grey-dark;
+          margin-top: 2px;
+        }
+      }
+      .method-row {
+        margin: 15px;
+        display: flex;
+        .desc {
+          margin-left: 20px;
+          font-size: 14px;
+          color: $color-grey-dark;
+          margin-top: 5px;
+        }
+      }
+      .args-header {
+        margin: 15px 0px;
+        font-weight: bold;
+        margin-left: 35px;
+        text-decoration: underline;
+        color: $color-grey-dark;
+      }
+      .returns-header {
+        margin: 15px 0px;
+        font-weight: bold;
+        margin-left: 35px;
+        text-decoration: underline;
+        color: $color-grey-dark;
+      }
+      .returns-row {
+        display: flex;
+        .type {
+          font-family: PoppinsBold !important;
+        }
+        .desc {
+          margin: 5px;
+          margin-left: 20px;
+          margin-top: 2px;
+          font-size: 14px;
+          color: $color-grey-dark;
+        }
+      }
+      .arg-row {
+        margin: 5px;
+        display: flex;
+        .arg-name {
+          font-family: PoppinsBold !important;
+        }
+        .arg-param {
+          margin-left: 20px;
+          font-size: 14px;
+          color: $color-grey-dark;
+          margin-top: 2px;
+        }
+      }
     }
   }
 }
