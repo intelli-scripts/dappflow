@@ -7,7 +7,7 @@ export function getArcs(): A_Arc[] {
         markdownUrl: 'https://raw.githubusercontent.com/algorandfoundation/ARCs/main/ARCs/arc-0003.md',
         markdown: '',
         github: 'https://github.com/algorandfoundation/ARCs/blob/main/ARCs/arc-0003.md',
-        hasWorkspace: true
+        hasWorkspace: false
     },
         {
             id: 16,
