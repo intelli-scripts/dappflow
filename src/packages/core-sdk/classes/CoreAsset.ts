@@ -89,4 +89,20 @@ export class CoreAsset {
         return this.asset.params.url;
     }
 
+    isArc3(): boolean {
+        const name = this.asset.params.name;
+        const url = this.asset.params.url;
+
+        if (name === 'arc3') {
+            return true;
+        }
+        if (name && name.slice(name.length - 5) === '@arc3') {
+            return true;
+        }
+        if (url && url.slice(url.length - 5) === '#arc3') {
+            return true;
+        }
+
+        return false;
+    }
 }

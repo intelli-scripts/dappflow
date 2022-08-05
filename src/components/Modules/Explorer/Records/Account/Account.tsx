@@ -59,7 +59,7 @@ function Account(): JSX.Element {
                     <div className="address">
                         {account.information.address}
                         <div style={{marginTop: 10}}>
-                            <Chip color={"primary"} variant={"outlined"} label={account.information.status} size={"small"}></Chip>
+                            <Chip color={"primary"} variant={"filled"} label={account.information.status} size={"small"}></Chip>
                         </div>
 
                     </div>

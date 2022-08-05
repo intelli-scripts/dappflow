@@ -33,10 +33,11 @@ import Settings from "../Settings/Settings";
 import Loader from "../Common/Loader/Loader";
 import AppSnackbar from "./AppSnackbar";
 import Arc from "../Modules/ArcPortal/Arc/Arc";
-import ArcOverview from "../Modules/ArcPortal/Arc/RelatedList/ArcOverview";
+import ArcOverview from "../Modules/ArcPortal/Arc/RelatedList/ArcOverview/ArcOverview";
 import IndexerApi from "../Modules/DeveloperApi/IndexerApi/IndexerApi";
 import AlgodApi from "../Modules/DeveloperApi/AlgodApi/AlgodApi";
 import ArcPortal from "../Modules/ArcPortal/ArcPortal/ArcPortal";
+import ArcWorkspace from "../Modules/ArcPortal/Arc/RelatedList/ArcWorkspace/ArcWorkspace";
 
 function AppRouter(): JSX.Element {
 
@@ -92,6 +93,7 @@ function AppRouter(): JSX.Element {
                                 <Route path="/arc-portal" element={<ArcPortal></ArcPortal>}>
                                     <Route path="/arc-portal/arc/:id" element={<Arc></Arc>}>
                                         <Route path="overview" element={<ArcOverview></ArcOverview>} />
+                                        <Route path="workspace" element={<ArcWorkspace></ArcWorkspace>} />
                                         <Route path="" element={<Navigate to="overview" replace />}/>
                                     </Route>
                                 </Route>

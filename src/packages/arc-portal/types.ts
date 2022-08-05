@@ -3,5 +3,6 @@ export type A_Arc = {
     name: string
     markdownUrl: string
     markdown: string
-    github: string
+    github: string,
+    hasWorkspace: boolean
 };

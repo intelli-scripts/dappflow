@@ -31,4 +31,8 @@ export class ARC {
         return this.arc.markdown;
     }
 
+    hasWorkspace():boolean {
+        return this.arc.hasWorkspace;
+    }
+
 }
