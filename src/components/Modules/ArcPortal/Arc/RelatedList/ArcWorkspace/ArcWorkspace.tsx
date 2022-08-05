@@ -4,7 +4,6 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../../../../../redux/store";
 import {ARC} from "../../../../../../packages/arc-portal/classes/ARC";
 import Arc3Workspace from "../../Arc3/Arc3Workspace";
-import Arc4Workspace from "../../Arc4/Arc4Workspace";
 
 function ArcWorkspace(): JSX.Element {
 
@@ -16,7 +15,6 @@ function ArcWorkspace(): JSX.Element {
 
 
             {arcInstance.getId() === 3 ? <Arc3Workspace></Arc3Workspace> : ''}
-            {arcInstance.getId() === 4 ? <Arc4Workspace></Arc4Workspace> : ''}
 
         </div>
     </div>);

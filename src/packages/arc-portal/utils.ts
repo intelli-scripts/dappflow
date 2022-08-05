@@ -10,12 +10,12 @@ export function getArcs(): A_Arc[] {
         hasWorkspace: true
     },
         {
-            id: 4,
-            name: 'ARC-0004',
-            markdownUrl: 'https://raw.githubusercontent.com/algorandfoundation/ARCs/main/ARCs/arc-0004.md',
+            id: 16,
+            name: 'ARC-0016',
+            markdownUrl: 'https://raw.githubusercontent.com/algorandfoundation/ARCs/main/ARCs/arc-0016.md',
             markdown: '',
-            github: 'https://github.com/algorandfoundation/ARCs/blob/main/ARCs/arc-0004.md',
-            hasWorkspace: true
+            github: 'https://github.com/algorandfoundation/ARCs/blob/main/ARCs/arc-0016.md',
+            hasWorkspace: false
         },
         {
             id: 19,
