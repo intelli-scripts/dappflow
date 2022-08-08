@@ -7,7 +7,7 @@ export function getArcs(): A_Arc[] {
         markdownUrl: 'https://raw.githubusercontent.com/algorandfoundation/ARCs/main/ARCs/arc-0003.md',
         markdown: '',
         github: 'https://github.com/algorandfoundation/ARCs/blob/main/ARCs/arc-0003.md',
-        hasWorkspace: false
+        hasWorkspace: true
     },
         {
             id: 16,
@@ -47,3 +47,5 @@ export function getArc(id: number): A_Arc {
 
     return arc;
 }
+
+export const IPFS_GATEWAY = 'https://ipfs.io/ipfs';
