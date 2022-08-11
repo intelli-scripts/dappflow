@@ -36,6 +36,17 @@ export class ARC3 {
         return this.isHttps() || this.isIpfs();
     }
 
+    hasValidName(): boolean {
+        const {name, url} = this.asset.params;
+        const validUrl = this.hasValidUrl();
+
+        const matchedName = name === 'arc3';
+        const matchedNameUsingLength = name && name.slice(name.length - 5) === '@arc3';
+        const matchedNameUsingUrl = validUrl && url.slice(url.length - 5) === '#arc3';
+
+        return matchedName || matchedNameUsingLength || matchedNameUsingUrl;
+    }
+
     getWebUrl(): string {
 
         const {url} = this.asset.params;
@@ -49,32 +60,41 @@ export class ARC3 {
     }
 
     async validate(): Promise<A_Arc_Validation> {
-        const asset = this.asset;
 
         const validation: A_Arc_Validation = {
             valid: false,
-            suggestions: [],
             errors: []
         };
 
-        const {name, url} = asset.params;
+        const validUrl = this.hasValidUrl();
+        if (!validUrl) {
+            validation.errors.push("Invalid url: Only https or ipfs are valid");
+            return validation;
+        }
 
-        const matchedName = name === 'arc3';
-        const matchedNameUsingLength = name && name.slice(name.length - 5) === '@arc3';
-        const matchedNameUsingUrl = url && url.slice(url.length - 5) === '#arc3';
+        const validName = this.hasValidName();
+        if (!validName) {
+            validation.errors.push("Invalid name");
+            return validation;
+        }
 
-        const nameMatched = matchedName || matchedNameUsingLength || matchedNameUsingUrl;
-        const urlMatched = this.hasValidUrl();
-        let validUrlContent = false;
+        let validJsonMetadata = false;
 
-        if (urlMatched) {
+        try {
             const webUrl = this.getWebUrl();
             const response: AxiosResponse = await axios.get(webUrl);
             if (response.headers["content-type"] === "application/json") {
-                validUrlContent = true;
+                validJsonMetadata = true;
             }
         }
+        catch (e) {}
 
+        if (!validJsonMetadata) {
+            validation.errors.push("JSON metadata provided is invalid");
+            return validation;
+        }
+
+        validation.valid = true;
         return validation;
     }
 

@@ -80,9 +80,9 @@ function Arc3Workspace(): JSX.Element {
         <div className={"arc3-workspace-container"}>
 
             <div className="arc3-workspace-header">
-                <div className="arc3-workspace-name">
-                    Asset metadata validator
-                </div>
+                {/*<div className="arc3-workspace-name">*/}
+                {/*    Asset metadata validator*/}
+                {/*</div>*/}
             </div>
 
                 <div className="arc3-workspace-body">
@@ -283,6 +283,15 @@ function Arc3Workspace(): JSX.Element {
 
 
 
+                                <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                    <Button
+                                        fullWidth
+                                        size={"large"}
+                                        color={"primary"}
+                                        variant={"contained"} onClick={async () => {
+                                        validate();
+                                    }}>Validate</Button>
+                                </Grid>
 
 
 

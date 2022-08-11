@@ -9,6 +9,5 @@ export type A_Arc = {
 
 export type A_Arc_Validation = {
     valid: boolean,
-    errors: string[],
-    suggestions: string[]
+    errors: string[]
 };
