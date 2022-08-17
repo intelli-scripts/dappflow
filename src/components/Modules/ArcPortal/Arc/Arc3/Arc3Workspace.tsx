@@ -18,12 +18,15 @@ import dappflow from "../../../../../utils/dappflow";
 import {handleException} from "../../../../../redux/common/actions/exception";
 import {hideLoader, showLoader} from "../../../../../redux/common/actions/loader";
 import {ARC3} from "../../../../../packages/arc-portal/classes/ARC3";
+import {A_Arc_Validation} from "../../../../../packages/arc-portal/types";
+import {Alert} from "@mui/lab";
 
 interface Arc3WorkspaceState{
     validateUsing: string,
     assetId: string,
     asset: A_Asset,
-    disabled: boolean
+    disabled: boolean,
+    validation: A_Arc_Validation
 }
 const initialState: Arc3WorkspaceState = {
     validateUsing: "asset_id",
@@ -49,6 +52,10 @@ const initialState: Arc3WorkspaceState = {
             "metadata-hash": "",
         }
     },
+    validation: {
+        valid: false,
+        errors: []
+    }
 };
 
 const decimalsList = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
@@ -66,23 +73,27 @@ function Arc3Workspace(): JSX.Element {
     const dispatch = useDispatch();
 
     const [
-        {validateUsing, assetId, asset, disabled},
+        {validateUsing, assetId, asset, disabled, validation},
         setState
     ] = useState(initialState);
 
-    async function validate() {
+
+    async function validate(asset: A_Asset) {
+        setState(prevState => ({...prevState, validation: {
+                valid: false,
+                errors: []
+            }}));
         const arc3Instance = new ARC3(asset);
-        const validation = await arc3Instance.validate();
-        console.log(validation);
+        const test = await arc3Instance.validate();
+        console.log(test);
+        setState(prevState => ({...prevState, validation: test}));
     }
 
     return (<div className={"arc3-workspace-wrapper"}>
         <div className={"arc3-workspace-container"}>
 
             <div className="arc3-workspace-header">
-                {/*<div className="arc3-workspace-name">*/}
-                {/*    Asset metadata validator*/}
-                {/*</div>*/}
+
             </div>
 
                 <div className="arc3-workspace-body">
@@ -128,7 +139,7 @@ function Arc3Workspace(): JSX.Element {
                                                         const asset = await assetInstance.get(Number(assetId));
                                                         setState(prevState => ({...prevState, asset}));
                                                         dispatch(hideLoader());
-                                                        validate();
+                                                        validate(asset);
                                                     }
                                                     catch (e: any) {
                                                         dispatch(hideLoader());
@@ -289,7 +300,7 @@ function Arc3Workspace(): JSX.Element {
                                         size={"large"}
                                         color={"primary"}
                                         variant={"contained"} onClick={async () => {
-                                        validate();
+                                        validate(asset);
                                     }}>Validate</Button>
                                 </Grid>
 
@@ -300,6 +311,14 @@ function Arc3Workspace(): JSX.Element {
 
 
                             </Grid>
+                        </Grid>
+
+                        <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                            {validation.errors.map((error, index)=> {
+                                return <div key={"error_" + index}>
+                                    <Alert icon={false} color={"warning"}>{error}</Alert>
+                                </div>;
+                            })}
                         </Grid>
                     </Grid>
 
