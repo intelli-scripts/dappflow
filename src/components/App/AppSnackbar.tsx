@@ -8,6 +8,7 @@ function AppSnackbar(): JSX.Element {
     const snackbar = useSelector((state: RootState) => state.snackbar)
     const dispatch = useDispatch();
 
+    // @ts-ignore
     return (<Snackbar
         style={{bottom: 50}}
         open={snackbar.show}
@@ -19,7 +20,7 @@ function AppSnackbar(): JSX.Element {
             icon={false}
             severity={snackbar.severity}
             onClose={() => {dispatch(hideSnack())}}>
-            {snackbar.message}
+            <span dangerouslySetInnerHTML={{__html: snackbar.message}}></span>
         </Alert>
     </Snackbar>);
 }

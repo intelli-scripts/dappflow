@@ -21,6 +21,7 @@ import {showSnack} from "../../redux/common/actions/snackbar";
 import {isNumber, shadedClr} from "../../utils/common";
 import {Network} from "../../packages/core-sdk/network";
 import {hideLoader, showLoader} from "../../redux/common/actions/loader";
+import {isBrave} from "../../packages/core-sdk/utils";
 
 const nodeConfig = getNodeConfig();
 
@@ -72,6 +73,7 @@ function Settings(): JSX.Element {
 
     async function saveConfig() {
         let message = '';
+        let failed = false;
 
         if (!algodUrl) {
             message = 'Invalid Algod url';
@@ -99,29 +101,37 @@ function Settings(): JSX.Element {
             dispatch(hideLoader());
         } catch (e) {
             dispatch(hideLoader());
-            dispatch(showSnack({
-                severity: 'error',
-                message: 'Node connection failed - Invalid Algod configuration'
-            }));
-            return;
+            failed = true;
+            message = 'Node connection failed - Invalid Algod configuration.';
         }
 
-        try {
-            dispatch(showLoader('Connecting to node ...'));
-            const network = new Network('test', 'Test', algodUrl, indexerUrl, algodToken, indexerToken, algodPort, indexerPort);
-            const indexer = network.getIndexer();
-            await indexer.makeHealthCheck().do();
-            dispatch(hideLoader());
-        } catch (e) {
-            dispatch(hideLoader());
-            dispatch(showSnack({
-                severity: 'error',
-                message: 'Node connection failed - Invalid Indexer configuration'
-            }));
-            return;
+        if (!failed) {
+            try {
+                dispatch(showLoader('Connecting to node ...'));
+                const network = new Network('test', 'Test', algodUrl, indexerUrl, algodToken, indexerToken, algodPort, indexerPort);
+                const indexer = network.getIndexer();
+                await indexer.makeHealthCheck().do();
+                dispatch(hideLoader());
+            } catch (e) {
+                dispatch(hideLoader());
+                failed = true;
+                message = 'Node connection failed - Invalid Indexer configuration.';
+            }
         }
 
 
+        if (failed) {
+            if (isBrave()) {
+                message += ' If you are using Brave browser, localhost connections are shielded by default. Please turnoff shields and try again. <a href="https://support.brave.com/hc/en-us/articles/360023646212-How-do-I-configure-global-and-site-specific-Shields-settings" target="_blank">Click here</a> to know more.';
+            }
+
+            dispatch(showSnack({
+                severity: 'error',
+                message
+            }));
+
+            return;
+        }
         dispatch(showLoader('Saving node configuration ...'));
         localStorage.setItem('algodUrl', algodUrl);
         localStorage.setItem('algodPort', algodPort || '');
