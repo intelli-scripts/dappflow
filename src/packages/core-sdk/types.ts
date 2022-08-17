@@ -1,6 +1,7 @@
 export interface A_AccountInformation {
     address: string
     amount: number
+    "min-balance": number
     "amount-without-pending-rewards": number
     "apps-local-state": A_AppsLocalState[]
     "apps-total-schema": A_AppsTotalSchema

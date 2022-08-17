@@ -20,6 +20,7 @@ export interface Account {
 const information: A_AccountInformation = {
     address: "",
     amount: 0,
+    "min-balance": 0,
     "amount-without-pending-rewards": 0,
     "apps-local-state": [],
     "apps-total-schema": {

@@ -36,6 +36,10 @@ export class CoreAccount {
         return this.account.amount;
     }
 
+    getMinBalance(): number {
+        return this.account["min-balance"];
+    }
+
     getHoldingAssets(): A_AssetHolding[]{
         return this.account['assets'];
     }

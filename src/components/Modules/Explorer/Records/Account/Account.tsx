@@ -82,6 +82,23 @@ function Account(): JSX.Element {
                                 </div>
                             </Grid>
                         </Grid>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
+                                <div className="property">
+                                    <div className="key">
+                                        Minimum balance
+                                    </div>
+                                    <div className="value">
+                                        <NumberFormat
+                                            value={microalgosToAlgos(new CoreAccount(account.information).getMinBalance())}
+                                            displayType={'text'}
+                                            thousandSeparator={true}
+                                        ></NumberFormat>
+                                        <AlgoIcon></AlgoIcon>
+                                    </div>
+                                </div>
+                            </Grid>
+                        </Grid>
                         <Grid container spacing={2} style={{marginTop: 5}}>
 
 
