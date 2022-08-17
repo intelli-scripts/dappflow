@@ -56,7 +56,7 @@ function Group(): JSX.Element {
                                     Timestamp
                                 </div>
                                 <div className="value">
-                                    {groupInstance.getTimestampDisplayValue() + ' GMT'}
+                                    {groupInstance.getTimestampDisplayValue()}
                                 </div>
                             </div>
 

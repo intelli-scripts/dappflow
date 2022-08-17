@@ -112,7 +112,7 @@ function TransactionsList({transactions = [], loading = false, reachedLastPage =
             headerName: 'Timestamp',
             flex: 2,
             renderCell: (params: GridValueGetterParams) => {
-                const timestamp = new CoreTransaction(params.row).getTimestampDisplayValue('GMT:dd mmmm  yyyy HH:MM:ss');
+                const timestamp = new CoreTransaction(params.row).getTimestampDisplayValue('dd mmmm  yyyy HH:MM:ss');
                 return <div>
                     {timestamp}
                 </div>;
