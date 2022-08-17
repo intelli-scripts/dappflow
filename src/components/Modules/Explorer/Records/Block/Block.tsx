@@ -48,7 +48,7 @@ function Block(): JSX.Element {
                                         Timestamp
                                     </div>
                                     <div className="value">
-                                        {blockInstance.getTimestampDisplayValue() + ' GMT'}
+                                        {blockInstance.getTimestampDisplayValue()}
                                     </div>
                                 </div>
 

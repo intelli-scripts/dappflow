@@ -18,4 +18,4 @@ export enum PROGRAM_ENCODING {
     TEAL = 'teal'
 }
 
-export const TIMESTAMP_DISPLAY_FORMAT = 'GMT:ddd, dd mmmm  yyyy HH:MM:ss';
+export const TIMESTAMP_DISPLAY_FORMAT = 'ddd, dd mmmm  yyyy HH:MM:ss';

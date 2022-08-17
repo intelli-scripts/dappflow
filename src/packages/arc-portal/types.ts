@@ -6,3 +6,8 @@ export type A_Arc = {
     github: string,
     hasWorkspace: boolean
 };
+
+export type A_Arc_Validation = {
+    valid: boolean,
+    errors: string[]
+};

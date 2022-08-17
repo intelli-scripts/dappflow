@@ -29,6 +29,7 @@ import LinkToTransaction from "../../Common/Links/LinkToTransaction";
 import LinkToBlock from "../../Common/Links/LinkToBlock";
 import CustomNoRowsOverlay from "../../Common/CustomNoRowsOverlay/CustomNoRowsOverlay";
 import {A_SearchTransaction} from "../../../../../packages/core-sdk/types";
+import LinkToGroup from "../../Common/Links/LinkToGroup";
 
 interface TransactionsListProps {
     transactions: A_SearchTransaction[];
@@ -74,7 +75,13 @@ function TransactionsList({transactions = [], loading = false, reachedLastPage =
             headerName: 'Txn ID',
             flex: 2,
             renderCell: (params: GridValueGetterParams) => {
-                const txnId = new CoreTransaction(params.row).getId();
+                const txnInstance = new CoreTransaction(params.row);
+                const txnId = txnInstance.getId();
+                const groupId = txnInstance.getGroup();
+                let strip = 20;
+                if (groupId) {
+                    strip = 18;
+                }
 
                 return <div>
                     <Tooltip title="Click to copy">
@@ -83,7 +90,8 @@ function TransactionsList({transactions = [], loading = false, reachedLastPage =
                         }
                         }></ContentCopyIcon>
                     </Tooltip>
-                    <LinkToTransaction id={txnId} strip={20}></LinkToTransaction>
+                    <LinkToTransaction id={txnId} strip={strip}></LinkToTransaction>
+                    {groupId ? <span className="group-txn-icon"><LinkToGroup id={groupId} blockId={txnInstance.getBlock()} icon={true}></LinkToGroup></span> : ''}
                 </div>;
             }
         },
@@ -104,7 +112,7 @@ function TransactionsList({transactions = [], loading = false, reachedLastPage =
             headerName: 'Timestamp',
             flex: 2,
             renderCell: (params: GridValueGetterParams) => {
-                const timestamp = new CoreTransaction(params.row).getTimestampDisplayValue('GMT:dd mmmm  yyyy HH:MM:ss');
+                const timestamp = new CoreTransaction(params.row).getTimestampDisplayValue('dd mmmm  yyyy HH:MM:ss');
                 return <div>
                     {timestamp}
                 </div>;

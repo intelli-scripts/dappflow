@@ -34,7 +34,7 @@ function LiveBlocks(): JSX.Element {
                                         {blockInstance.getTransactionsTypesCount()}
                                     </div>
                                     <div className="sub-text">
-                                        {blockInstance.getTimestampDisplayValue() + ' GMT'}
+                                        {blockInstance.getTimestampDisplayValue()}
                                     </div>
                                 </div>
                                 <div className="txn-count">

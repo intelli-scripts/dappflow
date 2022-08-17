@@ -47,3 +47,5 @@ export function getArc(id: number): A_Arc {
 
     return arc;
 }
+
+export const IPFS_GATEWAY = 'https://ipfs.io/ipfs';
