@@ -2,6 +2,7 @@ import {A_Asset} from "../../core-sdk/types";
 import {A_Arc_Validation} from "../types";
 import {IPFS_GATEWAY} from "../utils";
 import axios, {AxiosResponse} from "axios";
+import { sha256 } from 'js-sha256'
 
 export class ARC3 {
     asset: A_Asset;
@@ -47,6 +48,17 @@ export class ARC3 {
         return matchedName || matchedNameUsingLength || matchedNameUsingUrl;
     }
 
+    hasValidMetadataHash(metadata: any): boolean {
+        const metadataHash = this.asset.params["metadata-hash"];
+
+        const hash = sha256.create();
+        hash.update(JSON.stringify(metadata));
+        const digest = new Uint8Array(hash.digest());
+        const expectedMetadataHash = Buffer.from(digest).toString("base64");
+
+        return  expectedMetadataHash === metadataHash;
+    }
+
     getWebUrl(): string {
 
         const {url} = this.asset.params;
@@ -85,18 +97,37 @@ export class ARC3 {
         }
 
         let validJsonMetadata = false;
+        let metadata;
 
         try {
             const webUrl = this.getWebUrl();
             const response: AxiosResponse = await axios.get(webUrl);
             if (response.headers["content-type"] === "application/json") {
                 validJsonMetadata = true;
+                metadata = response.data;
             }
         }
         catch (e) {}
 
         if (!validJsonMetadata) {
             validation.errors.push("JSON metadata provided is invalid");
+            return validation;
+        }
+
+
+        const validMetadataHash = this.hasValidMetadataHash(metadata);
+        if (!validMetadataHash) {
+            validation.errors.push(`Asset Metadata Hash (am):
+If the JSON Metadata file specifies extra metadata e (property extra_metadata), then am is defined as:
+
+am = SHA-512/256("arc0003/am" || SHA-512/256("arc0003/amj" || content of JSON Metadata file) || e)
+where || denotes concatenation and SHA-512/256 is defined in NIST FIPS 180-4. The above definition of am MUST be used when the property extra_metadata is specified, even if its value e is the empty string. Python code to compute the hash and a full example are provided below (see "Sample with Extra Metadata").
+
+Extra metadata can be used to store data about the asset that needs to be accessed from a smart contract. The smart contract would not be able to directly read the metadata. But, if provided with the hash of the JSON Metadata file and with the extra metadata e, the smart contract can check that e is indeed valid.
+
+If the JSON Metadata file does not specify the property extra_metadata, then am is defined as the SHA-256 digest of the JSON Metadata file as a 32-byte string (as defined in NIST FIPS 180-4)
+
+`);
             return validation;
         }
 
