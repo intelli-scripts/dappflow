@@ -37,7 +37,7 @@ function InnerTransaction(props): JSX.Element {
                     </div>
                 </div>
                 <div>
-                    <JsonViewer obj={txnObj}></JsonViewer>
+                    <JsonViewer obj={txnObj} title="Inner transaction"></JsonViewer>
                 </div>
             </div>
 

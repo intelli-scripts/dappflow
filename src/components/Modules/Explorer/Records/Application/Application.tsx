@@ -47,7 +47,7 @@ function Application(): JSX.Element {
                         Application overview
                     </div>
                     <div>
-                        <JsonViewer obj={application.information}></JsonViewer>
+                        <JsonViewer obj={application.information} title="Application"></JsonViewer>
                     </div>
                 </div>
 

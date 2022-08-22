@@ -21,9 +21,15 @@ function JsonViewer(props): JSX.Element {
     ] = useState(initialState);
     const dispatch = useDispatch();
 
-    let {obj} = props;
+    let {obj, name, title} = props;
     if (!obj) {
         obj = {};
+    }
+    if (!name) {
+        name = 'View Raw JSON';
+    }
+    if (!title) {
+        title = 'Raw JSON';
     }
 
     return (<div className={"json-viewer-wrapper"}>
@@ -36,7 +42,7 @@ function JsonViewer(props): JSX.Element {
                 onClick={() => {
                     setState(prevState => ({...prevState, show: true}));
                 }}
-            >View Raw JSON</Button>
+            >{name}</Button>
 
             {show ? <Dialog
                 fullWidth={true}
@@ -46,7 +52,7 @@ function JsonViewer(props): JSX.Element {
                 <DialogTitle >
                     <div style={{display: 'flex', justifyContent: 'space-between'}}>
                         <div>
-                            <div style={{fontWeight: "bold", fontSize: 18}}>Raw JSON</div>
+                            <div style={{fontWeight: "bold", fontSize: 18}}>{title}</div>
                         </div>
                         <div>
                             <IconButton color="primary" onClick={() => {

@@ -7,7 +7,21 @@ export type A_Arc = {
     hasWorkspace: boolean
 };
 
-export type A_Arc_Validation = {
+export type A_Arc3_Validation = {
     valid: boolean,
-    errors: string[]
+    validName: boolean,
+    validJsonMetadata: boolean,
+    validMetadataHash: boolean
+    errors: string[],
+    metadata?: A_Arc3_Metadata
 };
+
+export type A_Arc3_Metadata = {
+    decimals?: number
+    image?: string
+    image_integrity?: string
+    image_mimetype?: string
+    name: string
+    properties?: any
+    unitName?: string
+}

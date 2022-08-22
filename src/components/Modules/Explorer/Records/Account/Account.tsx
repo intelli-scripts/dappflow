@@ -51,7 +51,7 @@ function Account(): JSX.Element {
                         Account overview
                     </div>
                     <div>
-                        <JsonViewer obj={account.information}></JsonViewer>
+                        <JsonViewer obj={account.information} title="Account"></JsonViewer>
                     </div>
                 </div>
 

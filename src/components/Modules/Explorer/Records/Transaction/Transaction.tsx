@@ -55,7 +55,7 @@ function Transaction(): JSX.Element {
                         Transaction overview
                     </div>
                     <div>
-                        <JsonViewer obj={txnObj}></JsonViewer>
+                        <JsonViewer obj={txnObj} title="Transaction"></JsonViewer>
                     </div>
                 </div>
 

@@ -1,14 +1,23 @@
 import {A_Asset} from "../../core-sdk/types";
-import {A_Arc_Validation} from "../types";
+import {A_Arc3_Metadata, A_Arc3_Validation} from "../types";
 import {IPFS_GATEWAY} from "../utils";
 import axios, {AxiosResponse} from "axios";
 import { sha256 } from 'js-sha256'
 
 export class ARC3 {
     asset: A_Asset;
+    metadata: A_Arc3_Metadata
 
     constructor(asset: A_Asset) {
         this.asset = asset;
+    }
+
+    getMetadata(): A_Arc3_Metadata {
+        return this.metadata;
+    }
+
+    setMetadata(metadata: A_Arc3_Metadata) {
+        this.metadata = metadata;
     }
 
     getUrlProtocol(): string {
@@ -48,11 +57,11 @@ export class ARC3 {
         return matchedName || matchedNameUsingLength || matchedNameUsingUrl;
     }
 
-    hasValidMetadataHash(metadata: any): boolean {
+    hasValidMetadataHash(): boolean {
         const metadataHash = this.asset.params["metadata-hash"];
 
         const hash = sha256.create();
-        hash.update(JSON.stringify(metadata));
+        hash.update(JSON.stringify(this.getMetadata()));
         const digest = new Uint8Array(hash.digest());
         const expectedMetadataHash = Buffer.from(digest).toString("base64");
 
@@ -71,9 +80,12 @@ export class ARC3 {
         return url
     }
 
-    async validate(): Promise<A_Arc_Validation> {
+    async validate(): Promise<A_Arc3_Validation> {
 
-        const validation: A_Arc_Validation = {
+        const validation: A_Arc3_Validation = {
+            validJsonMetadata: false,
+            validMetadataHash: false,
+            validName: false,
             valid: false,
             errors: []
         };
@@ -84,8 +96,8 @@ export class ARC3 {
             return validation;
         }
 
-        const validName = this.hasValidName();
-        if (!validName) {
+        validation.validName = this.hasValidName();
+        if (!validation.validName) {
             validation.errors.push(`Asset Name (an): MUST be:
              (NOT RECOMMENDED) either exactly arc3 (without any space)
              (NOT RECOMMENDED) or <name>@arc3, where <name> SHOULD be closely related to the name in the JSON Metadata file:
@@ -96,27 +108,26 @@ export class ARC3 {
             return validation;
         }
 
-        let validJsonMetadata = false;
-        let metadata;
-
         try {
             const webUrl = this.getWebUrl();
             const response: AxiosResponse = await axios.get(webUrl);
             if (response.headers["content-type"] === "application/json") {
-                validJsonMetadata = true;
-                metadata = response.data;
+                validation.validJsonMetadata = true;
+                validation.metadata = response.data;
+                this.setMetadata(response.data);
             }
         }
         catch (e) {}
 
-        if (!validJsonMetadata) {
+        if (!validation.validJsonMetadata) {
             validation.errors.push("JSON metadata provided is invalid");
             return validation;
         }
 
+        validation.validMetadataHash = this.hasValidMetadataHash();
 
-        const validMetadataHash = this.hasValidMetadataHash(metadata);
-        if (!validMetadataHash) {
+        if (!validation.validMetadataHash) {
+
             validation.errors.push(`Asset Metadata Hash (am):
 If the JSON Metadata file specifies extra metadata e (property extra_metadata), then am is defined as:
 

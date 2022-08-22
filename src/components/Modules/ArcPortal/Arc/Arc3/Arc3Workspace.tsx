@@ -18,15 +18,16 @@ import dappflow from "../../../../../utils/dappflow";
 import {handleException} from "../../../../../redux/common/actions/exception";
 import {hideLoader, showLoader} from "../../../../../redux/common/actions/loader";
 import {ARC3} from "../../../../../packages/arc-portal/classes/ARC3";
-import {A_Arc_Validation} from "../../../../../packages/arc-portal/types";
+import {A_Arc3_Validation} from "../../../../../packages/arc-portal/types";
 import {Alert} from "@mui/lab";
+import JsonViewer from "../../../Explorer/Common/JsonViewer/JsonViewer";
 
 interface Arc3WorkspaceState{
     validateUsing: string,
     assetId: string,
     asset: A_Asset,
     disabled: boolean,
-    validation: A_Arc_Validation
+    validation: A_Arc3_Validation
 }
 const initialState: Arc3WorkspaceState = {
     validateUsing: "asset_id",
@@ -54,6 +55,9 @@ const initialState: Arc3WorkspaceState = {
     },
     validation: {
         valid: false,
+        validName: false,
+        validJsonMetadata: false,
+        validMetadataHash: false,
         errors: []
     }
 };
@@ -81,10 +85,7 @@ function Arc3Workspace(): JSX.Element {
     async function validate(asset: A_Asset) {
         try {
             dispatch(showLoader("Validating ARC3 metadata."));
-            setState(prevState => ({...prevState, validation: {
-                    valid: false,
-                    errors: []
-                }}));
+            setState(prevState => ({...prevState, validation: initialState.validation}));
             const arc3Instance = new ARC3(asset);
             const validation = await arc3Instance.validate();
             setState(prevState => ({...prevState, validation: validation}));
@@ -329,7 +330,10 @@ function Arc3Workspace(): JSX.Element {
                         </Grid>
 
                         <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                            <div style={{marginTop: 60}}>
+                            <div style={{marginTop: 60}} className="validation-result">
+                                {validation.validJsonMetadata ? <div style={{marginBottom: 15}}>
+                                    <JsonViewer obj={validation.metadata} name="View asset metadata" title="ARC3 Metadata"></JsonViewer>
+                                </div> : ''}
                                 {validation.valid ? <div>
                                     <Alert color={"success"}>
                                         Valid ARC3 Asset.

@@ -12,6 +12,10 @@
     }
     .arc3-workspace-body {
       margin-top: 10px;
+      .validation-result {
+        border-left: 1px solid $color-grey-light;
+        padding-left: 15px;
+      }
     }
   }
 }

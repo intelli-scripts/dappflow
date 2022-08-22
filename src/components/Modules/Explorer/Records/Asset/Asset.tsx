@@ -36,7 +36,7 @@ function Asset(): JSX.Element {
                         Asset overview
                     </div>
                     <div>
-                        <JsonViewer obj={asset.information}></JsonViewer>
+                        <JsonViewer obj={asset.information} title="Asset"></JsonViewer>
                     </div>
                 </div>
 
