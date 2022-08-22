@@ -10,7 +10,7 @@ import {
     Radio,
     RadioGroup,
     Select,
-    TextField
+    TextField, Typography
 } from "@mui/material";
 import {A_Asset} from "../../../../../packages/core-sdk/types";
 import {AssetClient} from "../../../../../packages/core-sdk/clients/assetClient";
@@ -79,14 +79,21 @@ function Arc3Workspace(): JSX.Element {
 
 
     async function validate(asset: A_Asset) {
-        setState(prevState => ({...prevState, validation: {
-                valid: false,
-                errors: []
-            }}));
-        const arc3Instance = new ARC3(asset);
-        const test = await arc3Instance.validate();
-        console.log(test);
-        setState(prevState => ({...prevState, validation: test}));
+        try {
+            dispatch(showLoader("Validating ARC3 metadata."));
+            setState(prevState => ({...prevState, validation: {
+                    valid: false,
+                    errors: []
+                }}));
+            const arc3Instance = new ARC3(asset);
+            const validation = await arc3Instance.validate();
+            setState(prevState => ({...prevState, validation: validation}));
+            dispatch(hideLoader());
+        }
+        catch (e: any) {
+            dispatch(hideLoader());
+            dispatch(handleException(e));
+        }
     }
 
     return (<div className={"arc3-workspace-wrapper"}>
@@ -137,13 +144,21 @@ function Arc3Workspace(): JSX.Element {
                                                         dispatch(showLoader("Fetching asset metadata"));
                                                         const assetInstance = new AssetClient(dappflow.network);
                                                         const asset = await assetInstance.get(Number(assetId));
+
+                                                        if (!asset.params.url) {
+                                                            asset.params.url = '';
+                                                        }
+                                                        if (!asset.params["metadata-hash"]) {
+                                                            asset.params["metadata-hash"] = '';
+                                                        }
+
                                                         setState(prevState => ({...prevState, asset}));
                                                         dispatch(hideLoader());
-                                                        validate(asset);
                                                     }
                                                     catch (e: any) {
                                                         dispatch(hideLoader());
                                                         dispatch(handleException(e));
+                                                        setState(prevState => ({...prevState, asset: initialState.asset, validation: initialState.validation}));
                                                     }
 
                                                 }}>Fetch</Button>
@@ -300,7 +315,7 @@ function Arc3Workspace(): JSX.Element {
                                         size={"large"}
                                         color={"primary"}
                                         variant={"contained"} onClick={async () => {
-                                        validate(asset);
+                                        await validate(asset);
                                     }}>Validate</Button>
                                 </Grid>
 
@@ -314,11 +329,23 @@ function Arc3Workspace(): JSX.Element {
                         </Grid>
 
                         <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                            {validation.errors.map((error, index)=> {
-                                return <div key={"error_" + index}>
-                                    <Alert icon={false} color={"warning"}>{error}</Alert>
-                                </div>;
-                            })}
+                            <div style={{marginTop: 60}}>
+                                {validation.valid ? <div>
+                                    <Alert color={"success"}>
+                                        Valid ARC3 Asset.
+                                    </Alert>
+                                </div> : ''}
+                                {validation.errors.map((error, index)=> {
+                                    return <div key={"error_" + index}>
+                                        <Alert icon={false} color={"warning"}>
+                                            <Typography style={{ whiteSpace: "pre-line" }}>
+                                                {error}
+                                            </Typography>
+                                        </Alert>
+                                    </div>;
+                                })}
+                            </div>
+
                         </Grid>
                     </Grid>
 

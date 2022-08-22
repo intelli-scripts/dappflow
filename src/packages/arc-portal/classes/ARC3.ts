@@ -74,7 +74,13 @@ export class ARC3 {
 
         const validName = this.hasValidName();
         if (!validName) {
-            validation.errors.push("Invalid name");
+            validation.errors.push(`Asset Name (an): MUST be:
+             (NOT RECOMMENDED) either exactly arc3 (without any space)
+             (NOT RECOMMENDED) or <name>@arc3, where <name> SHOULD be closely related to the name in the JSON Metadata file:
+             If the resulting asset name can fit the Asset Name field, then <name> SHOULD be equal to the name in the JSON Metadata file.
+             If the resulting asset name cannot fit the Asset Name field, then <name> SHOULD be a reasonable shorten version of the name in the JSON Metadata file.
+             (RECOMMENDED) or <name> where <name> is defined as above. In this case, the Asset URL MUST ends with #arc3.
+            `);
             return validation;
         }
 
