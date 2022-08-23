@@ -8,6 +8,7 @@ import {CoreAsset} from "../../core-sdk/classes/CoreAsset";
 export class ARC3 {
     asset: A_Asset;
     metadata: A_Arc3_Metadata
+    rawMetadataHash: string
 
     constructor(asset: A_Asset) {
         this.asset = asset;
@@ -19,6 +20,14 @@ export class ARC3 {
 
     setMetadata(metadata: A_Arc3_Metadata) {
         this.metadata = metadata;
+    }
+
+    getRawMetadataHash(): string {
+        return this.rawMetadataHash;
+    }
+
+    setRawMetadataHash(hash: string) {
+        this.rawMetadataHash = hash;
     }
 
     getUrlProtocol(): string {
@@ -61,10 +70,8 @@ export class ARC3 {
     hasValidMetadataHash(): boolean {
         const metadataHash = this.asset.params["metadata-hash"];
 
-        const hash = sha256.create();
-        hash.update(JSON.stringify(this.getMetadata()));
-        const digest = new Uint8Array(hash.digest());
-        const expectedMetadataHash = Buffer.from(digest).toString("base64");
+        const metadataStr = this.getRawMetadataHash();
+        const expectedMetadataHash = Buffer.from(new Uint8Array(sha256.digest(metadataStr))).toString("base64");
 
         return  expectedMetadataHash === metadataHash;
     }
@@ -158,11 +165,19 @@ export class ARC3 {
 
         try {
             const webUrl = this.getAssetWebUrl();
-            const response: AxiosResponse = await axios.get(webUrl);
+            let raw;
+
+            const response: AxiosResponse = await axios.get(webUrl, {transformResponse: (r) => {
+                raw = r;
+                return axios.defaults.transformResponse[0](r)
+                }
+            });
+
             if (response.headers["content-type"] === "application/json") {
                 validation.validJsonMetadata = true;
                 validation.metadata = response.data;
                 this.setMetadata(response.data);
+                this.setRawMetadataHash(raw);
             }
         }
         catch (e) {}
