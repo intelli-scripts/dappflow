@@ -115,7 +115,7 @@ export class ARC3 {
         return validation;
     }
 
-    getWebUrl(): string {
+    getAssetWebUrl(): string {
 
         const {url} = this.asset.params;
 
@@ -157,7 +157,7 @@ export class ARC3 {
         }
 
         try {
-            const webUrl = this.getWebUrl();
+            const webUrl = this.getAssetWebUrl();
             const response: AxiosResponse = await axios.get(webUrl);
             if (response.headers["content-type"] === "application/json") {
                 validation.validJsonMetadata = true;
