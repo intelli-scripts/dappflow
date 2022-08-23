@@ -84,19 +84,11 @@ export class ARC3 {
 
         const metadata = this.getMetadata();
         const assetInstance = new CoreAsset(this.asset);
-        const {decimals, name, unitName, image, animation_url, external_url, image_integrity, image_mimetype, animation_url_integrity, animation_url_mimetype} = metadata;
+        const {decimals, image, animation_url, external_url, image_integrity, image_mimetype, animation_url_integrity, animation_url_mimetype} = metadata;
 
         if (decimals !== undefined && decimals !== assetInstance.getDecimals()) {
             validation.valid = false;
             validation.message = "Decimals in metadata JSON did not match with the asset decimals";
-        }
-        else if (name && name !== assetInstance.getName()) {
-            validation.valid = false;
-            validation.message = "Name in metadata JSON did not match with the asset name";
-        }
-        else if (unitName && unitName !== assetInstance.getUnitName()) {
-            validation.valid = false;
-            validation.message = "Unitname in metadata JSON did not match with the asset unitname";
         }
         else if (!image && !animation_url && !external_url) {
             validation.valid = false;
