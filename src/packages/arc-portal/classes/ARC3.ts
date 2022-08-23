@@ -3,6 +3,7 @@ import {A_Arc3_Metadata, A_Arc3_Validation} from "../types";
 import {IPFS_GATEWAY} from "../utils";
 import axios, {AxiosResponse} from "axios";
 import { sha256 } from 'js-sha256'
+import {CoreAsset} from "../../core-sdk/classes/CoreAsset";
 
 export class ARC3 {
     asset: A_Asset;
@@ -68,6 +69,52 @@ export class ARC3 {
         return  expectedMetadataHash === metadataHash;
     }
 
+    hasValidMetadataContent(): {valid: boolean, message: string} {
+        const validation = {
+            valid: true,
+            message: ""
+        };
+
+        const metadata = this.getMetadata();
+        const assetInstance = new CoreAsset(this.asset);
+        const {decimals, name, unitName, image, animation_url, external_url, image_integrity, image_mimetype, animation_url_integrity, animation_url_mimetype} = metadata;
+
+        if (decimals !== undefined && decimals !== assetInstance.getDecimals()) {
+            validation.valid = false;
+            validation.message = "Decimals in metadata JSON did not match with the asset decimals";
+        }
+        else if (name && name !== assetInstance.getName()) {
+            validation.valid = false;
+            validation.message = "Name in metadata JSON did not match with the asset name";
+        }
+        else if (unitName && unitName !== assetInstance.getUnitName()) {
+            validation.valid = false;
+            validation.message = "Unitname in metadata JSON did not match with the asset unitname";
+        }
+        else if (!image && !animation_url && !external_url) {
+            validation.valid = false;
+            validation.message = "Atleast one of the URI fields (image, external_url, animation_url) should be defined in the metadata";
+        }
+        else if (image && !image_integrity) {
+            validation.valid = false;
+            validation.message = "image is provided but image_integrity is not provided";
+        }
+        else if (image && !image_mimetype) {
+            validation.valid = false;
+            validation.message = "image is provided but image_mimetype is not provided";
+        }
+        else if (animation_url && !animation_url_integrity) {
+            validation.valid = false;
+            validation.message = "animation_url is provided but animation_url_integrity is not provided";
+        }
+        else if (animation_url && !animation_url_mimetype) {
+            validation.valid = false;
+            validation.message = "animation_url is provided but animation_url_mimetype is not provided";
+        }
+
+        return validation;
+    }
+
     getWebUrl(): string {
 
         const {url} = this.asset.params;
@@ -85,6 +132,7 @@ export class ARC3 {
         const validation: A_Arc3_Validation = {
             validJsonMetadata: false,
             validMetadataHash: false,
+            validJsonMetadataContent: false,
             validName: false,
             valid: false,
             errors: []
@@ -139,6 +187,14 @@ Extra metadata can be used to store data about the asset that needs to be access
 If the JSON Metadata file does not specify the property extra_metadata, then am is defined as the SHA-256 digest of the JSON Metadata file as a 32-byte string (as defined in NIST FIPS 180-4)
 
 `);
+            return validation;
+        }
+
+        const contentValidation = this.hasValidMetadataContent();
+        validation.validJsonMetadataContent = contentValidation.valid;
+
+        if (!validation.validJsonMetadataContent) {
+            validation.errors.push(contentValidation.message);
             return validation;
         }
 

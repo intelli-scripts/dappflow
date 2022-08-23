@@ -58,6 +58,7 @@ const initialState: Arc3WorkspaceState = {
         validName: false,
         validJsonMetadata: false,
         validMetadataHash: false,
+        validJsonMetadataContent: false,
         errors: []
     }
 };
@@ -153,7 +154,7 @@ function Arc3Workspace(): JSX.Element {
                                                             asset.params["metadata-hash"] = '';
                                                         }
 
-                                                        setState(prevState => ({...prevState, asset}));
+                                                        setState(prevState => ({...prevState, asset, validation: initialState.validation}));
                                                         dispatch(hideLoader());
                                                     }
                                                     catch (e: any) {
