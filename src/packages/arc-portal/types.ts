@@ -13,15 +13,6 @@ export type A_Arc_Validation = {
     warnings: string[],
 };
 
-export type A_Arc3_Validation = A_Arc_Validation & {
-    validName: boolean,
-    validUrl: boolean,
-    validJsonMetadata: boolean,
-    validJsonMetadataContent: boolean,
-    validAssetMetadataHash: boolean
-    metadata?: A_Arc3_Metadata
-};
-
 export type A_Arc3_Metadata = {
     decimals?: number
     name: string
