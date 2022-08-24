@@ -5,7 +5,6 @@ import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
 
 export class ARC69 {
     assetInstance: CoreAsset
-    metadata: A_Arc69_Metadata
 
     constructor(asset: A_Asset) {
         this.assetInstance = new CoreAsset(asset);

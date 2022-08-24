@@ -18,7 +18,7 @@ import dappflow from "../../../../../../../utils/dappflow";
 import {handleException} from "../../../../../../../redux/common/actions/exception";
 import {hideLoader, showLoader} from "../../../../../../../redux/common/actions/loader";
 import {ARC3} from "../../../../../../../packages/arc-portal/classes/ARC3/ARC3";
-import {A_Arc3_Validation} from "../../../../../../../packages/arc-portal/types";
+import {A_Arc3_Metadata, A_Arc_Validation} from "../../../../../../../packages/arc-portal/types";
 import {Alert} from "@mui/lab";
 import {ARC3Metadata} from "../../../../../../../packages/arc-portal/classes/ARC3/ARC3Metadata";
 import CallMadeIcon from '@mui/icons-material/CallMade';
@@ -29,7 +29,8 @@ interface Arc3WorkspaceState{
     assetId: string,
     asset: A_Asset,
     disabled: boolean,
-    validation: A_Arc3_Validation
+    validation: A_Arc_Validation,
+    metadata: A_Arc3_Metadata
 }
 const initialState: Arc3WorkspaceState = {
     validateUsing: "asset_id",
@@ -57,13 +58,11 @@ const initialState: Arc3WorkspaceState = {
     },
     validation: {
         valid: false,
-        validName: false,
-        validJsonMetadata: false,
-        validAssetMetadataHash: false,
-        validJsonMetadataContent: false,
-        validUrl: false,
         errors: [],
         warnings: []
+    },
+    metadata: {
+        name: ''
     }
 };
 
@@ -82,7 +81,7 @@ function Arc3Workspace(): JSX.Element {
     const dispatch = useDispatch();
 
     const [
-        {validateUsing, assetId, asset, disabled, validation},
+        {validateUsing, assetId, asset, disabled, validation, metadata},
         setState
     ] = useState(initialState);
 
@@ -93,7 +92,13 @@ function Arc3Workspace(): JSX.Element {
             setState(prevState => ({...prevState, validation: initialState.validation}));
             const arc3Instance = new ARC3(asset);
             const validation = await arc3Instance.validate();
-            setState(prevState => ({...prevState, validation: validation}));
+            if (validation.valid) {
+                const metadata = await arc3Instance.getMetadata();
+                setState(prevState => ({...prevState, validation: validation, metadata: metadata.data}));
+            }
+            else {
+                setState(prevState => ({...prevState, validation: validation}));
+            }
             dispatch(hideLoader());
         }
         catch (e: any) {
@@ -349,7 +354,7 @@ function Arc3Workspace(): JSX.Element {
                                             </Alert>
 
                                             <div>
-                                                <img src={new ARC3Metadata(validation.metadata).getMediaWebUrl()} alt="media" className="media"/>
+                                                <img src={new ARC3Metadata(metadata).getMediaWebUrl()} alt="media" className="media"/>
                                             </div>
 
 
@@ -374,7 +379,7 @@ function Arc3Workspace(): JSX.Element {
                                                 size={"large"}
                                                 style={{marginTop: 10}}
                                                 onClick={() => {
-                                                    const metadataInstance = new ARC3Metadata(validation.metadata);
+                                                    const metadataInstance = new ARC3Metadata(metadata);
                                                     const url = metadataInstance.getMediaWebUrl();
                                                     window.open(url, "_blank");
                                                 }

@@ -1,32 +1,14 @@
 import {A_Asset} from "../../../core-sdk/types";
-import {A_Arc3_Metadata, A_Arc3_Validation} from "../../types";
+import {A_Arc3_Metadata, A_Arc_Validation} from "../../types";
 import axios, {AxiosResponse} from "axios";
 import { sha256 } from 'js-sha256'
 import {CoreAsset} from "../../../core-sdk/classes/CoreAsset";
 
 export class ARC3 {
     assetInstance: CoreAsset
-    metadata: A_Arc3_Metadata
-    rawMetadataHash: string
 
     constructor(asset: A_Asset) {
         this.assetInstance = new CoreAsset(asset);
-    }
-
-    getMetadata(): A_Arc3_Metadata {
-        return this.metadata;
-    }
-
-    setMetadata(metadata: A_Arc3_Metadata) {
-        this.metadata = metadata;
-    }
-
-    getRawMetadataHash(): string {
-        return this.rawMetadataHash;
-    }
-
-    setRawMetadataHash(hash: string) {
-        this.rawMetadataHash = hash;
     }
 
     hasValidUrl(): boolean {
@@ -46,74 +28,92 @@ export class ARC3 {
         return matchedName || matchedNameUsingLength || matchedNameUsingUrl;
     }
 
-    hasValidMetadataHash(): boolean {
+    hasValidAssetMetadataHash(raw: any): boolean {
         const metadataHash = this.assetInstance.getMetadataHash();
 
-        const metadataStr = this.getRawMetadataHash();
-        const expectedMetadataHash = Buffer.from(new Uint8Array(sha256.digest(metadataStr))).toString("base64");
+        if (!metadataHash) {
+            return false;
+        }
+
+        const expectedMetadataHash = Buffer.from(new Uint8Array(sha256.digest(raw))).toString("base64");
 
         return  expectedMetadataHash === metadataHash;
     }
 
-    hasValidMetadataContent(): {valid: boolean, message: string} {
-        const validation = {
-            valid: true,
-            message: ""
-        };
+    async getMetadata(): Promise<{ data: A_Arc3_Metadata; raw: any }> {
+        let raw;
+        const webUrl = this.assetInstance.getResolvedUrl();
 
-        const metadata = this.getMetadata();
+        try {
+            const response: AxiosResponse = await axios.get(webUrl, {transformResponse: (r) => {
+                    raw = r;
+                    return axios.defaults.transformResponse[0](r)
+                }
+            });
+
+            return {
+                raw,
+                data: response.data
+            };
+        }
+        catch (e) {
+        }
+
+    }
+
+    validateMetadata(metadata: A_Arc3_Metadata): A_Arc_Validation {
+        const validation: A_Arc_Validation = {
+            valid: true,
+            errors: [],
+            warnings: []
+        };
 
         const {decimals, image, animation_url, external_url, image_integrity, image_mimetype, animation_url_integrity, animation_url_mimetype} = metadata;
 
         if (decimals !== undefined && decimals !== this.assetInstance.getDecimals()) {
             validation.valid = false;
-            validation.message = "Decimals in metadata JSON did not match with the asset decimals";
+            validation.errors.push("Decimals in metadata JSON did not match with the asset decimals");
         }
         else if (!image && !animation_url && !external_url) {
             validation.valid = false;
-            validation.message = "Atleast one of the URI fields (image, external_url, animation_url) should be defined in the metadata";
+            validation.errors.push("Atleast one of the URI fields (image, external_url, animation_url) should be defined in the metadata");
         }
         else if (image && !image_integrity) {
             validation.valid = false;
-            validation.message = "image is provided but image_integrity is not provided";
+            validation.errors.push("image is provided but image_integrity is not provided");
         }
         else if (image && !image_mimetype) {
-            validation.valid = false;
-            validation.message = "image is provided but image_mimetype is not provided";
+            validation.warnings.push("image is provided but image_mimetype is not provided");
         }
         else if (animation_url && !animation_url_integrity) {
             validation.valid = false;
-            validation.message = "animation_url is provided but animation_url_integrity is not provided";
+            validation.errors.push("animation_url is provided but animation_url_integrity is not provided");
         }
         else if (animation_url && !animation_url_mimetype) {
-            validation.valid = false;
-            validation.message = "animation_url is provided but animation_url_mimetype is not provided";
+            validation.warnings.push("animation_url is provided but animation_url_mimetype is not provided");
         }
 
         return validation;
     }
 
-    async validate(): Promise<A_Arc3_Validation> {
 
-        const validation: A_Arc3_Validation = {
-            validJsonMetadata: false,
-            validAssetMetadataHash: false,
-            validJsonMetadataContent: false,
-            validName: false,
-            validUrl: false,
-            valid: false,
+
+    async validate(): Promise<A_Arc_Validation> {
+
+        const validation: A_Arc_Validation = {
+            valid: true,
             errors: [],
             warnings: []
         };
 
-        validation.validUrl = this.hasValidUrl();
-        if (!validation.validUrl) {
+        if (!this.hasValidUrl()) {
+            validation.valid = false;
             validation.errors.push("Invalid url: Only https or ipfs are valid");
             return validation;
         }
 
-        validation.validName = this.hasValidName();
-        if (!validation.validName) {
+        if (!this.hasValidName()) {
+            validation.valid = false;
             validation.errors.push(`Asset Name (an): MUST be:
              (NOT RECOMMENDED) either exactly arc3 (without any space)
              (NOT RECOMMENDED) or <name>@arc3, where <name> SHOULD be closely related to the name in the JSON Metadata file:
@@ -124,34 +124,16 @@ export class ARC3 {
             return validation;
         }
 
-        try {
-            const webUrl = this.assetInstance.getResolvedUrl();
-            let raw;
+        const metadata = await this.getMetadata();
 
-            const response: AxiosResponse = await axios.get(webUrl, {transformResponse: (r) => {
-                raw = r;
-                return axios.defaults.transformResponse[0](r)
-                }
-            });
-
-            if (response.headers["content-type"] === "application/json") {
-                validation.validJsonMetadata = true;
-                validation.metadata = response.data;
-                this.setMetadata(response.data);
-                this.setRawMetadataHash(raw);
-            }
-        }
-        catch (e) {}
-
-        if (!validation.validJsonMetadata) {
-            validation.errors.push("JSON metadata provided is invalid");
+        if (!metadata) {
+            validation.valid = false;
+            validation.errors.push('metadata provided in the url is invalid.');
             return validation;
         }
 
-        validation.validAssetMetadataHash = this.hasValidMetadataHash();
-
-        if (!validation.validAssetMetadataHash) {
-
+        if (!this.hasValidAssetMetadataHash(metadata.raw)) {
+            validation.valid = false;
             validation.errors.push(`Asset Metadata Hash (am):
 If the JSON Metadata file specifies extra metadata e (property extra_metadata), then am is defined as:
 
@@ -166,15 +148,15 @@ If the JSON Metadata file does not specify the property extra_metadata, then am 
             return validation;
         }
 
-        const contentValidation = this.hasValidMetadataContent();
-        validation.validJsonMetadataContent = contentValidation.valid;
+        const metadataValidation = this.validateMetadata(metadata.data);
+        validation.warnings = [...validation.warnings, ...metadataValidation.warnings];
 
-        if (!validation.validJsonMetadataContent) {
-            validation.errors.push(contentValidation.message);
+        if (!metadataValidation.valid) {
+            validation.valid = false;
+            validation.errors = [...validation.errors, ...metadataValidation.errors];
             return validation;
         }
 
-        validation.valid = true;
         return validation;
     }
 
