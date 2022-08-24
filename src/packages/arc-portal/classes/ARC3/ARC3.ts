@@ -1,17 +1,16 @@
-import {A_Asset} from "../../core-sdk/types";
-import {A_Arc3_Metadata, A_Arc3_Validation} from "../types";
-import {IPFS_GATEWAY} from "../utils";
+import {A_Asset} from "../../../core-sdk/types";
+import {A_Arc3_Metadata, A_Arc3_Validation} from "../../types";
 import axios, {AxiosResponse} from "axios";
 import { sha256 } from 'js-sha256'
-import {CoreAsset} from "../../core-sdk/classes/CoreAsset";
+import {CoreAsset} from "../../../core-sdk/classes/CoreAsset";
 
 export class ARC3 {
-    asset: A_Asset;
+    assetInstance: CoreAsset
     metadata: A_Arc3_Metadata
     rawMetadataHash: string
 
     constructor(asset: A_Asset) {
-        this.asset = asset;
+        this.assetInstance = new CoreAsset(asset);
     }
 
     getMetadata(): A_Arc3_Metadata {
@@ -30,34 +29,14 @@ export class ARC3 {
         this.rawMetadataHash = hash;
     }
 
-    getUrlProtocol(): string {
-        const {url} = this.asset.params;
-        if (!url) {
-            return '';
-        }
-
-        const chunks = url.split("://");
-        if (chunks.length > 0) {
-            return chunks[0];
-        }
-
-        return '';
-    }
-
-    isHttps(): boolean {
-        return this.getUrlProtocol() === 'https';
-    }
-
-    isIpfs(): boolean {
-        return this.getUrlProtocol() === 'ipfs';
-    }
-
     hasValidUrl(): boolean {
-        return this.isHttps() || this.isIpfs();
+        return this.assetInstance.hasHttpsUrl() || this.assetInstance.hasIpfsUrl();
     }
 
     hasValidName(): boolean {
-        const {name, url} = this.asset.params;
+        const url = this.assetInstance.getUrl();
+        const name = this.assetInstance.getName();
+
         const validUrl = this.hasValidUrl();
 
         const matchedName = name === 'arc3';
@@ -68,7 +47,7 @@ export class ARC3 {
     }
 
     hasValidMetadataHash(): boolean {
-        const metadataHash = this.asset.params["metadata-hash"];
+        const metadataHash = this.assetInstance.getMetadataHash();
 
         const metadataStr = this.getRawMetadataHash();
         const expectedMetadataHash = Buffer.from(new Uint8Array(sha256.digest(metadataStr))).toString("base64");
@@ -83,10 +62,10 @@ export class ARC3 {
         };
 
         const metadata = this.getMetadata();
-        const assetInstance = new CoreAsset(this.asset);
+
         const {decimals, image, animation_url, external_url, image_integrity, image_mimetype, animation_url_integrity, animation_url_mimetype} = metadata;
 
-        if (decimals !== undefined && decimals !== assetInstance.getDecimals()) {
+        if (decimals !== undefined && decimals !== this.assetInstance.getDecimals()) {
             validation.valid = false;
             validation.message = "Decimals in metadata JSON did not match with the asset decimals";
         }
@@ -114,31 +93,21 @@ export class ARC3 {
         return validation;
     }
 
-    getAssetWebUrl(): string {
-
-        const {url} = this.asset.params;
-
-        if (this.isIpfs()) {
-            const chunks = url.split("://");
-            return IPFS_GATEWAY + "/" + chunks[1];
-        }
-
-        return url
-    }
-
     async validate(): Promise<A_Arc3_Validation> {
 
         const validation: A_Arc3_Validation = {
             validJsonMetadata: false,
-            validMetadataHash: false,
+            validAssetMetadataHash: false,
             validJsonMetadataContent: false,
             validName: false,
+            validUrl: false,
             valid: false,
-            errors: []
+            errors: [],
+            warnings: []
         };
 
-        const validUrl = this.hasValidUrl();
-        if (!validUrl) {
+        validation.validUrl = this.hasValidUrl();
+        if (!validation.validUrl) {
             validation.errors.push("Invalid url: Only https or ipfs are valid");
             return validation;
         }
@@ -156,7 +125,7 @@ export class ARC3 {
         }
 
         try {
-            const webUrl = this.getAssetWebUrl();
+            const webUrl = this.assetInstance.getResolvedUrl();
             let raw;
 
             const response: AxiosResponse = await axios.get(webUrl, {transformResponse: (r) => {
@@ -179,9 +148,9 @@ export class ARC3 {
             return validation;
         }
 
-        validation.validMetadataHash = this.hasValidMetadataHash();
+        validation.validAssetMetadataHash = this.hasValidMetadataHash();
 
-        if (!validation.validMetadataHash) {
+        if (!validation.validAssetMetadataHash) {
 
             validation.errors.push(`Asset Metadata Hash (am):
 If the JSON Metadata file specifies extra metadata e (property extra_metadata), then am is defined as:

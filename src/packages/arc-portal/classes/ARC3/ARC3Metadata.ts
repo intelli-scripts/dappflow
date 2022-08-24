@@ -1,5 +1,5 @@
-import {A_Arc3_Metadata} from "../types";
-import {IPFS_GATEWAY} from "../utils";
+import {A_Arc3_Metadata} from "../../types";
+import {IPFS_GATEWAY} from "../../utils";
 
 export class ARC3Metadata {
     metadata: A_Arc3_Metadata

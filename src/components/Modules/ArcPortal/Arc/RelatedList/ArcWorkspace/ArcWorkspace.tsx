@@ -3,7 +3,8 @@ import React from "react";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../../../redux/store";
 import {ARC} from "../../../../../../packages/arc-portal/classes/ARC";
-import Arc3Workspace from "../../Arc3/Arc3Workspace";
+import Arc3Workspace from "./Arc3/Arc3Workspace";
+import Arc69Workspace from "./Arc69/Arc69Workspace";
 
 function ArcWorkspace(): JSX.Element {
 
@@ -15,6 +16,7 @@ function ArcWorkspace(): JSX.Element {
 
 
             {arcInstance.getId() === 3 ? <Arc3Workspace></Arc3Workspace> : ''}
+            {arcInstance.getId() === 69 ? <Arc69Workspace></Arc69Workspace> : ''}
 
         </div>
     </div>);

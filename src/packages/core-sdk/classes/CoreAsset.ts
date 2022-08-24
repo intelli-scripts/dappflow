@@ -1,6 +1,7 @@
 import {
     A_Asset
 } from "../types";
+import {IPFS_GATEWAY} from "../../arc-portal/utils";
 
 
 export class CoreAsset {
@@ -87,6 +88,44 @@ export class CoreAsset {
 
     getUrl(): string {
         return this.asset.params.url;
+    }
+
+    getMetadataHash(): string {
+        return this.asset.params["metadata-hash"];
+    }
+
+    getUrlProtocol(): string {
+        const url = this.getUrl();
+
+        if (!url) {
+            return '';
+        }
+
+        const chunks = url.split("://");
+        if (chunks.length > 0) {
+            return chunks[0];
+        }
+
+        return '';
+    }
+
+    hasHttpsUrl(): boolean {
+        return this.getUrlProtocol() === 'https';
+    }
+
+    hasIpfsUrl(): boolean {
+        return this.getUrlProtocol() === 'ipfs';
+    }
+
+    getResolvedUrl(ipfsGateway: string = IPFS_GATEWAY): string {
+        const url = this.getUrl();
+
+        if (this.hasIpfsUrl()) {
+            const chunks = url.split("://");
+            return IPFS_GATEWAY + "/" + chunks[1];
+        }
+
+        return url
     }
 
     isArc3(): boolean {

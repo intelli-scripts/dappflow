@@ -7,13 +7,18 @@ export type A_Arc = {
     hasWorkspace: boolean
 };
 
-export type A_Arc3_Validation = {
+export type A_Arc_Validation = {
     valid: boolean,
+    errors: string[],
+    warnings: string[],
+};
+
+export type A_Arc3_Validation = A_Arc_Validation & {
     validName: boolean,
+    validUrl: boolean,
     validJsonMetadata: boolean,
     validJsonMetadataContent: boolean,
-    validMetadataHash: boolean
-    errors: string[],
+    validAssetMetadataHash: boolean
     metadata?: A_Arc3_Metadata
 };
 
@@ -31,4 +36,13 @@ export type A_Arc3_Metadata = {
     external_url?: string
     external_url_integrity?: string
     external_url_mimetype?: string
+}
+
+export type A_Arc69_Metadata = {
+    "standard": string,
+    "description": string,
+    "external_url": string,
+    "mime_type": string,
+    "properties": { [key: string]: string | number }
+    "attributes": { [key: string]: string | number } []
 }

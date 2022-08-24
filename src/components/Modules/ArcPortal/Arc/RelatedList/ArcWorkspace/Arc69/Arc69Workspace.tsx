@@ -1,4 +1,4 @@
-import './Arc3Workspace.scss';
+import './Arc69Workspace.scss';
 import React, {useState} from "react";
 import {useDispatch} from "react-redux";
 import {
@@ -12,25 +12,25 @@ import {
     Select,
     TextField, Typography
 } from "@mui/material";
-import {A_Asset} from "../../../../../packages/core-sdk/types";
-import {AssetClient} from "../../../../../packages/core-sdk/clients/assetClient";
-import dappflow from "../../../../../utils/dappflow";
-import {handleException} from "../../../../../redux/common/actions/exception";
-import {hideLoader, showLoader} from "../../../../../redux/common/actions/loader";
-import {ARC3} from "../../../../../packages/arc-portal/classes/ARC3";
-import {A_Arc3_Validation} from "../../../../../packages/arc-portal/types";
+import {A_Asset} from "../../../../../../../packages/core-sdk/types";
+import {AssetClient} from "../../../../../../../packages/core-sdk/clients/assetClient";
+import dappflow from "../../../../../../../utils/dappflow";
+import {handleException} from "../../../../../../../redux/common/actions/exception";
+import {hideLoader, showLoader} from "../../../../../../../redux/common/actions/loader";
+import {A_Arc_Validation} from "../../../../../../../packages/arc-portal/types";
 import {Alert} from "@mui/lab";
-import {ARC3Metadata} from "../../../../../packages/arc-portal/classes/ARC3Metadata";
 import CallMadeIcon from '@mui/icons-material/CallMade';
+import {ARC69} from "../../../../../../../packages/arc-portal/classes/ARC69/ARC69";
+import {CoreAsset} from "../../../../../../../packages/core-sdk/classes/CoreAsset";
 
-interface Arc3WorkspaceState{
+interface Arc69WorkspaceState{
     validateUsing: string,
     assetId: string,
     asset: A_Asset,
     disabled: boolean,
-    validation: A_Arc3_Validation
+    validation: A_Arc_Validation
 }
-const initialState: Arc3WorkspaceState = {
+const initialState: Arc69WorkspaceState = {
     validateUsing: "asset_id",
     assetId: "",
     disabled: true,
@@ -56,11 +56,8 @@ const initialState: Arc3WorkspaceState = {
     },
     validation: {
         valid: false,
-        validName: false,
-        validJsonMetadata: false,
-        validMetadataHash: false,
-        validJsonMetadataContent: false,
-        errors: []
+        errors:[],
+        warnings: []
     }
 };
 
@@ -74,7 +71,7 @@ const inputSx = {
     }
 };
 
-function Arc3Workspace(): JSX.Element {
+function Arc69Workspace(): JSX.Element {
 
     const dispatch = useDispatch();
 
@@ -86,10 +83,10 @@ function Arc3Workspace(): JSX.Element {
 
     async function validate(asset: A_Asset) {
         try {
-            dispatch(showLoader("Validating ARC3 metadata."));
+            dispatch(showLoader("Validating ARC69 specs."));
             setState(prevState => ({...prevState, validation: initialState.validation}));
-            const arc3Instance = new ARC3(asset);
-            const validation = await arc3Instance.validate();
+            const arc69Instance = new ARC69(asset);
+            const validation = await arc69Instance.validate(dappflow.network.getIndexer());
             setState(prevState => ({...prevState, validation: validation}));
             dispatch(hideLoader());
         }
@@ -99,14 +96,14 @@ function Arc3Workspace(): JSX.Element {
         }
     }
 
-    return (<div className={"arc3-workspace-wrapper"}>
-        <div className={"arc3-workspace-container"}>
+    return (<div className={"arc69-workspace-wrapper"}>
+        <div className={"arc69-workspace-container"}>
 
-            <div className="arc3-workspace-header">
+            <div className="arc69-workspace-header">
 
             </div>
 
-                <div className="arc3-workspace-body">
+                <div className="arc69-workspace-body">
 
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
@@ -342,11 +339,11 @@ function Arc3Workspace(): JSX.Element {
                                     <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                                         {validation.valid ? <div>
                                             <Alert color={"success"} sx={{marginBottom: '15px'}}>
-                                                Valid ARC3 Asset.
+                                                Valid ARC69 Asset.
                                             </Alert>
 
                                             <div>
-                                                <img src={new ARC3Metadata(validation.metadata).getMediaWebUrl()} alt="media" className="media"/>
+                                                <img src={new CoreAsset(asset).getResolvedUrl()} alt="media" className="media"/>
                                             </div>
 
 
@@ -358,25 +355,13 @@ function Arc3Workspace(): JSX.Element {
                                                 size={"large"}
                                                 style={{marginTop: 10}}
                                                 onClick={() => {
-                                                        const arc3Instance = new ARC3(asset);
-                                                        const url = arc3Instance.getAssetWebUrl();
+                                                        const assetInstance = new CoreAsset(asset);
+                                                        const url = assetInstance.getResolvedUrl();
                                                         window.open(url, "_blank");
                                                     }
                                                 }
-                                            >Open metadata</Button>
-                                            <Button
-                                                variant={"outlined"}
-                                                endIcon={<CallMadeIcon></CallMadeIcon>}
-                                                fullWidth
-                                                size={"large"}
-                                                style={{marginTop: 10}}
-                                                onClick={() => {
-                                                    const metadataInstance = new ARC3Metadata(validation.metadata);
-                                                    const url = metadataInstance.getMediaWebUrl();
-                                                    window.open(url, "_blank");
-                                                }
-                                                }
                                             >Open asset</Button>
+
                                         </div> : ''}
                                     </Grid>
                                     <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
@@ -415,4 +400,4 @@ function Arc3Workspace(): JSX.Element {
     </div>);
 }
 
-export default Arc3Workspace;
+export default Arc69Workspace;
