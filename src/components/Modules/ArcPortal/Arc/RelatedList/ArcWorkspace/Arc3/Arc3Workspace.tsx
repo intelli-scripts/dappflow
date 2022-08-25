@@ -24,6 +24,7 @@ import {ARC3Metadata} from "../../../../../../../packages/arc-portal/classes/ARC
 import CallMadeIcon from '@mui/icons-material/CallMade';
 import {CoreAsset} from "../../../../../../../packages/core-sdk/classes/CoreAsset";
 import {useSearchParams} from "react-router-dom";
+import LinkToAsset from "../../../../../Explorer/Common/Links/LinkToAsset";
 
 interface Arc3WorkspaceState{
     validateUsing: string,
@@ -185,7 +186,7 @@ function Arc3Workspace(): JSX.Element {
                                             variant="outlined"
                                             fullWidth
                                             InputProps={{
-                                                endAdornment: <div>
+                                                endAdornment: <div style={{display: "flex", justifyContent: "space-between"}}>
                                                     <Button disabled={!assetId} color={"primary"} size={"small"} variant={"contained"} onClick={async () => {
 
                                                         await fetchAsset(assetId);
@@ -193,6 +194,10 @@ function Arc3Workspace(): JSX.Element {
                                                             asset_id: assetId
                                                         });
                                                     }}>Fetch</Button>
+                                                    {assetId ? <span style={{marginLeft: 5, marginTop: 5}}>
+                                                        <LinkToAsset id={assetId} name="View"></LinkToAsset>
+                                                    </span> : ''}
+
                                                 </div>
                                             }}
                                         />

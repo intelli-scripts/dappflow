@@ -23,6 +23,7 @@ import CallMadeIcon from '@mui/icons-material/CallMade';
 import {ARC69} from "../../../../../../../packages/arc-portal/classes/ARC69/ARC69";
 import {CoreAsset} from "../../../../../../../packages/core-sdk/classes/CoreAsset";
 import {useSearchParams} from "react-router-dom";
+import LinkToAsset from "../../../../../Explorer/Common/Links/LinkToAsset";
 
 interface Arc69WorkspaceState{
     validateUsing: string,
@@ -175,7 +176,7 @@ function Arc69Workspace(): JSX.Element {
                                             variant="outlined"
                                             fullWidth
                                             InputProps={{
-                                                endAdornment: <div>
+                                                endAdornment: <div style={{display: "flex", justifyContent: "space-between"}}>
                                                     <Button disabled={!assetId} color={"primary"} size={"small"} variant={"contained"} onClick={async () => {
 
                                                         await fetchAsset(assetId);
@@ -183,6 +184,10 @@ function Arc69Workspace(): JSX.Element {
                                                             asset_id: assetId
                                                         });
                                                     }}>Fetch</Button>
+                                                    {assetId ? <span style={{marginLeft: 5, marginTop: 5}}>
+                                                        <LinkToAsset id={assetId} name="View"></LinkToAsset>
+                                                    </span> : ''}
+
                                                 </div>
                                             }}
                                         />

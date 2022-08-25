@@ -19,6 +19,7 @@ import {Alert} from "@mui/lab";
 import CallMadeIcon from '@mui/icons-material/CallMade';
 import {ARC19} from "../../../../../../../packages/arc-portal/classes/ARC19/ARC19";
 import {useSearchParams} from "react-router-dom";
+import LinkToAsset from "../../../../../Explorer/Common/Links/LinkToAsset";
 
 interface Arc19WorkspaceState{
     validateUsing: string,
@@ -169,13 +170,16 @@ function Arc19Workspace(): JSX.Element {
                                             variant="outlined"
                                             fullWidth
                                             InputProps={{
-                                                endAdornment: <div>
+                                                endAdornment: <div style={{display: "flex", justifyContent: "space-between"}}>
                                                     <Button disabled={!assetId} color={"primary"} size={"small"} variant={"contained"} onClick={async () => {
                                                         await fetchAsset(assetId);
                                                         setSearchParams({
                                                             asset_id: assetId
                                                         });
                                                     }}>Fetch</Button>
+                                                    {assetId ? <span style={{marginLeft: 5, marginTop: 5}}>
+                                                        <LinkToAsset id={assetId} name="View"></LinkToAsset>
+                                                    </span> : ''}
                                                 </div>
                                             }}
                                         />
