@@ -3,7 +3,7 @@ import React, {useEffect} from "react";
 import {Outlet, useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../../redux/store";
-import {Chip, Grid, Link, Tab, Tabs} from "@mui/material";
+import {Grid, Link, Tab, Tabs} from "@mui/material";
 import {loadAsset} from "../../../../../redux/explorer/actions/asset";
 import {CoreAsset} from "../../../../../packages/core-sdk/classes/CoreAsset";
 import NumberFormat from "react-number-format";
@@ -45,9 +45,6 @@ function Asset(): JSX.Element {
                         #{assetInstance.getIndex()}
                         <div style={{marginTop: 5}}>
                             {assetInstance.getUrl() ? <Link href={assetInstance.getUrl()} target={"_blank"} style={{fontSize: 13, marginTop: 10}}>{assetInstance.getUrl()}</Link> : ''}
-                        </div>
-                        <div style={{marginTop: 15}}>
-                            {assetInstance.isArc3() ? <Chip color={"primary"} label={"ARC-3"} size={"small"}></Chip> : ''}
                         </div>
                     </div>
 
@@ -108,7 +105,18 @@ function Asset(): JSX.Element {
                                         Creator
                                     </div>
                                     <div className="value addr">
-                                        <LinkToAccount address={assetInstance.getCreator()}></LinkToAccount>;
+                                        <LinkToAccount address={assetInstance.getCreator()}></LinkToAccount>
+                                    </div>
+                                </div>
+                            </Grid>
+
+                            <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                                <div className="property">
+                                    <div className="key">
+                                        Metadata hash
+                                    </div>
+                                    <div className="value addr">
+                                        {assetInstance.getMetadataHash() ? assetInstance.getMetadataHash() : '--Empty--'}
                                     </div>
                                 </div>
                             </Grid>
