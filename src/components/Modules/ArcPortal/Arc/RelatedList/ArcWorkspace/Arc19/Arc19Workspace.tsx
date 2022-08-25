@@ -1,5 +1,5 @@
 import './Arc19Workspace.scss';
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
 import {
     Button,
@@ -18,6 +18,7 @@ import {A_Arc_Validation} from "../../../../../../../packages/arc-portal/types";
 import {Alert} from "@mui/lab";
 import CallMadeIcon from '@mui/icons-material/CallMade';
 import {ARC19} from "../../../../../../../packages/arc-portal/classes/ARC19/ARC19";
+import {useSearchParams} from "react-router-dom";
 
 interface Arc19WorkspaceState{
     validateUsing: string,
@@ -75,6 +76,16 @@ function Arc19Workspace(): JSX.Element {
         setState
     ] = useState(initialState);
 
+    const [searchParams, setSearchParams] = useSearchParams();
+    const assetIdInUrl = searchParams.get("asset_id");
+
+    useEffect(() => {
+        if (assetIdInUrl) {
+            setState(prevState => ({...prevState, assetId: assetIdInUrl}));
+            fetchAsset(assetIdInUrl);
+        }
+
+    }, []);
 
     async function validate(asset: A_Asset) {
         try {
@@ -88,6 +99,30 @@ function Arc19Workspace(): JSX.Element {
         catch (e: any) {
             dispatch(hideLoader());
             dispatch(handleException(e));
+        }
+    }
+
+    async function fetchAsset(assetId: string) {
+        try {
+            dispatch(showLoader("Fetching asset metadata"));
+            const assetInstance = new AssetClient(dappflow.network);
+            const asset = await assetInstance.get(Number(assetId));
+
+            if (!asset.params.url) {
+                asset.params.url = '';
+            }
+            if (!asset.params["metadata-hash"]) {
+                asset.params["metadata-hash"] = '';
+            }
+
+            setState(prevState => ({...prevState, asset, validation: initialState.validation}));
+            dispatch(hideLoader());
+            validate(asset);
+        }
+        catch (e: any) {
+            dispatch(hideLoader());
+            dispatch(handleException(e));
+            setState(prevState => ({...prevState, asset: initialState.asset, validation: initialState.validation}));
         }
     }
 
@@ -136,27 +171,10 @@ function Arc19Workspace(): JSX.Element {
                                             InputProps={{
                                                 endAdornment: <div>
                                                     <Button disabled={!assetId} color={"primary"} size={"small"} variant={"contained"} onClick={async () => {
-                                                        try {
-                                                            dispatch(showLoader("Fetching asset metadata"));
-                                                            const assetInstance = new AssetClient(dappflow.network);
-                                                            const asset = await assetInstance.get(Number(assetId));
-
-                                                            if (!asset.params.url) {
-                                                                asset.params.url = '';
-                                                            }
-                                                            if (!asset.params["metadata-hash"]) {
-                                                                asset.params["metadata-hash"] = '';
-                                                            }
-
-                                                            setState(prevState => ({...prevState, asset, validation: initialState.validation}));
-                                                            dispatch(hideLoader());
-                                                        }
-                                                        catch (e: any) {
-                                                            dispatch(hideLoader());
-                                                            dispatch(handleException(e));
-                                                            setState(prevState => ({...prevState, asset: initialState.asset, validation: initialState.validation}));
-                                                        }
-
+                                                        await fetchAsset(assetId);
+                                                        setSearchParams({
+                                                            asset_id: assetId
+                                                        });
                                                     }}>Fetch</Button>
                                                 </div>
                                             }}

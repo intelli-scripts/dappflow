@@ -1,5 +1,5 @@
 import './Arc3Workspace.scss';
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
 import {
     Button,
@@ -23,6 +23,7 @@ import {Alert} from "@mui/lab";
 import {ARC3Metadata} from "../../../../../../../packages/arc-portal/classes/ARC3/ARC3Metadata";
 import CallMadeIcon from '@mui/icons-material/CallMade';
 import {CoreAsset} from "../../../../../../../packages/core-sdk/classes/CoreAsset";
+import {useSearchParams} from "react-router-dom";
 
 interface Arc3WorkspaceState{
     validateUsing: string,
@@ -85,6 +86,16 @@ function Arc3Workspace(): JSX.Element {
         setState
     ] = useState(initialState);
 
+    const [searchParams, setSearchParams] = useSearchParams();
+    const assetIdInUrl = searchParams.get("asset_id");
+
+    useEffect(() => {
+        if (assetIdInUrl) {
+            setState(prevState => ({...prevState, assetId: assetIdInUrl}));
+            fetchAsset(assetIdInUrl);
+        }
+
+    }, []);
 
     async function validate(asset: A_Asset) {
         try {
@@ -104,6 +115,30 @@ function Arc3Workspace(): JSX.Element {
         catch (e: any) {
             dispatch(hideLoader());
             dispatch(handleException(e));
+        }
+    }
+
+    async function fetchAsset(assetId: string) {
+        try {
+            dispatch(showLoader("Fetching asset metadata"));
+            const assetInstance = new AssetClient(dappflow.network);
+            const asset = await assetInstance.get(Number(assetId));
+
+            if (!asset.params.url) {
+                asset.params.url = '';
+            }
+            if (!asset.params["metadata-hash"]) {
+                asset.params["metadata-hash"] = '';
+            }
+
+            setState(prevState => ({...prevState, asset, validation: initialState.validation}));
+            dispatch(hideLoader());
+            validate(asset);
+        }
+        catch (e: any) {
+            dispatch(hideLoader());
+            dispatch(handleException(e));
+            setState(prevState => ({...prevState, asset: initialState.asset, validation: initialState.validation}));
         }
     }
 
@@ -152,27 +187,11 @@ function Arc3Workspace(): JSX.Element {
                                             InputProps={{
                                                 endAdornment: <div>
                                                     <Button disabled={!assetId} color={"primary"} size={"small"} variant={"contained"} onClick={async () => {
-                                                        try {
-                                                            dispatch(showLoader("Fetching asset metadata"));
-                                                            const assetInstance = new AssetClient(dappflow.network);
-                                                            const asset = await assetInstance.get(Number(assetId));
 
-                                                            if (!asset.params.url) {
-                                                                asset.params.url = '';
-                                                            }
-                                                            if (!asset.params["metadata-hash"]) {
-                                                                asset.params["metadata-hash"] = '';
-                                                            }
-
-                                                            setState(prevState => ({...prevState, asset, validation: initialState.validation}));
-                                                            dispatch(hideLoader());
-                                                        }
-                                                        catch (e: any) {
-                                                            dispatch(hideLoader());
-                                                            dispatch(handleException(e));
-                                                            setState(prevState => ({...prevState, asset: initialState.asset, validation: initialState.validation}));
-                                                        }
-
+                                                        await fetchAsset(assetId);
+                                                        setSearchParams({
+                                                            asset_id: assetId
+                                                        });
                                                     }}>Fetch</Button>
                                                 </div>
                                             }}
@@ -384,7 +403,7 @@ function Arc3Workspace(): JSX.Element {
                                                     window.open(url, "_blank");
                                                 }
                                                 }
-                                            >Open asset</Button>
+                                            >Open media</Button>
                                         </div> : ''}
                                     </Grid>
                                     <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
