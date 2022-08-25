@@ -64,6 +64,8 @@ export class ARC69 {
         };
 
         if (!metadata) {
+            validation.valid = false;
+            validation.errors.push('metadata is invalid');
             return validation;
         }
 

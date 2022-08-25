@@ -98,7 +98,6 @@ template-ipfs://{ipfscid:<version>:<multicodec>:<field name containing 32-byte d
         }
 
 
-        console.log(this.getMetadataUrl());
         return validation;
     }
 

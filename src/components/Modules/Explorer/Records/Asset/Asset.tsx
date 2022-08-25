@@ -12,6 +12,7 @@ import LoadingTile from "../../../../Common/LoadingTile/LoadingTile";
 import {shadedClr} from "../../../../../utils/common";
 import JsonViewer from "../../Common/JsonViewer/JsonViewer";
 import CustomError from "../../Common/CustomError/CustomError";
+import AssetARCValidator from "./Actions/AssetARCValidator/AssetARCValidator";
 
 
 function Asset(): JSX.Element {
@@ -35,8 +36,11 @@ function Asset(): JSX.Element {
                     <div>
                         Asset overview
                     </div>
-                    <div>
-                        <JsonViewer obj={asset.information} title="Asset"></JsonViewer>
+                    <div style={{display: "flex", justifyContent: "space-between"}}>
+                        <AssetARCValidator asset={asset.information}></AssetARCValidator>
+                        <span style={{marginLeft: 10}}>
+                            <JsonViewer obj={asset.information} title="Asset"></JsonViewer>
+                        </span>
                     </div>
                 </div>
 

@@ -68,6 +68,12 @@ export class ARC3 {
             warnings: []
         };
 
+        if (!metadata) {
+            validation.valid = false;
+            validation.errors.push('metadata is invalid');
+            return validation;
+        }
+
         const {decimals, image, animation_url, external_url, image_integrity, image_mimetype, animation_url_integrity, animation_url_mimetype} = metadata;
 
         if (decimals !== undefined && decimals !== this.assetInstance.getDecimals()) {
