@@ -10,12 +10,12 @@ export function getArcs(): A_Arc[] {
         hasWorkspace: true
     },
         {
-            id: 16,
-            name: 'ARC-0016',
-            markdownUrl: 'https://raw.githubusercontent.com/algorandfoundation/ARCs/main/ARCs/arc-0016.md',
+            id: 69,
+            name: 'ARC-0069',
+            markdownUrl: 'https://raw.githubusercontent.com/algorandfoundation/ARCs/main/ARCs/arc-0069.md',
             markdown: '',
-            github: 'https://github.com/algorandfoundation/ARCs/blob/main/ARCs/arc-0016.md',
-            hasWorkspace: false
+            github: 'https://github.com/algorandfoundation/ARCs/blob/main/ARCs/arc-0069.md',
+            hasWorkspace: true
         },
         {
             id: 19,
@@ -23,16 +23,17 @@ export function getArcs(): A_Arc[] {
             markdownUrl: 'https://raw.githubusercontent.com/algorandfoundation/ARCs/main/ARCs/arc-0019.md',
             markdown: '',
             github: 'https://github.com/algorandfoundation/ARCs/blob/main/ARCs/arc-0019.md',
-            hasWorkspace: false
+            hasWorkspace: true
         },
         {
-            id: 69,
-            name: 'ARC-0069',
-            markdownUrl: 'https://raw.githubusercontent.com/algorandfoundation/ARCs/main/ARCs/arc-0069.md',
+            id: 16,
+            name: 'ARC-0016',
+            markdownUrl: 'https://raw.githubusercontent.com/algorandfoundation/ARCs/main/ARCs/arc-0016.md',
             markdown: '',
-            github: 'https://github.com/algorandfoundation/ARCs/blob/main/ARCs/arc-0069.md',
-            hasWorkspace: true
-        }];
+            github: 'https://github.com/algorandfoundation/ARCs/blob/main/ARCs/arc-0016.md',
+            hasWorkspace: false
+        }
+        ];
 }
 
 export function getArc(id: number): A_Arc {
