@@ -7,6 +7,7 @@ import * as mfsha2 from 'multiformats/hashes/sha2'
 import * as digest from 'multiformats/hashes/digest'
 import { CIDVersion } from 'multiformats/types/src/cid'
 import {IPFS_GATEWAY} from "../../utils";
+import axios, {AxiosResponse} from "axios";
 
 export class ARC19 {
     assetInstance: CoreAsset
@@ -80,6 +81,19 @@ export class ARC19 {
         const cid = CID.create(parseInt(cidVersion) as CIDVersion, cidCodecCode, mhdigest);
 
         return IPFS_GATEWAY + '/' + cid.toString() + '/' + chunks[1].split('/').slice(1).join('/');
+    }
+
+    async getMetadata() {
+        if (this.hasValidUrl()) {
+            const url = this.getMetadataUrl();
+            try {
+                const response: AxiosResponse = await axios.get(url);
+                return response.data;
+            }
+            catch (e) {
+
+            }
+        }
     }
 
     async validate(): Promise<A_Arc_Validation> {

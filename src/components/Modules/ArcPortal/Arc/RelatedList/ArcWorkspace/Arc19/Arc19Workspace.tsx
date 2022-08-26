@@ -20,13 +20,15 @@ import CallMadeIcon from '@mui/icons-material/CallMade';
 import {ARC19} from "../../../../../../../packages/arc-portal/classes/ARC19/ARC19";
 import {useSearchParams} from "react-router-dom";
 import LinkToAsset from "../../../../../Explorer/Common/Links/LinkToAsset";
+import JsonViewer from "../../../../../Explorer/Common/JsonViewer/JsonViewer";
 
 interface Arc19WorkspaceState{
     validateUsing: string,
     assetId: string,
     asset: A_Asset,
     disabled: boolean,
-    validation: A_Arc_Validation
+    validation: A_Arc_Validation,
+    metadata: any
 }
 const initialState: Arc19WorkspaceState = {
     validateUsing: "asset_id",
@@ -56,7 +58,8 @@ const initialState: Arc19WorkspaceState = {
         valid: false,
         errors:[],
         warnings: []
-    }
+    },
+    metadata: {}
 };
 
 const inputSx = {
@@ -73,7 +76,7 @@ function Arc19Workspace(): JSX.Element {
     const dispatch = useDispatch();
 
     const [
-        {validateUsing, assetId, asset, disabled, validation},
+        {validateUsing, assetId, asset, disabled, validation, metadata},
         setState
     ] = useState(initialState);
 
@@ -94,7 +97,13 @@ function Arc19Workspace(): JSX.Element {
             setState(prevState => ({...prevState, validation: initialState.validation}));
             const arc19Instance = new ARC19(asset);
             const validation = await arc19Instance.validate();
-            setState(prevState => ({...prevState, validation: validation}));
+            if (validation.valid) {
+                const metadata = await arc19Instance.getMetadata();
+                setState(prevState => ({...prevState, validation: validation, metadata: metadata}));
+            }
+            else {
+                setState(prevState => ({...prevState, validation: validation}));
+            }
             dispatch(hideLoader());
         }
         catch (e: any) {
@@ -346,6 +355,9 @@ function Arc19Workspace(): JSX.Element {
                                                 Valid ARC19 Asset.
                                             </Alert>
 
+                                            <div style={{marginTop: 10}}>
+                                                <JsonViewer obj={metadata} name="View metadata" title="ARC19 metadata" size="large" fullWidth={true} variant="outlined"></JsonViewer>
+                                            </div>
 
 
                                             <Button

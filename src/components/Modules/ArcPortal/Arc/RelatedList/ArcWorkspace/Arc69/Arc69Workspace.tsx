@@ -17,20 +17,22 @@ import {AssetClient} from "../../../../../../../packages/core-sdk/clients/assetC
 import dappflow from "../../../../../../../utils/dappflow";
 import {handleException} from "../../../../../../../redux/common/actions/exception";
 import {hideLoader, showLoader} from "../../../../../../../redux/common/actions/loader";
-import {A_Arc_Validation} from "../../../../../../../packages/arc-portal/types";
+import {A_Arc69_Metadata, A_Arc_Validation} from "../../../../../../../packages/arc-portal/types";
 import {Alert} from "@mui/lab";
 import CallMadeIcon from '@mui/icons-material/CallMade';
 import {ARC69} from "../../../../../../../packages/arc-portal/classes/ARC69/ARC69";
 import {CoreAsset} from "../../../../../../../packages/core-sdk/classes/CoreAsset";
 import {useSearchParams} from "react-router-dom";
 import LinkToAsset from "../../../../../Explorer/Common/Links/LinkToAsset";
+import JsonViewer from "../../../../../Explorer/Common/JsonViewer/JsonViewer";
 
 interface Arc69WorkspaceState{
     validateUsing: string,
     assetId: string,
     asset: A_Asset,
     disabled: boolean,
-    validation: A_Arc_Validation
+    validation: A_Arc_Validation,
+    metadata: A_Arc69_Metadata
 }
 const initialState: Arc69WorkspaceState = {
     validateUsing: "asset_id",
@@ -60,6 +62,9 @@ const initialState: Arc69WorkspaceState = {
         valid: false,
         errors:[],
         warnings: []
+    },
+    metadata: {
+        standard: ''
     }
 };
 
@@ -78,7 +83,7 @@ function Arc69Workspace(): JSX.Element {
     const dispatch = useDispatch();
 
     const [
-        {validateUsing, assetId, asset, disabled, validation},
+        {validateUsing, assetId, asset, disabled, validation, metadata},
         setState
     ] = useState(initialState);
 
@@ -100,7 +105,13 @@ function Arc69Workspace(): JSX.Element {
             setState(prevState => ({...prevState, validation: initialState.validation}));
             const arc69Instance = new ARC69(asset);
             const validation = await arc69Instance.validate(dappflow.network.getIndexer());
-            setState(prevState => ({...prevState, validation: validation}));
+            if (validation.valid) {
+                const metadata = await arc69Instance.getMetaData(dappflow.network.getIndexer());
+                setState(prevState => ({...prevState, validation: validation, metadata: metadata}));
+            }
+            else {
+                setState(prevState => ({...prevState, validation: validation}));
+            }
             dispatch(hideLoader());
         }
         catch (e: any) {
@@ -372,6 +383,9 @@ function Arc69Workspace(): JSX.Element {
                                             </div>
 
 
+                                            <div style={{marginTop: 10}}>
+                                                <JsonViewer obj={metadata} name="View metadata" title="ARC69 metadata" size="large" fullWidth={true} variant="outlined"></JsonViewer>
+                                            </div>
 
                                             <Button
                                                 variant={"outlined"}

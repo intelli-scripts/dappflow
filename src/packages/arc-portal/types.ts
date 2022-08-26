@@ -31,9 +31,9 @@ export type A_Arc3_Metadata = {
 
 export type A_Arc69_Metadata = {
     "standard": string,
-    "description": string,
-    "external_url": string,
-    "mime_type": string,
-    "properties": { [key: string]: string | number }
-    "attributes": { [key: string]: string | number } []
+    "description"?: string,
+    "external_url"?: string,
+    "mime_type"?: string,
+    "properties"?: { [key: string]: string | number }
+    "attributes"?: { [key: string]: string | number } []
 }

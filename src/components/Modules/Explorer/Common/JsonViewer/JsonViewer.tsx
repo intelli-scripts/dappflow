@@ -21,7 +21,7 @@ function JsonViewer(props): JSX.Element {
     ] = useState(initialState);
     const dispatch = useDispatch();
 
-    let {obj, name, title} = props;
+    let {obj, name, title, size, fullWidth, variant} = props;
     if (!obj) {
         obj = {};
     }
@@ -31,14 +31,24 @@ function JsonViewer(props): JSX.Element {
     if (!title) {
         title = 'Raw JSON';
     }
+    if (!size) {
+        size = 'small';
+    }
+    if (!fullWidth) {
+        fullWidth = false;
+    }
+    if (!variant) {
+        variant = 'contained';
+    }
 
     return (<div className={"json-viewer-wrapper"}>
         <div className={"json-viewer-container"}>
 
             <Button
-                variant={"contained"}
-                size={"small"}
+                variant={variant}
+                size={size}
                 color={"primary"}
+                fullWidth={fullWidth}
                 onClick={() => {
                     setState(prevState => ({...prevState, show: true}));
                 }}

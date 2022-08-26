@@ -25,6 +25,7 @@ import CallMadeIcon from '@mui/icons-material/CallMade';
 import {CoreAsset} from "../../../../../../../packages/core-sdk/classes/CoreAsset";
 import {useSearchParams} from "react-router-dom";
 import LinkToAsset from "../../../../../Explorer/Common/Links/LinkToAsset";
+import JsonViewer from "../../../../../Explorer/Common/JsonViewer/JsonViewer";
 
 interface Arc3WorkspaceState{
     validateUsing: string,
@@ -383,6 +384,9 @@ function Arc3Workspace(): JSX.Element {
 
 
 
+                                            <div style={{marginTop: 10}}>
+                                                <JsonViewer obj={metadata} name="View metadata" title="ARC3 metadata" size="large" fullWidth={true} variant="outlined"></JsonViewer>
+                                            </div>
                                             <Button
                                                 variant={"outlined"}
                                                 endIcon={<CallMadeIcon></CallMadeIcon>}
