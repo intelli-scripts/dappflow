@@ -3,15 +3,16 @@ import React, {useEffect} from "react";
 import {Outlet, useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../../redux/store";
-import {Chip, Grid, Link, Tab, Tabs} from "@mui/material";
+import {Grid, Link, Tab, Tabs} from "@mui/material";
 import {loadAsset} from "../../../../../redux/explorer/actions/asset";
 import {CoreAsset} from "../../../../../packages/core-sdk/classes/CoreAsset";
 import NumberFormat from "react-number-format";
 import LinkToAccount from "../../Common/Links/LinkToAccount";
 import LoadingTile from "../../../../Common/LoadingTile/LoadingTile";
 import {shadedClr} from "../../../../../utils/common";
-import JsonViewer from "../../Common/JsonViewer/JsonViewer";
+import JsonViewer from "../../../../Common/JsonViewer/JsonViewer";
 import CustomError from "../../Common/CustomError/CustomError";
+import AssetARCValidator from "./Actions/AssetARCValidator/AssetARCValidator";
 
 
 function Asset(): JSX.Element {
@@ -35,8 +36,11 @@ function Asset(): JSX.Element {
                     <div>
                         Asset overview
                     </div>
-                    <div>
-                        <JsonViewer obj={asset.information}></JsonViewer>
+                    <div style={{display: "flex", justifyContent: "space-between"}}>
+                        <AssetARCValidator asset={asset.information}></AssetARCValidator>
+                        <span style={{marginLeft: 10}}>
+                            <JsonViewer obj={asset.information} title="Asset"></JsonViewer>
+                        </span>
                     </div>
                 </div>
 
@@ -46,11 +50,7 @@ function Asset(): JSX.Element {
                         <div style={{marginTop: 5}}>
                             {assetInstance.getUrl() ? <Link href={assetInstance.getUrl()} target={"_blank"} style={{fontSize: 13, marginTop: 10}}>{assetInstance.getUrl()}</Link> : ''}
                         </div>
-                        <div style={{marginTop: 15}}>
-                            {assetInstance.isArc3() ? <Chip color={"primary"} label={"ARC-3"} size={"small"}></Chip> : ''}
-                        </div>
                     </div>
-
 
                     <div className="props" style={{background: shadedClr}}>
                         <Grid container spacing={2}>
@@ -108,7 +108,18 @@ function Asset(): JSX.Element {
                                         Creator
                                     </div>
                                     <div className="value addr">
-                                        <LinkToAccount address={assetInstance.getCreator()}></LinkToAccount>;
+                                        <LinkToAccount address={assetInstance.getCreator()}></LinkToAccount>
+                                    </div>
+                                </div>
+                            </Grid>
+
+                            <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                                <div className="property">
+                                    <div className="key">
+                                        Metadata hash
+                                    </div>
+                                    <div className="value addr">
+                                        {assetInstance.getMetadataHash() ? assetInstance.getMetadataHash() : '--Empty--'}
                                     </div>
                                 </div>
                             </Grid>
@@ -179,6 +190,23 @@ function Asset(): JSX.Element {
                     </div>
 
 
+                    <div className="props" style={{background: shadedClr}}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
+
+                                <div className="property">
+                                    <div className="key">
+                                        Resolved Url
+                                    </div>
+                                    <div className="value addr">
+                                        {assetInstance.getResolvedUrl() ? <Link href={assetInstance.getResolvedUrl()} target={"_blank"}>{assetInstance.getResolvedUrl()}</Link> : ''}
+                                    </div>
+                                </div>
+
+
+                            </Grid>
+                        </Grid>
+                    </div>
 
                     <div className="asset-tabs">
 

@@ -16,7 +16,7 @@ import AppCallTransaction from "../Types/AppCallTransaction/AppCallTransaction";
 import TransactionAdditionalDetails from "../Sections/TransactionAdditionalDetails/TransactionAdditionalDetails";
 import TransactionNote from "../Sections/TransactionNotes/TransactionNote";
 import {shadedClr} from "../../../../../../utils/common";
-import JsonViewer from "../../../Common/JsonViewer/JsonViewer";
+import JsonViewer from "../../../../../Common/JsonViewer/JsonViewer";
 
 
 function InnerTransaction(props): JSX.Element {
@@ -37,7 +37,7 @@ function InnerTransaction(props): JSX.Element {
                     </div>
                 </div>
                 <div>
-                    <JsonViewer obj={txnObj}></JsonViewer>
+                    <JsonViewer obj={txnObj} title="Inner transaction"></JsonViewer>
                 </div>
             </div>
 

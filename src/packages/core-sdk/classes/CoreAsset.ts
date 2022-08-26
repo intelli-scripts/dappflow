@@ -1,6 +1,8 @@
 import {
     A_Asset
 } from "../types";
+import {IPFS_GATEWAY} from "../../arc-portal/utils";
+import {ARC19} from "../../arc-portal/classes/ARC19/ARC19";
 
 
 export class CoreAsset {
@@ -89,20 +91,52 @@ export class CoreAsset {
         return this.asset.params.url;
     }
 
-    isArc3(): boolean {
-        const name = this.asset.params.name;
-        const url = this.asset.params.url;
+    getMetadataHash(): string {
+        return this.asset.params["metadata-hash"];
+    }
 
-        if (name === 'arc3') {
-            return true;
-        }
-        if (name && name.slice(name.length - 5) === '@arc3') {
-            return true;
-        }
-        if (url && url.slice(url.length - 5) === '#arc3') {
-            return true;
+    getUrlProtocol(): string {
+        const url = this.getUrl();
+
+        if (!url) {
+            return '';
         }
 
-        return false;
+        const chunks = url.split("://");
+        if (chunks.length > 0) {
+            return chunks[0];
+        }
+
+        return '';
+    }
+
+    hasHttpsUrl(): boolean {
+        return this.getUrlProtocol() === 'https';
+    }
+
+    hasIpfsUrl(): boolean {
+        return this.getUrlProtocol() === 'ipfs';
+    }
+
+    hasTemplateUrl(): boolean {
+        return this.getUrlProtocol() === 'template-ipfs';
+    }
+
+    getResolvedUrl(ipfsGateway: string = IPFS_GATEWAY): string {
+        const url = this.getUrl();
+
+        if (this.hasIpfsUrl()) {
+            const chunks = url.split("://");
+            return ipfsGateway + "/" + chunks[1];
+        }
+
+        if (this.hasTemplateUrl()) {
+            const arc19Instance = new ARC19(this.asset);
+            if (arc19Instance.hasValidUrl()) {
+                return arc19Instance.getMetadataUrl();
+            }
+        }
+
+        return url
     }
 }

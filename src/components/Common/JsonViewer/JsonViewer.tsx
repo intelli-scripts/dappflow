@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton} from "@mui/material";
 import ReactJson from 'react-json-view'
 import {CancelOutlined} from "@mui/icons-material";
-import {copyContent, exportData} from "../../../../../utils/common";
+import {copyContent, exportData} from "../../../utils/common";
 import {useDispatch} from "react-redux";
 
 interface JsonViewerState{
@@ -21,22 +21,38 @@ function JsonViewer(props): JSX.Element {
     ] = useState(initialState);
     const dispatch = useDispatch();
 
-    let {obj} = props;
+    let {obj, name, title, size, fullWidth, variant} = props;
     if (!obj) {
         obj = {};
+    }
+    if (!name) {
+        name = 'View Raw JSON';
+    }
+    if (!title) {
+        title = 'Raw JSON';
+    }
+    if (!size) {
+        size = 'small';
+    }
+    if (!fullWidth) {
+        fullWidth = false;
+    }
+    if (!variant) {
+        variant = 'contained';
     }
 
     return (<div className={"json-viewer-wrapper"}>
         <div className={"json-viewer-container"}>
 
             <Button
-                variant={"contained"}
-                size={"small"}
+                variant={variant}
+                size={size}
                 color={"primary"}
+                fullWidth={fullWidth}
                 onClick={() => {
                     setState(prevState => ({...prevState, show: true}));
                 }}
-            >View Raw JSON</Button>
+            >{name}</Button>
 
             {show ? <Dialog
                 fullWidth={true}
@@ -46,7 +62,7 @@ function JsonViewer(props): JSX.Element {
                 <DialogTitle >
                     <div style={{display: 'flex', justifyContent: 'space-between'}}>
                         <div>
-                            <div style={{fontWeight: "bold", fontSize: 18}}>Raw JSON</div>
+                            <div style={{fontWeight: "bold", fontSize: 18}}>{title}</div>
                         </div>
                         <div>
                             <IconButton color="primary" onClick={() => {

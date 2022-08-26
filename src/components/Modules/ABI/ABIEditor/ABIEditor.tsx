@@ -7,8 +7,8 @@ import TreeView from "@mui/lab/TreeView";
 import {
     MinusSquare,
     PlusSquare
-} from "../../../Explorer/Records/Transaction/Types/AppCallTransaction/Sections/AppCallTxnInnerTxns/AppCallTxnInnerTxns";
-import {A_ABI, A_ABI_Arg, A_ABI_Method} from "../../../../../packages/core-sdk/types";
+} from "../../Explorer/Records/Transaction/Types/AppCallTransaction/Sections/AppCallTxnInnerTxns/AppCallTxnInnerTxns";
+import {A_ABI, A_ABI_Arg, A_ABI_Method} from "../../../../packages/core-sdk/types";
 
 
 
