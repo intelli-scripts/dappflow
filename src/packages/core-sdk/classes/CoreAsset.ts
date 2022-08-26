@@ -2,6 +2,7 @@ import {
     A_Asset
 } from "../types";
 import {IPFS_GATEWAY} from "../../arc-portal/utils";
+import {ARC19} from "../../arc-portal/classes/ARC19/ARC19";
 
 
 export class CoreAsset {
@@ -117,12 +118,23 @@ export class CoreAsset {
         return this.getUrlProtocol() === 'ipfs';
     }
 
+    hasTemplateUrl(): boolean {
+        return this.getUrlProtocol() === 'template-ipfs';
+    }
+
     getResolvedUrl(ipfsGateway: string = IPFS_GATEWAY): string {
         const url = this.getUrl();
 
         if (this.hasIpfsUrl()) {
             const chunks = url.split("://");
-            return IPFS_GATEWAY + "/" + chunks[1];
+            return ipfsGateway + "/" + chunks[1];
+        }
+
+        if (this.hasTemplateUrl()) {
+            const arc19Instance = new ARC19(this.asset);
+            if (arc19Instance.hasValidUrl()) {
+                return arc19Instance.getMetadataUrl();
+            }
         }
 
         return url
