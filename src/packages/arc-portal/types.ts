@@ -37,3 +37,9 @@ export type A_Arc69_Metadata = {
     "properties"?: { [key: string]: string | number }
     "attributes"?: { [key: string]: string | number } []
 }
+
+export type A_Arc16_Metadata = {
+    properties?: {
+        traits?: { [key: string]: string | number }
+    }
+}

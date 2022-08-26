@@ -25,7 +25,8 @@ import CallMadeIcon from '@mui/icons-material/CallMade';
 import {CoreAsset} from "../../../../../../../packages/core-sdk/classes/CoreAsset";
 import {useSearchParams} from "react-router-dom";
 import LinkToAsset from "../../../../../Explorer/Common/Links/LinkToAsset";
-import JsonViewer from "../../../../../Explorer/Common/JsonViewer/JsonViewer";
+import JsonViewer from "../../../../../../Common/JsonViewer/JsonViewer";
+import Arc16Alert from "../Arc16/Arc16Alert/Arc16Alert";
 
 interface Arc3WorkspaceState{
     validateUsing: string,
@@ -413,16 +414,12 @@ function Arc3Workspace(): JSX.Element {
                                                 }
                                                 }
                                             >Open media</Button>
+                                            <div style={{marginTop: 10}}>
+                                                <Arc16Alert metadata={metadata}></Arc16Alert>
+                                            </div>
                                         </div> : ''}
                                     </Grid>
-                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                                        {validation.valid ? <div style={{marginBottom: 15}}>
 
-
-
-
-                                        </div> : ''}
-                                    </Grid>
                                 </Grid>
 
 

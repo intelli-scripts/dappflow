@@ -10,7 +10,7 @@ import ApplicationGlobalState from "./Sections/ApplicationGlobalState/Applicatio
 import LinkToAccount from "../../Common/Links/LinkToAccount";
 import LoadingTile from "../../../../Common/LoadingTile/LoadingTile";
 import {shadedClr} from "../../../../../utils/common";
-import JsonViewer from "../../Common/JsonViewer/JsonViewer";
+import JsonViewer from "../../../../Common/JsonViewer/JsonViewer";
 import ApplicationProgram from "./Sections/ApplicationProgram/ApplicationProgram";
 import CustomError from "../../Common/CustomError/CustomError";
 

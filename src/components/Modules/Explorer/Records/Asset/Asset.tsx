@@ -10,7 +10,7 @@ import NumberFormat from "react-number-format";
 import LinkToAccount from "../../Common/Links/LinkToAccount";
 import LoadingTile from "../../../../Common/LoadingTile/LoadingTile";
 import {shadedClr} from "../../../../../utils/common";
-import JsonViewer from "../../Common/JsonViewer/JsonViewer";
+import JsonViewer from "../../../../Common/JsonViewer/JsonViewer";
 import CustomError from "../../Common/CustomError/CustomError";
 import AssetARCValidator from "./Actions/AssetARCValidator/AssetARCValidator";
 

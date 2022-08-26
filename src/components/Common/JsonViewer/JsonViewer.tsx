@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton} from "@mui/material";
 import ReactJson from 'react-json-view'
 import {CancelOutlined} from "@mui/icons-material";
-import {copyContent, exportData} from "../../../../../utils/common";
+import {copyContent, exportData} from "../../../utils/common";
 import {useDispatch} from "react-redux";
 
 interface JsonViewerState{

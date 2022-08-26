@@ -24,7 +24,8 @@ import {ARC69} from "../../../../../../../packages/arc-portal/classes/ARC69/ARC6
 import {CoreAsset} from "../../../../../../../packages/core-sdk/classes/CoreAsset";
 import {useSearchParams} from "react-router-dom";
 import LinkToAsset from "../../../../../Explorer/Common/Links/LinkToAsset";
-import JsonViewer from "../../../../../Explorer/Common/JsonViewer/JsonViewer";
+import JsonViewer from "../../../../../../Common/JsonViewer/JsonViewer";
+import Arc16Alert from "../Arc16/Arc16Alert/Arc16Alert";
 
 interface Arc69WorkspaceState{
     validateUsing: string,
@@ -400,6 +401,10 @@ function Arc69Workspace(): JSX.Element {
                                                     }
                                                 }
                                             >Open media</Button>
+
+                                            <div style={{marginTop: 10}}>
+                                                <Arc16Alert metadata={metadata}></Arc16Alert>
+                                            </div>
 
                                         </div> : ''}
                                     </Grid>

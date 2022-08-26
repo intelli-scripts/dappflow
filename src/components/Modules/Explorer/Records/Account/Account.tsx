@@ -10,7 +10,7 @@ import {microalgosToAlgos} from "algosdk";
 import AlgoIcon from "../../AlgoIcon/AlgoIcon";
 import {CoreAccount} from "../../../../../packages/core-sdk/classes/CoreAccount";
 import LoadingTile from "../../../../Common/LoadingTile/LoadingTile";
-import JsonViewer from "../../Common/JsonViewer/JsonViewer";
+import JsonViewer from "../../../../Common/JsonViewer/JsonViewer";
 import CustomError from "../../Common/CustomError/CustomError";
 
 

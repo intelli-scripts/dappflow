@@ -23,7 +23,7 @@ import TransactionNote from "./Sections/TransactionNotes/TransactionNote";
 import {shadedClr} from "../../../../../utils/common";
 import TransactionMultiSig from "./Sections/TransactionMultiSig/TransactionMultiSig";
 import TransactionLogicSig from "./Sections/TransactionLogicSig/TransactionLogicSig";
-import JsonViewer from "../../Common/JsonViewer/JsonViewer";
+import JsonViewer from "../../../../Common/JsonViewer/JsonViewer";
 import LinkToGroup from "../../Common/Links/LinkToGroup";
 import {RootState} from "../../../../../redux/store";
 import CustomError from '../../Common/CustomError/CustomError';

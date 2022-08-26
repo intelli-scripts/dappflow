@@ -20,7 +20,8 @@ import CallMadeIcon from '@mui/icons-material/CallMade';
 import {ARC19} from "../../../../../../../packages/arc-portal/classes/ARC19/ARC19";
 import {useSearchParams} from "react-router-dom";
 import LinkToAsset from "../../../../../Explorer/Common/Links/LinkToAsset";
-import JsonViewer from "../../../../../Explorer/Common/JsonViewer/JsonViewer";
+import JsonViewer from "../../../../../../Common/JsonViewer/JsonViewer";
+import Arc16Alert from "../Arc16/Arc16Alert/Arc16Alert";
 
 interface Arc19WorkspaceState{
     validateUsing: string,
@@ -373,6 +374,11 @@ function Arc19Workspace(): JSX.Element {
                                                     }
                                                 }
                                             >Open metadata</Button>
+
+
+                                            <div style={{marginTop: 10}}>
+                                                <Arc16Alert metadata={metadata}></Arc16Alert>
+                                            </div>
 
                                         </div> : ''}
                                     </Grid>
