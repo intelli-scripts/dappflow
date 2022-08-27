@@ -2,7 +2,7 @@ import './ABIMethod.scss';
 import React, {useState} from "react";
 import {A_ABI_Method} from "../../../../packages/abi/types";
 import {ABIMethod as ABIMethodCls} from "../../../../packages/abi/classes/ABIMethod";
-import {Accordion, AccordionDetails, AccordionSummary, Grid, Tab, Tabs} from "@mui/material";
+import {Accordion, AccordionDetails, AccordionSummary, Chip, Grid, Tab, Tabs} from "@mui/material";
 import {ExpandMore} from "@mui/icons-material";
 import {ABIMethodArg} from "../../../../packages/abi/classes/ABIMethodArg";
 
@@ -89,6 +89,14 @@ function ABIMethod(props: ABIMethodProps): JSX.Element {
 
                                     </div>;
                                 })}
+
+                                <div className="method-returns">
+                                    <Chip color={"primary"} label={"Returns: " + abiMethodInstance.getReturnType()} variant={"outlined"}></Chip>
+                                    <div className="method-returns-desc">
+                                        {abiMethodInstance.getReturnDesc()}
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
 

@@ -18,4 +18,12 @@ export class ABIMethod {
     getArgs(): A_ABI_Method_Arg[] {
         return this.method.args || [];
     }
+
+    getReturnType(): string {
+        return this.method.returns.type;
+    }
+
+    getReturnDesc(): string {
+        return this.method.returns.desc;
+    }
 }
