@@ -1,9 +1,10 @@
 import './ABIEditor.scss';
 import React, {} from "react";
-import {A_ABI} from "../../../../packages/core-sdk/types";
+import {A_ABI} from "../../../../packages/abi/types";
 import {shadedClr} from "../../../../utils/common";
 import ABIMethod from "../ABIMethod/ABIMethod";
 import JsonViewer from "../../../Common/JsonViewer/JsonViewer";
+import {ABI} from "../../../../packages/abi/classes/ABI";
 
 function ABIEditor(props): JSX.Element {
     let abi: A_ABI = props.abi;
@@ -12,6 +13,9 @@ function ABIEditor(props): JSX.Element {
         abi = {methods: [], name: ""};
     }
 
+    const abiInstance = new ABI(abi);
+    const methods = abiInstance.getMethods();
+
     return (<div className={"abi-editor-wrapper"}>
         <div className={"abi-editor-container"}>
             <div className={"abi-editor-body"}>
@@ -19,10 +23,10 @@ function ABIEditor(props): JSX.Element {
                     <div className="abi-header">
                         <div>
                             <div className="abi-name">
-                                ABI: {abi.name}
+                                ABI: {abiInstance.getName()}
                             </div>
                             <div className="abi-desc">
-                                Description: {abi.desc ? abi.desc : '--Empty--'}
+                                Description: {abiInstance.getDesc() ? abiInstance.getDesc() : '--Empty--'}
                             </div>
                         </div>
                         <div>
@@ -35,7 +39,7 @@ function ABIEditor(props): JSX.Element {
                                 Methods
                             </div>
                             <div className="methods-body">
-                                {abi.methods.map((method) => {
+                                {methods.map((method) => {
                                     return <ABIMethod method={method}></ABIMethod>;
                                 })}
                             </div>

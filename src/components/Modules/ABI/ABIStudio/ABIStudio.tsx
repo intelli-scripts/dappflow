@@ -33,8 +33,24 @@ function ABIStudio(): JSX.Element {
     // };
 
     const arc20Abi = {
-        "name": "arc-0020",
+        "name": "Smart ASA ref. implementation",
         "methods": [
+            {
+                "name": "asset_app_optin",
+                "args": [
+                    {
+                        "type": "asset",
+                        "name": "asset"
+                    },
+                    {
+                        "type": "axfer",
+                        "name": "underlying_asa_optin"
+                    }
+                ],
+                "returns": {
+                    "type": "void"
+                }
+            },
             {
                 "name": "asset_create",
                 "args": [
@@ -144,20 +160,6 @@ function ABIStudio(): JSX.Element {
                 }
             },
             {
-                "name": "get_asset_config",
-                "readonly": true,
-                "args": [
-                    {
-                        "type": "asset",
-                        "name": "asset"
-                    }
-                ],
-                "returns": {
-                    "type": "(uint64,uint32,bool,string,string,string,byte[],address,address,address,address)",
-                    "desc": "`total`, `decimals`, `default_frozen`, `unit_name`, `name`, `url`, `metadata_hash`, `manager_addr`, `reserve_addr`, `freeze_addr`, `clawback`"
-                }
-            },
-            {
                 "name": "asset_transfer",
                 "args": [
                     {
@@ -218,33 +220,19 @@ function ABIStudio(): JSX.Element {
                 }
             },
             {
-                "name": "get_asset_is_frozen",
-                "readonly": true,
+                "name": "asset_app_closeout",
                 "args": [
                     {
                         "type": "asset",
-                        "name": "freeze_asset"
-                    }
-                ],
-                "returns": {
-                    "type": "bool"
-                }
-            },
-            {
-                "name": "get_account_is_frozen",
-                "readonly": true,
-                "args": [
-                    {
-                        "type": "asset",
-                        "name": "freeze_asset"
+                        "name": "close_asset"
                     },
                     {
                         "type": "account",
-                        "name": "freeze_account"
+                        "name": "close_to"
                     }
                 ],
                 "returns": {
-                    "type": "bool"
+                    "type": "void"
                 }
             },
             {
@@ -260,8 +248,35 @@ function ABIStudio(): JSX.Element {
                 }
             },
             {
+                "name": "get_asset_is_frozen",
+                "args": [
+                    {
+                        "type": "asset",
+                        "name": "freeze_asset"
+                    }
+                ],
+                "returns": {
+                    "type": "bool"
+                }
+            },
+            {
+                "name": "get_account_is_frozen",
+                "args": [
+                    {
+                        "type": "asset",
+                        "name": "freeze_asset"
+                    },
+                    {
+                        "type": "account",
+                        "name": "freeze_account"
+                    }
+                ],
+                "returns": {
+                    "type": "bool"
+                }
+            },
+            {
                 "name": "get_circulating_supply",
-                "readonly": true,
                 "args": [
                     {
                         "type": "asset",
@@ -271,8 +286,33 @@ function ABIStudio(): JSX.Element {
                 "returns": {
                     "type": "uint64"
                 }
+            },
+            {
+                "name": "get_optin_min_balance",
+                "args": [
+                    {
+                        "type": "asset",
+                        "name": "asset"
+                    }
+                ],
+                "returns": {
+                    "type": "uint64"
+                }
+            },
+            {
+                "name": "get_asset_config",
+                "args": [
+                    {
+                        "type": "asset",
+                        "name": "asset"
+                    }
+                ],
+                "returns": {
+                    "type": "(uint64,uint32,bool,string,string,string,byte[],address,address,address,address)"
+                }
             }
-        ]
+        ],
+        "networks": {}
     };
 
     return (<div className={"abi-studio-wrapper"}>
