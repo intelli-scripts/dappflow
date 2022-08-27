@@ -21,12 +21,17 @@
         }
 
         .arguments {
+          .arguments-header {
+            padding: 15px;
+            background: $color-grey-light;
+            font-weight: bold;
+          }
           .arg {
             padding: 15px;
             .arg-prop {
               font-size: 14px;
             }
-            &:nth-child(even) {
+            &:nth-child(odd) {
               background: $color-grey-very-light;
             }
           }

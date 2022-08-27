@@ -43,7 +43,6 @@ function ABIMethod(props: ABIMethodProps): JSX.Element {
                     <AccordionDetails>
 
                         <div className="method-body">
-
                             <Tabs value={tab} className="method-tabs" onChange={(_, newVal) => {
                                 setState(prevState => ({...prevState, tab: newVal}));
                             }}>
@@ -51,6 +50,21 @@ function ABIMethod(props: ABIMethodProps): JSX.Element {
                             </Tabs>
 
                             <div className="arguments">
+                                <div className="arguments-header">
+                                    <Grid container spacing={0}>
+                                        <Grid item xs={12} sm={4} md={2} lg={2} xl={2}>
+                                            Name
+                                        </Grid>
+                                        <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
+                                            Type
+                                        </Grid>
+                                        <Grid item xs={12} sm={4} md={6} lg={6} xl={6}>
+                                            Description
+                                        </Grid>
+                                    </Grid>
+                                </div>
+
+
                                 {method.args.map((arg) => {
                                     return <div className="arg">
                                         <Grid container spacing={0}>

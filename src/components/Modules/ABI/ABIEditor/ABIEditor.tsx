@@ -3,6 +3,7 @@ import React, {} from "react";
 import {A_ABI} from "../../../../packages/core-sdk/types";
 import {shadedClr} from "../../../../utils/common";
 import ABIMethod from "../ABIMethod/ABIMethod";
+import JsonViewer from "../../../Common/JsonViewer/JsonViewer";
 
 function ABIEditor(props): JSX.Element {
     let abi: A_ABI = props.abi;
@@ -16,11 +17,16 @@ function ABIEditor(props): JSX.Element {
             <div className={"abi-editor-body"}>
                 <div className="abi" style={{backgroundColor: shadedClr}}>
                     <div className="abi-header">
-                        <div className="abi-name">
-                            ABI: {abi.name}
+                        <div>
+                            <div className="abi-name">
+                                ABI: {abi.name}
+                            </div>
+                            <div className="abi-desc">
+                                Description: {abi.desc ? abi.desc : '--Empty--'}
+                            </div>
                         </div>
-                        <div className="abi-desc">
-                            Description: {abi.desc ? abi.desc : '--Empty--'}
+                        <div>
+                            <JsonViewer obj={abi} variant="outlined" title="ABI JSON" name="ABI JSON"></JsonViewer>
                         </div>
                     </div>
                     <div className="abi-body">
