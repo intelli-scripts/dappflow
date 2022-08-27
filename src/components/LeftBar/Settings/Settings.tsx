@@ -1,9 +1,9 @@
 import './Settings.scss';
 
 import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../redux/store";
+import {RootState} from "../../../redux/store";
 import React, {useState} from "react";
-import {hideSettings} from "../../redux/settings/actions/settings";
+import {hideSettings} from "../../../redux/settings/actions/settings";
 import {CancelOutlined} from "@mui/icons-material";
 import {
     Alert,
@@ -15,13 +15,13 @@ import {
     IconButton,
     InputBase, InputBaseProps, styled
 } from "@mui/material";
-import {theme} from "../../theme";
-import {getNodeConfig, getNodes} from "../../utils/nodeConfig";
-import {showSnack} from "../../redux/common/actions/snackbar";
-import {isNumber, shadedClr} from "../../utils/common";
-import {Network} from "../../packages/core-sdk/network";
-import {hideLoader, showLoader} from "../../redux/common/actions/loader";
-import {isBrave} from "../../packages/core-sdk/utils";
+import {theme} from "../../../theme";
+import {getNodeConfig, getNodes} from "../../../utils/nodeConfig";
+import {showSnack} from "../../../redux/common/actions/snackbar";
+import {isNumber, shadedClr} from "../../../utils/common";
+import {Network} from "../../../packages/core-sdk/network";
+import {hideLoader, showLoader} from "../../../redux/common/actions/loader";
+import {isBrave} from "../../../packages/core-sdk/utils";
 
 const nodeConfig = getNodeConfig();
 

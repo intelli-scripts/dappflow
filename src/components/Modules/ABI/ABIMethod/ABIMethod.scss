@@ -1,0 +1,37 @@
+@import "src/assets/colors";
+
+.abi-method-wrapper {
+  .abi-method-container {
+    .abi-method {
+      margin-top: 15px;
+      .method-name {
+        font-size: 18px;
+        font-weight: bold;
+      }
+      .method-desc {
+        margin-left: 15px;
+        font-size: 13px;
+        color: $color-grey-dark;
+      }
+      .method-body {
+        margin-bottom: 15px;
+        .method-tabs {
+          border-bottom: 1px solid $color-grey-light;
+          margin-bottom: 20px;
+        }
+
+        .arguments {
+          .arg {
+            padding: 15px;
+            .arg-prop {
+              font-size: 14px;
+            }
+            &:nth-child(even) {
+              background: $color-grey-very-light;
+            }
+          }
+        }
+      }
+    }
+  }
+}

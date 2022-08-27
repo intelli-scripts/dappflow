@@ -29,7 +29,7 @@ import Group from "../Modules/Explorer/Records/Group/Group";
 import GroupTransactions from "../Modules/Explorer/Records/Group/RelatedList/GroupTransactions/GroupTransactions";
 import {Grid} from "@mui/material";
 import LeftBar from "../LeftBar/LeftBar";
-import Settings from "../Settings/Settings";
+import Settings from "../LeftBar/Settings/Settings";
 import Loader from "../Common/Loader/Loader";
 import AppSnackbar from "./AppSnackbar";
 import Arc from "../Modules/ArcPortal/Arc/Arc";
@@ -38,6 +38,7 @@ import IndexerApi from "../Modules/DeveloperApi/IndexerApi/IndexerApi";
 import AlgodApi from "../Modules/DeveloperApi/AlgodApi/AlgodApi";
 import ArcPortal from "../Modules/ArcPortal/ArcPortal/ArcPortal";
 import ArcWorkspace from "../Modules/ArcPortal/Arc/RelatedList/ArcWorkspace/ArcWorkspace";
+import ABIStudio from "../Modules/ABI/ABIStudio/ABIStudio";
 
 function AppRouter(): JSX.Element {
 
@@ -96,6 +97,8 @@ function AppRouter(): JSX.Element {
                                         <Route path="workspace" element={<ArcWorkspace></ArcWorkspace>} />
                                         <Route path="" element={<Navigate to="overview" replace />}/>
                                     </Route>
+                                </Route>
+                                <Route path="/abi-studio" element={<ABIStudio></ABIStudio>}>
                                 </Route>
                                 <Route path="*" element={<Navigate to="/explorer" replace />}/>
                             </Routes>

@@ -3,66 +3,32 @@
 .abi-editor-wrapper {
   .abi-editor-container {
     .abi-editor-body {
-      margin-top: 30px;
-      .contract-row {
-        margin: 15px;
-        display: flex;
-        .desc {
-          margin-left: 20px;
-          font-size: 14px;
-          color: $color-grey-dark;
-          margin-top: 2px;
+      margin-top: 25px;
+      .abi {
+        padding: 20px;
+        border-radius: 10px;
+        .abi-header {
+          padding-bottom: 25px;
+          border-bottom: 1px solid $color-grey;
+          .abi-name {
+            font-size: 20px;
+            font-family: PoppinsBold !important;
+            margin-bottom: 15px;
+          }
+          .abi-desc {
+            margin-top: 15px;
+            font-size: 14px;
+            color: $color-grey-dark;
+          }
         }
-      }
-      .method-row {
-        margin: 15px;
-        display: flex;
-        .desc {
-          margin-left: 20px;
-          font-size: 14px;
-          color: $color-grey-dark;
-          margin-top: 5px;
+        .abi-body {
+          margin-top: 25px;
+          .methods {
+            margin-top: 15px;
+          }
         }
-      }
-      .args-header {
-        margin: 15px 0px;
-        font-weight: bold;
-        margin-left: 35px;
-        text-decoration: underline;
-        color: $color-grey-dark;
-      }
-      .returns-header {
-        margin: 15px 0px;
-        font-weight: bold;
-        margin-left: 35px;
-        text-decoration: underline;
-        color: $color-grey-dark;
-      }
-      .returns-row {
-        display: flex;
-        .type {
-          font-family: PoppinsBold !important;
-        }
-        .desc {
-          margin: 5px;
-          margin-left: 20px;
-          margin-top: 2px;
-          font-size: 14px;
-          color: $color-grey-dark;
-        }
-      }
-      .arg-row {
-        margin: 5px;
-        display: flex;
-        .arg-name {
-          font-family: PoppinsBold !important;
-        }
-        .arg-param {
-          margin-left: 20px;
-          font-size: 14px;
-          color: $color-grey-dark;
-          margin-top: 2px;
-        }
+
+
       }
     }
   }

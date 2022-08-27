@@ -16,6 +16,7 @@ import {shadedClr, shadedClr1} from "../../utils/common";
 import CodeIcon from '@mui/icons-material/Code';
 import StorageIcon from '@mui/icons-material/Storage';
 import GavelIcon from '@mui/icons-material/Gavel';
+import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
 
 
 
@@ -61,6 +62,9 @@ function LeftBar(): JSX.Element {
                       }}/>
                       <Tab icon={<GavelIcon></GavelIcon>} iconPosition="start" label="ARC Portal" value="arc-portal" onClick={() => {
                           navigate('/arc-portal');
+                      }}/>
+                      <Tab icon={<DeveloperBoardIcon></DeveloperBoardIcon>} iconPosition="start" label="ABI Studio" value="abi-studio" onClick={() => {
+                          navigate('/abi-studio');
                       }}/>
 
                   </Tabs>
