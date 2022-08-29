@@ -34,6 +34,10 @@ function ABIStudio(): JSX.Element {
 
     const arc20Abi = {
         "name": "Smart ASA ref. implementation",
+        "networks": {
+            "wGHE2Pwdvd7S12BL5FaOP20EGYesN73ktiC1qzkkit8=": { "appID": 1234 },
+            "SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=": { "appID": 5678 },
+        },
         "methods": [
             {
                 "name": "asset_app_optin",
@@ -311,8 +315,7 @@ function ABIStudio(): JSX.Element {
                     "type": "(uint64,uint32,bool,string,string,string,byte[],address,address,address,address)"
                 }
             }
-        ],
-        "networks": {}
+        ]
     };
 
     return (<div className={"abi-studio-wrapper"}>

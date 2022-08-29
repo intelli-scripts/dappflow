@@ -25,8 +25,36 @@
         }
         .abi-body {
           margin-top: 25px;
+          .networks {
+            padding-bottom: 25px;
+            border-bottom: 1px solid $color-grey;
+            .networks-header {
+              font-family: PoppinsBold !important;
+              margin-bottom: 15px;
+            }
+            .networks-body {
+              background: $color-light;
+              border-radius: 10px;
+              padding: 15px;
+              .network {
+                padding: 10px 10px 10px 0px;
+                display: flex;
+                font-size: 14px;
+                font-weight: bold;
+                .network-name {
+
+                }
+                .app-id {
+                  margin-left: 15px;
+                }
+              }
+            }
+          }
           .methods {
             margin-top: 15px;
+            .methods-header {
+              font-family: PoppinsBold !important;
+            }
           }
         }
 

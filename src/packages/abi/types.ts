@@ -18,4 +18,13 @@ export interface A_ABI {
     name: string;
     desc?: string;
     methods: A_ABI_Method[];
+    networks?: A_ABI_Networks
+}
+
+export interface A_ABI_Networks {
+    [key: string]: A_ABI_Network;
+}
+
+export interface A_ABI_Network {
+    appID: number;
 }
