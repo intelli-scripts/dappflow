@@ -5,7 +5,10 @@ import {shadedClr, shadedClr2} from "../../../../utils/common";
 import ABIMethod from "../ABIMethod/ABIMethod";
 import JsonViewer from "../../../Common/JsonViewer/JsonViewer";
 import {ABI} from "../../../../packages/abi/classes/ABI";
-import {Box} from "@mui/material";
+import {Box, Chip} from "@mui/material";
+import {useSelector} from "react-redux";
+import {RootState} from "../../../../redux/store";
+import {CoreVersionsCheck} from "../../../../packages/core-sdk/classes/CoreVersionsCheck";
 
 function ABIEditor(props): JSX.Element {
     let abi: A_ABI = props.abi;
@@ -13,6 +16,10 @@ function ABIEditor(props): JSX.Element {
     if (!abi) {
         abi = {methods: [], name: ""};
     }
+
+    const network = useSelector((state: RootState) => state.network);
+    const {versionsCheck} = network;
+    const versionsCheckInstance = new CoreVersionsCheck(versionsCheck);
 
     const abiInstance = new ABI(abi);
     const methods = abiInstance.getMethods();
@@ -53,7 +60,12 @@ function ABIEditor(props): JSX.Element {
                                                 </Box>
                                             </div>
                                             <div className="app-id">
-                                                {networks[name].appID}
+                                                {versionsCheckInstance.getGenesisHashB64() === name ? <div>
+                                                    <span>{networks[name].appID}</span>
+                                                    <Chip label="Open App" className="app-link" variant={"outlined"} size={"small"} color={"primary"} onClick={() => {
+                                                        window.open("/explorer/application/" + networks[name].appID , "_blank");
+                                                    }}></Chip>
+                                                </div> : networks[name].appID}
                                             </div>
                                         </div>;
                                     })}

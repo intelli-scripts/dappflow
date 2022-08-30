@@ -36,7 +36,7 @@ function ABIStudio(): JSX.Element {
         "name": "Smart ASA ref. implementation",
         "networks": {
             "wGHE2Pwdvd7S12BL5FaOP20EGYesN73ktiC1qzkkit8=": { "appID": 1234 },
-            "SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=": { "appID": 5678 },
+            "SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=": { "appID": 107042851 },
         },
         "methods": [
             {

@@ -46,6 +46,14 @@
                 }
                 .app-id {
                   margin-left: 15px;
+                  .app-link {
+                    vertical-align: top;
+                    margin-top: -7px;
+                    margin-left: 10px;
+                    &:hover {
+                      cursor: pointer;
+                    }
+                  }
                 }
               }
             }

@@ -247,5 +247,19 @@ export type A_Group = {
     transactions: A_SearchTransaction[]
 };
 
+export type A_VersionsCheck = {
+    "versions"?: string[],
+    "genesis_id": string,
+    "genesis_hash_b64": string,
+    "build"?: {
+        "major": number,
+        "minor": number,
+        "build_number": number,
+        "commit_hash": string,
+        "branch": string,
+        "channel": string
+    }
+}
+
 
 
