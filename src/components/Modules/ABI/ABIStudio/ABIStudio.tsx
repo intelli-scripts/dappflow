@@ -321,6 +321,9 @@ function ABIStudio(): JSX.Element {
     return (<div className={"abi-studio-wrapper"}>
         <div className={"abi-studio-container"}>
 
+            <div className={"abi-studio-header"}>
+
+            </div>
             <div className={"abi-studio-body"}>
                 <ABIEditor abi={arc20Abi}></ABIEditor>
             </div>

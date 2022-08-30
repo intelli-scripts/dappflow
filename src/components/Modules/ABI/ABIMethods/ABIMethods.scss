@@ -1,0 +1,14 @@
+@import "src/assets/colors";
+
+.abi-methods-wrapper {
+  .abi-methods-container {
+    margin-top: 15px;
+    .abi-methods-header {
+      font-family: PoppinsBold !important;
+      svg {
+        vertical-align: text-bottom;
+        margin-right: 5px;
+      }
+    }
+  }
+}
