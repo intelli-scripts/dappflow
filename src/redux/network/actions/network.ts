@@ -22,7 +22,6 @@ export const loadNetworkStatus = createAsyncThunk(
         try {
             const networkClient = new NetworkClient(explorer.network);
             const versionsCheck = await networkClient.versionsCheck();
-            console.log(versionsCheck);
             return versionsCheck;
         }
         catch (e: any) {

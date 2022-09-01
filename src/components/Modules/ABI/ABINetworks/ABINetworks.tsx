@@ -47,7 +47,7 @@ function ABINetworks(props): JSX.Element {
                         </div>
 
                         {Object.keys(networks).map((name) => {
-                            return <div className="network">
+                            return <div className="network" key={name}>
                                 <Grid container spacing={0}>
                                     <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
                                         <div className="network-name">

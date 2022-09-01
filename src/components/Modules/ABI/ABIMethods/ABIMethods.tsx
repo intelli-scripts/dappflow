@@ -20,8 +20,10 @@ function ABIMethods(props): JSX.Element {
                 Methods
             </div>
             <div className={"abi-methods-body"}>
-                {methods.map((method) => {
-                    return <ABIMethod method={method}></ABIMethod>;
+                {methods.map((method, index) => {
+                    return <div key={"method_" + index}>
+                        <ABIMethod method={method}></ABIMethod>
+                    </div>;
                 })}
             </div>
 

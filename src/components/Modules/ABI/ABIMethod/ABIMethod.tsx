@@ -72,7 +72,7 @@ function ABIMethod(props: ABIMethodProps): JSX.Element {
                                 {args.map((arg) => {
                                     const argInstance = new ABIMethodArg(arg);
 
-                                    return <div className="arg">
+                                    return <div className="arg" key={argInstance.getName()}>
                                         <Grid container spacing={0}>
                                             <Grid item xs={12} sm={4} md={2} lg={2} xl={2}>
                                                 <div className="arg-prop">{argInstance.getName()}</div>
