@@ -23,7 +23,7 @@ function DeveloperApi(): JSX.Element {
         <div className={"developer-api-container"}>
 
             <Tabs value={route}
-                  style={{marginLeft: -20}}
+                  className="tabs-wrapper"
                   >
                 <Tab label="Indexer API" value="indexer" onClick={() => {
                     navigate('/developer-api/indexer');

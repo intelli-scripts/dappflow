@@ -2,6 +2,12 @@
 
 .import-abi-json-wrapper {
   .import-abi-json-container {
+    .import-abi-json-header {
+      margin-top: -15px;
+      .tabs-wrapper {
+        border-bottom: 1px solid $color-grey-light;
+      }
+    }
     .import-abi-json-body {
       margin-top: 20px;
       height: 500px;
@@ -13,10 +19,18 @@
           border: 1px dashed $color-grey;
           border-radius: 10px;
           background: $color-grey-very-light;
+          margin-top: 40px;
           .upload-container {
             text-align: center;
             margin-top: 200px;
           }
+        }
+      }
+      .link-wrapper {
+        height: inherit;
+        .link-container {
+          height: inherit;
+          margin-top: 40px;
         }
       }
     }

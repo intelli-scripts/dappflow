@@ -6,28 +6,50 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
-    DialogTitle,
-    IconButton, Tab, Tabs, Typography
+    DialogTitle, FormLabel,
+    IconButton, InputBase, InputBaseProps, styled, Tab, Tabs, Typography
 } from "@mui/material";
 import {CancelOutlined} from "@mui/icons-material";
 import FileUploadIcon from '@mui/icons-material/FileUpload';
+import {shadedClr} from "../../../../utils/common";
+import {useDispatch} from "react-redux";
+import {showSnack} from "../../../../redux/common/actions/snackbar";
+import axios from "axios";
+import {handleException} from "../../../../redux/common/actions/exception";
+import {hideLoader, showLoader} from "../../../../redux/common/actions/loader";
+
+
+export const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
+    return {
+        padding: 5,
+        paddingLeft: 10,
+        marginTop: 5,
+        background: shadedClr,
+        border: '1px solid ' + theme.palette.grey["400"],
+        fontSize: 14
+    };
+});
 
 
 interface ABIActionsState{
     show: boolean,
-    tab: string
+    tab: string,
+    url: string
 }
 
 const initialState: ABIActionsState = {
     show: false,
-    tab: "file"
+    tab: "file",
+    url: ''
 };
 
 function ABIActions(props): JSX.Element {
 
 
+    const dispatch = useDispatch();
+
     const [
-        {show, tab},
+        {show, tab, url},
         setState
     ] = useState(initialState);
 
@@ -71,7 +93,7 @@ function ABIActions(props): JSX.Element {
                         <div className="import-abi-json-container">
 
                             <div className="import-abi-json-header">
-                                <Tabs value={tab} className="related-list">
+                                <Tabs value={tab} className="tabs-wrapper">
                                     <Tab label="File" value="file" onClick={() => {
                                         setState(prevState => ({...prevState, tab: "file"}));
                                     }}/>
@@ -120,7 +142,40 @@ function ABIActions(props): JSX.Element {
 
                                 {tab === 'link' ? <div className="link-wrapper">
                                     <div className="link-container">
-                                       hello
+                                        <FormLabel sx={{color: 'grey.900', fontWeight: 'bold', marginBottom: '15px'}}>Enter a URL</FormLabel>
+                                        <ShadedInput
+                                            placeholder="https://raw.githubusercontent.com/algorandlabs/smart-asa/develop/smart_asa_abi.json"
+                                            value={url}
+                                            onChange={(ev) => {
+                                                setState(prevState => ({...prevState, url: ev.target.value}));
+                                            }}
+                                            fullWidth/>
+
+                                        <Button color={"primary"}
+                                                variant={"outlined"}
+                                                sx={{marginTop: '15px'}}
+                                                onClick={async () => {
+                                                    if (!url) {
+                                                        dispatch(showSnack({
+                                                            severity: 'error',
+                                                            message: 'Invalid url'
+                                                        }));
+                                                        return;
+                                                    }
+                                                    try {
+                                                        dispatch(showLoader("Loading ABI JSON from the url"))
+                                                        const response = await axios.get(url);
+                                                        props.onImport(response.data);
+                                                        dispatch(hideLoader());
+                                                        clearState();
+                                                    }
+                                                    catch (e: any) {
+                                                        dispatch(hideLoader());
+                                                        dispatch(handleException(e));
+                                                    }
+
+                                                }}
+                                        >Import</Button>
                                     </div>
                                 </div> : ''}
 

@@ -3,5 +3,8 @@
 .developer-api-wrapper {
   .developer-api-container {
     margin-top: 10px;
+    .tabs-wrapper {
+      border-bottom: 1px solid $color-grey-light;
+    }
   }
 }
