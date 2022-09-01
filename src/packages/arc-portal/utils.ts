@@ -32,6 +32,14 @@ export function getArcs(): A_Arc[] {
             markdown: '',
             github: 'https://github.com/algorandfoundation/ARCs/blob/main/ARCs/arc-0016.md',
             hasWorkspace: false
+        },
+        {
+            id: 4,
+            name: 'ARC-0004',
+            markdownUrl: 'https://raw.githubusercontent.com/algorandfoundation/ARCs/main/ARCs/arc-0004.md',
+            markdown: '',
+            github: 'https://github.com/algorandfoundation/ARCs/blob/main/ARCs/arc-0004.md',
+            hasWorkspace: false
         }
         ];
 }

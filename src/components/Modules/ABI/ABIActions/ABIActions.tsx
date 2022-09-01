@@ -7,7 +7,7 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
-    IconButton, Tab, Tabs
+    IconButton, Tab, Tabs, Typography
 } from "@mui/material";
 import {CancelOutlined} from "@mui/icons-material";
 import FileUploadIcon from '@mui/icons-material/FileUpload';
@@ -78,9 +78,6 @@ function ABIActions(props): JSX.Element {
                                     <Tab label="Link" value="link" onClick={() => {
                                         setState(prevState => ({...prevState, tab: "link"}));
                                     }}/>
-                                    <Tab label="Raw text" value="raw-text" onClick={() => {
-                                        setState(prevState => ({...prevState, tab: "raw-text"}));
-                                    }}/>
                                 </Tabs>
                             </div>
 
@@ -89,12 +86,14 @@ function ABIActions(props): JSX.Element {
                                 {tab === 'file' ? <div className="file-wrapper">
                                     <div className="file-container">
                                         <div className="upload-container">
+                                            <Typography sx={{color: 'grey.600', marginBottom: '20px', fontSize: 14}}>only .json files are allowed</Typography>
                                             <Button
                                                 component="label"
                                                 startIcon={<FileUploadIcon></FileUploadIcon>}>
                                                 Upload file
                                                 <input
                                                     type="file"
+                                                    accept=".json,.txt"
                                                     hidden
                                                     multiple={false}
                                                     onChange={(ev) =>{
@@ -118,6 +117,15 @@ function ABIActions(props): JSX.Element {
 
                                     </div>
                                 </div> : ''}
+
+                                {tab === 'link' ? <div className="link-wrapper">
+                                    <div className="link-container">
+                                       hello
+                                    </div>
+                                </div> : ''}
+
+
+
                             </div>
                         </div>
                     </div>
