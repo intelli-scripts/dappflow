@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import ABIEditor from "../ABIEditor/ABIEditor";
 import ABIActions from "../ABIActions/ABIActions";
 import {A_ABI} from "../../../../packages/abi/types";
-import {Alert, Button, Divider, Grid, Typography} from "@mui/material";
+import {Alert, Box, Button, Grid} from "@mui/material";
 
 interface ABIStudioState{
     imported: boolean,
@@ -37,14 +37,15 @@ function ABIStudio(): JSX.Element {
                         <Grid item xs={12} sm={12} md={8} lg={6} xl={6}>
                             <div className="abi-intro">
                                 <Alert
-                                    sx={{color: 'common.black', fontSize: '16px'}}
+                                    sx={{fontSize: '15px'}}
                                     color={"warning"}
                                     icon={false}>
-                                    <div>Please import your ABI JSON to get started</div>
+                                    <div>
+                                        <Box>
+                                            Please import your ABI JSON to get started.
+                                        </Box>
+                                    </div>
                                     <br/>
-                                    <br/>
-                                    <Typography className="seperator">Introduction</Typography>
-                                    <Divider />
                                     <br/>
                                     <div className="question">What is ABI ?</div>
                                     <br/>

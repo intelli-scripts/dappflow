@@ -58,7 +58,7 @@ function Application(): JSX.Element {
 
                     <div className="props" style={{background: shadedClr}}>
                         <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <div className="property">
                                     <div className="key">
                                         Creator
@@ -73,7 +73,7 @@ function Application(): JSX.Element {
 
                     <div className="props" style={{background: shadedClr}}>
                         <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <div className="property">
                                     <div className="key">
                                         Application address

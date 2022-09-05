@@ -2,7 +2,7 @@ import './ABIActions.scss';
 import React, {useState} from "react";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import {
-    Button,
+    Button, Chip,
     Dialog,
     DialogActions,
     DialogContent,
@@ -144,15 +144,24 @@ function ABIActions(props): JSX.Element {
                                     <div className="link-container">
                                         <FormLabel sx={{color: 'grey.900', fontWeight: 'bold', marginBottom: '15px'}}>Enter a URL</FormLabel>
                                         <ShadedInput
-                                            placeholder="https://raw.githubusercontent.com/algorandlabs/smart-asa/develop/smart_asa_abi.json"
+                                            placeholder="http://localhost/abi.json"
                                             value={url}
                                             onChange={(ev) => {
                                                 setState(prevState => ({...prevState, url: ev.target.value}));
                                             }}
                                             fullWidth/>
 
+                                        <div>
+                                            <Chip onClick={() => {
+                                                setState(prevState => ({...prevState, url: "https://raw.githubusercontent.com/algorandlabs/smart-asa/develop/smart_asa_abi.json"}));
+                                            }} label="Smart ASA ABI example" size="small" color={"primary"} variant={"outlined"}
+                                                  sx={{marginTop: '10px', marginBottom: '10px'}}
+                                            ></Chip>
+                                        </div>
+
+
                                         <Button color={"primary"}
-                                                variant={"outlined"}
+                                                variant={"contained"}
                                                 sx={{marginTop: '15px'}}
                                                 onClick={async () => {
                                                     if (!url) {
