@@ -1,4 +1,5 @@
 import {A_ABI_Method_Arg, A_ABI_Method} from "../types";
+import {ABIMethod as CoreABIMethod} from 'algosdk';
 
 export class ABIMethod {
     method: A_ABI_Method
@@ -26,4 +27,28 @@ export class ABIMethod {
     getReturnDesc(): string {
         return this.method.returns.desc;
     }
+
+    getSignature(): string {
+        const instance = new CoreABIMethod({
+            name: this.getName(),
+            desc: this.getDesc(),
+            args: this.getArgs(),
+            returns: this.method.returns
+        });
+
+        return instance.getSignature();
+    }
+
+    getSignatureSelector(): string {
+        const instance = new CoreABIMethod({
+            name: this.getName(),
+            desc: this.getDesc(),
+            args: this.getArgs(),
+            returns: this.method.returns
+        });
+
+        const selector = instance.getSelector();
+        return Buffer.from(selector.toString(), 'base64').toString('hex');
+    }
+
 }

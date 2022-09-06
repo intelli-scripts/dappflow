@@ -2,7 +2,7 @@ import './ABIMethod.scss';
 import React, {useState} from "react";
 import {A_ABI_Method} from "../../../../packages/abi/types";
 import {ABIMethod as ABIMethodCls} from "../../../../packages/abi/classes/ABIMethod";
-import {Accordion, AccordionDetails, AccordionSummary, Chip, Grid, Tab, Tabs} from "@mui/material";
+import {Accordion, AccordionDetails, AccordionSummary, Alert, Chip, Grid, Tab, Tabs} from "@mui/material";
 import {ExpandMore} from "@mui/icons-material";
 import {ABIMethodArg} from "../../../../packages/abi/classes/ABIMethodArg";
 
@@ -47,6 +47,24 @@ function ABIMethod(props: ABIMethodProps): JSX.Element {
                     <AccordionDetails>
 
                         <div className="method-body">
+                            <div className="method-signature">
+                                <Alert icon={false} color={"warning"}>
+                                    <div style={{textDecoration: "underline", marginBottom: '5px'}}>
+                                        Method signature
+                                    </div>
+                                    <div>
+                                        {abiMethodInstance.getSignature()}
+                                    </div>
+
+                                    {/*<div style={{textDecoration: "underline", marginBottom: '5px', marginTop: '10px'}}>*/}
+                                    {/*    Method selector*/}
+                                    {/*</div>*/}
+                                    {/*<div>*/}
+                                    {/*    {abiMethodInstance.getSignatureSelector()}*/}
+                                    {/*</div>*/}
+
+                                </Alert>
+                            </div>
                             <Tabs value={tab} className="method-tabs" onChange={(_, newVal) => {
                                 setState(prevState => ({...prevState, tab: newVal}));
                             }}>
