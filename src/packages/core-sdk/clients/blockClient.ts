@@ -22,7 +22,6 @@ export class BlockClient {
 
     async statusAfterBlock(round: number): Promise<A_Block> {
         const response = await this.client.statusAfterBlock(round).do();
-        console.log(response);
         return response as A_Block;
     }
 }

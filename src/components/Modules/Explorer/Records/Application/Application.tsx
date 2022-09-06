@@ -10,9 +10,9 @@ import ApplicationGlobalState from "./Sections/ApplicationGlobalState/Applicatio
 import LinkToAccount from "../../Common/Links/LinkToAccount";
 import LoadingTile from "../../../../Common/LoadingTile/LoadingTile";
 import {shadedClr} from "../../../../../utils/common";
-import JsonViewer from "../../../../Common/JsonViewer/JsonViewer";
 import ApplicationProgram from "./Sections/ApplicationProgram/ApplicationProgram";
 import CustomError from "../../Common/CustomError/CustomError";
+import ApplicationActions from "./Sections/ApplicationActions/ApplicationActions";
 
 
 function Application(): JSX.Element {
@@ -34,6 +34,7 @@ function Application(): JSX.Element {
     const application = useSelector((state: RootState) => state.application);
     const applicationInstance = new CoreApplication(application.information);
 
+
     useEffect(() => {
         dispatch(loadApplication(Number(id)));
     }, [dispatch, id]);
@@ -47,7 +48,7 @@ function Application(): JSX.Element {
                         Application overview
                     </div>
                     <div>
-                        <JsonViewer obj={application.information} title="Application"></JsonViewer>
+                        <ApplicationActions application={application}></ApplicationActions>
                     </div>
                 </div>
 

@@ -3,12 +3,20 @@ import {handleException} from "../../common/actions/exception";
 import explorer from "../../../utils/dappflow";
 import {A_Application} from "../../../packages/core-sdk/types";
 import {A_ApplicationTransactionsResponse, ApplicationClient} from "../../../packages/core-sdk/clients/applicationClient";
+import {A_ABI} from "../../../packages/abi/types";
+import {ApplicationABI} from "../../../packages/abi/classes/ApplicationABI";
+import {CoreApplication} from "../../../packages/core-sdk/classes/CoreApplication";
 
 export interface Application {
     loading: boolean,
     error: boolean,
     information: A_Application,
-    transactionsDetails: A_ApplicationTransactionsResponse & {completed: boolean, loading: boolean}
+    transactionsDetails: A_ApplicationTransactionsResponse & {completed: boolean, loading: boolean},
+    abiDetails: {
+        abi: A_ABI,
+        loaded: boolean,
+        present: boolean
+    }
 }
 
 const initialState: Application = {
@@ -36,6 +44,14 @@ const initialState: Application = {
         completed: false,
         loading: false,
         transactions: []
+    },
+    abiDetails: {
+        abi: {
+            name: '',
+            methods: []
+        } ,
+        loaded: false,
+        present: false
     }
 }
 
@@ -49,6 +65,7 @@ export const loadApplication = createAsyncThunk(
             dispatch(setLoading(true));
             const applicationInfo = await applicationClient.get(id);
             dispatch(loadApplicationTransactions(id));
+            dispatch(loadApplicationABI(applicationInfo));
             dispatch(setLoading(false));
             return applicationInfo;
         }
@@ -60,6 +77,22 @@ export const loadApplication = createAsyncThunk(
     }
 );
 
+export const loadApplicationABI = createAsyncThunk(
+    'application/loadApplicationABI',
+    async (applicationInfo: A_Application, thunkAPI) => {
+        const {dispatch} = thunkAPI;
+        try {
+            const appABI = await new ApplicationABI().get(new CoreApplication(applicationInfo).getId());
+
+            if (appABI) {
+                return appABI.abi;
+            }
+        }
+        catch (e: any) {
+            dispatch(handleException(e));
+        }
+    }
+);
 
 export const loadApplicationTransactions = createAsyncThunk(
     'application/loadApplicationTransactions',
@@ -117,6 +150,21 @@ export const applicationSlice = createSlice({
                 if (!nextToken) {
                     state.transactionsDetails.completed = true;
                 }
+            }
+        });
+        builder.addCase(loadApplicationABI.fulfilled, (state, action: PayloadAction<A_ABI>) => {
+            if (action.payload) {
+                state.abiDetails = {
+                    abi: action.payload,
+                    loaded: true,
+                    present: true
+                };
+            }
+            else {
+                state.abiDetails = {
+                    ...initialState.abiDetails,
+                    loaded: true
+                };
             }
         });
     },

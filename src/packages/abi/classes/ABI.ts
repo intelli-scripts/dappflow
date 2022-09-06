@@ -23,18 +23,4 @@ export class ABI {
         return this.abi.networks || {};
     }
 
-    hasNetworks(): boolean {
-        const networks = this.getNetworks();
-        if (networks) {
-            const keys = Object.keys(networks);
-            return keys.length > 0;
-        }
-
-        return false;
-    }
-
-    getNetworkName(name: string): string {
-        return Buffer.from(name, 'base64').toString();
-    }
-
 }

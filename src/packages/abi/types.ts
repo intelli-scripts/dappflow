@@ -28,3 +28,10 @@ export interface A_ABI_Networks {
 export interface A_ABI_Network {
     appID: number;
 }
+
+export interface A_Application_ABI {
+    id?: number,
+    network: string;
+    app: number;
+    abi: A_ABI;
+}
