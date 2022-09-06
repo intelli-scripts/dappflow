@@ -18,4 +18,12 @@ export class ApplicationABI {
 
         return appABI;
     }
+
+    async delete(app: number): Promise<boolean> {
+        await dataStore.applicationABIs.where({
+            app: app
+        }).delete();
+
+        return true
+    }
 }

@@ -76,6 +76,21 @@ function ApplicationActions(props): JSX.Element {
                                                                                        style={{marginRight: '10px'}}
             >View ABI</Button> : ''}
 
+            {application.abiDetails.loaded && application.abiDetails.present ? <Button color={"secondary"}
+                                                                                       variant={"outlined"}
+                                                                                       size="small"
+                                                                                       onClick={async () => {
+                                                                                           try {
+                                                                                               await new ApplicationABI().delete(new CoreApplication(application.information).getId());
+                                                                                               window.location.reload();
+                                                                                           }
+                                                                                           catch (e: any) {
+                                                                                               dispatch(handleException(e));
+                                                                                           }
+                                                                                       }}
+                                                                                       style={{marginRight: '10px'}}
+            >Delete ABI</Button> : ''}
+
 
             <JsonViewer obj={application.information} title="Application"></JsonViewer>
 
@@ -93,6 +108,7 @@ function ApplicationActions(props): JSX.Element {
                         severity: 'success',
                         message: 'ABI attached successfully. Now all transaction params related to this Application are decoded automatically'
                     }));
+                    window.location.reload();
                 }
                 catch(e: any) {
                     dispatch(handleException(e));
