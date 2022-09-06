@@ -39,7 +39,7 @@ export class ABIMethod {
         return instance.getSignature();
     }
 
-    getSignatureSelector(): string {
+    getSignatureSelector(encoding: BufferEncoding = 'hex'): string {
         const instance = new CoreABIMethod({
             name: this.getName(),
             desc: this.getDesc(),
@@ -48,7 +48,7 @@ export class ABIMethod {
         });
 
         const selector = instance.getSelector();
-        return Buffer.from(selector.toString(), 'base64').toString('hex');
+        return  Buffer.from(selector).toString(encoding);
     }
 
 }

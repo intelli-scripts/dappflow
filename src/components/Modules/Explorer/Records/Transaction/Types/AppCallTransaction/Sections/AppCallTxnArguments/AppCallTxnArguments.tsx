@@ -22,7 +22,6 @@ function AppCallTxnArguments(props): JSX.Element {
     let args: string[] = props.args;
     const appCallPayload: A_SearchTransaction_App_Call_Payload = props.appCallPayload;
     const isCreate = appCallPayload["application-id"] ? false : true;
-    console.log(appCallPayload);
 
     useEffect(() => {
         async function loadABI() {

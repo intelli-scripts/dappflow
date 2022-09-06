@@ -16,7 +16,17 @@
       .method-body {
         margin-bottom: 15px;
         .method-signature {
-          margin-bottom: 10px;
+          .method-sig-section {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            .method-sig-section-key {
+              margin-bottom: 5px;
+            }
+            .method-sig-section-value {
+              font-weight: bold;
+              font-family: PoppinsBold !important;
+            }
+          }
         }
         .method-returns {
           margin-top: 15px;

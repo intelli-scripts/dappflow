@@ -2,20 +2,34 @@ import './ABIMethod.scss';
 import React, {useState} from "react";
 import {A_ABI_Method} from "../../../../packages/abi/types";
 import {ABIMethod as ABIMethodCls} from "../../../../packages/abi/classes/ABIMethod";
-import {Accordion, AccordionDetails, AccordionSummary, Alert, Chip, Grid, Tab, Tabs} from "@mui/material";
+import {
+    Accordion,
+    AccordionDetails,
+    AccordionSummary,
+    Alert, Box,
+    Button,
+    ButtonGroup,
+    Chip,
+    Grid,
+    Tab,
+    Tabs
+} from "@mui/material";
 import {ExpandMore} from "@mui/icons-material";
 import {ABIMethodArg} from "../../../../packages/abi/classes/ABIMethodArg";
+import {TEXT_ENCODING} from "../../../../packages/core-sdk/constants";
 
 type ABIMethodProps = {
     method: A_ABI_Method
 };
 
 interface ABIMethodState{
-    tab: string
+    tab: string,
+    textEncoding: string
 }
 
 const initialState: ABIMethodState = {
-    tab: "arguments"
+    tab: "arguments",
+    textEncoding: 'hex'
 };
 
 function ABIMethod(props: ABIMethodProps): JSX.Element {
@@ -25,9 +39,13 @@ function ABIMethod(props: ABIMethodProps): JSX.Element {
     const args = abiMethodInstance.getArgs();
 
     const [
-        {tab},
+        {tab, textEncoding},
         setState
     ] = useState(initialState);
+
+    function setTextEncoding(encoding: string) {
+        setState(prevState => ({...prevState, textEncoding: encoding}));
+    }
 
     return (<div className={"abi-method-wrapper"}>
         <div className={"abi-method-container"}>
@@ -49,19 +67,27 @@ function ABIMethod(props: ABIMethodProps): JSX.Element {
                         <div className="method-body">
                             <div className="method-signature">
                                 <Alert icon={false} color={"warning"}>
-                                    <div style={{textDecoration: "underline", marginBottom: '5px'}}>
-                                        Method signature
+                                    <div className="method-sig-section">
+                                        <div className="method-sig-section-key">
+                                            Method signature :
+                                        </div>
+                                        <div className="method-sig-section-value">
+                                            {abiMethodInstance.getSignature()}
+                                        </div>
                                     </div>
-                                    <div>
-                                        {abiMethodInstance.getSignature()}
-                                    </div>
+                                    <Box className="method-sig-section">
+                                        <div className="method-sig-section-key">
+                                            Method selector :
+                                            <ButtonGroup color={"warning"} variant="outlined" size={"small"} style={{marginLeft: 10}}>
+                                                <Button variant={textEncoding === TEXT_ENCODING.HEX ? 'contained' : 'outlined'} onClick={() => {setTextEncoding(TEXT_ENCODING.HEX)}}>HEX</Button>
+                                                <Button variant={textEncoding === TEXT_ENCODING.BASE64 ? 'contained' : 'outlined'} onClick={() => {setTextEncoding(TEXT_ENCODING.BASE64)}}>BASE64</Button>
+                                            </ButtonGroup>
+                                        </div>
+                                        <div className="method-sig-section-value">
+                                            {abiMethodInstance.getSignatureSelector(textEncoding as BufferEncoding)}
+                                        </div>
+                                    </Box>
 
-                                    {/*<div style={{textDecoration: "underline", marginBottom: '5px', marginTop: '10px'}}>*/}
-                                    {/*    Method selector*/}
-                                    {/*</div>*/}
-                                    {/*<div>*/}
-                                    {/*    {abiMethodInstance.getSignatureSelector()}*/}
-                                    {/*</div>*/}
 
                                 </Alert>
                             </div>
