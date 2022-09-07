@@ -4,15 +4,16 @@ import {shadedClr} from "../../../../../../../../../utils/common";
 import {A_SearchTransaction_App_Call_Payload} from "../../../../../../../../../packages/core-sdk/types";
 import {Button, ButtonGroup} from "@mui/material";
 import {ApplicationABI} from "../../../../../../../../../packages/abi/classes/ApplicationABI";
-import {A_ABI} from "../../../../../../../../../packages/abi/types";
 import {CoreAppCall} from "../../../../../../../../../packages/core-sdk/classes/CoreAppCall";
+import {ABIContractParams} from "algosdk";
 
 
 interface AppCallTxnArgumentsState{
     textEncoding: string,
     showEncoding: boolean,
-    abi?: A_ABI
+    abi?: ABIContractParams
 }
+
 const initialState: AppCallTxnArgumentsState = {
     textEncoding: 'plain_text',
     showEncoding: false

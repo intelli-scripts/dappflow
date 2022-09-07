@@ -1,9 +1,9 @@
-import {A_ABI_Method_Arg} from "../types";
+import {ABIMethodArgParams} from "algosdk";
 
 export class ABIMethodArg {
-    arg: A_ABI_Method_Arg
+    arg: ABIMethodArgParams
 
-    constructor(arg: A_ABI_Method_Arg) {
+    constructor(arg: ABIMethodArgParams) {
         this.arg = arg;
     }
 

@@ -1,15 +1,15 @@
 import './ABIEditor.scss';
 import React, {} from "react";
-import {A_ABI} from "../../../../packages/abi/types";
 import {shadedClr, shadedClr2} from "../../../../utils/common";
 import JsonViewer from "../../../Common/JsonViewer/JsonViewer";
 import {ABI} from "../../../../packages/abi/classes/ABI";
 import {Box} from "@mui/material";
 import ABIMethods from "../ABIMethods/ABIMethods";
 import ABINetworks from "../ABINetworks/ABINetworks";
+import {ABIContractParams} from "algosdk";
 
 function ABIEditor(props): JSX.Element {
-    let abi: A_ABI = props.abi;
+    let abi: ABIContractParams = props.abi;
     let hideNetworks: boolean = props.hideNetworks;
 
     if (!abi) {

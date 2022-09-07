@@ -2,9 +2,9 @@ import {
     A_ABI_Decoded_App_argument,
     A_SearchTransaction_App_Call_Payload
 } from "../types";
-import {A_ABI} from "../../abi/types";
 import {ABI} from "../../abi/classes/ABI";
 import {ABIMethod} from "../../abi/classes/ABIMethod";
+import {ABIContractParams} from "algosdk";
 
 
 export class CoreAppCall {
@@ -22,7 +22,7 @@ export class CoreAppCall {
         return this.payload["application-id"] ? false : true;
     }
 
-    getABIDecodedArgs(abi: A_ABI): A_ABI_Decoded_App_argument[] {
+    getABIDecodedArgs(abi: ABIContractParams): A_ABI_Decoded_App_argument[] {
         const decodedArgs: A_ABI_Decoded_App_argument[] = [];
         const args = this.getAppCallArguments();
 

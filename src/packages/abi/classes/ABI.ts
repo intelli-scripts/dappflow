@@ -1,9 +1,9 @@
-import {A_ABI, A_ABI_Method, A_ABI_Networks} from "../types";
+import {ABIContractNetworks, ABIContractParams, ABIMethodParams} from "algosdk";
 
 export class ABI {
-    abi: A_ABI
+    abi: ABIContractParams
 
-    constructor(abi: A_ABI) {
+    constructor(abi: ABIContractParams) {
         this.abi = abi;
     }
 
@@ -15,11 +15,11 @@ export class ABI {
         return this.abi.desc;
     }
 
-    getMethods(): A_ABI_Method[] {
+    getMethods(): ABIMethodParams[] {
         return this.abi.methods || [];
     }
 
-    getNetworks(): A_ABI_Networks {
+    getNetworks(): ABIContractNetworks {
         return this.abi.networks || {};
     }
 

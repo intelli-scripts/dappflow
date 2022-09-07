@@ -1,10 +1,9 @@
-import {A_ABI_Method_Arg, A_ABI_Method} from "../types";
-import {ABIMethod as CoreABIMethod} from 'algosdk';
+import {ABIMethod as CoreABIMethod, ABIMethodArgParams, ABIMethodParams, ABIMethodReturnParams} from 'algosdk';
 
 export class ABIMethod {
-    method: A_ABI_Method
+    method: ABIMethodParams
 
-    constructor(method: A_ABI_Method) {
+    constructor(method: ABIMethodParams) {
         this.method = method;
     }
 
@@ -16,16 +15,20 @@ export class ABIMethod {
         return this.method.desc;
     }
 
-    getArgs(): A_ABI_Method_Arg[] {
+    getArgs(): ABIMethodArgParams[] {
         return this.method.args || [];
     }
 
+    getReturns(): ABIMethodReturnParams {
+        return this.method.returns;
+    }
+
     getReturnType(): string {
-        return this.method.returns.type;
+        return this.getReturns().type;
     }
 
     getReturnDesc(): string {
-        return this.method.returns.desc;
+        return this.getReturns().desc;
     }
 
     getSignature(): string {

@@ -2,12 +2,12 @@ import './ABIStudio.scss';
 import React, {useState} from "react";
 import ABIEditor from "../ABIEditor/ABIEditor";
 import ABIActions from "../ABIActions/ABIActions";
-import {A_ABI} from "../../../../packages/abi/types";
 import {Alert, Box, Button, Grid} from "@mui/material";
+import {ABIContractParams} from "algosdk";
 
 interface ABIStudioState{
     imported: boolean,
-    abi: A_ABI
+    abi: ABIContractParams
 }
 
 const initialState: ABIStudioState = {

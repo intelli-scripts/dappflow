@@ -3,9 +3,9 @@ import {handleException} from "../../common/actions/exception";
 import explorer from "../../../utils/dappflow";
 import {A_Application} from "../../../packages/core-sdk/types";
 import {A_ApplicationTransactionsResponse, ApplicationClient} from "../../../packages/core-sdk/clients/applicationClient";
-import {A_ABI} from "../../../packages/abi/types";
 import {ApplicationABI} from "../../../packages/abi/classes/ApplicationABI";
 import {CoreApplication} from "../../../packages/core-sdk/classes/CoreApplication";
+import {ABIContractParams} from "algosdk";
 
 export interface Application {
     loading: boolean,
@@ -13,7 +13,7 @@ export interface Application {
     information: A_Application,
     transactionsDetails: A_ApplicationTransactionsResponse & {completed: boolean, loading: boolean},
     abiDetails: {
-        abi: A_ABI,
+        abi: ABIContractParams,
         loaded: boolean,
         present: boolean
     }
@@ -152,7 +152,7 @@ export const applicationSlice = createSlice({
                 }
             }
         });
-        builder.addCase(loadApplicationABI.fulfilled, (state, action: PayloadAction<A_ABI>) => {
+        builder.addCase(loadApplicationABI.fulfilled, (state, action: PayloadAction<ABIContractParams>) => {
             if (action.payload) {
                 state.abiDetails = {
                     abi: action.payload,

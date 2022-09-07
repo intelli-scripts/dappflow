@@ -1,6 +1,5 @@
 import './ABIMethod.scss';
 import React, {useState} from "react";
-import {A_ABI_Method} from "../../../../packages/abi/types";
 import {ABIMethod as ABIMethodCls} from "../../../../packages/abi/classes/ABIMethod";
 import {
     Accordion,
@@ -17,9 +16,10 @@ import {
 import {ExpandMore} from "@mui/icons-material";
 import {ABIMethodArg} from "../../../../packages/abi/classes/ABIMethodArg";
 import {TEXT_ENCODING} from "../../../../packages/core-sdk/constants";
+import {ABIMethodParams} from "algosdk";
 
 type ABIMethodProps = {
-    method: A_ABI_Method
+    method: ABIMethodParams
 };
 
 interface ABIMethodState{

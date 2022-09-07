@@ -2,11 +2,11 @@ import './ABIMethods.scss';
 import React, {} from "react";
 import IntegrationInstructionsOutlinedIcon from "@mui/icons-material/IntegrationInstructionsOutlined";
 import ABIMethod from "../ABIMethod/ABIMethod";
-import {A_ABI_Method} from "../../../../packages/abi/types";
+import {ABIMethodParams} from "algosdk";
 
 
 function ABIMethods(props): JSX.Element {
-    let methods: A_ABI_Method[] = props.methods;
+    let methods: ABIMethodParams[] = props.methods;
 
     if (!methods) {
         methods = [];

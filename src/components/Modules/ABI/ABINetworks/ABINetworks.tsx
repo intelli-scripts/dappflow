@@ -1,16 +1,16 @@
 import './ABINetworks.scss';
 import React, {} from "react";
-import {A_ABI_Networks} from "../../../../packages/abi/types";
 import PodcastsIcon from "@mui/icons-material/Podcasts";
 import {Box, Chip, Grid} from "@mui/material";
 import {shadedClr2} from "../../../../utils/common";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../redux/store";
 import {CoreVersionsCheck} from "../../../../packages/core-sdk/classes/CoreVersionsCheck";
+import {ABIContractNetworks} from "algosdk";
 
 
 function ABINetworks(props): JSX.Element {
-    let networks: A_ABI_Networks = props.networks;
+    let networks: ABIContractNetworks = props.networks;
 
     if (!networks) {
         networks = {};
