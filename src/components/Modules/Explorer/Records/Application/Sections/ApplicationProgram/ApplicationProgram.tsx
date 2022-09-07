@@ -67,7 +67,7 @@ function ApplicationProgram(props): JSX.Element {
                                 </ButtonGroup>
 
                             </div>
-                            <div className="value" style={{marginTop: 20}}>
+                            <div className="value small" style={{marginTop: 20}}>
                                 {encoding === PROGRAM_ENCODING.BASE64 ? prg : <div className="source">
                                     <CodeBlock
                                         text={prg}

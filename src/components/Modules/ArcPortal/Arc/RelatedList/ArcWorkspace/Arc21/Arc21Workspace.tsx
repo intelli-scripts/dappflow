@@ -16,18 +16,18 @@ function Arc21Workspace(): JSX.Element {
                 "desc": "Get data from the oracle for a specific round",
                 "args": [
                     { "type": "uint64", "name": "round", "desc": "The desired round" },
-                    { "type": "[]byte", "name": "user_data", "desc": "Optional: Extra data provided by the user. Pass an empty slice if not used." }
+                    { "type": "byte[]", "name": "user_data", "desc": "Optional: Extra data provided by the user. Pass an empty slice if not used." }
                 ],
-                "returns": { "type": "[]byte", "desc": "The oracle's response. If the data doesn't exist, the response is an empty slice." }
+                "returns": { "type": "byte[]", "desc": "The oracle's response. If the data doesn't exist, the response is an empty slice." }
             },
             {
                 "name": "must_get",
                 "desc": "Get data from the oracle for a specific round. Panics if the data doesn't exist.",
                 "args": [
                     { "type": "uint64", "name": "round", "desc": "The desired round" },
-                    { "type": "[]byte", "name": "user_data", "desc": "Optional: Extra data provided by the user. Pass an empty slice if not used." }
+                    { "type": "byte[]", "name": "user_data", "desc": "Optional: Extra data provided by the user. Pass an empty slice if not used." }
                 ],
-                "returns": { "type": "[]byte", "desc": "The oracle's response" }
+                "returns": { "type": "byte[]", "desc": "The oracle's response" }
             }
         ]
     };
@@ -45,7 +45,7 @@ function Arc21Workspace(): JSX.Element {
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
 
-                            <ABIEditor abi={abi}></ABIEditor>
+                            <ABIEditor abi={abi} hideNetworks={true}></ABIEditor>
 
                         </Grid>
 

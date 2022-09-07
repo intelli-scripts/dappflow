@@ -146,7 +146,7 @@ function ApplicationActions(props): JSX.Element {
                     </div>
                 </DialogTitle>
                 <DialogContent>
-                    <ABIEditor abi={application.abiDetails.abi}></ABIEditor>
+                    <ABIEditor abi={application.abiDetails.abi} hideNetworks={true}></ABIEditor>
                 </DialogContent>
                 <DialogActions>
 

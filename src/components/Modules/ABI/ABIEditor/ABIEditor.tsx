@@ -10,9 +10,16 @@ import ABINetworks from "../ABINetworks/ABINetworks";
 
 function ABIEditor(props): JSX.Element {
     let abi: A_ABI = props.abi;
+    let hideNetworks: boolean = props.hideNetworks;
 
     if (!abi) {
         abi = {methods: [], name: ""};
+    }
+    if (!hideNetworks) {
+        hideNetworks = false;
+    }
+    else {
+        hideNetworks = true;
     }
 
     const abiInstance = new ABI(abi);
@@ -38,7 +45,7 @@ function ABIEditor(props): JSX.Element {
                         </div>
                     </Box>
                     <div className="abi-body">
-                        <ABINetworks networks={networks}></ABINetworks>
+                        {!hideNetworks ? <ABINetworks networks={networks}></ABINetworks> : ''}
                         <ABIMethods methods={methods}></ABIMethods>
                     </div>
                 </div>
