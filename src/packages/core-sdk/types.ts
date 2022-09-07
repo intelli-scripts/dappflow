@@ -1,4 +1,4 @@
-import {ABIMethodArgParams} from "algosdk";
+import {ABIMethodArgParams, ABIValue} from "algosdk";
 
 export interface A_AccountInformation {
     address: string
@@ -263,7 +263,5 @@ export type A_VersionsCheck = {
     }
 }
 
-export type A_ABI_Decoded_App_argument = ABIMethodArgParams & {value: string}
-
-
+export type A_ABIMethodArgParams = ABIMethodArgParams & {value: string, decodedValue: ABIValue, decoded: boolean}
 

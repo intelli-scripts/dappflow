@@ -1,8 +1,9 @@
 import {
-    A_ABI_Decoded_App_argument,
+    A_ABIMethodArgParams,
     A_SearchTransaction_App_Call_Payload
 } from "../types";
-import {ABIContract, ABIContractParams} from "algosdk";
+import {ABIContract, ABIContractParams, ABIType} from "algosdk";
+import algosdk from "algosdk";
 
 
 export class CoreAppCall {
@@ -20,8 +21,8 @@ export class CoreAppCall {
         return this.payload["application-id"] ? false : true;
     }
 
-    getABIDecodedArgs(abi: ABIContractParams): A_ABI_Decoded_App_argument[] {
-        const decodedArgs: A_ABI_Decoded_App_argument[] = [];
+    getABIDecodedArgs(abi: ABIContractParams): A_ABIMethodArgParams[] {
+        const decodedArgs: A_ABIMethodArgParams[] = [];
         const args = this.getAppCallArguments();
 
         if (!abi) {
@@ -41,19 +42,55 @@ export class CoreAppCall {
 
         methods.forEach((methodInstance) => {
 
-            const signature = methodInstance.getSignature();
+            const signature = methodInstance.getSelector();
             const methodSelector = Buffer.from(signature).toString("base64");
 
             if (methodSelector === txnMethodSelector) {
                 const methodArgs = methodInstance.args;
                 const txnArgs = args.slice(1, args.length);
-                console.log(txnArgs);
-                methodArgs.forEach((methodArg) => {
 
-                })
+                methodArgs.forEach((methodArg, index) => {
+                    const txnArg = txnArgs[index];
+
+                    const decodedArg: A_ABIMethodArgParams = {
+                        ...methodArg,
+                        type: methodArg.type.toString(),
+                        value: txnArg,
+                        decodedValue: txnArg,
+                        decoded: false
+                    };
+
+                    let typeToDecode = ABIType.from(methodArg.type.toString());
+                    const encodedArg = new Uint8Array(Buffer.from(txnArg, 'base64'));
+
+                    if (algosdk.abiTypeIsReference(methodArg.type)) {
+                        switch (methodArg.type) {
+                            case algosdk.ABIReferenceType.account:
+                                typeToDecode = algosdk.ABIType.from('address');
+                                break;
+                            case algosdk.ABIReferenceType.application:
+                            case algosdk.ABIReferenceType.asset:
+                                typeToDecode = algosdk.ABIType.from('uint64');
+                                break;
+                        }
+                    }
+
+                    try {
+                        decodedArg.decodedValue = typeToDecode.decode(encodedArg);
+                        decodedArg.decoded = true;
+                    }
+                    catch (e) {
+                        decodedArg.decodedValue = txnArg;
+                    }
+
+                    decodedArgs.push(decodedArg);
+                });
+
+
             }
         });
 
+        console.log(decodedArgs);
         return decodedArgs;
 
     }
