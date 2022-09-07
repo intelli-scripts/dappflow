@@ -14,6 +14,7 @@ import AppCallTxnForeignApps from "./Sections/AppCallTxnForeignApps/AppCallTxnFo
 import AppCallTxnForeignAccounts from "./Sections/AppCallTxnForeignAccounts/AppCallTxnForeignAccounts";
 import AppCallTxnLogs from "./Sections/AppCallTxnLogs/AppCallTxnLogs";
 import ApplicationProgram from "../../../Application/Sections/ApplicationProgram/ApplicationProgram";
+import {CoreAppCall} from "../../../../../../../packages/core-sdk/classes/CoreAppCall";
 
 
 function AppCallTransaction(props): JSX.Element {
@@ -22,7 +23,8 @@ function AppCallTransaction(props): JSX.Element {
     const txnInstance = new CoreTransaction(transaction);
     const appCallPayload = txnInstance.getAppCallPayload();
 
-    const isCreate = appCallPayload["application-id"] ? false : true;
+    const callInstance = new CoreAppCall(appCallPayload);
+    const isCreate = callInstance.isCreate();
 
     return (<div className={"app-call-transaction-wrapper"}>
         <div className={"app-call-transaction-container"}>
@@ -103,7 +105,7 @@ function AppCallTransaction(props): JSX.Element {
                 {txnInstance.hasAppCallArguments() ? <div>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                            <AppCallTxnArguments args={appCallPayload['application-args']} appCallPayload={appCallPayload}></AppCallTxnArguments>
+                            <AppCallTxnArguments appCallPayload={appCallPayload}></AppCallTxnArguments>
                         </Grid>
                     </Grid>
                 </div> : ''}

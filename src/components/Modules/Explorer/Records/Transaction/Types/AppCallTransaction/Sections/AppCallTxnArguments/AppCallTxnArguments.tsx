@@ -5,6 +5,7 @@ import {A_SearchTransaction_App_Call_Payload} from "../../../../../../../../../p
 import {Button, ButtonGroup} from "@mui/material";
 import {ApplicationABI} from "../../../../../../../../../packages/abi/classes/ApplicationABI";
 import {A_ABI} from "../../../../../../../../../packages/abi/types";
+import {CoreAppCall} from "../../../../../../../../../packages/core-sdk/classes/CoreAppCall";
 
 
 interface AppCallTxnArgumentsState{
@@ -19,9 +20,10 @@ const initialState: AppCallTxnArgumentsState = {
 
 function AppCallTxnArguments(props): JSX.Element {
 
-    let args: string[] = props.args;
     const appCallPayload: A_SearchTransaction_App_Call_Payload = props.appCallPayload;
-    const isCreate = appCallPayload["application-id"] ? false : true;
+    const callInstance = new CoreAppCall(appCallPayload);
+    const args = callInstance.getAppCallArguments();
+    const isCreate = callInstance.isCreate();
 
     useEffect(() => {
         async function loadABI() {
@@ -39,6 +41,8 @@ function AppCallTxnArguments(props): JSX.Element {
         {textEncoding, showEncoding},
         setState
     ] = useState(initialState);
+
+    //const abiDecodedArgs = callInstance.getABIDecodedArgs(abi);
 
     function setTextEncoding(encoding: string) {
         setState(prevState => ({...prevState, textEncoding: encoding}));
@@ -59,10 +63,13 @@ function AppCallTxnArguments(props): JSX.Element {
 
 
                     </div>
-                    <div className="value small">
-                        {args.map((arg, index) => {
-                            return <div key={index + '_' + arg} className="item">{arg}</div>;
-                        })}
+                    <div className="value">
+                        {textEncoding === 'plain_text' ? <div className="plain-args">
+                            {args.map((arg, index) => {
+                                return <div key={index + '_' + arg} className="item">{arg}</div>;
+                            })}
+                        </div> : ''}
+
                     </div>
                 </div>
             </div>

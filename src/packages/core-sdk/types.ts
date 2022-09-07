@@ -1,3 +1,5 @@
+import {A_ABI_Method_Arg} from "../abi/types";
+
 export interface A_AccountInformation {
     address: string
     amount: number
@@ -260,6 +262,8 @@ export type A_VersionsCheck = {
         "channel": string
     }
 }
+
+export type A_ABI_Decoded_App_argument = A_ABI_Method_Arg & {value: string}
 
 
 
