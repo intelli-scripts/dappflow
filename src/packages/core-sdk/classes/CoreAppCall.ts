@@ -2,9 +2,7 @@ import {
     A_ABI_Decoded_App_argument,
     A_SearchTransaction_App_Call_Payload
 } from "../types";
-import {ABI} from "../../abi/classes/ABI";
-import {ABIMethod} from "../../abi/classes/ABIMethod";
-import {ABIContractParams} from "algosdk";
+import {ABIContract, ABIContractParams} from "algosdk";
 
 
 export class CoreAppCall {
@@ -38,16 +36,16 @@ export class CoreAppCall {
 
         const txnMethodSelector = args[0];
 
-        const abiInstance = new ABI(abi);
-        const methods = abiInstance.getMethods();
+        const abiInstance = new ABIContract(abi);
+        const methods = abiInstance.methods;
 
-        methods.forEach((method) => {
-            const methodInstance = new ABIMethod(method);
-            const methodSelector = methodInstance.getSignatureSelector('base64');
+        methods.forEach((methodInstance) => {
+
+            const signature = methodInstance.getSignature();
+            const methodSelector = Buffer.from(signature).toString("base64");
+
             if (methodSelector === txnMethodSelector) {
-                //method matched
-                console.log(method);
-                const methodArgs = methodInstance.getArgs();
+                const methodArgs = methodInstance.args;
                 const txnArgs = args.slice(1, args.length);
                 console.log(txnArgs);
                 methodArgs.forEach((methodArg) => {

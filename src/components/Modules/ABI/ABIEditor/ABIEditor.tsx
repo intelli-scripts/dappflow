@@ -2,11 +2,10 @@ import './ABIEditor.scss';
 import React, {} from "react";
 import {shadedClr, shadedClr2} from "../../../../utils/common";
 import JsonViewer from "../../../Common/JsonViewer/JsonViewer";
-import {ABI} from "../../../../packages/abi/classes/ABI";
 import {Box} from "@mui/material";
 import ABIMethods from "../ABIMethods/ABIMethods";
 import ABINetworks from "../ABINetworks/ABINetworks";
-import {ABIContractParams} from "algosdk";
+import {ABIContract, ABIContractParams} from "algosdk";
 
 function ABIEditor(props): JSX.Element {
     let abi: ABIContractParams = props.abi;
@@ -22,10 +21,8 @@ function ABIEditor(props): JSX.Element {
         hideNetworks = true;
     }
 
-    const abiInstance = new ABI(abi);
-    const methods = abiInstance.getMethods();
-    const networks = abiInstance.getNetworks();
-
+    const abiInstance = new ABIContract(abi);
+    const networks = abiInstance.networks;
 
     return (<div className={"abi-editor-wrapper"}>
         <div className={"abi-editor-container"}>
@@ -34,10 +31,10 @@ function ABIEditor(props): JSX.Element {
                     <Box className="abi-header" sx={{borderColor: shadedClr2 + ' !important'}}>
                         <div>
                             <div className="abi-name">
-                                ABI: {abiInstance.getName()}
+                                ABI: {abiInstance.name}
                             </div>
                             <div className="abi-desc">
-                                Description: {abiInstance.getDesc() ? abiInstance.getDesc() : '--Empty--'}
+                                Description: {abiInstance.description ? abiInstance.description : '--Empty--'}
                             </div>
                         </div>
                         <div>
@@ -46,7 +43,7 @@ function ABIEditor(props): JSX.Element {
                     </Box>
                     <div className="abi-body">
                         {!hideNetworks ? <ABINetworks networks={networks}></ABINetworks> : ''}
-                        <ABIMethods methods={methods}></ABIMethods>
+                        <ABIMethods abi={abi}></ABIMethods>
                     </div>
                 </div>
             </div>

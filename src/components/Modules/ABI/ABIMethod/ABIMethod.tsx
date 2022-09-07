@@ -1,6 +1,5 @@
 import './ABIMethod.scss';
 import React, {useState} from "react";
-import {ABIMethod as ABIMethodCls} from "../../../../packages/abi/classes/ABIMethod";
 import {
     Accordion,
     AccordionDetails,
@@ -14,9 +13,8 @@ import {
     Tabs
 } from "@mui/material";
 import {ExpandMore} from "@mui/icons-material";
-import {ABIMethodArg} from "../../../../packages/abi/classes/ABIMethodArg";
 import {TEXT_ENCODING} from "../../../../packages/core-sdk/constants";
-import {ABIMethodParams} from "algosdk";
+import {ABIMethodParams, ABIMethod as ABIMethodSDK} from "algosdk";
 
 type ABIMethodProps = {
     method: ABIMethodParams
@@ -35,8 +33,8 @@ const initialState: ABIMethodState = {
 function ABIMethod(props: ABIMethodProps): JSX.Element {
     
     const {method} = props;
-    const abiMethodInstance = new ABIMethodCls(method);
-    const args = abiMethodInstance.getArgs();
+    const abiMethodInstance = new ABIMethodSDK(method);
+    const args = abiMethodInstance.args;
 
     const [
         {tab, textEncoding},
@@ -55,10 +53,10 @@ function ABIMethod(props: ABIMethodProps): JSX.Element {
                         expandIcon={<ExpandMore />}>
                         <div>
                             <span className="method-name">
-                                {abiMethodInstance.getName()}
+                                {abiMethodInstance.name}
                             </span>
                             <span className="method-desc">
-                                {abiMethodInstance.getDesc()}
+                                {abiMethodInstance.description}
                             </span>
                         </div>
                     </AccordionSummary>
@@ -84,7 +82,8 @@ function ABIMethod(props: ABIMethodProps): JSX.Element {
                                             </ButtonGroup>
                                         </div>
                                         <div className="method-sig-section-value">
-                                            {abiMethodInstance.getSignatureSelector(textEncoding as BufferEncoding)}
+                                            {textEncoding === TEXT_ENCODING.HEX ? Buffer.from(abiMethodInstance.getSelector()).toString("hex") : ''}
+                                            {textEncoding === TEXT_ENCODING.BASE64 ? Buffer.from(abiMethodInstance.getSelector()).toString("base64") : ''}
                                         </div>
                                     </Box>
 
@@ -114,30 +113,25 @@ function ABIMethod(props: ABIMethodProps): JSX.Element {
 
 
                                 {args.map((arg) => {
-                                    const argInstance = new ABIMethodArg(arg);
-
-                                    return <div className="arg" key={argInstance.getName()}>
+                                    return <div className="arg" key={arg.name}>
                                         <Grid container spacing={0}>
                                             <Grid item xs={12} sm={4} md={2} lg={2} xl={2}>
-                                                <div className="arg-prop">{argInstance.getName()}</div>
+                                                <div className="arg-prop">{arg.name}</div>
                                             </Grid>
                                             <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
-                                                <div className="arg-prop">{argInstance.getType()}</div>
+                                                <div className="arg-prop">{arg.type.toString()}</div>
                                             </Grid>
                                             <Grid item xs={12} sm={4} md={6} lg={6} xl={6}>
-                                                <div className="arg-prop">{argInstance.getDesc()}</div>
+                                                <div className="arg-prop">{arg.description}</div>
                                             </Grid>
                                         </Grid>
-
-
-
                                     </div>;
                                 })}
 
                                 <div className="method-returns">
-                                    <Chip color={"primary"} label={"Returns: " + abiMethodInstance.getReturnType()} variant={"outlined"}></Chip>
+                                    <Chip color={"primary"} label={"Returns: " + abiMethodInstance.returns.type} variant={"outlined"}></Chip>
                                     <div className="method-returns-desc">
-                                        {abiMethodInstance.getReturnDesc()}
+                                        {abiMethodInstance.returns.description}
                                     </div>
                                 </div>
 

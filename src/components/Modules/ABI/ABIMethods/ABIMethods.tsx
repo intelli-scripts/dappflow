@@ -2,15 +2,13 @@ import './ABIMethods.scss';
 import React, {} from "react";
 import IntegrationInstructionsOutlinedIcon from "@mui/icons-material/IntegrationInstructionsOutlined";
 import ABIMethod from "../ABIMethod/ABIMethod";
-import {ABIMethodParams} from "algosdk";
+import {ABIContract, ABIContractParams} from "algosdk";
 
 
 function ABIMethods(props): JSX.Element {
-    let methods: ABIMethodParams[] = props.methods;
+    let abi: ABIContractParams = props.abi;
 
-    if (!methods) {
-        methods = [];
-    }
+    const abiInstance = new ABIContract(abi);
 
     return (<div className={"abi-methods-wrapper"}>
         <div className={"abi-methods-container"}>
@@ -20,9 +18,9 @@ function ABIMethods(props): JSX.Element {
                 Methods
             </div>
             <div className={"abi-methods-body"}>
-                {methods.map((method, index) => {
+                {abiInstance.methods.map((method, index) => {
                     return <div key={"method_" + index}>
-                        <ABIMethod method={method}></ABIMethod>
+                        <ABIMethod method={method.toJSON()}></ABIMethod>
                     </div>;
                 })}
             </div>
