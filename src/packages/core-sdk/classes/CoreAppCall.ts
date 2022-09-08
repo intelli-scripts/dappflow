@@ -2,7 +2,7 @@ import {
     A_ABIMethodArgParams,
     A_SearchTransaction_App_Call_Payload
 } from "../types";
-import {ABIContract, ABIContractParams, ABIType} from "algosdk";
+import {ABIContract, ABIContractParams, ABIMethodParams, ABIType} from "algosdk";
 import algosdk from "algosdk";
 
 
@@ -21,18 +21,26 @@ export class CoreAppCall {
         return this.payload["application-id"] ? false : true;
     }
 
-    getABIDecodedArgs(abi: ABIContractParams): A_ABIMethodArgParams[] {
+    getABIDecodedArgs(abi: ABIContractParams): {
+        args: A_ABIMethodArgParams[],
+        method: ABIMethodParams
+    } {
         const decodedArgs: A_ABIMethodArgParams[] = [];
         const args = this.getAppCallArguments();
+        let method;
+        const result = {
+            args: decodedArgs,
+            method
+        }
 
         if (!abi) {
-            return decodedArgs;
+            return result;
         }
         if (!args) {
-            return decodedArgs;
+            return result;
         }
         if (args.length === 0) {
-            return decodedArgs;
+            return result;
         }
 
         const txnMethodSelector = args[0];
@@ -48,6 +56,7 @@ export class CoreAppCall {
             if (methodSelector === txnMethodSelector) {
                 const methodArgs = methodInstance.args;
                 const txnArgs = args.slice(1, args.length);
+                method = methodInstance.toJSON();
 
                 methodArgs.forEach((methodArg, index) => {
                     const txnArg = txnArgs[index];
@@ -110,8 +119,10 @@ export class CoreAppCall {
             }
         });
 
-        console.log(decodedArgs);
-        return decodedArgs;
+        result.args = decodedArgs;
+        result.method = method;
+
+        return result;
 
     }
 }

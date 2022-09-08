@@ -19,13 +19,21 @@
           .method-sig-section {
             margin-bottom: 10px;
             padding-bottom: 10px;
+            border-bottom: 1px solid $color-light;
             .method-sig-section-key {
               margin-bottom: 5px;
               font-family: PoppinsLight !important;
               font-size: 14px;
+              &.inline {
+                display: inline-block;
+              }
             }
             .method-sig-section-value {
               font-weight: bold;
+              &.inline {
+                display: inline-block;
+                margin-left: 10px;
+              }
             }
           }
         }

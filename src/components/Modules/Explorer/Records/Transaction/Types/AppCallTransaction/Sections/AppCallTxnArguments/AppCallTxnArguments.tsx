@@ -1,10 +1,11 @@
 import './AppCallTxnArguments.scss';
 import React, {useEffect, useState} from "react";
 import {A_SearchTransaction_App_Call_Payload} from "../../../../../../../../../packages/core-sdk/types";
-import {Button, ButtonGroup, Grid, Typography} from "@mui/material";
+import {Alert, Button, ButtonGroup, Grid, Typography} from "@mui/material";
 import {ApplicationABI} from "../../../../../../../../../packages/abi/classes/ApplicationABI";
 import {CoreAppCall} from "../../../../../../../../../packages/core-sdk/classes/CoreAppCall";
 import {ABIContractParams} from "algosdk";
+import ABIMethodSignature from "../../../../../../../ABI/ABIMethodSignature/ABIMethodSignature";
 
 interface AppCallTxnArgumentsState{
     textEncoding: string,
@@ -41,7 +42,7 @@ function AppCallTxnArguments(props): JSX.Element {
         setState
     ] = useState(initialState);
 
-    const abiDecodedArgs = callInstance.getABIDecodedArgs(abi);
+    const {args: abiDecodedArgs, method} = callInstance.getABIDecodedArgs(abi);
 
     function setTextEncoding(encoding: string) {
         setState(prevState => ({...prevState, textEncoding: encoding}));
@@ -78,42 +79,50 @@ function AppCallTxnArguments(props): JSX.Element {
 
 
                         {textEncoding === 'abi_decoded' ? <div className="abi-decoded-args">
-                            <div className="arguments">
-                                <div className="arguments-header">
-                                    <Grid container spacing={0}>
-                                        <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
-                                            Name
-                                        </Grid>
-                                        <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
-                                            Type
-                                        </Grid>
-                                        <Grid item xs={12} sm={4} md={5} lg={5} xl={5}>
-                                            Decoded value
-                                        </Grid>
-
-                                    </Grid>
-                                </div>
-
-
-                                {abiDecodedArgs.map((arg, index) => {
-                                    return <div className="arg" key={arg.name + index}>
+                            {method ? <div>
+                                <ABIMethodSignature method={method}></ABIMethodSignature>
+                                <div className="arguments">
+                                    <div className="arguments-header">
                                         <Grid container spacing={0}>
                                             <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
-                                                <div className="arg-prop">{arg.name}</div>
+                                                Name
                                             </Grid>
                                             <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
-                                                <div className="arg-prop">{arg.type.toString()}</div>
+                                                Type
                                             </Grid>
                                             <Grid item xs={12} sm={4} md={5} lg={5} xl={5}>
-                                                {arg.decoded ? <div className="arg-prop">{arg.decodedValue}</div> : <div className="arg-prop"><Typography variant={"caption"} sx={{color: "secondary.main"}}>-- failed to decode --</Typography></div>}
-
+                                                Decoded value
                                             </Grid>
 
                                         </Grid>
-                                    </div>;
-                                })}
+                                    </div>
 
-                            </div>
+
+                                    {abiDecodedArgs.map((arg, index) => {
+                                        return <div className="arg" key={arg.name + index}>
+                                            <Grid container spacing={0}>
+                                                <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
+                                                    <div className="arg-prop">{arg.name}</div>
+                                                </Grid>
+                                                <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
+                                                    <div className="arg-prop">{arg.type.toString()}</div>
+                                                </Grid>
+                                                <Grid item xs={12} sm={4} md={5} lg={5} xl={5}>
+                                                    {arg.decoded ? <div className="arg-prop">{arg.decodedValue}</div> : <div className="arg-prop"><Typography variant={"caption"} sx={{color: "secondary.main"}}>-- failed to decode --</Typography></div>}
+
+                                                </Grid>
+
+                                            </Grid>
+                                        </div>;
+                                    })}
+
+                                </div>
+                            </div> : <div>
+                                <Alert icon={false} color={"error"}>
+                                    This transaction did not match with any method signature in the attached ABI
+                                </Alert>
+                            </div>}
+
                         </div> : ''}
 
 
