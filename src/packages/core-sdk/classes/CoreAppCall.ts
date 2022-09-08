@@ -60,16 +60,17 @@ export class CoreAppCall {
 
                 methodArgs.forEach((methodArg, index) => {
                     const txnArg = txnArgs[index];
+                    const type = methodArg.type.toString();
 
                     const decodedArg: A_ABIMethodArgParams = {
                         ...methodArg,
-                        type: methodArg.type.toString(),
+                        type: type,
                         value: txnArg,
                         decodedValue: txnArg,
                         decoded: false
                     };
 
-                    let typeToDecode = ABIType.from(methodArg.type.toString());
+                    let typeToDecode;
 
                     if (algosdk.abiTypeIsTransaction(methodArg.type)) {
                         decodedArg.decodedValue = txnArg;
@@ -80,7 +81,7 @@ export class CoreAppCall {
 
                     let encodedArg: any = new Uint8Array(Buffer.from(txnArg, 'base64'));
 
-                    if (methodArg.type.toString().startsWith('uint')) {
+                    if (type.startsWith('uint')) {
                         encodedArg = algosdk.decodeUint64(encodedArg, "mixed");
                         decodedArg.decodedValue = encodedArg;
                         decodedArg.decoded = true;
@@ -102,6 +103,9 @@ export class CoreAppCall {
                                 decodedArgs.push(decodedArg);
                                 return;
                         }
+                    }
+                    else {
+                        typeToDecode = ABIType.from(type);
                     }
 
                     try {
