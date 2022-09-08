@@ -61,7 +61,23 @@ export class CoreAppCall {
                     };
 
                     let typeToDecode = ABIType.from(methodArg.type.toString());
-                    const encodedArg = new Uint8Array(Buffer.from(txnArg, 'base64'));
+
+                    if (algosdk.abiTypeIsTransaction(methodArg.type)) {
+                        decodedArg.decodedValue = txnArg;
+                        decodedArg.decoded = true;
+                        decodedArgs.push(decodedArg);
+                        return;
+                    }
+
+                    let encodedArg: any = new Uint8Array(Buffer.from(txnArg, 'base64'));
+
+                    if (methodArg.type.toString().startsWith('uint')) {
+                        encodedArg = algosdk.decodeUint64(encodedArg, "mixed");
+                        decodedArg.decodedValue = encodedArg;
+                        decodedArg.decoded = true;
+                        decodedArgs.push(decodedArg);
+                        return;
+                    }
 
                     if (algosdk.abiTypeIsReference(methodArg.type)) {
                         switch (methodArg.type) {
@@ -71,7 +87,11 @@ export class CoreAppCall {
                             case algosdk.ABIReferenceType.application:
                             case algosdk.ABIReferenceType.asset:
                                 typeToDecode = algosdk.ABIType.from('uint64');
-                                break;
+                                encodedArg = algosdk.decodeUint64(encodedArg, "mixed");
+                                decodedArg.decodedValue = encodedArg;
+                                decodedArg.decoded = true;
+                                decodedArgs.push(decodedArg);
+                                return;
                         }
                     }
 

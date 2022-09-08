@@ -1,11 +1,10 @@
 import './AppCallTxnArguments.scss';
 import React, {useEffect, useState} from "react";
 import {A_SearchTransaction_App_Call_Payload} from "../../../../../../../../../packages/core-sdk/types";
-import {Button, ButtonGroup, Grid} from "@mui/material";
+import {Button, ButtonGroup, Grid, Typography} from "@mui/material";
 import {ApplicationABI} from "../../../../../../../../../packages/abi/classes/ApplicationABI";
 import {CoreAppCall} from "../../../../../../../../../packages/core-sdk/classes/CoreAppCall";
 import {ABIContractParams} from "algosdk";
-
 
 interface AppCallTxnArgumentsState{
     textEncoding: string,
@@ -65,8 +64,15 @@ function AppCallTxnArguments(props): JSX.Element {
                     </div>
                     <div className="value">
                         {textEncoding === 'plain_text' ? <div className="plain-args">
+
                             {args.map((arg, index) => {
-                                return <div key={index + '_' + arg} className="item">{arg}</div>;
+                                return <div className="arg" key={arg + index}>
+                                    <Grid container spacing={0}>
+                                        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                            <div>{arg}</div>
+                                        </Grid>
+                                    </Grid>
+                                </div>;
                             })}
                         </div> : ''}
 
@@ -75,14 +81,11 @@ function AppCallTxnArguments(props): JSX.Element {
                             <div className="arguments">
                                 <div className="arguments-header">
                                     <Grid container spacing={0}>
-                                        <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
+                                        <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
                                             Name
                                         </Grid>
                                         <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
                                             Type
-                                        </Grid>
-                                        <Grid item xs={12} sm={4} md={1} lg={1} xl={1}>
-                                            Decoded
                                         </Grid>
                                         <Grid item xs={12} sm={4} md={5} lg={5} xl={5}>
                                             Decoded value
@@ -92,20 +95,18 @@ function AppCallTxnArguments(props): JSX.Element {
                                 </div>
 
 
-                                {abiDecodedArgs.map((arg) => {
-                                    return <div className="arg" key={arg.name}>
+                                {abiDecodedArgs.map((arg, index) => {
+                                    return <div className="arg" key={arg.name + index}>
                                         <Grid container spacing={0}>
-                                            <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
+                                            <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
                                                 <div className="arg-prop">{arg.name}</div>
                                             </Grid>
                                             <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
                                                 <div className="arg-prop">{arg.type.toString()}</div>
                                             </Grid>
-                                            <Grid item xs={12} sm={4} md={1} lg={1} xl={1}>
-                                                <div className="arg-prop">{arg.decoded ? 'Yes' : 'No'}</div>
-                                            </Grid>
                                             <Grid item xs={12} sm={4} md={5} lg={5} xl={5}>
-                                                <div className="arg-prop">{arg.decodedValue}</div>
+                                                {arg.decoded ? <div className="arg-prop">{arg.decodedValue}</div> : <div className="arg-prop"><Typography variant={"caption"} sx={{color: "secondary.main"}}>-- failed to decode --</Typography></div>}
+
                                             </Grid>
 
                                         </Grid>

@@ -16,6 +16,15 @@
     }
     .plain-args {
       font-size: 14px;
+      .arg {
+        padding: 10px;
+        .arg-prop {
+          font-size: 14px;
+        }
+        &:nth-child(odd) {
+          background: $color-grey-very-light;
+        }
+      }
     }
     .abi-decoded-args {
       .arguments {

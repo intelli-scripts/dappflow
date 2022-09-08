@@ -15,6 +15,8 @@ function AppCallTxnGlobalStateDelta(props): JSX.Element {
         globalStateDelta = [];
     }
 
+    console.log(globalStateDelta);
+
     const columns: GridColDef[] = [
         {
             ...dataGridCellConfig,
@@ -57,6 +59,7 @@ function AppCallTxnGlobalStateDelta(props): JSX.Element {
             renderCell: (params: GridValueGetterParams) => {
                 const gStateDeltaInstance = new CoreGlobalState(params.row);
                 const action = gStateDeltaInstance.getAction();
+                console.log(gStateDeltaInstance.getValue());
                 return <div>
                     {action === 2 ? <NumberFormat
                         value={gStateDeltaInstance.getValue()}
