@@ -1,4 +1,9 @@
 import {ABIMethodArgParams, ABIValue} from "algosdk";
+import {
+    AlgodTokenHeader,
+    CustomTokenHeader,
+    IndexerTokenHeader
+} from "algosdk/dist/types/src/client/urlTokenBaseHTTPClient";
 
 export interface A_AccountInformation {
     address: string
@@ -231,15 +236,23 @@ export type A_Block = {
     transactions: A_SearchTransaction[]
 };
 
-export type A_NodeConfig = {
+export type AlgodConnectionParams = {
+    url: string,
+    port: string,
+    token: string | AlgodTokenHeader | CustomTokenHeader
+}
+
+export type IndexerConnectionParams = {
+    url: string,
+    port: string,
+    token: string | IndexerTokenHeader | CustomTokenHeader
+}
+
+export type NodeConnectionParams = {
     id?: string,
     label?: string,
-    algodUrl: string,
-    algodPort: string,
-    algodToken: string,
-    indexerUrl: string,
-    indexerPort: string,
-    indexerToken: string
+    algod: AlgodConnectionParams,
+    indexer: IndexerConnectionParams
 };
 
 export type A_Group = {

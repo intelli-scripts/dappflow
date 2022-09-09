@@ -22,6 +22,7 @@ import {isNumber, shadedClr} from "../../../utils/common";
 import {Network} from "../../../packages/core-sdk/network";
 import {hideLoader, showLoader} from "../../../redux/common/actions/loader";
 import {isBrave} from "../../../packages/core-sdk/utils";
+import {NodeConnectionParams} from "../../../packages/core-sdk/types";
 
 const nodeConfig = getNodeConfig();
 
@@ -45,12 +46,12 @@ interface SettingsState{
 }
 
 const initialState: SettingsState = {
-    algodPort: nodeConfig.algodPort,
-    algodToken: nodeConfig.algodToken,
-    algodUrl: nodeConfig.algodUrl,
-    indexerPort: nodeConfig.indexerPort,
-    indexerToken: nodeConfig.indexerToken,
-    indexerUrl: nodeConfig.indexerUrl
+    algodPort: nodeConfig.algod.port,
+    algodToken: nodeConfig.algod.token as string,
+    algodUrl: nodeConfig.algod.url,
+    indexerPort: nodeConfig.indexer.port,
+    indexerToken: nodeConfig.indexer.token as string,
+    indexerUrl: nodeConfig.indexer.url
 };
 
 function Settings(): JSX.Element {
@@ -93,9 +94,24 @@ function Settings(): JSX.Element {
             return;
         }
 
+        const connectionParams: NodeConnectionParams = {
+            id: 'test',
+            label: 'Test',
+            algod: {
+                url: algodUrl,
+                port: algodPort,
+                token: algodToken
+            },
+            indexer: {
+                url: indexerUrl,
+                port: indexerPort,
+                token: indexerToken
+            }
+        }
+
         try {
             dispatch(showLoader('Connecting to node ...'));
-            const network = new Network('test', 'Test', algodUrl, indexerUrl, algodToken, indexerToken, algodPort, indexerPort);
+            const network = new Network(connectionParams);
             const client = network.getClient();
             await client.status().do();
             dispatch(hideLoader());
@@ -108,7 +124,7 @@ function Settings(): JSX.Element {
         if (!failed) {
             try {
                 dispatch(showLoader('Connecting to node ...'));
-                const network = new Network('test', 'Test', algodUrl, indexerUrl, algodToken, indexerToken, algodPort, indexerPort);
+                const network = new Network(connectionParams);
                 const indexer = network.getIndexer();
                 await indexer.makeHealthCheck().do();
                 dispatch(hideLoader());
@@ -177,7 +193,15 @@ function Settings(): JSX.Element {
                                     color={"primary"}
                                     className="node"
                                     onClick={() => {
-                                        setState(prevState => ({...prevState, ...node}));
+                                        const {algod, indexer} = node;
+                                        setState(prevState => ({...prevState,
+                                            algodUrl: algod.url,
+                                            algodToken: algod.token as string,
+                                            algodPort: algod.port,
+                                            indexerUrl: indexer.url,
+                                            indexerToken: indexer.token as string,
+                                            indexerPort: indexer.port
+                                        }));
                                     }
                                     }
                                     size={"small"}></Chip>
