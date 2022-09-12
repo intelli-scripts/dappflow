@@ -16,7 +16,7 @@ import groupReducer from "./explorer/actions/group";
 import liveData from "./explorer/actions/liveData";
 import arcs from "./arcPortal/actions/arcs";
 import arc from "./arcPortal/actions/arc";
-import network from "./network/actions/network";
+import node from "./network/actions/node";
 
 export const store = configureStore({
     reducer: {
@@ -37,7 +37,7 @@ export const store = configureStore({
         liveData: liveData,
         arcs: arcs,
         arc: arc,
-        network: network
+        node: node
     },
 });
 

@@ -6,7 +6,6 @@ import React, {useState} from "react";
 import {hideSettings} from "../../../redux/settings/actions/settings";
 import {CancelOutlined} from "@mui/icons-material";
 import {
-    Alert,
     Button, Chip,
     Dialog,
     DialogActions,
@@ -183,9 +182,6 @@ function Settings(): JSX.Element {
                 <div className="settings-wrapper">
                     <div className="settings-container">
                         <div className="settings-header">
-                            <Alert
-                                style={{marginBottom: 10, marginTop: -10}}
-                                color={"warning"} icon={false}>Though explorer can connect to any testnet or mainnet node, We highly recommend to use this explorer only for local private sandbox environment.</Alert>
                             {nodes.map((node) => {
                                 return <Chip
                                     key={node.id}

@@ -39,6 +39,7 @@ import AlgodApi from "../Modules/DeveloperApi/AlgodApi/AlgodApi";
 import ArcPortal from "../Modules/ArcPortal/ArcPortal/ArcPortal";
 import ArcWorkspace from "../Modules/ArcPortal/Arc/RelatedList/ArcWorkspace/ArcWorkspace";
 import ABIStudio from "../Modules/ABI/ABIStudio/ABIStudio";
+import Dispenser from "../Modules/Dispenser/Dispenser";
 
 function AppRouter(): JSX.Element {
 
@@ -98,8 +99,8 @@ function AppRouter(): JSX.Element {
                                         <Route path="" element={<Navigate to="overview" replace />}/>
                                     </Route>
                                 </Route>
-                                <Route path="/abi-studio" element={<ABIStudio></ABIStudio>}>
-                                </Route>
+                                <Route path="/abi-studio" element={<ABIStudio></ABIStudio>}></Route>
+                                <Route path="/dispenser" element={<Dispenser></Dispenser>}></Route>
                                 <Route path="*" element={<Navigate to="/explorer" replace />}/>
                             </Routes>
                         </div>

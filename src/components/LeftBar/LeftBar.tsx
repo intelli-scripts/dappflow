@@ -17,6 +17,7 @@ import CodeIcon from '@mui/icons-material/Code';
 import StorageIcon from '@mui/icons-material/Storage';
 import GavelIcon from '@mui/icons-material/Gavel';
 import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
+import ShowerIcon from '@mui/icons-material/Shower';
 
 
 
@@ -65,6 +66,9 @@ function LeftBar(): JSX.Element {
                       }}/>
                       <Tab icon={<DeveloperBoardIcon></DeveloperBoardIcon>} iconPosition="start" label="ABI Studio" value="abi-studio" onClick={() => {
                           navigate('/abi-studio');
+                      }}/>
+                      <Tab icon={<ShowerIcon></ShowerIcon>} iconPosition="start" label="Dispenser" value="dispenser" onClick={() => {
+                          navigate('/dispenser');
                       }}/>
 
                   </Tabs>

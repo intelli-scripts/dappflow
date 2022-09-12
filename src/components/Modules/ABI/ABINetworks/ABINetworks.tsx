@@ -18,8 +18,8 @@ function ABINetworks(props): JSX.Element {
 
     const hasNetworks = Object.keys(networks).length > 0;
 
-    const network = useSelector((state: RootState) => state.network);
-    const {versionsCheck} = network;
+    const node = useSelector((state: RootState) => state.node);
+    const {versionsCheck} = node;
     const versionsCheckInstance = new CoreVersionsCheck(versionsCheck);
 
     return (<div className={"abi-networks-wrapper"}>
