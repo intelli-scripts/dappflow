@@ -8,17 +8,25 @@ import {CoreNode} from "../../../packages/core-sdk/classes/core/CoreNode";
 import {KmdClient, kmdParams} from "../../../packages/core-sdk/clients/kmdClient";
 import {showSnack} from "../../../redux/common/actions/snackbar";
 import algosdk, {isValidAddress, SuggestedParams, waitForConfirmation} from "algosdk";
-import {handleException} from "../../../redux/common/actions/exception";
 import {hideLoader, showLoader} from "../../../redux/common/actions/loader";
 import dappflow from "../../../utils/dappflow";
+import LinkToTransaction from "../Explorer/Common/Links/LinkToTransaction";
 
 
 interface DispenserState{
-    address: string
+    address: string,
+    success: boolean
+    error: boolean,
+    txId: string,
+    errMsg: string
 }
 
 const initialState: DispenserState = {
-    address: ""
+    address: "",
+    success: false,
+    error: false,
+    txId: "",
+    errMsg: ""
 };
 
 function Dispenser(): JSX.Element {
@@ -30,10 +38,21 @@ function Dispenser(): JSX.Element {
     const dispatch = useDispatch();
 
     const [
-        {address},
+        {address, success, error, txId, errMsg},
         setState
     ] = useState(initialState);
 
+    function resetAttempt() {
+        setState(prevState => ({...prevState, success: false, error: false, txId: "", errMsg: ""}));
+    }
+
+    function setSuccess(txId: string) {
+        setState(prevState => ({...prevState, success: true, error: false, txId, errMsg: "", address: ""}));
+    }
+
+    function setError(message: string) {
+        setState(prevState => ({...prevState, success: false, error: true, txId: "", errMsg: message}));
+    }
 
     async function dispense() {
         const params: kmdParams = {
@@ -58,6 +77,7 @@ function Dispenser(): JSX.Element {
         }
 
         try {
+            resetAttempt();
             dispatch(showLoader("Checking KMD configuration"));
             const dispenserAccount = await new KmdClient(params).getDispenserAccount();
             dispatch(hideLoader());
@@ -80,15 +100,15 @@ function Dispenser(): JSX.Element {
             dispatch(hideLoader());
 
             dispatch(showLoader("Waiting for confirmation"));
-            const response = await waitForConfirmation(client, txId, 10);
+            await waitForConfirmation(client, txId, 10);
             dispatch(hideLoader());
 
-            console.log(response);
+            setSuccess(txId);
 
         }
         catch (e: any) {
-            dispatch(handleException(e));
             dispatch(hideLoader());
+            setError(e.message);
         }
 
     }
@@ -109,29 +129,49 @@ function Dispenser(): JSX.Element {
                 </div> : <div>
                     {isSandbox ? <div className="sandbox-dispenser">
                         <Grid container spacing={2}>
-                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                            <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
                                 <FormLabel sx={{color: 'common.black'}}>Target address</FormLabel>
                                 <div>
                                     <TextField
                                         multiline={true}
+                                        placeholder="Enter your address"
                                         type={"text"}
                                         required
                                         value={address}
                                         onChange={(ev) => {
                                             setState(prevState => ({...prevState, address: ev.target.value + ""}));
                                         }}
-                                        sx={{borderRadius: '10px', marginTop: '10px', width: '400px'}}
+                                        fullWidth
+                                        sx={{borderRadius: '10px', marginTop: '10px', fieldset: {borderRadius: '10px'}}}
                                         rows={4}
                                         variant="outlined"
                                     />
                                 </div>
-                                <div style={{marginTop: '15px'}}>
+                                <div style={{marginTop: '15px', textAlign: "right"}}>
                                     <Button color={"primary"} variant={"contained"} onClick={() => {
                                         dispense();
                                     }
                                     }>Dispense</Button>
                                 </div>
 
+                                <div style={{marginTop: '30px', wordBreak: "break-all"}}>
+                                    {success ? <div>
+                                        <Alert icon={false} color={"success"}>
+                                            <div>
+                                                Transaction successful :
+                                            </div>
+                                            <LinkToTransaction id={txId} sx={{color: 'common.black', marginTop: 15}}></LinkToTransaction>
+                                        </Alert>
+
+                                    </div> : ''}
+
+                                    {error ? <div>
+                                        <Alert icon={false} color={"error"}>
+                                            {errMsg}
+                                        </Alert>
+
+                                    </div> : ''}
+                                </div>
                             </Grid>
                         </Grid>
                     </div> : <div>

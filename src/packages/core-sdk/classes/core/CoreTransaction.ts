@@ -66,6 +66,9 @@ export class CoreTransaction {
         else if(type === 'appl') {
             return 'App call';
         }
+        else if(type === 'stpf') {
+            return 'State proof';
+        }
     }
 
     getTo(): string {
