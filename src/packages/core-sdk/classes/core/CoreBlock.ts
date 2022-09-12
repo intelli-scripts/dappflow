@@ -1,7 +1,7 @@
 import {
     A_Block, A_SearchTransaction
-} from "../types";
-import {TIMESTAMP_DISPLAY_FORMAT} from "../constants";
+} from "../../types";
+import {TIMESTAMP_DISPLAY_FORMAT} from "../../constants";
 import dateFormat  from "dateformat";
 import {CoreTransaction} from "./CoreTransaction";
 

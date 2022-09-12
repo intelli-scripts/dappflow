@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../../redux/store";
 import {Grid, Tab, Tabs} from "@mui/material";
 import {loadApplication} from "../../../../../redux/explorer/actions/application";
-import {CoreApplication} from "../../../../../packages/core-sdk/classes/CoreApplication";
+import {CoreApplication} from "../../../../../packages/core-sdk/classes/core/CoreApplication";
 import ApplicationGlobalState from "./Sections/ApplicationGlobalState/ApplicationGlobalState";
 import LinkToAccount from "../../Common/Links/LinkToAccount";
 import LoadingTile from "../../../../Common/LoadingTile/LoadingTile";

@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 import {A_SearchTransaction_App_Call_Payload} from "../../../../../../../../../packages/core-sdk/types";
 import {Alert, Button, ButtonGroup, Grid, Typography} from "@mui/material";
 import {ApplicationABI} from "../../../../../../../../../packages/abi/classes/ApplicationABI";
-import {CoreAppCall} from "../../../../../../../../../packages/core-sdk/classes/CoreAppCall";
+import {CoreAppCall} from "../../../../../../../../../packages/core-sdk/classes/core/CoreAppCall";
 import {ABIContractParams} from "algosdk";
 import ABIMethodSignature from "../../../../../../../ABI/ABIMethodSignature/ABIMethodSignature";
 

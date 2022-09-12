@@ -1,7 +1,7 @@
 import './PaymentTransaction.scss';
 import React from "react";
 import {Grid} from "@mui/material";
-import {CoreTransaction} from "../../../../../../../packages/core-sdk/classes/CoreTransaction";
+import {CoreTransaction} from "../../../../../../../packages/core-sdk/classes/core/CoreTransaction";
 import AlgoIcon from "../../../../AlgoIcon/AlgoIcon";
 import NumberFormat from "react-number-format";
 import {microalgosToAlgos} from "algosdk";

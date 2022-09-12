@@ -5,7 +5,7 @@ import {Box, Chip, Grid} from "@mui/material";
 import {shadedClr2} from "../../../../utils/common";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../redux/store";
-import {CoreVersionsCheck} from "../../../../packages/core-sdk/classes/CoreVersionsCheck";
+import {CoreVersionsCheck} from "../../../../packages/core-sdk/classes/core/CoreVersionsCheck";
 import {ABIContractNetworks} from "algosdk";
 
 

@@ -6,7 +6,7 @@ import {RootState} from "../../../../../redux/store";
 import {Grid, Tab, Tabs} from "@mui/material";
 import {loadBlock} from "../../../../../redux/explorer/actions/block";
 import LoadingTile from "../../../../Common/LoadingTile/LoadingTile";
-import {CoreBlock} from "../../../../../packages/core-sdk/classes/CoreBlock";
+import {CoreBlock} from "../../../../../packages/core-sdk/classes/core/CoreBlock";
 import CustomError from "../../Common/CustomError/CustomError";
 
 

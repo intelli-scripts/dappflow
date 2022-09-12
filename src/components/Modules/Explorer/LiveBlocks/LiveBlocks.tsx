@@ -4,7 +4,7 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../../../redux/store";
 import {shadedClr} from "../../../../utils/common";
 import LinkToBlock from "../Common/Links/LinkToBlock";
-import {CoreBlock} from "../../../../packages/core-sdk/classes/CoreBlock";
+import {CoreBlock} from "../../../../packages/core-sdk/classes/core/CoreBlock";
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import {Box} from "@mui/material";
 

@@ -10,12 +10,12 @@ import {
 import ImportABI from "../../../../../ABI/ImportABI/ImportABI";
 import JsonViewer from "../../../../../../Common/JsonViewer/JsonViewer";
 import {ApplicationABI} from "../../../../../../../packages/abi/classes/ApplicationABI";
-import {CoreApplication} from "../../../../../../../packages/core-sdk/classes/CoreApplication";
+import {CoreApplication} from "../../../../../../../packages/core-sdk/classes/core/CoreApplication";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../../../../redux/store";
 import {handleException} from "../../../../../../../redux/common/actions/exception";
 import {showSnack} from "../../../../../../../redux/common/actions/snackbar";
-import {CoreVersionsCheck} from "../../../../../../../packages/core-sdk/classes/CoreVersionsCheck";
+import {CoreVersionsCheck} from "../../../../../../../packages/core-sdk/classes/core/CoreVersionsCheck";
 import {CancelOutlined} from "@mui/icons-material";
 import ABIEditor from "../../../../../ABI/ABIEditor/ABIEditor";
 

@@ -3,7 +3,7 @@ import {A_AccountInformation, A_Application, A_AppsLocalState, A_Asset} from '..
 import {handleException} from "../../common/actions/exception";
 import explorer from "../../../utils/dappflow";
 import {A_AccountTransactionsResponse, AccountClient} from "../../../packages/core-sdk/clients/accountClient";
-import {CoreAccount} from "../../../packages/core-sdk/classes/CoreAccount";
+import {CoreAccount} from "../../../packages/core-sdk/classes/core/CoreAccount";
 import {AssetClient} from "../../../packages/core-sdk/clients/assetClient";
 
 export interface Account {

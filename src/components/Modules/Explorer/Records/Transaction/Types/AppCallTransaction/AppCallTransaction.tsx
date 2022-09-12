@@ -1,7 +1,7 @@
 import './AppCallTransaction.scss';
 import React from "react";
 import {Grid} from "@mui/material";
-import {CoreTransaction} from "../../../../../../../packages/core-sdk/classes/CoreTransaction";
+import {CoreTransaction} from "../../../../../../../packages/core-sdk/classes/core/CoreTransaction";
 import AppCallTxnGlobalStateDelta from "./Sections/AppCallTxnGlobalStateDelta/AppCallTxnGlobalStateDelta";
 import LinkToAccount from "../../../../Common/Links/LinkToAccount";
 import LinkToApplication from "../../../../Common/Links/LinkToApplication";
@@ -14,7 +14,7 @@ import AppCallTxnForeignApps from "./Sections/AppCallTxnForeignApps/AppCallTxnFo
 import AppCallTxnForeignAccounts from "./Sections/AppCallTxnForeignAccounts/AppCallTxnForeignAccounts";
 import AppCallTxnLogs from "./Sections/AppCallTxnLogs/AppCallTxnLogs";
 import ApplicationProgram from "../../../Application/Sections/ApplicationProgram/ApplicationProgram";
-import {CoreAppCall} from "../../../../../../../packages/core-sdk/classes/CoreAppCall";
+import {CoreAppCall} from "../../../../../../../packages/core-sdk/classes/core/CoreAppCall";
 
 
 function AppCallTransaction(props): JSX.Element {

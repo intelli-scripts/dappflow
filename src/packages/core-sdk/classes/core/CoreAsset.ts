@@ -1,8 +1,8 @@
 import {
     A_Asset
-} from "../types";
-import {IPFS_GATEWAY} from "../../arc-portal/utils";
-import {ARC19} from "../../arc-portal/classes/ARC19/ARC19";
+} from "../../types";
+import {IPFS_GATEWAY} from "../../../arc-portal/utils";
+import {ARC19} from "../../../arc-portal/classes/ARC19/ARC19";
 
 
 export class CoreAsset {

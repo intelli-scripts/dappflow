@@ -1,6 +1,6 @@
 import {
     A_VersionsCheck
-} from "../types";
+} from "../../types";
 
 
 export class CoreVersionsCheck {

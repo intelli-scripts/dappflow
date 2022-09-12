@@ -1,7 +1,7 @@
 import './TransactionMultiSig.scss';
 import React from "react";
 import {Grid} from "@mui/material";
-import {CoreTransaction} from "../../../../../../../packages/core-sdk/classes/CoreTransaction";
+import {CoreTransaction} from "../../../../../../../packages/core-sdk/classes/core/CoreTransaction";
 import {shadedClr} from "../../../../../../../utils/common";
 import LinkToAccount from "../../../../Common/Links/LinkToAccount";
 

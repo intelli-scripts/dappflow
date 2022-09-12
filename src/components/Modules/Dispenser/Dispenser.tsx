@@ -4,12 +4,13 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../redux/store";
 import LoadingTile from "../../Common/LoadingTile/LoadingTile";
 import {Alert, Button, FormLabel, Grid, TextField} from "@mui/material";
-import {CoreNode} from "../../../packages/core-sdk/classes/CoreNode";
+import {CoreNode} from "../../../packages/core-sdk/classes/core/CoreNode";
 import {KmdClient, kmdParams} from "../../../packages/core-sdk/clients/kmdClient";
 import {showSnack} from "../../../redux/common/actions/snackbar";
-import {isValidAddress} from "algosdk";
+import algosdk, {isValidAddress, SuggestedParams, waitForConfirmation} from "algosdk";
 import {handleException} from "../../../redux/common/actions/exception";
 import {hideLoader, showLoader} from "../../../redux/common/actions/loader";
+import dappflow from "../../../utils/dappflow";
 
 
 interface DispenserState{
@@ -60,7 +61,30 @@ function Dispenser(): JSX.Element {
             dispatch(showLoader("Checking KMD configuration"));
             const dispenserAccount = await new KmdClient(params).getDispenserAccount();
             dispatch(hideLoader());
-            console.log(dispenserAccount);
+
+            dispatch(showLoader("Loading suggested params"));
+            const client = dappflow.network.getClient();
+            const suggestedParams: SuggestedParams = await client.getTransactionParams().do();
+            dispatch(hideLoader());
+
+            const amount = algosdk.algosToMicroalgos(100);
+
+            const enc = new TextEncoder();
+            const note = enc.encode("Dispencing algos from dappflow dispenser");
+
+            const unsignedTxn = algosdk.makePaymentTxnWithSuggestedParams(dispenserAccount.addr, address, amount, undefined, note, suggestedParams, undefined);
+            const signedTxn = unsignedTxn.signTxn(dispenserAccount.sk);
+
+            dispatch(showLoader("Submitting transaction"));
+            const {txId} = await client.sendRawTransaction(signedTxn).do();
+            dispatch(hideLoader());
+
+            dispatch(showLoader("Waiting for confirmation"));
+            const response = await waitForConfirmation(client, txId, 10);
+            dispatch(hideLoader());
+
+            console.log(response);
+
         }
         catch (e: any) {
             dispatch(handleException(e));

@@ -1,7 +1,7 @@
 import './KeyRegTransaction.scss';
 import React from "react";
 import {Grid} from "@mui/material";
-import {CoreTransaction} from "../../../../../../../packages/core-sdk/classes/CoreTransaction";
+import {CoreTransaction} from "../../../../../../../packages/core-sdk/classes/core/CoreTransaction";
 import LinkToAccount from "../../../../Common/Links/LinkToAccount";
 import LinkToBlock from "../../../../Common/Links/LinkToBlock";
 import {shadedClr} from "../../../../../../../utils/common";

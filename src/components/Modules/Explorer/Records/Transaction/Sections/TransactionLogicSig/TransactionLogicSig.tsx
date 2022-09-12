@@ -1,6 +1,6 @@
 import './TransactionLogicSig.scss';
 import React from "react";
-import {CoreTransaction} from "../../../../../../../packages/core-sdk/classes/CoreTransaction";
+import {CoreTransaction} from "../../../../../../../packages/core-sdk/classes/core/CoreTransaction";
 import ApplicationProgram from "../../../Application/Sections/ApplicationProgram/ApplicationProgram";
 
 

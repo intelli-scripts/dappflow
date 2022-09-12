@@ -2,7 +2,7 @@ import {A_Asset} from "../../../core-sdk/types";
 import {A_Arc3_Metadata, A_Arc_Validation} from "../../types";
 import axios, {AxiosResponse} from "axios";
 import { sha256 } from 'js-sha256'
-import {CoreAsset} from "../../../core-sdk/classes/CoreAsset";
+import {CoreAsset} from "../../../core-sdk/classes/core/CoreAsset";
 
 export class ARC3 {
     assetInstance: CoreAsset

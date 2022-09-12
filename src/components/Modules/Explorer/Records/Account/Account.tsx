@@ -8,7 +8,7 @@ import {Chip, Grid, Tab, Tabs} from "@mui/material";
 import NumberFormat from "react-number-format";
 import {microalgosToAlgos} from "algosdk";
 import AlgoIcon from "../../AlgoIcon/AlgoIcon";
-import {CoreAccount} from "../../../../../packages/core-sdk/classes/CoreAccount";
+import {CoreAccount} from "../../../../../packages/core-sdk/classes/core/CoreAccount";
 import LoadingTile from "../../../../Common/LoadingTile/LoadingTile";
 import JsonViewer from "../../../../Common/JsonViewer/JsonViewer";
 import CustomError from "../../Common/CustomError/CustomError";

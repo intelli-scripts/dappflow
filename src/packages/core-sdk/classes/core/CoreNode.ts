@@ -1,4 +1,4 @@
-import {A_VersionsCheck} from "../types";
+import {A_VersionsCheck} from "../../types";
 
 export class CoreNode {
 

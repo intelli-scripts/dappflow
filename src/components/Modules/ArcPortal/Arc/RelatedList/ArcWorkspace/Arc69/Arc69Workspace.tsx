@@ -21,7 +21,7 @@ import {A_Arc69_Metadata, A_Arc_Validation} from "../../../../../../../packages/
 import {Alert} from "@mui/lab";
 import CallMadeIcon from '@mui/icons-material/CallMade';
 import {ARC69} from "../../../../../../../packages/arc-portal/classes/ARC69/ARC69";
-import {CoreAsset} from "../../../../../../../packages/core-sdk/classes/CoreAsset";
+import {CoreAsset} from "../../../../../../../packages/core-sdk/classes/core/CoreAsset";
 import {useSearchParams} from "react-router-dom";
 import LinkToAsset from "../../../../../Explorer/Common/Links/LinkToAsset";
 import JsonViewer from "../../../../../../Common/JsonViewer/JsonViewer";

@@ -4,7 +4,7 @@ import {
     Chip,
     Grid
 } from "@mui/material";
-import {CoreTransaction} from "../../../../../../packages/core-sdk/classes/CoreTransaction";
+import {CoreTransaction} from "../../../../../../packages/core-sdk/classes/core/CoreTransaction";
 import {microalgosToAlgos} from "algosdk";
 import AlgoIcon from "../../../AlgoIcon/AlgoIcon";
 import {TXN_TYPES} from "../../../../../../packages/core-sdk/constants";

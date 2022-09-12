@@ -2,7 +2,7 @@ import './ApplicationGlobalState.scss';
 import React from "react";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../../../../redux/store";
-import {CoreApplication} from "../../../../../../../packages/core-sdk/classes/CoreApplication";
+import {CoreApplication} from "../../../../../../../packages/core-sdk/classes/core/CoreApplication";
 import {DataGrid, GridColDef, GridValueGetterParams} from "@mui/x-data-grid";
 import {dataGridCellConfig, dataGridStyles} from "../../../../../../../theme/styles/datagrid";
 import NumberFormat from "react-number-format";

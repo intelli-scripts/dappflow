@@ -4,7 +4,7 @@ import explorer from "../../../utils/dappflow";
 import {A_Application} from "../../../packages/core-sdk/types";
 import {A_ApplicationTransactionsResponse, ApplicationClient} from "../../../packages/core-sdk/clients/applicationClient";
 import {ApplicationABI} from "../../../packages/abi/classes/ApplicationABI";
-import {CoreApplication} from "../../../packages/core-sdk/classes/CoreApplication";
+import {CoreApplication} from "../../../packages/core-sdk/classes/core/CoreApplication";
 import {ABIContractParams} from "algosdk";
 
 export interface Application {

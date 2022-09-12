@@ -1,6 +1,6 @@
 import {
     A_AppStateDelta
-} from "../types";
+} from "../../types";
 import {CoreGlobalState} from "./CoreGlobalStateDelta";
 
 

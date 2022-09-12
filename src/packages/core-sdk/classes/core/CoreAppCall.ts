@@ -1,7 +1,7 @@
 import {
     A_ABIMethodArgParams,
     A_SearchTransaction_App_Call_Payload
-} from "../types";
+} from "../../types";
 import {ABIContract, ABIContractParams, ABIMethodParams, ABIType} from "algosdk";
 import algosdk from "algosdk";
 

@@ -7,7 +7,7 @@ import {
     Grid
 } from "@mui/material";
 import {loadTransaction} from "../../../../../redux/explorer/actions/transaction";
-import {CoreTransaction} from "../../../../../packages/core-sdk/classes/CoreTransaction";
+import {CoreTransaction} from "../../../../../packages/core-sdk/classes/core/CoreTransaction";
 import {microalgosToAlgos} from "algosdk";
 import AlgoIcon from "../../AlgoIcon/AlgoIcon";
 import {TXN_TYPES} from "../../../../../packages/core-sdk/constants";
