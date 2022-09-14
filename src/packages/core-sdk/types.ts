@@ -2,7 +2,7 @@ import {ABIMethodArgParams, ABIValue} from "algosdk";
 import {
     AlgodTokenHeader,
     CustomTokenHeader,
-    IndexerTokenHeader
+    IndexerTokenHeader, KMDTokenHeader
 } from "algosdk/dist/types/src/client/urlTokenBaseHTTPClient";
 
 export interface A_AccountInformation {
@@ -254,6 +254,12 @@ export type NodeConnectionParams = {
     algod: AlgodConnectionParams,
     indexer: IndexerConnectionParams
 };
+
+export type KMDConnectionParams = {
+    url: string,
+    port: string,
+    token: string | KMDTokenHeader | CustomTokenHeader
+}
 
 export type A_Group = {
     id: string

@@ -1,4 +1,4 @@
-import {NodeConnectionParams} from "../packages/core-sdk/types";
+import {KMDConnectionParams, NodeConnectionParams} from "../packages/core-sdk/types";
 
 export function getNodeConfig(): NodeConnectionParams {
     const defaultNode = getNodes()[1];
@@ -15,6 +15,20 @@ export function getNodeConfig(): NodeConnectionParams {
             port: localStorage.getItem('indexerPort') || defaultNode.indexer.port,
             token: localStorage.getItem('indexerToken') || defaultNode.indexer.token,
         }
+    }
+}
+
+export function getKMDConfig(): KMDConnectionParams {
+    const defaultKMDConfig: KMDConnectionParams = {
+        url: 'http://localhost',
+        token: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+        port: '4002'
+    };
+
+    return {
+        url: localStorage.getItem('kmdUrl') || defaultKMDConfig.url,
+        port: localStorage.getItem('kmdPort') || defaultKMDConfig.port,
+        token: localStorage.getItem('kmdToken') || defaultKMDConfig.token,
     }
 }
 

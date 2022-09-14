@@ -1,12 +1,8 @@
 import {Account, Kmd} from "algosdk";
 import {CustomTokenHeader, KMDTokenHeader} from "algosdk/dist/types/src/client/urlTokenBaseHTTPClient";
 import * as sdk from "algosdk";
+import {KMDConnectionParams} from "../types";
 
-export interface kmdParams {
-    url: string
-    port: string
-    token: string | KMDTokenHeader | CustomTokenHeader
-}
 
 export class KmdClient {
     url: string
@@ -14,11 +10,16 @@ export class KmdClient {
     token: string | KMDTokenHeader | CustomTokenHeader
     kmd: Kmd
 
-    constructor(params: kmdParams) {
+    constructor(params: KMDConnectionParams) {
         this.url = params.url;
         this.port = params.port;
         this.token = params.token;
         this.kmd = new sdk.Kmd(this.token, this.url, this.port);
+    }
+
+    async getVersions() {
+        const versions = await this.kmd.listWallets();
+        return versions;
     }
 
     async getDispenserAccount(): Promise<Account> {

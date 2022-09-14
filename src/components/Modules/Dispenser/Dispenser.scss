@@ -3,9 +3,13 @@
 .dispenser-wrapper {
   .dispenser-container {
     .dispenser-header {
-      margin-bottom: 40px;
+      margin-bottom: 20px;
+      padding-bottom: 20px;
       font-size: 20px;
       font-weight: bold;
+      border-bottom: 1px solid $color-grey-light;
+      display: flex;
+      justify-content: space-between;
     }
     .dispenser-body {
       
