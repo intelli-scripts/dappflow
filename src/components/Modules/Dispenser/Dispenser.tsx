@@ -105,14 +105,16 @@ function Dispenser(): JSX.Element {
             const suggestedParams: SuggestedParams = await client.getTransactionParams().do();
             dispatch(hideLoader());
 
+            dispatch(showLoader(""));
             const amountInMicros = algosdk.algosToMicroalgos(Number(amount));
-
             const enc = new TextEncoder();
             const note = enc.encode("Dispencing algos from dappflow dispenser");
 
             const unsignedTxn = algosdk.makePaymentTxnWithSuggestedParams(dispenserAccount.addr, address, amountInMicros, undefined, note, suggestedParams, undefined);
             const signedTxn = unsignedTxn.signTxn(dispenserAccount.sk);
 
+            dispatch(hideLoader());
+            
             dispatch(showLoader("Submitting transaction"));
             const {txId} = await client.sendRawTransaction(signedTxn).do();
             dispatch(hideLoader());
@@ -148,7 +150,7 @@ function Dispenser(): JSX.Element {
                                 setState(prevState => ({...prevState, showKmdConfig: true}));
                             }
                             }>KMD config</Button> : ''}
-                            
+
                         </div>
                     </div>
                     <div className={"dispenser-body"}>
