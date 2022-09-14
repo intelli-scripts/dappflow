@@ -1,9 +1,9 @@
 @import "src/assets/colors";
 
-.dispenser-wrapper {
-  .dispenser-container {
+.node-status-wrapper {
+  .node-status-container {
     margin-top: 50px;
-    .dispenser-header {
+    .node-status-header {
       margin-bottom: 20px;
       padding-bottom: 20px;
       font-size: 20px;
@@ -12,7 +12,7 @@
       display: flex;
       justify-content: space-between;
     }
-    .dispenser-body {
+    .node-status-body {
       
     }
   }

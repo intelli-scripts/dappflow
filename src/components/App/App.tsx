@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import './App.scss';
 import AppRouter from "./AppRouter";
 import {useDispatch} from "react-redux";
-import {loadNodeVersions} from "../../redux/network/actions/node";
+import {initApp} from "../../redux/app/actions/app";
 
 
 
@@ -10,7 +10,7 @@ function App(): JSX.Element {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(loadNodeVersions());
+        dispatch(initApp());
     }, []);
 
   return (

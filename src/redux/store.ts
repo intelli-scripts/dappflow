@@ -17,6 +17,7 @@ import liveData from "./explorer/actions/liveData";
 import arcs from "./arcPortal/actions/arcs";
 import arc from "./arcPortal/actions/arc";
 import node from "./network/actions/node";
+import app from "./app/actions/app";
 
 export const store = configureStore({
     reducer: {
@@ -37,7 +38,8 @@ export const store = configureStore({
         liveData: liveData,
         arcs: arcs,
         arc: arc,
-        node: node
+        node: node,
+        app: app
     },
 });
 

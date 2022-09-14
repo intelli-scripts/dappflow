@@ -114,7 +114,7 @@ function Dispenser(): JSX.Element {
             const signedTxn = unsignedTxn.signTxn(dispenserAccount.sk);
 
             dispatch(hideLoader());
-            
+
             dispatch(showLoader("Submitting transaction"));
             const {txId} = await client.sendRawTransaction(signedTxn).do();
             dispatch(hideLoader());

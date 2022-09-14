@@ -18,6 +18,7 @@ import StorageIcon from '@mui/icons-material/Storage';
 import GavelIcon from '@mui/icons-material/Gavel';
 import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
 import ShowerIcon from '@mui/icons-material/Shower';
+import InsertChartIcon from '@mui/icons-material/InsertChart';
 
 
 
@@ -69,6 +70,9 @@ function LeftBar(): JSX.Element {
                       }}/>
                       <Tab icon={<ShowerIcon></ShowerIcon>} iconPosition="start" label="Dispenser" value="dispenser" onClick={() => {
                           navigate('/dispenser');
+                      }}/>
+                      <Tab icon={<InsertChartIcon></InsertChartIcon>} iconPosition="start" label="Node Status" value="node-status" onClick={() => {
+                          navigate('/node-status');
                       }}/>
 
                   </Tabs>
