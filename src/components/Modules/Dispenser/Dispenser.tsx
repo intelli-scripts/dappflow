@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../redux/store";
 import LoadingTile from "../../Common/LoadingTile/LoadingTile";
-import {Alert, Button, FormLabel, Grid, TextField} from "@mui/material";
+import {Alert, Box, Button, FormLabel, Grid, TextField} from "@mui/material";
 import {CoreNode} from "../../../packages/core-sdk/classes/core/CoreNode";
 import {KmdClient, kmdParams} from "../../../packages/core-sdk/clients/kmdClient";
 import {showSnack} from "../../../redux/common/actions/snackbar";
@@ -11,6 +11,7 @@ import algosdk, {isValidAddress, SuggestedParams, waitForConfirmation} from "alg
 import {hideLoader, showLoader} from "../../../redux/common/actions/loader";
 import dappflow from "../../../utils/dappflow";
 import LinkToTransaction from "../Explorer/Common/Links/LinkToTransaction";
+import {isNumber} from "../../../utils/common";
 
 
 interface DispenserState{
@@ -18,7 +19,8 @@ interface DispenserState{
     success: boolean
     error: boolean,
     txId: string,
-    errMsg: string
+    errMsg: string,
+    amount: string
 }
 
 const initialState: DispenserState = {
@@ -26,7 +28,8 @@ const initialState: DispenserState = {
     success: false,
     error: false,
     txId: "",
-    errMsg: ""
+    errMsg: "",
+    amount: ""
 };
 
 function Dispenser(): JSX.Element {
@@ -38,7 +41,7 @@ function Dispenser(): JSX.Element {
     const dispatch = useDispatch();
 
     const [
-        {address, success, error, txId, errMsg},
+        {address, success, error, txId, errMsg, amount},
         setState
     ] = useState(initialState);
 
@@ -75,6 +78,20 @@ function Dispenser(): JSX.Element {
             }));
             return;
         }
+        if (!amount) {
+            dispatch(showSnack({
+                severity: 'error',
+                message: 'Invalid amount'
+            }));
+            return;
+        }
+        if (!isNumber(amount)) {
+            dispatch(showSnack({
+                severity: 'error',
+                message: 'Invalid amount'
+            }));
+            return;
+        }
 
         try {
             resetAttempt();
@@ -87,12 +104,12 @@ function Dispenser(): JSX.Element {
             const suggestedParams: SuggestedParams = await client.getTransactionParams().do();
             dispatch(hideLoader());
 
-            const amount = algosdk.algosToMicroalgos(100);
+            const amountInMicros = algosdk.algosToMicroalgos(Number(amount));
 
             const enc = new TextEncoder();
             const note = enc.encode("Dispencing algos from dappflow dispenser");
 
-            const unsignedTxn = algosdk.makePaymentTxnWithSuggestedParams(dispenserAccount.addr, address, amount, undefined, note, suggestedParams, undefined);
+            const unsignedTxn = algosdk.makePaymentTxnWithSuggestedParams(dispenserAccount.addr, address, amountInMicros, undefined, note, suggestedParams, undefined);
             const signedTxn = unsignedTxn.signTxn(dispenserAccount.sk);
 
             dispatch(showLoader("Submitting transaction"));
@@ -130,25 +147,53 @@ function Dispenser(): JSX.Element {
                     {isSandbox ? <div className="sandbox-dispenser">
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
-                                <FormLabel sx={{color: 'common.black'}}>Target address</FormLabel>
                                 <div>
+                                    <FormLabel>Target address</FormLabel>
+                                    <div>
+                                        <TextField
+                                            multiline={true}
+                                            placeholder="Enter your address"
+                                            type={"text"}
+                                            required
+                                            value={address}
+                                            onChange={(ev) => {
+                                                setState(prevState => ({...prevState, address: ev.target.value + ""}));
+                                            }}
+                                            fullWidth
+                                            sx={{marginTop: '10px', marginBottom: '10px', fieldset: {borderRadius: '10px'}}}
+                                            rows={4}
+                                            variant="outlined"
+                                        />
+                                    </div>
+                                </div>
+                                <div>
+                                    <FormLabel>Amount</FormLabel>
+                                    <div>
+
+                                    </div>
                                     <TextField
-                                        multiline={true}
-                                        placeholder="Enter your address"
-                                        type={"text"}
+                                        type={"number"}
                                         required
-                                        value={address}
+                                        size={"medium"}
+                                        value={amount}
+                                        sx={{marginTop: '5px', marginBottom: '10px', fieldset: {borderRadius: '10px'}}}
                                         onChange={(ev) => {
-                                            setState(prevState => ({...prevState, address: ev.target.value + ""}));
+                                            setState(prevState => ({...prevState, amount: ev.target.value + ""}));
                                         }}
-                                        fullWidth
-                                        sx={{borderRadius: '10px', marginTop: '10px', fieldset: {borderRadius: '10px'}}}
-                                        rows={4}
                                         variant="outlined"
+                                        fullWidth
+                                        InputProps={{
+                                            endAdornment: <Box sx={{color: 'grey.500'}}>
+                                               Algos
+                                            </Box>
+                                        }}
                                     />
                                 </div>
+
                                 <div style={{marginTop: '15px', textAlign: "right"}}>
-                                    <Button color={"primary"} variant={"contained"} onClick={() => {
+                                    <Button color={"primary"}
+                                            fullWidth
+                                            variant={"contained"} onClick={() => {
                                         dispense();
                                     }
                                     }>Dispense</Button>
