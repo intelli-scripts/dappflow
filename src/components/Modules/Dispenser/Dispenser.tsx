@@ -141,19 +141,20 @@ function Dispenser(): JSX.Element {
                             Dispenser
                         </div>
                         <div>
-                            <Button
+                            {isSandbox ? <Button
                                 size="small"
                                 color={"primary"}
                                 variant={"outlined"} onClick={() => {
                                 setState(prevState => ({...prevState, showKmdConfig: true}));
                             }
-                            }>KMD config</Button>
+                            }>KMD config</Button> : ''}
+                            
                         </div>
                     </div>
                     <div className={"dispenser-body"}>
                         {loadingVersions ? <div>
                             <Grid container spacing={0}>
-                                <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
+                                <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                     <LoadingTile></LoadingTile>
                                 </Grid>
                             </Grid>
@@ -235,7 +236,7 @@ function Dispenser(): JSX.Element {
                                 </Grid>
                             </div> : <div>
                                 <Grid container spacing={0}>
-                                    <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
+                                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                         <Alert icon={false} color={"warning"}>
                                             Dispenser is available only for sandbox environment.
                                             <br/>
