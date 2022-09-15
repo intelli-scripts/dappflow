@@ -26,12 +26,18 @@ function ABIStudio(): JSX.Element {
     return (<div className={"abi-studio-wrapper"}>
         <div className={"abi-studio-container"}>
 
+
+
             <div className={"abi-studio-header"}>
+                <div>
+                    ABI Studio
+                </div>
+            </div>
+
+            <div className={"abi-studio-body"}>
                 <ABIActions onImport={(abi) => {
                     setState(prevState => ({...prevState, abi, imported: true}));
                 }}></ABIActions>
-            </div>
-            <div className={"abi-studio-body"}>
                 {imported ? <ABIEditor abi={abi}></ABIEditor> : <div>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={12} md={8} lg={6} xl={6}>

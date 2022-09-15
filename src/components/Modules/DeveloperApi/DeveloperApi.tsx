@@ -22,6 +22,12 @@ function DeveloperApi(): JSX.Element {
     return (<div className={"developer-api-wrapper"}>
         <div className={"developer-api-container"}>
 
+            <div className={"developer-api-header"}>
+                <div>
+                    Developer API
+                </div>
+            </div>
+
             <Tabs value={route}
                   className="tabs-wrapper"
                   >

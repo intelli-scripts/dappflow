@@ -3,6 +3,13 @@
 .developer-api-wrapper {
   .developer-api-container {
     margin-top: 10px;
+    .developer-api-header {
+      margin-bottom: 10px;
+      padding-bottom: 20px;
+      font-size: 20px;
+      font-weight: bold;
+      border-bottom: 1px solid $color-grey-light;
+    }
     .tabs-wrapper {
       border-bottom: 1px solid $color-grey-light;
     }
