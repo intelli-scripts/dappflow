@@ -2,18 +2,18 @@
 
 .node-catchup-wrapper {
   .node-catchup-container {
-    .card {
+    .tile {
       height: 180px;
       border-radius: 10px;
       border: none;
-      .card-header {
-        .card-title {
+      .tile-header {
+        .tile-title {
           font-family: PoppinsBold !important;
           margin-bottom: 30px;
         }
       }
-      .card-body {
-        .caught-up-completed {
+      .tile-body {
+        .tile-status {
           svg {
             vertical-align: middle;
             margin-right: 10px;

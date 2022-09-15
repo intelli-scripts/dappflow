@@ -13,7 +13,6 @@ function NodeCatchup(props): JSX.Element {
 
     const loading: boolean = props.loading ? true : false;
     const status: A_Status = props.status;
-    console.log(status);
     let catchupTime = status["catchup-time"];
     const caughtUp = catchupTime === 0;
 
@@ -21,22 +20,22 @@ function NodeCatchup(props): JSX.Element {
         <div className={"node-catchup-container"}>
 
             <React.Fragment>
-                <Card variant="outlined" sx={{background: shadedClr}} className="card">
+                <Card variant="outlined" sx={{background: shadedClr}} className="tile">
                     <CardContent>
-                        <div className="card-header">
-                            <div className="card-title">
+                        <div className="tile-header">
+                            <div className="tile-title">
                                 Node catchup
                             </div>
                         </div>
 
-                        <div className="card-body">
+                        <div className="tile-body">
                             {loading ? <div>
                                 <LoadingTile count={3}></LoadingTile>
                             </div> : <div>
-                                {caughtUp ? <div className="caught-up-completed">
+                                {caughtUp ? <div className="tile-status">
                                     <CheckCircleOutlinedIcon fontSize={"large"} color={"warning"}></CheckCircleOutlinedIcon>
                                     <span>Completed</span>
-                                </div> : <div className="caught-up-completed">
+                                </div> : <div className="tile-status">
                                     <DownloadingOutlinedIcon fontSize={"large"} color={"warning"}></DownloadingOutlinedIcon>
                                     <span>{humanizeDuration(catchupTime, { largest: 2 })}</span>
                                 </div>

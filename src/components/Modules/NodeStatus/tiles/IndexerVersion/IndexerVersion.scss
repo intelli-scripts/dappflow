@@ -1,0 +1,26 @@
+@import "src/assets/colors";
+
+.indexer-version-wrapper {
+  .indexer-version-container {
+    .tile {
+      height: 180px;
+      border-radius: 10px;
+      border: none;
+      .tile-header {
+        .tile-title {
+          font-family: PoppinsBold !important;
+          margin-bottom: 30px;
+        }
+      }
+      .tile-body {
+        .tile-status {
+          svg {
+            vertical-align: middle;
+            margin-right: 10px;
+          }
+        }
+      }
+    }
+
+  }
+}
