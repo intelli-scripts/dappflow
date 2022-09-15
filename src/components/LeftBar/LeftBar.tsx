@@ -1,7 +1,7 @@
 import './LeftBar.scss';
 import {
     Box,
-    Button, Tab, Tabs, Tooltip
+    Button, Chip, Tab, Tabs
 } from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import React from "react";
@@ -9,8 +9,6 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import {showSettings} from "../../redux/settings/actions/settings";
 import Logo from '../../assets/images/logo-black.png';
 import {useLocation, useNavigate} from "react-router-dom";
-import CircleIcon from "@mui/icons-material/Circle";
-import explorer from "../../utils/dappflow";
 import {RootState} from "../../redux/store";
 import {shadedClr, shadedClr1} from "../../utils/common";
 import CodeIcon from '@mui/icons-material/Code';
@@ -19,16 +17,20 @@ import GavelIcon from '@mui/icons-material/Gavel';
 import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
 import ShowerIcon from '@mui/icons-material/Shower';
 import InsertChartIcon from '@mui/icons-material/InsertChart';
-
+import {CoreVersionsCheck} from "../../packages/core-sdk/classes/core/CoreVersionsCheck";
+import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
+import SignalWifiConnectedNoInternet4Icon from '@mui/icons-material/SignalWifiConnectedNoInternet4';
 
 
 function LeftBar(): JSX.Element {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const liveData = useSelector((state: RootState) => state.liveData);
+    const node = useSelector((state: RootState) => state.node);
     const location = useLocation();
 
     const {connection} = liveData;
+    let {success} = connection;
     let route = location.pathname;
     route = route.substring(1);
     route = route.split('/')[0];
@@ -100,10 +102,19 @@ function LeftBar(): JSX.Element {
                   }}>
 
                       <Box className="node-url" sx={{ color: 'grey.700'}}>
-                          <Tooltip title={connection.success ? 'Connected' : 'Unable to connect'}>
-                              <CircleIcon color={connection.success ? 'success' : 'secondary'} fontSize={"small"} sx={{fontSize: 14, marginTop: -5}}></CircleIcon>
-                          </Tooltip>
-                          {explorer.network.getAlgodUrl()}
+
+                          <Chip
+                              variant={"outlined"}
+                              color={success ? 'primary' : "warning"}
+                              label={<div>
+                              {success ? <span>
+                                  <CheckCircleOutlinedIcon sx={{fontSize: '15px'}}></CheckCircleOutlinedIcon>
+                                  connected to : {new CoreVersionsCheck(node.versionsCheck).getGenesisId()}
+                              </span> : <span>
+                                  <SignalWifiConnectedNoInternet4Icon sx={{fontSize: '15px'}}></SignalWifiConnectedNoInternet4Icon>
+                                  Unable to connect</span>}
+
+                          </div>}></Chip>
                       </Box>
                   </div>
 

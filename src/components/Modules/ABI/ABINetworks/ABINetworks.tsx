@@ -58,7 +58,7 @@ function ABINetworks(props): JSX.Element {
                                     </Grid>
                                     <Grid item xs={12} sm={6} md={8} lg={8} xl={8}>
                                         <div className="app-id">
-                                            {versionsCheckInstance.getGenesisHashB64() === name ? <div>
+                                            {versionsCheckInstance.getGenesisHash() === name ? <div>
                                                 <span>{networks[name].appID}</span>
                                                 <Chip label="Open App" className="app-link" variant={"outlined"} size={"small"} color={"primary"} onClick={() => {
                                                     window.open("/explorer/application/" + networks[name].appID , "_blank");

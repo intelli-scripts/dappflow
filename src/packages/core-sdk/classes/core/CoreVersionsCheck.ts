@@ -14,7 +14,7 @@ export class CoreVersionsCheck {
         return this.versionsCheck.genesis_id;
     }
 
-    getGenesisHashB64(): string {
+    getGenesisHash(): string {
         return this.versionsCheck.genesis_hash_b64;
     }
 }
