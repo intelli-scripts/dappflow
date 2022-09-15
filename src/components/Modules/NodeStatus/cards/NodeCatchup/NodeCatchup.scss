@@ -1,0 +1,26 @@
+@import "src/assets/colors";
+
+.node-catchup-wrapper {
+  .node-catchup-container {
+    .card {
+      height: 180px;
+      border-radius: 10px;
+      border: none;
+      .card-header {
+        .card-title {
+          font-family: PoppinsBold !important;
+          margin-bottom: 30px;
+        }
+      }
+      .card-body {
+        .caught-up-completed {
+          svg {
+            vertical-align: middle;
+            margin-right: 10px;
+          }
+        }
+      }
+    }
+
+  }
+}
