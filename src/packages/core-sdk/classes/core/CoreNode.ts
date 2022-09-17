@@ -1,11 +1,13 @@
 import {A_Status, A_VersionsCheck} from "../../types";
 import {CoreVersionsCheck} from "./CoreVersionsCheck";
 import {
-    REACT_APP_MAINNET_CONSENSUS,
+    REACT_APP_STABLE_CONSENSUS_VERSION,
     REACT_APP_MAINNET_HASH,
     REACT_APP_SANDNET_GENESIS_ID,
-    REACT_APP_TESTNET_CONSENSUS,
-    REACT_APP_TESTNET_HASH
+    REACT_APP_TESTNET_HASH,
+    REACT_APP_BETA_CONSENSUS_VERSION,
+    REACT_APP_MASTER_CONSENSUS_VERSION,
+    REACT_APP_NIGHTLY_CONSENSUS_VERSION
 } from "../../../../env";
 
 export class CoreNode {
@@ -42,10 +44,10 @@ export class CoreNode {
 
     getLatestConsensusVersion(verisons: A_VersionsCheck, status: A_Status): string {
         if (this.isTestnet(verisons)) {
-            return REACT_APP_TESTNET_CONSENSUS;
+            return REACT_APP_STABLE_CONSENSUS_VERSION;
         }
         if (this.isMainnet(verisons)) {
-            return REACT_APP_MAINNET_CONSENSUS;
+            return REACT_APP_STABLE_CONSENSUS_VERSION;
         }
         if (this.isSandbox(verisons)) {
             return this.getConsensusVersion(status);
@@ -57,5 +59,30 @@ export class CoreNode {
         const latestConsensusVersion = this.getLatestConsensusVersion(verisons, status);
 
         return consensusVersion === latestConsensusVersion;
+    }
+
+    sandboxConsensusValidation(status: A_Status, verisons: A_VersionsCheck): {valid: boolean, message: string} {
+        const validation = {
+            valid: false,
+            message: 'Node has outdated consensus'
+        };
+
+        if (this.isSandbox(verisons)) {
+            const consensusVersion = this.getConsensusVersion(status);
+            if (consensusVersion === REACT_APP_STABLE_CONSENSUS_VERSION) {
+                validation.valid = true;
+                validation.message = 'Node has latest stable version';
+            }
+            else if (consensusVersion === REACT_APP_BETA_CONSENSUS_VERSION) {
+                validation.valid = true;
+                validation.message = 'Node has latest beta version';
+            }
+            else if (consensusVersion === REACT_APP_MASTER_CONSENSUS_VERSION || consensusVersion === REACT_APP_NIGHTLY_CONSENSUS_VERSION) {
+                validation.valid = true;
+                validation.message = 'Node has future(master/nightly) consensus version';
+            }
+        }
+
+        return validation;
     }
 }

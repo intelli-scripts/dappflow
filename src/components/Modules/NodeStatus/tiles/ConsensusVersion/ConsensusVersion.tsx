@@ -14,6 +14,8 @@ function ConsensusVersion(props): JSX.Element {
     const {status, versions} = props;
     const loading: boolean = props.loading ? true : false;
     const hasLatestConsensus = new CoreNode().hasLatestConsensusVersion(status, versions);
+    const isSandbox = new CoreNode().isSandbox(versions);
+    const sandboxValidation = new CoreNode().sandboxConsensusValidation(status, versions);
 
 
     return (<div className={"consensus-version-wrapper"}>
@@ -32,13 +34,24 @@ function ConsensusVersion(props): JSX.Element {
                             {loading ? <div>
                                 <LoadingTile count={3}></LoadingTile>
                             </div> : <div>
-                                {hasLatestConsensus ? <div className="tile-status">
-                                    <CheckCircleOutlinedIcon fontSize={"large"} color={"primary"}></CheckCircleOutlinedIcon>
-                                    <span>Node has latest version</span>
-                                </div> : <div className="tile-status">
-                                    <DangerousOutlinedIcon fontSize={"large"} color={"warning"}></DangerousOutlinedIcon>
-                                    <span>Node had outdated version</span>
+                                {!isSandbox ? <div>
+                                    {hasLatestConsensus ? <div className="tile-status">
+                                        <CheckCircleOutlinedIcon fontSize={"large"} color={"primary"}></CheckCircleOutlinedIcon>
+                                        <span>Node has latest version</span>
+                                    </div> : <div className="tile-status">
+                                        <DangerousOutlinedIcon fontSize={"large"} color={"warning"}></DangerousOutlinedIcon>
+                                        <span>Node has outdated version</span>
+                                    </div>}
+                                </div> : <div>
+                                    {sandboxValidation.valid ? <div className="tile-status">
+                                        <CheckCircleOutlinedIcon fontSize={"large"} color={"primary"}></CheckCircleOutlinedIcon>
+                                        <span>{sandboxValidation.message}</span>
+                                    </div> : <div className="tile-status">
+                                        <DangerousOutlinedIcon fontSize={"large"} color={"warning"}></DangerousOutlinedIcon>
+                                        <span>{sandboxValidation.message}</span>
+                                    </div>}
                                 </div>}
+
 
                                 <div className="tile-details">
                                     <div className="tile-detail">
@@ -47,12 +60,13 @@ function ConsensusVersion(props): JSX.Element {
                                             window.open(new CoreNode().getConsensusVersion(status), '_blank');
                                         }}>{new CoreNode().getConsensusVersion(status)}</div>
                                     </div>
-                                    <div className="tile-detail">
+                                    {isSandbox ? '' : <div className="tile-detail">
                                         <div className="key">Latest version</div>
                                         <div className="value clickable" onClick={() => {
                                             window.open(new CoreNode().getLatestConsensusVersion(versions, status), '_blank');
                                         }}>{new CoreNode().getLatestConsensusVersion(versions, status)}</div>
-                                    </div>
+                                    </div>}
+
                                 </div>
 
 
