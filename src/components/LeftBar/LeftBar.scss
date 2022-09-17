@@ -25,6 +25,9 @@
         .node-url {
           text-align: center;
           font-size: 13px;
+          &:hover {
+            cursor: pointer;
+          }
           svg {
             margin-right: 5px;
             vertical-align: sub;

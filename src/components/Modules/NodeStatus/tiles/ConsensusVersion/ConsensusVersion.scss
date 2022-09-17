@@ -3,7 +3,6 @@
 .consensus-version-wrapper {
   .consensus-version-container {
     .tile {
-      height: 180px;
       border-radius: 10px;
       border: none;
       .tile-header {
@@ -17,6 +16,24 @@
           svg {
             vertical-align: middle;
             margin-right: 10px;
+          }
+        }
+        .tile-details {
+          margin-top: 20px;
+          .tile-detail {
+            padding: 10px;
+            .key {
+
+            }
+            .value {
+              margin-top: 10px;
+              font-size: 12px;
+              color: $color-grey-dark;
+              word-break: break-word;
+              &.clickable {
+                cursor: pointer;
+              }
+            }
           }
         }
       }

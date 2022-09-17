@@ -25,26 +25,27 @@ function NodeStatus(): JSX.Element {
             </div>
             <div className={"node-status-body"}>
                 <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-                        <NodeCatchup loading={node.loadingStatus} status={node.status}></NodeCatchup>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-                        <ConsensusVersion loading={node.loadingStatus}></ConsensusVersion>
+                    <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                <ConsensusVersion loading={node.loadingStatus || node.loadingVersions} status={node.status} versions={node.versionsCheck}></ConsensusVersion>
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                                <NodeCatchup loading={node.loadingStatus} status={node.status}></NodeCatchup>
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                                <IndexerCatchup loading={node.loadingStatus}></IndexerCatchup>
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                                <AlgodVersion loading={node.loadingStatus}></AlgodVersion>
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                                <IndexerVersion loading={node.loadingStatus}></IndexerVersion>
+                            </Grid>
+                        </Grid>
                     </Grid>
                 </Grid>
-                <Grid container spacing={2} sx={{marginTop: '10px'}}>
-                    <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-                        <AlgodVersion loading={node.loadingStatus}></AlgodVersion>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-                        <IndexerVersion loading={node.loadingStatus}></IndexerVersion>
-                    </Grid>
-                </Grid>
-                <Grid container spacing={2} sx={{marginTop: '10px'}}>
-                    <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
-                        <IndexerCatchup loading={node.loadingStatus}></IndexerCatchup>
-                    </Grid>
-                </Grid>
+
 
             </div>
         </div>

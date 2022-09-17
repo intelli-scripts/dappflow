@@ -18,7 +18,7 @@ import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
 import ShowerIcon from '@mui/icons-material/Shower';
 import InsertChartIcon from '@mui/icons-material/InsertChart';
 import {CoreVersionsCheck} from "../../packages/core-sdk/classes/core/CoreVersionsCheck";
-import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import SignalWifiConnectedNoInternet4Icon from '@mui/icons-material/SignalWifiConnectedNoInternet4';
 
 
@@ -104,14 +104,14 @@ function LeftBar(): JSX.Element {
                       <Box className="node-url" sx={{ color: 'grey.700'}}>
 
                           <Chip
+                              clickable
                               variant={"outlined"}
-                              color={success ? 'primary' : "warning"}
                               label={<div>
                               {success ? <span>
-                                  <CheckCircleOutlinedIcon sx={{fontSize: '15px'}}></CheckCircleOutlinedIcon>
+                                  <CheckCircleIcon sx={{fontSize: '15px'}} color={"primary"}></CheckCircleIcon>
                                   connected to : {new CoreVersionsCheck(node.versionsCheck).getGenesisId()}
                               </span> : <span>
-                                  <SignalWifiConnectedNoInternet4Icon sx={{fontSize: '15px'}}></SignalWifiConnectedNoInternet4Icon>
+                                  <SignalWifiConnectedNoInternet4Icon sx={{fontSize: '15px'}} color={"warning"}></SignalWifiConnectedNoInternet4Icon>
                                   Unable to connect</span>}
 
                           </div>}></Chip>

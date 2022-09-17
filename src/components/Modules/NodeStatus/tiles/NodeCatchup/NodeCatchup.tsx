@@ -33,13 +33,12 @@ function NodeCatchup(props): JSX.Element {
                                 <LoadingTile count={3}></LoadingTile>
                             </div> : <div>
                                 {caughtUp ? <div className="tile-status">
-                                    <CheckCircleOutlinedIcon fontSize={"large"} color={"warning"}></CheckCircleOutlinedIcon>
+                                    <CheckCircleOutlinedIcon fontSize={"large"} color={"primary"}></CheckCircleOutlinedIcon>
                                     <span>Completed</span>
                                 </div> : <div className="tile-status">
                                     <DownloadingOutlinedIcon fontSize={"large"} color={"warning"}></DownloadingOutlinedIcon>
                                     <span>{humanizeDuration(catchupTime, { largest: 2 })}</span>
-                                </div>
-                                }
+                                </div>}
                             </div>
                             }
                         </div>
@@ -47,7 +46,7 @@ function NodeCatchup(props): JSX.Element {
 
                     </CardContent>
                     <CardActions sx={{textAlign: 'right'}}>
-                        <Button size="small" color={"warning"} onClick={() => {
+                        <Button size="small" color={"primary"} onClick={() => {
                             window.open("https://developer.algorand.org/docs/run-a-node/setup/install/#sync-node-network-using-fast-catchup", "_blank");
                         }}>Learn More</Button>
                     </CardActions>
