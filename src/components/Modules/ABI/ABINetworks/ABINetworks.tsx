@@ -5,8 +5,8 @@ import {Box, Chip, Grid} from "@mui/material";
 import {shadedClr2} from "../../../../utils/common";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../redux/store";
-import {CoreVersionsCheck} from "../../../../packages/core-sdk/classes/core/CoreVersionsCheck";
 import {ABIContractNetworks} from "algosdk";
+import {CoreNode} from "../../../../packages/core-sdk/classes/core/CoreNode";
 
 
 function ABINetworks(props): JSX.Element {
@@ -20,7 +20,6 @@ function ABINetworks(props): JSX.Element {
 
     const node = useSelector((state: RootState) => state.node);
     const {versionsCheck} = node;
-    const versionsCheckInstance = new CoreVersionsCheck(versionsCheck);
 
     return (<div className={"abi-networks-wrapper"}>
         <div className={"abi-networks-container"}>
@@ -58,7 +57,7 @@ function ABINetworks(props): JSX.Element {
                                     </Grid>
                                     <Grid item xs={12} sm={6} md={8} lg={8} xl={8}>
                                         <div className="app-id">
-                                            {versionsCheckInstance.getGenesisHash() === name ? <div>
+                                            {new CoreNode().getGenesisHash(versionsCheck) === name ? <div>
                                                 <span>{networks[name].appID}</span>
                                                 <Chip label="Open App" className="app-link" variant={"outlined"} size={"small"} color={"primary"} onClick={() => {
                                                     window.open("/explorer/application/" + networks[name].appID , "_blank");

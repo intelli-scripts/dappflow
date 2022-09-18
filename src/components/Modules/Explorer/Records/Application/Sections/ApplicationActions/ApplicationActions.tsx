@@ -15,9 +15,9 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../../../../redux/store";
 import {handleException} from "../../../../../../../redux/common/actions/exception";
 import {showSnack} from "../../../../../../../redux/common/actions/snackbar";
-import {CoreVersionsCheck} from "../../../../../../../packages/core-sdk/classes/core/CoreVersionsCheck";
 import {CancelOutlined} from "@mui/icons-material";
 import ABIEditor from "../../../../../ABI/ABIEditor/ABIEditor";
+import {CoreNode} from "../../../../../../../packages/core-sdk/classes/core/CoreNode";
 
 interface ApplicationActionsState{
     showImport: boolean,
@@ -101,7 +101,7 @@ function ApplicationActions(props): JSX.Element {
                     await new ApplicationABI().save({
                         abi,
                         app: new CoreApplication(application.information).getId(),
-                        network: new CoreVersionsCheck(node.versionsCheck).getGenesisId()
+                        network: new CoreNode().getGenesisId(node.versionsCheck)
                     });
 
                     dispatch(showSnack({

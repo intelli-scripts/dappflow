@@ -1,5 +1,4 @@
 import {A_Status, A_VersionsCheck} from "../../types";
-import {CoreVersionsCheck} from "./CoreVersionsCheck";
 import {
     REACT_APP_STABLE_CONSENSUS_VERSION,
     REACT_APP_MAINNET_HASH,
@@ -13,15 +12,23 @@ import {
 export class CoreNode {
 
     isSandbox(versions: A_VersionsCheck): boolean {
-        return new CoreVersionsCheck(versions).getGenesisId() === REACT_APP_SANDNET_GENESIS_ID;
+        return this.getGenesisId(versions) === REACT_APP_SANDNET_GENESIS_ID;
     }
 
     isTestnet(versions: A_VersionsCheck): boolean {
-        return new CoreVersionsCheck(versions).getGenesisHash() === REACT_APP_TESTNET_HASH;
+        return this.getGenesisHash(versions) === REACT_APP_TESTNET_HASH;
     }
 
     isMainnet(versions: A_VersionsCheck): boolean {
-        return new CoreVersionsCheck(versions).getGenesisHash() === REACT_APP_MAINNET_HASH;
+        return this.getGenesisHash(versions) === REACT_APP_MAINNET_HASH;
+    }
+
+    getGenesisId(versions: A_VersionsCheck): string {
+        return versions.genesis_id;
+    }
+
+    getGenesisHash(versions: A_VersionsCheck): string {
+        return versions.genesis_hash_b64;
     }
 
     getDispenserLinks(versions: A_VersionsCheck): string[] {

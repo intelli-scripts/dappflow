@@ -17,9 +17,9 @@ import GavelIcon from '@mui/icons-material/Gavel';
 import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
 import ShowerIcon from '@mui/icons-material/Shower';
 import InsertChartIcon from '@mui/icons-material/InsertChart';
-import {CoreVersionsCheck} from "../../packages/core-sdk/classes/core/CoreVersionsCheck";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import SignalWifiConnectedNoInternet4Icon from '@mui/icons-material/SignalWifiConnectedNoInternet4';
+import {CoreNode} from "../../packages/core-sdk/classes/core/CoreNode";
 
 
 function LeftBar(): JSX.Element {
@@ -109,7 +109,7 @@ function LeftBar(): JSX.Element {
                               label={<div>
                               {success ? <span>
                                   <CheckCircleIcon sx={{fontSize: '15px'}} color={"primary"}></CheckCircleIcon>
-                                  connected to : {new CoreVersionsCheck(node.versionsCheck).getGenesisId()}
+                                  connected to : {new CoreNode().getGenesisId(node.versionsCheck)}
                               </span> : <span>
                                   <SignalWifiConnectedNoInternet4Icon sx={{fontSize: '15px'}} color={"warning"}></SignalWifiConnectedNoInternet4Icon>
                                   Unable to connect</span>}
