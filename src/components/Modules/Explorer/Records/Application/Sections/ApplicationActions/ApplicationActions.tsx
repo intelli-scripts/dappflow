@@ -101,7 +101,7 @@ function ApplicationActions(props): JSX.Element {
                     await new ApplicationABI().save({
                         abi,
                         app: new CoreApplication(application.information).getId(),
-                        network: new CoreNode().getGenesisId(node.versionsCheck)
+                        network: new CoreNode(node.status, node.versionsCheck).getGenesisId()
                     });
 
                     dispatch(showSnack({

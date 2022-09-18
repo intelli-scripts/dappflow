@@ -10,72 +10,79 @@ import {
 } from "../../../../env";
 
 export class CoreNode {
+    private status: A_Status;
+    private versions: A_VersionsCheck;
 
-    isSandbox(versions: A_VersionsCheck): boolean {
-        return this.getGenesisId(versions) === REACT_APP_SANDNET_GENESIS_ID;
+    constructor(status: A_Status, versions: A_VersionsCheck) {
+        this.status = status;
+        this.versions = versions;
+    }
+    
+    isSandbox(): boolean {
+        return this.getGenesisId() === REACT_APP_SANDNET_GENESIS_ID;
     }
 
-    isTestnet(versions: A_VersionsCheck): boolean {
-        return this.getGenesisHash(versions) === REACT_APP_TESTNET_HASH;
+    isTestnet(): boolean {
+        return this.getGenesisHash() === REACT_APP_TESTNET_HASH;
     }
 
-    isMainnet(versions: A_VersionsCheck): boolean {
-        return this.getGenesisHash(versions) === REACT_APP_MAINNET_HASH;
+    isMainnet(): boolean {
+        return this.getGenesisHash() === REACT_APP_MAINNET_HASH;
     }
 
-    getGenesisId(versions: A_VersionsCheck): string {
-        return versions.genesis_id;
+    getGenesisId(): string {
+        return this.versions.genesis_id;
     }
 
-    getGenesisHash(versions: A_VersionsCheck): string {
-        return versions.genesis_hash_b64;
+    getGenesisHash(): string {
+        return this.versions.genesis_hash_b64;
     }
 
-    getDispenserLinks(versions: A_VersionsCheck): string[] {
+    getDispenserLinks(): string[] {
         const links: string[] = [];
 
-        if (this.isTestnet(versions)) {
+        if (this.isTestnet()) {
             links.push('https://testnet.algoexplorer.io/dispenser');
             links.push('https://bank.testnet.algorand.network');
         }
-        if (this.isMainnet(versions)) {
+        if (this.isMainnet()) {
 
         }
 
         return links;
     }
 
-    getConsensusVersion(status: A_Status): string {
-        return status["last-version"];
+    getConsensusVersion(): string {
+        return this.status["last-version"];
     }
 
-    getLatestConsensusVersion(verisons: A_VersionsCheck, status: A_Status): string {
-        if (this.isTestnet(verisons)) {
+    getLatestConsensusVersion(): string {
+        if (this.isTestnet()) {
             return REACT_APP_STABLE_CONSENSUS_VERSION;
         }
-        if (this.isMainnet(verisons)) {
+        if (this.isMainnet()) {
             return REACT_APP_STABLE_CONSENSUS_VERSION;
         }
-        if (this.isSandbox(verisons)) {
-            return this.getConsensusVersion(status);
+        if (this.isSandbox()) {
+            return this.getConsensusVersion();
         }
     }
 
-    hasLatestConsensusVersion(status: A_Status, verisons: A_VersionsCheck): boolean {
-        const consensusVersion = this.getConsensusVersion(status);
-        const latestConsensusVersion = this.getLatestConsensusVersion(verisons, status);
+    hasLatestConsensusVersion(): boolean {
+        const consensusVersion = this.getConsensusVersion();
+        const latestConsensusVersion = this.getLatestConsensusVersion();
 
         return consensusVersion === latestConsensusVersion;
     }
 
-    sandboxConsensusValidation(status: A_Status, verisons: A_VersionsCheck): {valid: boolean, message: string} {
+    sandboxConsensusValidation(): {valid: boolean, message: string} {
         const validation = {
             valid: false,
             message: 'Node has outdated consensus'
         };
 
-        if (this.isSandbox(verisons)) {
-            const consensusVersion = this.getConsensusVersion(status);
+        if (this.isSandbox()) {
+            const consensusVersion = this.getConsensusVersion();
             if (consensusVersion === REACT_APP_STABLE_CONSENSUS_VERSION) {
                 validation.valid = true;
                 validation.message = 'Node has latest stable version';

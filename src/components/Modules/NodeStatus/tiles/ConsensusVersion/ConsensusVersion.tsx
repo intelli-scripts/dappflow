@@ -13,9 +13,10 @@ function ConsensusVersion(props): JSX.Element {
 
     const {status, versions} = props;
     const loading: boolean = props.loading ? true : false;
-    const hasLatestConsensus = new CoreNode().hasLatestConsensusVersion(status, versions);
-    const isSandbox = new CoreNode().isSandbox(versions);
-    const sandboxValidation = new CoreNode().sandboxConsensusValidation(status, versions);
+    const coreNodeInstance = new CoreNode(status, versions);
+    const hasLatestConsensus = coreNodeInstance.hasLatestConsensusVersion();
+    const isSandbox = coreNodeInstance.isSandbox();
+    const sandboxValidation = coreNodeInstance.sandboxConsensusValidation();
 
 
     return (<div className={"consensus-version-wrapper"}>
@@ -57,14 +58,14 @@ function ConsensusVersion(props): JSX.Element {
                                     <div className="tile-detail">
                                         <div className="key">Current version</div>
                                         <div className="value clickable" onClick={() => {
-                                            window.open(new CoreNode().getConsensusVersion(status), '_blank');
-                                        }}>{new CoreNode().getConsensusVersion(status)}</div>
+                                            window.open(coreNodeInstance.getConsensusVersion(), '_blank');
+                                        }}>{coreNodeInstance.getConsensusVersion()}</div>
                                     </div>
                                     {isSandbox ? '' : <div className="tile-detail">
                                         <div className="key">Latest version</div>
                                         <div className="value clickable" onClick={() => {
-                                            window.open(new CoreNode().getLatestConsensusVersion(versions, status), '_blank');
-                                        }}>{new CoreNode().getLatestConsensusVersion(versions, status)}</div>
+                                            window.open(coreNodeInstance.getLatestConsensusVersion(), '_blank');
+                                        }}>{coreNodeInstance.getLatestConsensusVersion()}</div>
                                     </div>}
 
                                 </div>
