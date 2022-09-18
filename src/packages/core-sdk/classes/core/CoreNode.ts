@@ -112,8 +112,7 @@ export class CoreNode {
 
     getBuildVersion(): string {
         const {build} = this.versions;
-        console.log(build);
         const {major, minor, build_number, branch, channel} = build;
-        return `${major}.${minor}.${build_number} (${branch}) [${channel}]`;
+        return `${major}.${minor}.${build_number} [Branch: ${branch} [Channel: ${channel}]`;
     }
 }

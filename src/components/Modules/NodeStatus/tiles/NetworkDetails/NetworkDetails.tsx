@@ -7,6 +7,7 @@ import {CoreNode} from "../../../../../packages/core-sdk/classes/core/CoreNode";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../../redux/store";
 import LinkToAccount from "../../../Explorer/Common/Links/LinkToAccount";
+import WifiIcon from '@mui/icons-material/Wifi';
 
 
 function NetworkDetails(): JSX.Element {
@@ -24,7 +25,7 @@ function NetworkDetails(): JSX.Element {
                     <CardContent>
                         <div className="tile-header">
                             <div className="tile-title">
-                                Network details
+                                <WifiIcon color={"primary"}></WifiIcon>Network details
                             </div>
                         </div>
 

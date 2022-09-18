@@ -9,6 +9,10 @@
         .tile-title {
           font-family: PoppinsBold !important;
           margin-bottom: 30px;
+          svg {
+            vertical-align: text-bottom;
+            margin-right: 5px;
+          }
         }
       }
       .tile-body {
