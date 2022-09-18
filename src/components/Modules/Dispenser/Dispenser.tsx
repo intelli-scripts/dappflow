@@ -40,8 +40,8 @@ const initialState: DispenserState = {
 function Dispenser(): JSX.Element {
 
     const node = useSelector((state: RootState) => state.node);
-    const {loading, versionsCheck, status} = node;
-    const coreNodeInstance = new CoreNode(status, versionsCheck);
+    const {loading, versionsCheck, status, genesis} = node;
+    const coreNodeInstance = new CoreNode(status, versionsCheck, genesis);
     const isSandbox = coreNodeInstance.isSandbox();
     const dispenerLinks = coreNodeInstance.getDispenserLinks();
     const dispatch = useDispatch();

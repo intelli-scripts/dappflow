@@ -2,17 +2,20 @@ import './NodeCatchup.scss';
 import React from "react";
 import {Button, Card, CardActions, CardContent} from "@mui/material";
 import LoadingTile from "../../../../Common/LoadingTile/LoadingTile";
-import {A_Status} from "../../../../../packages/core-sdk/types";
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import {shadedClr} from "../../../../../utils/common";
 import DownloadingOutlinedIcon from '@mui/icons-material/DownloadingOutlined';
 import humanizeDuration from 'humanize-duration';
+import {useSelector} from "react-redux";
+import {RootState} from "../../../../../redux/store";
 
 
-function NodeCatchup(props): JSX.Element {
+function NodeCatchup(): JSX.Element {
 
-    const loading: boolean = props.loading ? true : false;
-    const status: A_Status = props.status;
+
+    const node = useSelector((state: RootState) => state.node);
+    const {status, loading} = node;
+
     let catchupTime = status["catchup-time"];
     const caughtUp = catchupTime === 0;
 

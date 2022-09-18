@@ -109,7 +109,7 @@ function LeftBar(): JSX.Element {
                               label={<div>
                               {success ? <span>
                                   <CheckCircleIcon sx={{fontSize: '15px'}} color={"primary"}></CheckCircleIcon>
-                                  connected to : {new CoreNode(node.status, node.versionsCheck).getGenesisId()}
+                                  connected to : {new CoreNode(node.status, node.versionsCheck, node.genesis).getGenesisId()}
                               </span> : <span>
                                   <SignalWifiConnectedNoInternet4Icon sx={{fontSize: '15px'}} color={"warning"}></SignalWifiConnectedNoInternet4Icon>
                                   Unable to connect</span>}

@@ -1,7 +1,7 @@
 import {Algodv2} from "algosdk";
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
 import {Network} from "../network";
-import {A_Status, A_VersionsCheck} from "../types";
+import {A_Genesis, A_Status, A_VersionsCheck} from "../types";
 
 
 export class NodeClient {
@@ -23,5 +23,10 @@ export class NodeClient {
     async status(): Promise<A_Status> {
         const status = await this.client.status().do();
         return status as A_Status;
+    }
+
+    async genesis(): Promise<A_Genesis> {
+        const genesis = await this.client.genesis().do();
+        return genesis as A_Genesis;
     }
 }

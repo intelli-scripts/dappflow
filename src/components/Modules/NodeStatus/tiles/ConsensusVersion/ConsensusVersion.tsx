@@ -6,14 +6,17 @@ import {shadedClr} from "../../../../../utils/common";
 import {CoreNode} from "../../../../../packages/core-sdk/classes/core/CoreNode";
 import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
 import DangerousOutlinedIcon from '@mui/icons-material/DangerousOutlined';
+import {useSelector} from "react-redux";
+import {RootState} from "../../../../../redux/store";
 
 
 
-function ConsensusVersion(props): JSX.Element {
+function ConsensusVersion(): JSX.Element {
 
-    const {status, versions} = props;
-    const loading: boolean = props.loading ? true : false;
-    const coreNodeInstance = new CoreNode(status, versions);
+    const node = useSelector((state: RootState) => state.node);
+    const {status, versionsCheck, genesis, loading} = node;
+
+    const coreNodeInstance = new CoreNode(status, versionsCheck, genesis);
     const hasLatestConsensus = coreNodeInstance.hasLatestConsensusVersion();
     const isSandbox = coreNodeInstance.isSandbox();
     const sandboxValidation = coreNodeInstance.sandboxConsensusValidation();

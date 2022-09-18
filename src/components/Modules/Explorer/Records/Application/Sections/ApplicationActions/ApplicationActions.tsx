@@ -34,6 +34,8 @@ function ApplicationActions(props): JSX.Element {
 
     const {application} = props;
     const node = useSelector((state: RootState) => state.node);
+    const {status, versionsCheck, genesis} = node;
+    const coreNodeInstance = new CoreNode(status, versionsCheck, genesis);
 
     const [
         {showImport, showABIEditor},
@@ -101,7 +103,7 @@ function ApplicationActions(props): JSX.Element {
                     await new ApplicationABI().save({
                         abi,
                         app: new CoreApplication(application.information).getId(),
-                        network: new CoreNode(node.status, node.versionsCheck).getGenesisId()
+                        network: coreNodeInstance.getGenesisId()
                     });
 
                     dispatch(showSnack({

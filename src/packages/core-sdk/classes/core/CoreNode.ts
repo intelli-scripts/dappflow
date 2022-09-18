@@ -1,4 +1,4 @@
-import {A_Status, A_VersionsCheck} from "../../types";
+import {A_Genesis, A_Status, A_VersionsCheck} from "../../types";
 import {
     REACT_APP_STABLE_CONSENSUS_VERSION,
     REACT_APP_MAINNET_HASH,
@@ -12,10 +12,12 @@ import {
 export class CoreNode {
     private status: A_Status;
     private versions: A_VersionsCheck;
+    private genesis: A_Genesis;
 
-    constructor(status: A_Status, versions: A_VersionsCheck) {
+    constructor(status: A_Status, versions: A_VersionsCheck, genesis: A_Genesis) {
         this.status = status;
         this.versions = versions;
+        this.genesis = genesis;
     }
     
     isSandbox(): boolean {
@@ -98,5 +100,20 @@ export class CoreNode {
         }
 
         return validation;
+    }
+
+    getFeeSinkAddress(): string {
+        return this.genesis.fees;
+    }
+
+    getRewardsPoolAddress(): string {
+        return this.genesis.rwd;
+    }
+
+    getBuildVersion(): string {
+        const {build} = this.versions;
+        console.log(build);
+        const {major, minor, build_number, branch, channel} = build;
+        return `${major}.${minor}.${build_number} (${branch}) [${channel}]`;
     }
 }

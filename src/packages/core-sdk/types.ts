@@ -300,5 +300,14 @@ export type A_Status = {
     "time-since-last-round": number
 }
 
+export type A_Genesis = {
+    "fees": string,
+    "proto": string,
+    "rwd": string,
+    "timestamp": number
+}
+
+
+
 export type A_ABIMethodArgParams = ABIMethodArgParams & {value: string, decodedValue: ABIValue, decoded: boolean}
 
