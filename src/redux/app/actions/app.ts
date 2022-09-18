@@ -1,13 +1,12 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {loadNodeStatus, loadNodeVersions} from "../../network/actions/node";
+import {loadNodeDetails} from "../../network/actions/node";
 
 
 export const initApp = createAsyncThunk(
     'app/initApp',
     async (_, thunkAPI) => {
         const {dispatch} = thunkAPI;
-        dispatch(loadNodeVersions());
-        dispatch(loadNodeStatus());
+        dispatch(loadNodeDetails());
     }
 );
 

@@ -40,7 +40,7 @@ const initialState: DispenserState = {
 function Dispenser(): JSX.Element {
 
     const node = useSelector((state: RootState) => state.node);
-    const {loadingVersions, versionsCheck} = node;
+    const {loading, versionsCheck} = node;
     const isSandbox = new CoreNode().isSandbox(versionsCheck);
     const dispenerLinks = new CoreNode().getDispenserLinks(versionsCheck);
     const dispatch = useDispatch();
@@ -154,7 +154,7 @@ function Dispenser(): JSX.Element {
                         </div>
                     </div>
                     <div className={"dispenser-body"}>
-                        {loadingVersions ? <div>
+                        {loading ? <div>
                             <Grid container spacing={0}>
                                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                     <LoadingTile></LoadingTile>

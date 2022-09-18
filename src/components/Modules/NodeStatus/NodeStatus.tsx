@@ -13,7 +13,6 @@ import IndexerCatchup from "./tiles/IndexerCatchup/IndexerCatchup";
 function NodeStatus(): JSX.Element {
 
     const node = useSelector((state: RootState) => state.node);
-    console.log(node);
 
     return (<div className={"node-status-wrapper"}>
         <div className={"node-status-container"}>
@@ -28,19 +27,19 @@ function NodeStatus(): JSX.Element {
                     <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                <ConsensusVersion loading={node.loadingStatus || node.loadingVersions} status={node.status} versions={node.versionsCheck}></ConsensusVersion>
+                                <ConsensusVersion loading={node.loading} status={node.status} versions={node.versionsCheck}></ConsensusVersion>
                             </Grid>
                             <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                <NodeCatchup loading={node.loadingStatus} status={node.status}></NodeCatchup>
+                                <NodeCatchup loading={node.loading} status={node.status}></NodeCatchup>
                             </Grid>
                             <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                <IndexerCatchup loading={node.loadingStatus}></IndexerCatchup>
+                                <IndexerCatchup loading={node.loading}></IndexerCatchup>
                             </Grid>
                             <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                <AlgodVersion loading={node.loadingStatus}></AlgodVersion>
+                                <AlgodVersion loading={node.loading}></AlgodVersion>
                             </Grid>
                             <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
-                                <IndexerVersion loading={node.loadingStatus}></IndexerVersion>
+                                <IndexerVersion loading={node.loading}></IndexerVersion>
                             </Grid>
                         </Grid>
                     </Grid>
