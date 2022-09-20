@@ -1,14 +1,21 @@
 import './NodeStatus.scss';
-import React from "react";
+import React, {useEffect} from "react";
 import NodeCatchup from "./tiles/NodeCatchup/NodeCatchup";
 import {Grid} from "@mui/material";
 import ConsensusVersion from "./tiles/ConsensusVersion/ConsensusVersion";
 import IndexerStatus from "./tiles/IndexerVersion/IndexerStatus";
 import NetworkDetails from "./tiles/NetworkDetails/NetworkDetails";
+import {loadNodeDetails} from "../../../redux/network/actions/node";
+import {useDispatch} from "react-redux";
 
 
 function NodeStatus(): JSX.Element {
 
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(loadNodeDetails());
+    }, []);
 
     return (<div className={"node-status-wrapper"}>
         <div className={"node-status-container"}>
