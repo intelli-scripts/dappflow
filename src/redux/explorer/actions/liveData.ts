@@ -2,6 +2,7 @@ import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import explorer from "../../../utils/dappflow";
 import {BlockClient} from "../../../packages/core-sdk/clients/blockClient";
 import {A_Block, A_SearchTransaction} from "../../../packages/core-sdk/types";
+import {NodeClient} from "../../../packages/core-sdk/clients/nodeClient";
 
 
 export interface LiveData {
@@ -29,9 +30,10 @@ export const initLivedata = createAsyncThunk(
     async (_, thunkAPI) => {
         const {dispatch} = thunkAPI;
         try {
-            const indexer = explorer.network.getIndexer();
-            const health = await indexer.makeHealthCheck().do();
-            const {round} = health;
+            const nodeClientInstance = new NodeClient(explorer.network);
+            const status = await nodeClientInstance.status();
+
+            const round = status["last-round"];
 
             dispatch(setCurrentBlock(round));
             dispatch(loadBlockInfo(round));
