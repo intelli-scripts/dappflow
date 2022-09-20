@@ -300,6 +300,15 @@ export type A_Status = {
     "time-since-last-round": number
 }
 
+export interface A_Health {
+    "db-available": boolean
+    errors: string[]
+    "is-migrating": boolean
+    message: string
+    round: number
+    version: string
+}
+
 export type A_Genesis = {
     "fees": string,
     "proto": string,

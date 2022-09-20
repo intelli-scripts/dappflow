@@ -14,9 +14,9 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 function ConsensusVersion(): JSX.Element {
 
     const node = useSelector((state: RootState) => state.node);
-    const {status, versionsCheck, genesis, loading} = node;
+    const {status, versionsCheck, genesis, loading, health} = node;
 
-    const coreNodeInstance = new CoreNode(status, versionsCheck, genesis);
+    const coreNodeInstance = new CoreNode(status, versionsCheck, genesis, health);
     const hasLatestConsensus = coreNodeInstance.hasLatestConsensusVersion();
     const isSandbox = coreNodeInstance.isSandbox();
     const sandboxValidation = coreNodeInstance.sandboxConsensusValidation();

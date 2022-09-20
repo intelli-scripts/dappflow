@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {A_Genesis, A_Status, A_VersionsCheck} from "../../../packages/core-sdk/types";
+import {A_Genesis, A_Health, A_Status, A_VersionsCheck} from "../../../packages/core-sdk/types";
 import explorer from "../../../utils/dappflow";
 import {handleException} from "../../common/actions/exception";
 import {NodeClient} from "../../../packages/core-sdk/clients/nodeClient";
@@ -7,6 +7,7 @@ import {NodeClient} from "../../../packages/core-sdk/clients/nodeClient";
 export interface Node {
     loading: boolean,
     status: A_Status,
+    health: A_Health,
     versionsCheck: A_VersionsCheck,
     genesis: A_Genesis
 }
@@ -42,6 +43,14 @@ const initialState: Node = {
         "stopped-at-unsupported-round": false,
         "time-since-last-round": 0
     },
+    health: {
+        "db-available": false,
+        errors: [],
+        "is-migrating": false,
+        message: "",
+        round: 0,
+        version: "string"
+    },
     genesis: {
         fees: "",
         proto: "",
@@ -58,14 +67,17 @@ export const loadNodeDetails = createAsyncThunk(
             dispatch(setLoading(true));
             const nodeClient = new NodeClient(explorer.network);
 
-            const status = await nodeClient.status();
+            const statusAwait = nodeClient.status();
+            const versionsCheckAwait = nodeClient.versionsCheck();
+            const genesisAwait = nodeClient.genesis();
+            const healthAwait = nodeClient.health();
+
+            const [status, versionsCheck, genesis, health] = await Promise.all([statusAwait, versionsCheckAwait, genesisAwait, healthAwait]);
+
             dispatch(setStatus(status));
-
-            const versionsCheck = await nodeClient.versionsCheck();
             dispatch(setVersions(versionsCheck));
-
-            const genesis = await nodeClient.genesis();
             dispatch(setGenesis(genesis));
+            dispatch(setHealth(health));
 
             dispatch(setLoading(false));
         }
@@ -87,6 +99,9 @@ export const nodeSlice = createSlice({
         setStatus: (state, action: PayloadAction<A_Status> ) => {
             state.status = action.payload;
         },
+        setHealth: (state, action: PayloadAction<A_Health> ) => {
+            state.health = action.payload;
+        },
         setVersions: (state, action: PayloadAction<A_VersionsCheck> ) => {
             state.versionsCheck = action.payload;
         },
@@ -99,5 +114,5 @@ export const nodeSlice = createSlice({
     },
 });
 
-export const {setLoading, setVersions, setStatus, setGenesis} = nodeSlice.actions
+export const {setLoading, setVersions, setStatus, setGenesis, setHealth} = nodeSlice.actions
 export default nodeSlice.reducer

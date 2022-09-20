@@ -1,4 +1,4 @@
-import {A_Genesis, A_Status, A_VersionsCheck} from "../../types";
+import {A_Genesis, A_Health, A_Status, A_VersionsCheck} from "../../types";
 import {
     REACT_APP_STABLE_CONSENSUS_VERSION,
     REACT_APP_MAINNET_HASH,
@@ -13,11 +13,13 @@ export class CoreNode {
     private status: A_Status;
     private versions: A_VersionsCheck;
     private genesis: A_Genesis;
+    private health: A_Health;
 
-    constructor(status: A_Status, versions: A_VersionsCheck, genesis: A_Genesis) {
+    constructor(status: A_Status, versions: A_VersionsCheck, genesis: A_Genesis, health: A_Health) {
         this.status = status;
         this.versions = versions;
         this.genesis = genesis;
+        this.health = health;
     }
     
     isSandbox(): boolean {
@@ -114,5 +116,21 @@ export class CoreNode {
         const {build} = this.versions;
         const {major, minor, build_number, branch, channel} = build;
         return `${major}.${minor}.${build_number} [Branch: ${branch}] [Channel: ${channel}]`;
+    }
+
+    hasNodeCaughtUp(): boolean {
+        const catchupTime = this.status["catchup-time"];
+        return catchupTime === 0;
+    }
+
+    getIndexerBehindBlocks(): number {
+        const nodeRound = this.status["last-round"];
+        const indexerRound = this.health.round;
+
+        return nodeRound - indexerRound;
+    }
+
+    hasIndexerCaughtUp(): boolean {
+        return this.getIndexerBehindBlocks() <= 50;
     }
 }

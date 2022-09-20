@@ -19,8 +19,8 @@ function ABINetworks(props): JSX.Element {
     const hasNetworks = Object.keys(networks).length > 0;
 
     const node = useSelector((state: RootState) => state.node);
-    const {status, versionsCheck, genesis} = node;
-    const coreNodeInstance = new CoreNode(status, versionsCheck, genesis);
+    const {status, versionsCheck, genesis, health} = node;
+    const coreNodeInstance = new CoreNode(status, versionsCheck, genesis, health);
 
     return (<div className={"abi-networks-wrapper"}>
         <div className={"abi-networks-container"}>

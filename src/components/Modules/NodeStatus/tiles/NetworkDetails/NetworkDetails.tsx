@@ -13,9 +13,9 @@ import WifiIcon from '@mui/icons-material/Wifi';
 function NetworkDetails(): JSX.Element {
 
     const node = useSelector((state: RootState) => state.node);
-    const {status, versionsCheck, genesis, loading} = node;
+    const {status, versionsCheck, genesis, loading, health} = node;
 
-    const coreNodeInstance = new CoreNode(status, versionsCheck, genesis);
+    const coreNodeInstance = new CoreNode(status, versionsCheck, genesis, health);
 
     return (<div className={"network-details-wrapper"}>
         <div className={"network-details-container"}>

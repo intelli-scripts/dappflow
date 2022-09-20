@@ -8,16 +8,17 @@ import humanizeDuration from 'humanize-duration';
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../../redux/store";
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import {CoreNode} from "../../../../../packages/core-sdk/classes/core/CoreNode";
 
 
 function NodeCatchup(): JSX.Element {
 
 
     const node = useSelector((state: RootState) => state.node);
-    const {status, loading} = node;
+    const {status, loading, versionsCheck, genesis, health} = node;
 
-    let catchupTime = status["catchup-time"];
-    const caughtUp = catchupTime === 0;
+    const coreNodeInstance = new CoreNode(status, versionsCheck, genesis, health);
+    const caughtUp = coreNodeInstance.hasNodeCaughtUp();
 
     return (<div className={"node-catchup-wrapper"}>
         <div className={"node-catchup-container"}>
@@ -47,7 +48,7 @@ function NodeCatchup(): JSX.Element {
                                 {caughtUp ? '' : <div className="tile-details">
                                     <div className="tile-detail">
                                         <div className="key">Catchup time : </div>
-                                        <div className="value">{humanizeDuration(catchupTime, { largest: 2 })}</div>
+                                        <div className="value">{humanizeDuration(status["catchup-time"], { largest: 2 })}</div>
                                     </div>
                                     <div className="tile-detail">
                                         <div className="key">Catch point : </div>

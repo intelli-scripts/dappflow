@@ -34,8 +34,8 @@ function ApplicationActions(props): JSX.Element {
 
     const {application} = props;
     const node = useSelector((state: RootState) => state.node);
-    const {status, versionsCheck, genesis} = node;
-    const coreNodeInstance = new CoreNode(status, versionsCheck, genesis);
+    const {status, versionsCheck, genesis, health} = node;
+    const coreNodeInstance = new CoreNode(status, versionsCheck, genesis, health);
 
     const [
         {showImport, showABIEditor},
