@@ -1,10 +1,10 @@
 import './ABIActions.scss';
 import React, {useState} from "react";
-import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import {
     Button
 } from "@mui/material";
 import ImportABI from "../ImportABI/ImportABI";
+import AddIcon from '@mui/icons-material/Add';
 
 
 interface ABIActionsState{
@@ -30,11 +30,12 @@ function ABIActions(props): JSX.Element {
         <div className={"abi-actions-container"}>
 
             <Button color={"primary"}
+                    className="black-button"
                     variant={"contained"}
                     onClick={() => {
                         setState(prevState => ({...prevState, show: true}));
                     }}
-                    startIcon={<FileDownloadIcon></FileDownloadIcon>}
+                    startIcon={<AddIcon></AddIcon>}
             >Import ABI</Button>
 
             <ImportABI show={show} onImport={(abi) => {

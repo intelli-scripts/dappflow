@@ -40,7 +40,7 @@ function ABIStudio(): JSX.Element {
                 }}></ABIActions>
                 {imported ? <ABIEditor abi={abi}></ABIEditor> : <div>
                     <Grid container spacing={2}>
-                        <Grid item xs={12} sm={12} md={8} lg={6} xl={6}>
+                        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                             <div className="abi-intro">
                                 <Alert
                                     sx={{fontSize: '15px'}}

@@ -146,7 +146,8 @@ function Dispenser(): JSX.Element {
                         <div>
                             {isSandbox ? <Button
                                 size="small"
-                                color={"primary"}
+                                color={"warning"}
+                                sx={{marginTop: '-5px'}}
                                 variant={"outlined"} onClick={() => {
                                 setState(prevState => ({...prevState, showKmdConfig: true}));
                             }
@@ -211,6 +212,7 @@ function Dispenser(): JSX.Element {
                                         <div style={{marginTop: '15px', textAlign: "right"}}>
                                             <Button color={"primary"}
                                                     fullWidth
+                                                    size={"large"}
                                                     variant={"contained"} onClick={() => {
                                                 dispense();
                                             }
