@@ -1,0 +1,12 @@
+@import "src/assets/colors";
+
+.application-abi-wrapper {
+  margin-top: 40px;
+  .application-abi-container {
+    border-radius: 10px;
+    border: 1px solid $color-grey-light;
+    .props {
+      margin-top: 0px !important;
+    }
+  }
+}

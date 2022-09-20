@@ -13,6 +13,7 @@ import {shadedClr} from "../../../../../utils/common";
 import ApplicationProgram from "./Sections/ApplicationProgram/ApplicationProgram";
 import CustomError from "../../Common/CustomError/CustomError";
 import ApplicationActions from "./Sections/ApplicationActions/ApplicationActions";
+import ApplicationAbi from "./Sections/ApplicationABI/ApplicationAbi";
 
 
 function Application(): JSX.Element {
@@ -87,6 +88,8 @@ function Application(): JSX.Element {
                         </Grid>
                     </div>
 
+                    <ApplicationAbi application={application}></ApplicationAbi>
+
                     <ApplicationProgram name="Approval program" program={applicationInstance.getApprovalProgram()}></ApplicationProgram>
                     <ApplicationProgram name="Clear state program" program={applicationInstance.getClearProgram()}></ApplicationProgram>
 
@@ -145,6 +148,7 @@ function Application(): JSX.Element {
                     </div>
 
 
+
                     <div>
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
@@ -152,7 +156,6 @@ function Application(): JSX.Element {
                             </Grid>
                         </Grid>
                     </div>
-
 
 
                     <div className="application-tabs">

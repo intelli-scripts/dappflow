@@ -7,6 +7,7 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../../../redux/store";
 import {ABIContractNetworks} from "algosdk";
 import {CoreNode} from "../../../../packages/core-sdk/classes/core/CoreNode";
+import {theme} from "../../../../theme";
 
 
 function ABINetworks(props): JSX.Element {
@@ -28,7 +29,7 @@ function ABINetworks(props): JSX.Element {
             <Box className="networks" sx={{borderColor: shadedClr2 + ' !important'}}>
                 <div className={"abi-networks-header"}>
                     <PodcastsIcon color={"primary"}></PodcastsIcon>
-                    Networks
+                    <span style={{color: theme.palette.primary.main}}>Networks</span>
                 </div>
 
                 <div className="abi-networks-body">
