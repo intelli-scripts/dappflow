@@ -31,9 +31,9 @@ export const initLivedata = createAsyncThunk(
         const {dispatch} = thunkAPI;
         try {
             const nodeClientInstance = new NodeClient(explorer.network);
-            const status = await nodeClientInstance.status();
+            const health = await nodeClientInstance.health();
 
-            const round = status["last-round"];
+            const round = health.round;
 
             dispatch(setCurrentBlock(round));
             dispatch(loadBlockInfo(round));
