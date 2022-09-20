@@ -1,6 +1,6 @@
 import './IndexerVersion.scss';
 import React from "react";
-import {Button, Card, CardActions, CardContent} from "@mui/material";
+import {Card, CardContent} from "@mui/material";
 import LoadingTile from "../../../../Common/LoadingTile/LoadingTile";
 import {shadedClr} from "../../../../../utils/common";
 
@@ -34,11 +34,6 @@ function IndexerVersion(props): JSX.Element {
 
 
                     </CardContent>
-                    <CardActions sx={{textAlign: 'right'}}>
-                        <Button size="small" color={"warning"} onClick={() => {
-                            window.open("https://developer.algorand.org/docs/run-a-node/setup/install/#sync-node-network-using-fast-catchup", "_blank");
-                        }}>Learn More</Button>
-                    </CardActions>
                 </Card>
 
             </React.Fragment>

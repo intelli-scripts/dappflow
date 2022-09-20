@@ -12,7 +12,7 @@ import {
     DialogContent,
     DialogTitle, FormLabel, Grid,
     IconButton,
-    InputBase, InputBaseProps, styled
+    InputBase, InputBaseProps, styled, Typography
 } from "@mui/material";
 import {theme} from "../../../theme";
 import {getNodeConfig, getNodes} from "../../../utils/nodeConfig";
@@ -181,13 +181,17 @@ function Settings(): JSX.Element {
             <DialogContent>
                 <div className="settings-wrapper">
                     <div className="settings-container">
-                        <div className="settings-header">
+
+                        <div className="settings-header" style={{background: shadedClr}}>
+                            <Typography>Available nodes</Typography>
                             {nodes.map((node) => {
                                 return <Chip
                                     key={node.id}
                                     label={node.label}
-                                    color={"primary"}
+                                    color={"warning"}
                                     className="node"
+                                    variant={"outlined"}
+                                    sx={{marginTop: '10px'}}
                                     onClick={() => {
                                         const {algod, indexer} = node;
                                         setState(prevState => ({...prevState,

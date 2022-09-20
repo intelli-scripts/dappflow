@@ -74,6 +74,34 @@ export function getNodes(): NodeConnectionParams[] {
                 port: '',
                 token: '',
             }
+        },
+        {
+            id: 'algoexplorer_testnet',
+            label: 'AlgoExplorer testnet',
+            algod: {
+                url: 'https://node.testnet.algoexplorerapi.io',
+                port: '',
+                token: '',
+            },
+            indexer: {
+                url: 'https://algoindexer.testnet.algoexplorerapi.io',
+                port: '',
+                token: '',
+            }
+        },
+        {
+            id: 'algoexplorer_mainnet',
+            label: 'AlgoExplorer mainnet',
+            algod: {
+                url: 'https://node.algoexplorerapi.io',
+                port: '',
+                token: '',
+            },
+            indexer: {
+                url: 'https://algoindexer.algoexplorerapi.io',
+                port: '',
+                token: '',
+            }
         }];
 }
 

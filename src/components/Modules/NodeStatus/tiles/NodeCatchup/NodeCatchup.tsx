@@ -1,6 +1,6 @@
 import './NodeCatchup.scss';
 import React from "react";
-import {Button, Card, CardActions, CardContent} from "@mui/material";
+import {Card, CardContent, Link} from "@mui/material";
 import LoadingTile from "../../../../Common/LoadingTile/LoadingTile";
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import {shadedClr} from "../../../../../utils/common";
@@ -29,6 +29,7 @@ function NodeCatchup(): JSX.Element {
                             <div className="tile-title">
                                 Node catchup
                             </div>
+                            <Link fontSize={"small"} sx={{color: 'warning.main'}} href="https://developer.algorand.org/docs/run-a-node/setup/install/#sync-node-network-using-fast-catchup" target="_blank">Learn More</Link>
                         </div>
 
                         <div className="tile-body">
@@ -48,11 +49,7 @@ function NodeCatchup(): JSX.Element {
 
 
                     </CardContent>
-                    <CardActions sx={{textAlign: 'right'}}>
-                        <Button size="small" color={"primary"} onClick={() => {
-                            window.open("https://developer.algorand.org/docs/run-a-node/setup/install/#sync-node-network-using-fast-catchup", "_blank");
-                        }}>Learn More</Button>
-                    </CardActions>
+
                 </Card>
 
             </React.Fragment>
