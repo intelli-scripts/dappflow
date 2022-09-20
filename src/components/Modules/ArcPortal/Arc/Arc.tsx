@@ -5,9 +5,9 @@ import {RootState} from "../../../../redux/store";
 import {Outlet, useLocation, useNavigate, useParams} from "react-router-dom";
 import {Button, Tab, Tabs} from "@mui/material";
 import {loadArc} from "../../../../redux/arcPortal/actions/arc";
-import LaunchIcon from '@mui/icons-material/Launch';
 import LoadingTile from "../../../Common/LoadingTile/LoadingTile";
 import {ARC} from "../../../../packages/arc-portal/classes/ARC";
+import GitHubIcon from '@mui/icons-material/GitHub';
 
 function Arc(): JSX.Element {
 
@@ -38,11 +38,11 @@ function Arc(): JSX.Element {
                     </div>
                     <div>
                         <Button variant={"contained"}
-                                startIcon={<LaunchIcon></LaunchIcon>}
+                                startIcon={<GitHubIcon></GitHubIcon>}
                                 onClick={() => {
                                     window.open(arcInstance.getGithubUrl(), "_blank");
                                 }}
-                        >View on Github</Button>
+                        >Github</Button>
                     </div>
 
                 </div>

@@ -1,8 +1,8 @@
 @import 'src/assets/colors';
 
-.settings-wrapper {
-  .settings-container {
-    .settings-header {
+.kmd-configuration-wrapper {
+  .kmd-configuration-container {
+    .kmd-configuration-header {
       margin-top: 10px;
       .node {
         margin-right: 10px;
@@ -11,7 +11,7 @@
         }
       }
     }
-    .settings-body {
+    .kmd-configuration-body {
       margin-top: 25px;
     }
   }

@@ -12,6 +12,11 @@ function ArcPortal(): JSX.Element {
 
   return (
       <div className="arc-portal-root">
+          <div className={"arc-portal-header"}>
+              <div>
+                  ARC Portal
+              </div>
+          </div>
           <Header></Header>
           <Outlet />
       </div>

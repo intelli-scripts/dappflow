@@ -20,7 +20,7 @@ import {dataGridCellConfig, dataGridStyles} from "../../../../../theme/styles/da
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import {copyContent} from "../../../../../utils/common";
 import AlgoIcon from "../../AlgoIcon/AlgoIcon";
-import {CoreTransaction} from "../../../../../packages/core-sdk/classes/CoreTransaction";
+import {CoreTransaction} from "../../../../../packages/core-sdk/classes/core/CoreTransaction";
 import {TXN_TYPES} from "../../../../../packages/core-sdk/constants";
 import {ArrowForward} from "@mui/icons-material";
 import LinkToAccount from "../../Common/Links/LinkToAccount";

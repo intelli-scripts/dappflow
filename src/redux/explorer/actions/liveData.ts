@@ -2,6 +2,7 @@ import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import explorer from "../../../utils/dappflow";
 import {BlockClient} from "../../../packages/core-sdk/clients/blockClient";
 import {A_Block, A_SearchTransaction} from "../../../packages/core-sdk/types";
+import {NodeClient} from "../../../packages/core-sdk/clients/nodeClient";
 
 
 export interface LiveData {
@@ -27,29 +28,16 @@ const initialState: LiveData = {
 export const initLivedata = createAsyncThunk(
     'liveData/initLivedata',
     async (_, thunkAPI) => {
-        const {dispatch, getState} = thunkAPI;
+        const {dispatch} = thunkAPI;
         try {
-            const indexer = explorer.network.getIndexer();
-            const health = await indexer.makeHealthCheck().do();
-            const {round} = health;
+            const nodeClientInstance = new NodeClient(explorer.network);
+            const status = await nodeClientInstance.status();
+
+            const round = status["last-round"];
 
             dispatch(setCurrentBlock(round));
             dispatch(loadBlockInfo(round));
             dispatch(setConnectionSuccess(true));
-
-            setInterval(async () => {
-                const state = getState();
-                // @ts-ignore
-                const {liveData} = state;
-                const latestBlock = liveData.blocks[0];
-                const blockClient = new BlockClient(explorer.network);
-
-                const nextRound = latestBlock.round + 1;
-                const blockInfo = await blockClient.get(nextRound);
-                if (blockInfo) {
-                    dispatch(loadBlockInfo(nextRound));
-                }
-            }, 2000);
         }
         catch (e: any) {
             dispatch(setConnectionSuccess(false));
@@ -59,10 +47,13 @@ export const initLivedata = createAsyncThunk(
 
 export const loadBlockInfo = createAsyncThunk(
     'liveData/loadBlock',
-    async (id: number) => {
+    async (round: number, thunkAPI) => {
+        const {dispatch} = thunkAPI;
         try {
             const blockClient = new BlockClient(explorer.network);
-            const blockInfo = await blockClient.get(id);
+            await blockClient.statusAfterBlock(round);
+            const blockInfo = await blockClient.get(round);
+            dispatch(loadBlockInfo(round + 1));
             return blockInfo;
         }
         catch (e: any) {

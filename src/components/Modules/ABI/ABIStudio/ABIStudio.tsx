@@ -1,47 +1,95 @@
 import './ABIStudio.scss';
-import React, {} from "react";
+import React, {useState} from "react";
 import ABIEditor from "../ABIEditor/ABIEditor";
+import ABIActions from "../ABIActions/ABIActions";
+import {Alert, Box, Button, Grid} from "@mui/material";
+import {ABIContractParams} from "algosdk";
 
+interface ABIStudioState{
+    imported: boolean,
+    abi: ABIContractParams
+}
 
+const initialState: ABIStudioState = {
+    imported: false,
+    abi: {methods: [], name: ""}
+};
 
 function ABIStudio(): JSX.Element {
-    
 
-    const test = {
-        "name": "Calculator",
-        "desc": "Interface for a basic calculator supporting additions and multiplications",
-        "methods": [
-            {
-                "name": "add",
-                "desc": "Calculate the sum of two 64-bit integers",
-                "args": [
-                    { "type": "uint64", "name": "a", "desc": "The first term to add" },
-                    { "type": "uint64", "name": "b", "desc": "The second term to add" }
-                ],
-                "returns": { "type": "uint128", "desc": "The sum of a and b" }
-            },
-            {
-                "name": "multiply",
-                "desc": "Calculate the product of two 64-bit integers",
-                "args": [
-                    { "type": "uint64", "name": "a", "desc": "The first factor to multiply" },
-                    { "type": "uint64", "name": "b", "desc": "The second factor to multiply" }
-                ],
-                "returns": { "type": "uint128", "desc": "The product of a and b" }
-            }
-        ]
-    };
+
+    const [
+        {imported, abi},
+        setState
+    ] = useState(initialState);
 
     return (<div className={"abi-studio-wrapper"}>
         <div className={"abi-studio-container"}>
 
+
+
             <div className={"abi-studio-header"}>
-                <div className={"abi-studio-title"}>
+                <div>
                     ABI Studio
                 </div>
-                <div className={"abi-studio-body"}>
-                    <ABIEditor contract={test}></ABIEditor>
-                </div>
+            </div>
+
+            <div className={"abi-studio-body"}>
+                <ABIActions onImport={(abi) => {
+                    setState(prevState => ({...prevState, abi, imported: true}));
+                }}></ABIActions>
+                {imported ? <ABIEditor abi={abi}></ABIEditor> : <div>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                            <div className="abi-intro">
+                                <Alert
+                                    sx={{fontSize: '15px'}}
+                                    color={"warning"}
+                                    icon={false}>
+                                    <div>
+                                        <Box>
+                                            Please import your ABI JSON to get started.
+                                        </Box>
+                                    </div>
+                                    <br/>
+                                    <br/>
+                                    <div className="question">What is ABI ?</div>
+                                    <br/>
+                                    <div className="answer">
+                                        Algorand Application Binary Interface (ABI) [ARC0004]
+                                        <br/>
+                                        <br/>
+                                        <div>
+                                            A standard for encoding contract call transactions to invoke methods
+                                            on Algorand Applications (aka "smart contracts").
+                                        </div>
+                                        <br/>
+                                        <div>
+                                            conventions for encoding method calls,
+                                            including argument and return value encoding, in Algorand Application
+                                            call transactions. The goal is to allow clients, such as wallets and
+                                            dapp frontends, to properly encode call transactions based on a description
+                                            of the interface. Further, explorers will be able to show details of
+                                            these method invocations.
+                                        </div>
+                                        <br/>
+                                        <div>
+                                            You can read more about ABI on
+                                            <Button
+                                                style={{marginTop: '-3px'}}
+                                                onClick={() => {
+                                                        window.open('/arc-portal/arc/4', "");
+                                                    }
+                                                }
+                                            >ARC0004</Button>
+                                        </div>
+                                    </div>
+                                </Alert>
+                            </div>
+                        </Grid>
+                    </Grid>
+
+                </div>}
             </div>
 
         </div>

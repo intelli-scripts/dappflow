@@ -1,0 +1,75 @@
+@import "src/assets/colors";
+
+.abi-method-wrapper {
+  .abi-method-container {
+    .abi-method {
+      margin-top: 15px;
+      .method-name {
+        font-size: 18px;
+        font-weight: bold;
+      }
+      .method-desc {
+        margin-left: 15px;
+        font-size: 13px;
+        color: $color-grey-dark;
+      }
+      .method-body {
+        margin-bottom: 15px;
+        .method-signature {
+          .method-sig-section {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid $color-light;
+            .method-sig-section-key {
+              margin-bottom: 5px;
+              font-family: PoppinsLight !important;
+              font-size: 14px;
+              &.inline {
+                display: inline-block;
+              }
+            }
+            .method-sig-section-value {
+              font-weight: bold;
+              &.inline {
+                display: inline-block;
+                margin-left: 10px;
+              }
+            }
+          }
+        }
+        .method-returns {
+          margin-top: 15px;
+          padding-top: 15px;
+          border-top: 1px solid $color-grey-light;
+          .method-returns-desc {
+            margin-left: 10px;
+            font-size: 14px;
+            color: $color-grey-dark;
+            display: inline-block;
+          }
+        }
+        .method-tabs {
+          border-bottom: 1px solid $color-grey-light;
+          margin-bottom: 20px;
+        }
+
+        .arguments {
+          .arguments-header {
+            padding: 15px;
+            background: $color-grey-light;
+            font-weight: bold;
+          }
+          .arg {
+            padding: 15px;
+            .arg-prop {
+              font-size: 14px;
+            }
+            &:nth-child(odd) {
+              background: $color-grey-very-light;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,3 +1,10 @@
+import {ABIMethodArgParams, ABIValue} from "algosdk";
+import {
+    AlgodTokenHeader,
+    CustomTokenHeader,
+    IndexerTokenHeader, KMDTokenHeader
+} from "algosdk/dist/types/src/client/urlTokenBaseHTTPClient";
+
 export interface A_AccountInformation {
     address: string
     amount: number
@@ -229,16 +236,30 @@ export type A_Block = {
     transactions: A_SearchTransaction[]
 };
 
-export type A_NodeConfig = {
+export type AlgodConnectionParams = {
+    url: string,
+    port: string,
+    token: string | AlgodTokenHeader | CustomTokenHeader
+}
+
+export type IndexerConnectionParams = {
+    url: string,
+    port: string,
+    token: string | IndexerTokenHeader | CustomTokenHeader
+}
+
+export type NodeConnectionParams = {
     id?: string,
     label?: string,
-    algodUrl: string,
-    algodPort: string,
-    algodToken: string,
-    indexerUrl: string,
-    indexerPort: string,
-    indexerToken: string
+    algod: AlgodConnectionParams,
+    indexer: IndexerConnectionParams
 };
+
+export type KMDConnectionParams = {
+    url: string,
+    port: string,
+    token: string | KMDTokenHeader | CustomTokenHeader
+}
 
 export type A_Group = {
     id: string
@@ -247,27 +268,55 @@ export type A_Group = {
     transactions: A_SearchTransaction[]
 };
 
-export interface A_ABI_Arg {
-    type: string;
-    name?: string;
-    desc?: string;
+export type A_VersionsCheck = {
+    "versions"?: string[],
+    "genesis_id": string,
+    "genesis_hash_b64": string,
+    "build"?: {
+        "major": number,
+        "minor": number,
+        "build_number": number,
+        "commit_hash": string,
+        "branch": string,
+        "channel": string
+    }
 }
 
-export interface A_ABI_Method {
-    name: string;
-    desc?: string;
-    args: A_ABI_Arg[];
-    returns: {
-        type: string;
-        desc?: string;
-    };
+export type A_Status = {
+    "catchpoint": string,
+    "catchpoint-acquired-blocks": number,
+    "catchpoint-processed-accounts": number,
+    "catchpoint-total-accounts": number,
+    "catchpoint-total-blocks": number,
+    "catchpoint-verified-accounts": number,
+    "catchup-time": number,
+    "last-catchpoint": string,
+    "last-round": number,
+    "last-version": string,
+    "next-version": string,
+    "next-version-round": number,
+    "next-version-supported": boolean,
+    "stopped-at-unsupported-round": boolean,
+    "time-since-last-round": number
 }
 
-export interface A_ABI {
-    name: string;
-    desc?: string;
-    methods: A_ABI_Method[];
+export interface A_Health {
+    "db-available": boolean
+    errors: string[]
+    "is-migrating": boolean
+    message: string
+    round: number
+    version: string
+}
+
+export type A_Genesis = {
+    "fees": string,
+    "proto": string,
+    "rwd": string,
+    "timestamp": number
 }
 
 
+
+export type A_ABIMethodArgParams = ABIMethodArgParams & {value: string, decodedValue: ABIValue, decoded: boolean}
 

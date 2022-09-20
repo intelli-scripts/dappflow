@@ -16,12 +16,12 @@ import {
 import {dataGridCellConfig, dataGridStyles} from "../../../../../theme/styles/datagrid";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import {copyContent} from "../../../../../utils/common";
-import {CoreAsset} from "../../../../../packages/core-sdk/classes/CoreAsset";
+import {CoreAsset} from "../../../../../packages/core-sdk/classes/core/CoreAsset";
 import LinkToAccount from "../../Common/Links/LinkToAccount";
 import LinkToAsset from "../../Common/Links/LinkToAsset";
 import CustomNoRowsOverlay from "../../Common/CustomNoRowsOverlay/CustomNoRowsOverlay";
 import {A_AccountInformation, A_Asset} from "../../../../../packages/core-sdk/types";
-import {CoreAccount} from "../../../../../packages/core-sdk/classes/CoreAccount";
+import {CoreAccount} from "../../../../../packages/core-sdk/classes/core/CoreAccount";
 import NumberFormat from "react-number-format";
 
 interface AssetsListProps {

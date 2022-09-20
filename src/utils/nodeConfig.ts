@@ -1,55 +1,107 @@
-import {A_NodeConfig} from "../packages/core-sdk/types";
+import {KMDConnectionParams, NodeConnectionParams} from "../packages/core-sdk/types";
 
-export function getNodeConfig(): A_NodeConfig {
+export function getNodeConfig(): NodeConnectionParams {
     const defaultNode = getNodes()[1];
-    const algodUrl = localStorage.getItem('algodUrl') || defaultNode.algodUrl;
-    const algodPort = localStorage.getItem('algodPort') === null ? defaultNode.algodPort : localStorage.getItem('algodPort');
-    const algodToken= localStorage.getItem('algodToken') === null ? defaultNode.algodToken : localStorage.getItem('algodToken');
-
-    const indexerUrl = localStorage.getItem('indexerUrl') || defaultNode.indexerUrl;
-    const indexerPort = localStorage.getItem('indexerPort') === null ? defaultNode.indexerPort : localStorage.getItem('indexerPort');
-    const indexerToken= localStorage.getItem('indexerToken') === null ? defaultNode.indexerToken : localStorage.getItem('indexerToken');
 
     return {
-        algodUrl,
-        algodPort,
-        algodToken,
-        indexerUrl,
-        indexerPort,
-        indexerToken
+        ...defaultNode,
+        algod: {
+            url: localStorage.getItem('algodUrl') || defaultNode.algod.url,
+            port: localStorage.getItem('algodPort') || defaultNode.algod.port,
+            token: localStorage.getItem('algodToken') || defaultNode.algod.token,
+        },
+        indexer: {
+            url: localStorage.getItem('indexerUrl') || defaultNode.indexer.url,
+            port: localStorage.getItem('indexerPort') || defaultNode.indexer.port,
+            token: localStorage.getItem('indexerToken') || defaultNode.indexer.token,
+        }
     }
 }
 
-export function getNodes(): A_NodeConfig[] {
+export function getKMDConfig(): KMDConnectionParams {
+    const defaultKMDConfig: KMDConnectionParams = {
+        url: 'http://localhost',
+        token: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+        port: '4002'
+    };
+
+    return {
+        url: localStorage.getItem('kmdUrl') || defaultKMDConfig.url,
+        port: localStorage.getItem('kmdPort') || defaultKMDConfig.port,
+        token: localStorage.getItem('kmdToken') || defaultKMDConfig.token,
+    }
+}
+
+export function getNodes(): NodeConnectionParams[] {
     return [{
         id: 'sandbox',
         label: 'Sandbox',
-        algodUrl: 'http://localhost',
-        algodPort: '4001',
-        algodToken: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-        indexerUrl: 'http://localhost',
-        indexerPort: '8980',
-        indexerToken: ''
+        algod: {
+            url: 'http://localhost',
+            port: '4001',
+            token: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+        },
+        indexer: {
+            url: 'http://localhost',
+            port: '8980',
+            token: ''
+        }
     },
         {
             id: 'algonode_testnet',
             label: 'Algonode testnet',
-            algodUrl: 'https://testnet-api.algonode.cloud',
-            algodPort: '',
-            algodToken: '',
-            indexerUrl: 'https://testnet-idx.algonode.cloud',
-            indexerPort: '',
-            indexerToken: ''
+            algod: {
+                url: 'https://testnet-api.algonode.cloud',
+                port: '',
+                token: '',
+            },
+            indexer: {
+                url: 'https://testnet-idx.algonode.cloud',
+                port: '',
+                token: '',
+            }
         },
         {
             id: 'algonode_mainnet',
             label: 'Algonode mainnet',
-            algodUrl: 'https://mainnet-api.algonode.cloud',
-            algodPort: '',
-            algodToken: '',
-            indexerUrl: 'https://mainnet-idx.algonode.cloud',
-            indexerPort: '',
-            indexerToken: ''
+            algod: {
+                url: 'https://mainnet-api.algonode.cloud',
+                port: '',
+                token: '',
+            },
+            indexer: {
+                url: 'https://mainnet-idx.algonode.cloud',
+                port: '',
+                token: '',
+            }
+        },
+        {
+            id: 'algoexplorer_testnet',
+            label: 'AlgoExplorer testnet',
+            algod: {
+                url: 'https://node.testnet.algoexplorerapi.io',
+                port: '',
+                token: '',
+            },
+            indexer: {
+                url: 'https://algoindexer.testnet.algoexplorerapi.io',
+                port: '',
+                token: '',
+            }
+        },
+        {
+            id: 'algoexplorer_mainnet',
+            label: 'AlgoExplorer mainnet',
+            algod: {
+                url: 'https://node.algoexplorerapi.io',
+                port: '',
+                token: '',
+            },
+            indexer: {
+                url: 'https://algoindexer.algoexplorerapi.io',
+                port: '',
+                token: '',
+            }
         }];
 }
 

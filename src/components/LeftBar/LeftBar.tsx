@@ -1,7 +1,7 @@
 import './LeftBar.scss';
 import {
     Box,
-    Button, Tab, Tabs, Tooltip
+    Button, Chip, Tab, Tabs
 } from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import React from "react";
@@ -9,23 +9,28 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import {showSettings} from "../../redux/settings/actions/settings";
 import Logo from '../../assets/images/logo-black.png';
 import {useLocation, useNavigate} from "react-router-dom";
-import CircleIcon from "@mui/icons-material/Circle";
-import explorer from "../../utils/dappflow";
 import {RootState} from "../../redux/store";
 import {shadedClr, shadedClr1} from "../../utils/common";
 import CodeIcon from '@mui/icons-material/Code';
 import StorageIcon from '@mui/icons-material/Storage';
 import GavelIcon from '@mui/icons-material/Gavel';
-
+import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
+import ShowerIcon from '@mui/icons-material/Shower';
+import InsertChartIcon from '@mui/icons-material/InsertChart';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import SignalWifiConnectedNoInternet4Icon from '@mui/icons-material/SignalWifiConnectedNoInternet4';
+import {CoreNode} from "../../packages/core-sdk/classes/core/CoreNode";
 
 
 function LeftBar(): JSX.Element {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const liveData = useSelector((state: RootState) => state.liveData);
+    const node = useSelector((state: RootState) => state.node);
     const location = useLocation();
 
     const {connection} = liveData;
+    let {success} = connection;
     let route = location.pathname;
     route = route.substring(1);
     route = route.split('/')[0];
@@ -62,6 +67,15 @@ function LeftBar(): JSX.Element {
                       <Tab icon={<GavelIcon></GavelIcon>} iconPosition="start" label="ARC Portal" value="arc-portal" onClick={() => {
                           navigate('/arc-portal');
                       }}/>
+                      <Tab icon={<DeveloperBoardIcon></DeveloperBoardIcon>} iconPosition="start" label="ABI Studio" value="abi-studio" onClick={() => {
+                          navigate('/abi-studio');
+                      }}/>
+                      <Tab icon={<ShowerIcon></ShowerIcon>} iconPosition="start" label="Dispenser" value="dispenser" onClick={() => {
+                          navigate('/dispenser');
+                      }}/>
+                      <Tab icon={<InsertChartIcon></InsertChartIcon>} iconPosition="start" label="Node Status" value="node-status" onClick={() => {
+                          navigate('/node-status');
+                      }}/>
 
                   </Tabs>
 
@@ -88,10 +102,19 @@ function LeftBar(): JSX.Element {
                   }}>
 
                       <Box className="node-url" sx={{ color: 'grey.700'}}>
-                          <Tooltip title={connection.success ? 'Connected' : 'Unable to connect'}>
-                              <CircleIcon color={connection.success ? 'success' : 'secondary'} fontSize={"small"} sx={{fontSize: 14, marginTop: -5}}></CircleIcon>
-                          </Tooltip>
-                          {explorer.network.getAlgodUrl()}
+
+                          <Chip
+                              clickable
+                              variant={"outlined"}
+                              label={<div>
+                              {success ? <span>
+                                  <CheckCircleIcon sx={{fontSize: '15px'}} color={"primary"}></CheckCircleIcon>
+                                  connected to : {new CoreNode(node.status, node.versionsCheck, node.genesis, node.health).getGenesisId()}
+                              </span> : <span>
+                                  <SignalWifiConnectedNoInternet4Icon sx={{fontSize: '15px'}} color={"warning"}></SignalWifiConnectedNoInternet4Icon>
+                                  Unable to connect</span>}
+
+                          </div>}></Chip>
                       </Box>
                   </div>
 

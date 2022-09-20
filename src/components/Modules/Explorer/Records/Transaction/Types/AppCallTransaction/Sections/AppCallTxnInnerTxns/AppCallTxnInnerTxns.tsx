@@ -1,7 +1,7 @@
 import './AppCallTxnInnerTxns.scss';
 import React, {useState} from "react";
 import {A_Asset, A_SearchTransaction, A_SearchTransactionInner} from "../../../../../../../../../packages/core-sdk/types";
-import {CoreTransaction} from "../../../../../../../../../packages/core-sdk/classes/CoreTransaction";
+import {CoreTransaction} from "../../../../../../../../../packages/core-sdk/classes/core/CoreTransaction";
 import LinkToAccount from "../../../../../../Common/Links/LinkToAccount";
 import {TXN_TYPES} from "../../../../../../../../../packages/core-sdk/constants";
 import LinkToApplication from "../../../../../../Common/Links/LinkToApplication";

@@ -19,4 +19,9 @@ export class BlockClient {
         const response = await this.indexer.lookupBlock(id).do();
         return response as A_Block;
     }
+
+    async statusAfterBlock(round: number): Promise<A_Block> {
+        const response = await this.client.statusAfterBlock(round).do();
+        return response as A_Block;
+    }
 }

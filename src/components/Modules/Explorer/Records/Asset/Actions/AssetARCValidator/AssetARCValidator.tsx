@@ -68,19 +68,16 @@ function AssetARCValidator(props): JSX.Element {
         const arc3Instance = new ARC3(asset);
         const arc3Validation = await arc3Instance.validate();
         setState(prevState => ({...prevState, arc3Validation: {...prevState.arc3Validation, ...arc3Validation, phase: 2}}));
-        console.log(arc3Validation);
 
         setState(prevState => ({...prevState, arc19Validation: {...prevState.arc19Validation, phase: 1}}));
         const arc19Instance = new ARC19(asset);
         const arc19Validation = await arc19Instance.validate();
         setState(prevState => ({...prevState, arc19Validation: {...prevState.arc19Validation, ...arc19Validation, phase: 2}}));
-        console.log(arc19Validation);
 
         setState(prevState => ({...prevState, arc69Validation: {...prevState.arc69Validation, phase: 1}}));
         const arc69Instance = new ARC69(asset);
         const arc69Validation = await arc69Instance.validate(dappflow.network.getIndexer());
         setState(prevState => ({...prevState, arc69Validation: {...prevState.arc69Validation, ...arc69Validation, phase: 2}}));
-        console.log(arc69Validation);
     }
 
 

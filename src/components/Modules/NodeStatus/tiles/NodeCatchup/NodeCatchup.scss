@@ -1,0 +1,48 @@
+@import "src/assets/colors";
+
+.node-catchup-wrapper {
+  .node-catchup-container {
+    .tile {
+      border-radius: 10px;
+      border: none;
+      .tile-header {
+        display: flex;
+        justify-content: space-between;
+        .tile-title {
+          font-family: PoppinsBold !important;
+          margin-bottom: 30px;
+        }
+      }
+      .tile-body {
+        .tile-status {
+          svg {
+            vertical-align: middle;
+            margin-right: 10px;
+          }
+        }
+      }
+      .tile-details {
+        margin-top: 20px;
+        .tile-detail {
+          padding: 10px;
+          display: flex;
+          justify-content: start;
+          .key {
+
+          }
+          .value {
+            margin-top: 2px;
+            margin-left: 15px;
+            font-size: 15px;
+            color: #666;
+            word-break: break-word;
+            &.clickable {
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
+
+  }
+}

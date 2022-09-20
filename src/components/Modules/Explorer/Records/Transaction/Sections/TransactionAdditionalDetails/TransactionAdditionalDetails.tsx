@@ -5,7 +5,7 @@ import {ExpandMore} from "@mui/icons-material";
 import NumberFormat from "react-number-format";
 import {microalgosToAlgos} from "algosdk";
 import AlgoIcon from "../../../../AlgoIcon/AlgoIcon";
-import {CoreTransaction} from "../../../../../../../packages/core-sdk/classes/CoreTransaction";
+import {CoreTransaction} from "../../../../../../../packages/core-sdk/classes/core/CoreTransaction";
 import {shadedClr} from "../../../../../../../utils/common";
 
 

@@ -1,6 +1,6 @@
 import {
     A_AccountInformation, A_Application, A_AppsLocalState, A_Asset, A_AssetHolding
-} from "../types";
+} from "../../types";
 
 
 export class CoreAccount {

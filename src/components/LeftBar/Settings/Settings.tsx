@@ -1,27 +1,27 @@
 import './Settings.scss';
 
 import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../redux/store";
+import {RootState} from "../../../redux/store";
 import React, {useState} from "react";
-import {hideSettings} from "../../redux/settings/actions/settings";
+import {hideSettings} from "../../../redux/settings/actions/settings";
 import {CancelOutlined} from "@mui/icons-material";
 import {
-    Alert,
     Button, Chip,
     Dialog,
     DialogActions,
     DialogContent,
     DialogTitle, FormLabel, Grid,
     IconButton,
-    InputBase, InputBaseProps, styled
+    InputBase, InputBaseProps, styled, Typography
 } from "@mui/material";
-import {theme} from "../../theme";
-import {getNodeConfig, getNodes} from "../../utils/nodeConfig";
-import {showSnack} from "../../redux/common/actions/snackbar";
-import {isNumber, shadedClr} from "../../utils/common";
-import {Network} from "../../packages/core-sdk/network";
-import {hideLoader, showLoader} from "../../redux/common/actions/loader";
-import {isBrave} from "../../packages/core-sdk/utils";
+import {theme} from "../../../theme";
+import {getNodeConfig, getNodes} from "../../../utils/nodeConfig";
+import {showSnack} from "../../../redux/common/actions/snackbar";
+import {isNumber, shadedClr} from "../../../utils/common";
+import {Network} from "../../../packages/core-sdk/network";
+import {hideLoader, showLoader} from "../../../redux/common/actions/loader";
+import {isBrave} from "../../../packages/core-sdk/utils";
+import {NodeConnectionParams} from "../../../packages/core-sdk/types";
 
 const nodeConfig = getNodeConfig();
 
@@ -45,12 +45,12 @@ interface SettingsState{
 }
 
 const initialState: SettingsState = {
-    algodPort: nodeConfig.algodPort,
-    algodToken: nodeConfig.algodToken,
-    algodUrl: nodeConfig.algodUrl,
-    indexerPort: nodeConfig.indexerPort,
-    indexerToken: nodeConfig.indexerToken,
-    indexerUrl: nodeConfig.indexerUrl
+    algodPort: nodeConfig.algod.port,
+    algodToken: nodeConfig.algod.token as string,
+    algodUrl: nodeConfig.algod.url,
+    indexerPort: nodeConfig.indexer.port,
+    indexerToken: nodeConfig.indexer.token as string,
+    indexerUrl: nodeConfig.indexer.url
 };
 
 function Settings(): JSX.Element {
@@ -93,9 +93,24 @@ function Settings(): JSX.Element {
             return;
         }
 
+        const connectionParams: NodeConnectionParams = {
+            id: 'test',
+            label: 'Test',
+            algod: {
+                url: algodUrl,
+                port: algodPort,
+                token: algodToken
+            },
+            indexer: {
+                url: indexerUrl,
+                port: indexerPort,
+                token: indexerToken
+            }
+        }
+
         try {
             dispatch(showLoader('Connecting to node ...'));
-            const network = new Network('test', 'Test', algodUrl, indexerUrl, algodToken, indexerToken, algodPort, indexerPort);
+            const network = new Network(connectionParams);
             const client = network.getClient();
             await client.status().do();
             dispatch(hideLoader());
@@ -108,7 +123,7 @@ function Settings(): JSX.Element {
         if (!failed) {
             try {
                 dispatch(showLoader('Connecting to node ...'));
-                const network = new Network('test', 'Test', algodUrl, indexerUrl, algodToken, indexerToken, algodPort, indexerPort);
+                const network = new Network(connectionParams);
                 const indexer = network.getIndexer();
                 await indexer.makeHealthCheck().do();
                 dispatch(hideLoader());
@@ -166,18 +181,27 @@ function Settings(): JSX.Element {
             <DialogContent>
                 <div className="settings-wrapper">
                     <div className="settings-container">
-                        <div className="settings-header">
-                            <Alert
-                                style={{marginBottom: 10, marginTop: -10}}
-                                color={"warning"} icon={false}>Though explorer can connect to any testnet or mainnet node, We highly recommend to use this explorer only for local private sandbox environment.</Alert>
+
+                        <div className="settings-header" style={{background: shadedClr}}>
+                            <Typography>Available nodes</Typography>
                             {nodes.map((node) => {
                                 return <Chip
                                     key={node.id}
                                     label={node.label}
-                                    color={"primary"}
+                                    color={"warning"}
                                     className="node"
+                                    variant={"outlined"}
+                                    sx={{marginTop: '10px'}}
                                     onClick={() => {
-                                        setState(prevState => ({...prevState, ...node}));
+                                        const {algod, indexer} = node;
+                                        setState(prevState => ({...prevState,
+                                            algodUrl: algod.url,
+                                            algodToken: algod.token as string,
+                                            algodPort: algod.port,
+                                            indexerUrl: indexer.url,
+                                            indexerToken: indexer.token as string,
+                                            indexerPort: indexer.port
+                                        }));
                                     }
                                     }
                                     size={"small"}></Chip>

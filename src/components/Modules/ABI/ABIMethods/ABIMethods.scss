@@ -1,0 +1,13 @@
+@import "src/assets/colors";
+
+.abi-methods-wrapper {
+  .abi-methods-container {
+    margin-top: 15px;
+    .abi-methods-header {
+      svg {
+        vertical-align: text-bottom;
+        margin-right: 5px;
+      }
+    }
+  }
+}

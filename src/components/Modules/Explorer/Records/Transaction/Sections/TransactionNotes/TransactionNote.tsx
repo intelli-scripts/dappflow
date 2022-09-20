@@ -1,7 +1,7 @@
 import './TransactionNote.scss';
 import React, {useState} from "react";
 import {Button, ButtonGroup, Grid} from "@mui/material";
-import {CoreTransaction} from "../../../../../../../packages/core-sdk/classes/CoreTransaction";
+import {CoreTransaction} from "../../../../../../../packages/core-sdk/classes/core/CoreTransaction";
 import {TEXT_ENCODING} from "../../../../../../../packages/core-sdk/constants";
 import {shadedClr} from "../../../../../../../utils/common";
 

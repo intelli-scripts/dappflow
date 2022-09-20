@@ -1,6 +1,6 @@
 import {
     A_GlobalStateDelta
-} from "../types";
+} from "../../types";
 import {encodeAddress} from "algosdk";
 import isUtf8 from 'is-utf8';
 

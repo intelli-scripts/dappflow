@@ -5,14 +5,15 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../../redux/store";
 import {Grid, Tab, Tabs} from "@mui/material";
 import {loadApplication} from "../../../../../redux/explorer/actions/application";
-import {CoreApplication} from "../../../../../packages/core-sdk/classes/CoreApplication";
+import {CoreApplication} from "../../../../../packages/core-sdk/classes/core/CoreApplication";
 import ApplicationGlobalState from "./Sections/ApplicationGlobalState/ApplicationGlobalState";
 import LinkToAccount from "../../Common/Links/LinkToAccount";
 import LoadingTile from "../../../../Common/LoadingTile/LoadingTile";
 import {shadedClr} from "../../../../../utils/common";
-import JsonViewer from "../../../../Common/JsonViewer/JsonViewer";
 import ApplicationProgram from "./Sections/ApplicationProgram/ApplicationProgram";
 import CustomError from "../../Common/CustomError/CustomError";
+import ApplicationActions from "./Sections/ApplicationActions/ApplicationActions";
+import ApplicationAbi from "./Sections/ApplicationABI/ApplicationAbi";
 
 
 function Application(): JSX.Element {
@@ -34,6 +35,7 @@ function Application(): JSX.Element {
     const application = useSelector((state: RootState) => state.application);
     const applicationInstance = new CoreApplication(application.information);
 
+
     useEffect(() => {
         dispatch(loadApplication(Number(id)));
     }, [dispatch, id]);
@@ -47,7 +49,7 @@ function Application(): JSX.Element {
                         Application overview
                     </div>
                     <div>
-                        <JsonViewer obj={application.information} title="Application"></JsonViewer>
+                        <ApplicationActions application={application}></ApplicationActions>
                     </div>
                 </div>
 
@@ -58,7 +60,7 @@ function Application(): JSX.Element {
 
                     <div className="props" style={{background: shadedClr}}>
                         <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <div className="property">
                                     <div className="key">
                                         Creator
@@ -73,7 +75,7 @@ function Application(): JSX.Element {
 
                     <div className="props" style={{background: shadedClr}}>
                         <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <div className="property">
                                     <div className="key">
                                         Application address
@@ -85,6 +87,8 @@ function Application(): JSX.Element {
                             </Grid>
                         </Grid>
                     </div>
+
+                    <ApplicationAbi application={application}></ApplicationAbi>
 
                     <ApplicationProgram name="Approval program" program={applicationInstance.getApprovalProgram()}></ApplicationProgram>
                     <ApplicationProgram name="Clear state program" program={applicationInstance.getClearProgram()}></ApplicationProgram>
@@ -144,6 +148,7 @@ function Application(): JSX.Element {
                     </div>
 
 
+
                     <div>
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
@@ -151,7 +156,6 @@ function Application(): JSX.Element {
                             </Grid>
                         </Grid>
                     </div>
-
 
 
                     <div className="application-tabs">

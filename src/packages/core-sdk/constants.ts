@@ -10,7 +10,8 @@ export enum TXN_TYPES {
 export enum TEXT_ENCODING {
     BASE64 = 'base64',
     TEXT = 'text',
-    MSG_PACK = 'msgpack'
+    MSG_PACK = 'msgpack',
+    HEX = 'hex'
 }
 
 export enum PROGRAM_ENCODING {

@@ -49,15 +49,6 @@ export const loadAlgodSpec = createAsyncThunk(
             const algodUrl = explorer.network.getAlgodUrl();
             dispatch(setLoading(false));
 
-            // const apiCopy: any = {...algodApi};
-            // apiCopy.schemes = null;
-            //
-            // for (const key in apiCopy.paths) {
-            //     apiCopy.paths[key].schemes  = null;
-            // }
-            //
-            // console.log(apiCopy);
-
             return {
                 ...algodApi,
                 servers: [{

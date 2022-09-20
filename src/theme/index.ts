@@ -56,6 +56,11 @@ export const theme = createTheme({
                     ":hover": {
                         boxShadow: 'none',
                     }
+                },
+                contained: {
+                    '&.black-button': {
+                        background: '#000'
+                    }
                 }
             }
         },
@@ -92,6 +97,9 @@ export const theme = createTheme({
             styleOverrides: {
                 root: {
                     borderRadius: 10
+                },
+                standardWarning: {
+                    color: '#000'
                 }
             }
         },

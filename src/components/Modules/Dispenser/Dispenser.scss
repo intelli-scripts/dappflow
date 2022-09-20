@@ -1,0 +1,19 @@
+@import "src/assets/colors";
+
+.dispenser-wrapper {
+  .dispenser-container {
+    margin-top: 20px;
+    .dispenser-header {
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      font-size: 20px;
+      font-weight: bold;
+      border-bottom: 1px solid $color-grey-light;
+      display: flex;
+      justify-content: space-between;
+    }
+    .dispenser-body {
+      
+    }
+  }
+}

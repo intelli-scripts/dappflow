@@ -1,8 +1,8 @@
 import './AssetFreezeTransaction.scss';
 import React from "react";
 import {Grid} from "@mui/material";
-import {CoreTransaction} from "../../../../../../../packages/core-sdk/classes/CoreTransaction";
-import {CoreAsset} from "../../../../../../../packages/core-sdk/classes/CoreAsset";
+import {CoreTransaction} from "../../../../../../../packages/core-sdk/classes/core/CoreTransaction";
+import {CoreAsset} from "../../../../../../../packages/core-sdk/classes/core/CoreAsset";
 import LinkToAccount from "../../../../Common/Links/LinkToAccount";
 import LinkToAsset from "../../../../Common/Links/LinkToAsset";
 import {shadedClr} from "../../../../../../../utils/common";

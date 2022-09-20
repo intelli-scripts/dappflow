@@ -1,0 +1,11 @@
+@import "src/assets/colors";
+
+.arc-portal-root {
+  .arc-portal-header {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    border-bottom: 1px solid $color-grey-light;
+  }
+}

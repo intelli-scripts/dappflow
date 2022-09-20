@@ -62,12 +62,12 @@ function ApplicationProgram(props): JSX.Element {
                                 {name}
 
                                 <ButtonGroup variant="outlined" size={"small"} style={{marginLeft: 20}}>
-                                    <Button variant={encoding === PROGRAM_ENCODING.TEAL ? 'contained' : 'outlined'} onClick={() => {setTextEncoding(PROGRAM_ENCODING.TEAL)}}>Teal</Button>
                                     <Button variant={encoding === PROGRAM_ENCODING.BASE64 ? 'contained' : 'outlined'} onClick={() => {setTextEncoding(PROGRAM_ENCODING.BASE64)}}>Base 64</Button>
+                                    <Button variant={encoding === PROGRAM_ENCODING.TEAL ? 'contained' : 'outlined'} onClick={() => {setTextEncoding(PROGRAM_ENCODING.TEAL)}}>Teal</Button>
                                 </ButtonGroup>
 
                             </div>
-                            <div className="value" style={{marginTop: 20}}>
+                            <div className="value small" style={{marginTop: 20}}>
                                 {encoding === PROGRAM_ENCODING.BASE64 ? prg : <div className="source">
                                     <CodeBlock
                                         text={prg}

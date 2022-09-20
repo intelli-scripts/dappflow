@@ -1,6 +1,6 @@
 import {
     A_Application, A_GlobalState, A_GlobalStateDecrypted
-} from "../types";
+} from "../../types";
 import {encodeAddress, getApplicationAddress} from "algosdk";
 import isUtf8 from 'is-utf8';
 

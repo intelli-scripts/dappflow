@@ -7,9 +7,7 @@ import {
 
 function getNetwork() {
     const nodeConfig = getNodeConfig();
-    const {algodUrl, algodPort, algodToken, indexerPort, indexerToken, indexerUrl} = nodeConfig;
-
-    return new Network('sandbox', 'Sandbox', algodUrl, indexerUrl, algodToken, indexerToken, algodPort, indexerPort);
+    return new Network(nodeConfig);
 }
 
 class Dappflow {

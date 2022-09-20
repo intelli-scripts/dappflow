@@ -22,7 +22,7 @@ import {A_Arc3_Metadata, A_Arc_Validation} from "../../../../../../../packages/a
 import {Alert} from "@mui/lab";
 import {ARC3Metadata} from "../../../../../../../packages/arc-portal/classes/ARC3/ARC3Metadata";
 import CallMadeIcon from '@mui/icons-material/CallMade';
-import {CoreAsset} from "../../../../../../../packages/core-sdk/classes/CoreAsset";
+import {CoreAsset} from "../../../../../../../packages/core-sdk/classes/core/CoreAsset";
 import {useSearchParams} from "react-router-dom";
 import LinkToAsset from "../../../../../Explorer/Common/Links/LinkToAsset";
 import JsonViewer from "../../../../../../Common/JsonViewer/JsonViewer";

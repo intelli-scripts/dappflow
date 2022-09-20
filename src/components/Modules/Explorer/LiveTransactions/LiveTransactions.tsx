@@ -4,7 +4,7 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../../../redux/store";
 import {shadedClr} from "../../../../utils/common";
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import {CoreTransaction} from "../../../../packages/core-sdk/classes/CoreTransaction";
+import {CoreTransaction} from "../../../../packages/core-sdk/classes/core/CoreTransaction";
 import LinkToTransaction from "../Common/Links/LinkToTransaction";
 import LinkToAccount from "../Common/Links/LinkToAccount";
 import {TXN_TYPES} from "../../../../packages/core-sdk/constants";

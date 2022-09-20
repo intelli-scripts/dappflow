@@ -1,6 +1,6 @@
 import {A_Asset} from "../../../core-sdk/types";
 import {A_Arc_Validation} from "../../types";
-import {CoreAsset} from "../../../core-sdk/classes/CoreAsset";
+import {CoreAsset} from "../../../core-sdk/classes/core/CoreAsset";
 import {decodeAddress} from "algosdk";
 import { CID } from 'multiformats/cid'
 import * as mfsha2 from 'multiformats/hashes/sha2'

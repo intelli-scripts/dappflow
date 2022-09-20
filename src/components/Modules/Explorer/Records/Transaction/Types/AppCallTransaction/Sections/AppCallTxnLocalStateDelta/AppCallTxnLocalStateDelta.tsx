@@ -5,7 +5,7 @@ import {dataGridCellConfig, dataGridStyles} from "../../../../../../../../../the
 import NumberFormat from "react-number-format";
 import {theme} from "../../../../../../../../../theme";
 import {A_LocalStateDelta} from "../../../../../../../../../packages/core-sdk/types";
-import {CoreLocalState} from "../../../../../../../../../packages/core-sdk/classes/CoreLocalStateDelta";
+import {CoreLocalState} from "../../../../../../../../../packages/core-sdk/classes/core/CoreLocalStateDelta";
 
 
 function AppCallTxnLocalStateDelta(props): JSX.Element {
