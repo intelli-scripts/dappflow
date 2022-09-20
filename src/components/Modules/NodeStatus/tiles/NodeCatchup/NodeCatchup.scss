@@ -3,7 +3,6 @@
 .node-catchup-wrapper {
   .node-catchup-container {
     .tile {
-      height: 180px;
       border-radius: 10px;
       border: none;
       .tile-header {
@@ -19,6 +18,27 @@
           svg {
             vertical-align: middle;
             margin-right: 10px;
+          }
+        }
+      }
+      .tile-details {
+        margin-top: 20px;
+        .tile-detail {
+          padding: 10px;
+          display: flex;
+          justify-content: start;
+          .key {
+
+          }
+          .value {
+            margin-top: 2px;
+            margin-left: 15px;
+            font-size: 15px;
+            color: #666;
+            word-break: break-word;
+            &.clickable {
+              cursor: pointer;
+            }
           }
         }
       }

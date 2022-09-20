@@ -5,9 +5,9 @@ import LoadingTile from "../../../../Common/LoadingTile/LoadingTile";
 import {shadedClr} from "../../../../../utils/common";
 import {CoreNode} from "../../../../../packages/core-sdk/classes/core/CoreNode";
 import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
-import DangerousOutlinedIcon from '@mui/icons-material/DangerousOutlined';
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../../redux/store";
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 
 
@@ -43,7 +43,7 @@ function ConsensusVersion(): JSX.Element {
                                         <CheckCircleOutlinedIcon fontSize={"large"} color={"primary"}></CheckCircleOutlinedIcon>
                                         <span>Node has latest version</span>
                                     </div> : <div className="tile-status">
-                                        <DangerousOutlinedIcon fontSize={"large"} color={"warning"}></DangerousOutlinedIcon>
+                                        <ErrorOutlineIcon fontSize={"large"} color={"warning"}></ErrorOutlineIcon>
                                         <span>Node has outdated version</span>
                                     </div>}
                                 </div> : <div>
@@ -51,7 +51,7 @@ function ConsensusVersion(): JSX.Element {
                                         <CheckCircleOutlinedIcon fontSize={"large"} color={"primary"}></CheckCircleOutlinedIcon>
                                         <span>{sandboxValidation.message}</span>
                                     </div> : <div className="tile-status">
-                                        <DangerousOutlinedIcon fontSize={"large"} color={"warning"}></DangerousOutlinedIcon>
+                                        <ErrorOutlineIcon fontSize={"large"} color={"warning"}></ErrorOutlineIcon>
                                         <span>{sandboxValidation.message}</span>
                                     </div>}
                                 </div>}

@@ -30,21 +30,21 @@ function NodeStatus(): JSX.Element {
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <ConsensusVersion></ConsensusVersion>
                             </Grid>
-                            <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <NodeCatchup></NodeCatchup>
                             </Grid>
-                            <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <IndexerCatchup loading={node.loading}></IndexerCatchup>
                             </Grid>
-                            <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <AlgodVersion loading={node.loading}></AlgodVersion>
                             </Grid>
-                            <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <IndexerVersion loading={node.loading}></IndexerVersion>
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
+                    <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                         <NetworkDetails></NetworkDetails>
                     </Grid>
                 </Grid>

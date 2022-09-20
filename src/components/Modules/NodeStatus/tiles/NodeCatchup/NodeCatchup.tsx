@@ -4,10 +4,10 @@ import {Card, CardContent, Link} from "@mui/material";
 import LoadingTile from "../../../../Common/LoadingTile/LoadingTile";
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import {shadedClr} from "../../../../../utils/common";
-import DownloadingOutlinedIcon from '@mui/icons-material/DownloadingOutlined';
 import humanizeDuration from 'humanize-duration';
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../../redux/store";
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 
 function NodeCatchup(): JSX.Element {
@@ -40,9 +40,38 @@ function NodeCatchup(): JSX.Element {
                                     <CheckCircleOutlinedIcon fontSize={"large"} color={"primary"}></CheckCircleOutlinedIcon>
                                     <span>Completed</span>
                                 </div> : <div className="tile-status">
-                                    <DownloadingOutlinedIcon fontSize={"large"} color={"warning"}></DownloadingOutlinedIcon>
-                                    <span>{humanizeDuration(catchupTime, { largest: 2 })}</span>
+                                    <ErrorOutlineIcon fontSize={"large"} color={"warning"}></ErrorOutlineIcon>
+                                    <span>In progress</span>
                                 </div>}
+
+                                {caughtUp ? '' : <div className="tile-details">
+                                    <div className="tile-detail">
+                                        <div className="key">Catchup time : </div>
+                                        <div className="value">{humanizeDuration(catchupTime, { largest: 2 })}</div>
+                                    </div>
+                                    <div className="tile-detail">
+                                        <div className="key">Catch point : </div>
+                                        <div className="value">{status.catchpoint}</div>
+                                    </div>
+                                    <div className="tile-detail">
+                                        <div className="key">Catch point total blocks : </div>
+                                        <div className="value">{status["catchpoint-total-blocks"]}</div>
+                                    </div>
+                                    <div className="tile-detail">
+                                        <div className="key">Catch point acquired blocks : </div>
+                                        <div className="value">{status["catchpoint-acquired-blocks"]}</div>
+                                    </div>
+                                    <div className="tile-detail">
+                                        <div className="key">Catch point total accounts : </div>
+                                        <div className="value">{status["catchpoint-total-accounts"]}</div>
+                                    </div>
+                                    <div className="tile-detail">
+                                        <div className="key">Catch point processed accounts : </div>
+                                        <div className="value">{status["catchpoint-processed-accounts"]}</div>
+                                    </div>
+                                </div>}
+
+
                             </div>
                             }
                         </div>
