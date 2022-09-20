@@ -60,9 +60,12 @@ function ConsensusVersion(): JSX.Element {
                                 <div className="tile-details">
                                     <div className="tile-detail">
                                         <div className="key">Current version</div>
-                                        <div className="value clickable" onClick={() => {
+                                        {coreNodeInstance.hasFutureConsensus() ? <div className="value">
+                                            unreleased(future) version
+                                        </div> : <div className="value clickable" onClick={() => {
                                             window.open(coreNodeInstance.getConsensusVersion(), '_blank');
-                                        }}>{coreNodeInstance.getConsensusVersion()}</div>
+                                        }}>{coreNodeInstance.getConsensusVersion()}</div>}
+
                                     </div>
                                     {isSandbox ? '' : <div className="tile-detail">
                                         <div className="key">Latest version</div>

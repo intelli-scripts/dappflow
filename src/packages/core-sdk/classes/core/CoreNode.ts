@@ -57,7 +57,12 @@ export class CoreNode {
     }
 
     getConsensusVersion(): string {
+        console.log(this.status);
         return this.status["last-version"];
+    }
+
+    hasFutureConsensus(): boolean {
+        return this.getConsensusVersion() === 'future';
     }
 
     getLatestConsensusVersion(): string {
@@ -97,7 +102,11 @@ export class CoreNode {
             }
             else if (consensusVersion === REACT_APP_MASTER_CONSENSUS_VERSION || consensusVersion === REACT_APP_NIGHTLY_CONSENSUS_VERSION) {
                 validation.valid = true;
-                validation.message = 'Node has future(master/nightly) consensus version';
+                validation.message = 'Node has master/nightly consensus version';
+            }
+            else if (this.hasFutureConsensus()) {
+                validation.valid = true;
+                validation.message = 'Node has unreleased(future) consensus version';
             }
         }
 
