@@ -1,9 +1,14 @@
 import {
     A_Asset,
     A_SearchTransaction,
-    A_SearchTransaction_App_Call_Payload, A_SearchTransaction_Asset_Freeze_Payload,
-    A_SearchTransaction_Asset_Transfer_Payload, A_SearchTransaction_KeyReg_Payload,
-    A_SearchTransaction_Payment_Payload, A_SearchTransaction_Signature, A_SearchTransactionInner
+    A_SearchTransaction_App_Call_Payload,
+    A_SearchTransaction_Asset_Freeze_Payload,
+    A_SearchTransaction_Asset_Transfer_Payload,
+    A_SearchTransaction_KeyReg_Payload,
+    A_SearchTransaction_Payment_Payload,
+    A_SearchTransaction_Signature,
+    A_SearchTransaction_State_Proof_Payload,
+    A_SearchTransactionInner
 } from "../../types";
 import {TEXT_ENCODING, TIMESTAMP_DISPLAY_FORMAT, TXN_TYPES} from "../../constants";
 import atob from 'atob';
@@ -48,25 +53,25 @@ export class CoreTransaction {
 
     getTypeDisplayValue(): string {
         const type = this.getType();
-        if (type === 'pay') {
+        if (type === TXN_TYPES.PAYMENT) {
             return "Payment";
         }
-        else if(type === 'keyreg') {
+        else if(type === TXN_TYPES.KEY_REGISTRATION) {
             return 'Key registration';
         }
-        else if(type === 'acfg') {
+        else if(type === TXN_TYPES.ASSET_CONFIG) {
             return 'Asset config';
         }
-        else if(type === 'afrz') {
+        else if(type === TXN_TYPES.ASSET_FREEZE) {
             return 'Asset freeze';
         }
-        else if(type === 'axfer') {
+        else if(type === TXN_TYPES.ASSET_TRANSFER) {
             return 'Transfer';
         }
-        else if(type === 'appl') {
+        else if(type === TXN_TYPES.APP_CALL) {
             return 'App call';
         }
-        else if(type === 'stpf') {
+        else if(type === TXN_TYPES.STATE_PROOF) {
             return 'State proof';
         }
     }
@@ -104,6 +109,10 @@ export class CoreTransaction {
 
     getAppCallPayload(): A_SearchTransaction_App_Call_Payload {
         return this.txn["application-transaction"];
+    }
+
+    getStateProofPayload(): A_SearchTransaction_State_Proof_Payload {
+        return this.txn["state-proof-transaction"];
     }
 
     getAppId(): number {

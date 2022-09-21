@@ -28,6 +28,7 @@ import LinkToGroup from "../../Common/Links/LinkToGroup";
 import {RootState} from "../../../../../redux/store";
 import CustomError from '../../Common/CustomError/CustomError';
 import AssetFreezeTransaction from "./Types/AssetFreezeTransaction/AssetFreezeTransaction";
+import StateProofTransaction from "./Types/StateProofTransaction/StateProofTransaction";
 
 
 function Transaction(): JSX.Element {
@@ -144,6 +145,7 @@ function Transaction(): JSX.Element {
                     {txnInstance.getType() === TXN_TYPES.ASSET_CONFIG ? <AssetConfigTransaction transaction={txnObj}></AssetConfigTransaction> : ''}
                     {txnInstance.getType() === TXN_TYPES.KEY_REGISTRATION ? <KeyRegTransaction transaction={txnObj}></KeyRegTransaction> : ''}
                     {txnInstance.getType() === TXN_TYPES.APP_CALL ? <AppCallTransaction transaction={txnObj}></AppCallTransaction> : ''}
+                    {txnInstance.getType() === TXN_TYPES.STATE_PROOF ? <StateProofTransaction transaction={txnObj}></StateProofTransaction> : ''}
 
 
                     <TransactionNote transaction={txnObj}></TransactionNote>

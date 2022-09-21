@@ -154,6 +154,7 @@ export interface A_SearchTransaction{
     "payment-transaction"?: A_SearchTransaction_Payment_Payload,
     "asset-config-transaction"?: A_Asset,
     "keyreg-transaction"?: A_SearchTransaction_KeyReg_Payload,
+    "state-proof-transaction"?: A_SearchTransaction_State_Proof_Payload
     "global-state-delta"?: A_GlobalStateDelta[],
     "local-state-delta"?: A_LocalStateDelta[]
     signature: A_SearchTransaction_Signature,
@@ -215,6 +216,80 @@ export interface A_SearchTransaction_App_Call_Payload {
     "global-state-schema": A_StateSchema
     "local-state-schema": A_StateSchema
     "on-completion": string
+}
+
+export interface A_SearchTransaction_State_Proof_Payload {
+    message: Message
+    "state-proof": A_StateProof
+    "state-proof-type": number
+}
+
+export interface Message {
+    "block-headers-commitment": string
+    "first-attested-round": number
+    "latest-attested-round": number
+    "ln-proven-weight": number
+    "voters-commitment": string
+}
+
+export interface A_StateProof {
+    "part-proofs": A_PartProofs
+    "positions-to-reveal": number[]
+    reveals: A_Reveal[]
+    "salt-version": number
+    "sig-commit": string
+    "sig-proofs": A_SigProofs
+    "signed-weight": number
+}
+
+export interface A_PartProofs {
+    "hash-factory": A_HashFactory
+    path: string[]
+    "tree-depth": number
+}
+
+export interface A_HashFactory {
+    "hash-type": number
+}
+
+export interface A_Reveal {
+    participant: A_Participant
+    position: number
+    "sig-slot": A_SigSlot
+}
+
+export interface A_Participant {
+    verifier: A_Verifier
+    weight: number
+}
+
+export interface A_Verifier {
+    commitment: string
+    "key-lifetime": number
+}
+
+export interface A_SigSlot {
+    "lower-sig-weight": number
+    signature: A_Signature
+}
+
+export interface A_Signature {
+    "falcon-signature": string
+    "merkle-array-index": number
+    proof: A_Proof
+    "verifying-key": string
+}
+
+export interface A_Proof {
+    "hash-factory": A_HashFactory
+    path: string[]
+    "tree-depth": number
+}
+
+export interface A_SigProofs {
+    "hash-factory": A_HashFactory
+    path: string[]
+    "tree-depth": number
 }
 
 export type A_SearchTransactionInner = Omit<A_SearchTransaction, "id,note,genesis-hash,genesis-id,inner-txns">

@@ -1,7 +1,7 @@
 import {KMDConnectionParams, NodeConnectionParams} from "../packages/core-sdk/types";
 
 export function getNodeConfig(): NodeConnectionParams {
-    const defaultNode = getNodes()[1];
+    const defaultNode = getNodes()[2];
 
     return {
         ...defaultNode,

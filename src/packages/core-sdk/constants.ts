@@ -4,7 +4,8 @@ export enum TXN_TYPES {
     ASSET_CONFIG = 'acfg',
     ASSET_TRANSFER = 'axfer',
     ASSET_FREEZE = 'afrz',
-    APP_CALL = 'appl'
+    APP_CALL = 'appl',
+    STATE_PROOF = 'stpf'
 }
 
 export enum TEXT_ENCODING {
