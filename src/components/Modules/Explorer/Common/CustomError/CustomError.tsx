@@ -5,6 +5,7 @@ import {Alert} from "@mui/lab";
 import {showSettings} from "../../../../../redux/settings/actions/settings";
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
+import {supportSettings} from "../../../../../utils/nodeConfig";
 
 
 function CustomError(): JSX.Element {
@@ -26,11 +27,13 @@ function CustomError(): JSX.Element {
                         <Button color={"primary"} size={"medium"} variant={"outlined"} onClick={() => {
                             navigate('/explorer');
                         }}>Home</Button>
-                        <Button color={"primary"} size={"medium"} variant={"outlined"} style={{marginLeft: 10}}
-                        onClick={() => {
-                            dispatch(showSettings());
-                        }}
-                        >Node Settings</Button>
+
+                        {supportSettings ? <Button color={"primary"} size={"medium"} variant={"outlined"} style={{marginLeft: 10}}
+                                                   onClick={() => {
+                                                       dispatch(showSettings());
+                                                   }}
+                        >Node Settings</Button> : ''}
+
                     </div>
 
                 </Grid>

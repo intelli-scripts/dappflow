@@ -1,7 +1,26 @@
 import {KMDConnectionParams, NodeConnectionParams} from "../packages/core-sdk/types";
+import {REACT_APP_NETWORK} from "../env";
+import {NETWORKS} from "../packages/core-sdk/constants";
+
+export const supportSettings = REACT_APP_NETWORK === '';
 
 export function getNodeConfig(): NodeConnectionParams {
-    const defaultNode = getNodes()[2];
+    const availableNodes = getNodes();
+
+    const network = REACT_APP_NETWORK;
+    if (network) {
+        if (network === NETWORKS.SANDBOX) {
+            return availableNodes[0];
+        }
+        if (network === NETWORKS.TESTNET) {
+            return availableNodes[1];
+        }
+        if (network === NETWORKS.MAINNET) {
+            return availableNodes[2];
+        }
+    }
+
+    const defaultNode = availableNodes[2];
 
     return {
         ...defaultNode,

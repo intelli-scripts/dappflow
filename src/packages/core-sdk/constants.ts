@@ -21,3 +21,9 @@ export enum PROGRAM_ENCODING {
 }
 
 export const TIMESTAMP_DISPLAY_FORMAT = 'ddd, dd mmmm  yyyy HH:MM:ss';
+
+export enum NETWORKS {
+    TESTNET = 'testnet',
+    MAINNET = 'mainnet',
+    SANDBOX = 'sandbox'
+}

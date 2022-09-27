@@ -8,6 +8,7 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../../../../redux/store";
 import LinkToAccount from "../../../Explorer/Common/Links/LinkToAccount";
 import WifiIcon from '@mui/icons-material/Wifi';
+import dappflow from "../../../../../utils/dappflow";
 
 
 function NetworkDetails(): JSX.Element {
@@ -65,6 +66,18 @@ function NetworkDetails(): JSX.Element {
                                         <div className="key">Build version</div>
                                         <div className="value">
                                             <div className="value">{coreNodeInstance.getBuildVersion()}</div>
+                                        </div>
+                                    </div>
+                                    <div className="tile-detail">
+                                        <div className="key">Algod url</div>
+                                        <div className="value">
+                                            <div className="value">{dappflow.network.getAlgodUrl()}</div>
+                                        </div>
+                                    </div>
+                                    <div className="tile-detail">
+                                        <div className="key">Indexer url</div>
+                                        <div className="value">
+                                            <div className="value">{dappflow.network.getIndexerUrl()}</div>
                                         </div>
                                     </div>
                                 </div>

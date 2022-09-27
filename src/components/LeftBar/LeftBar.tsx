@@ -20,6 +20,7 @@ import InsertChartIcon from '@mui/icons-material/InsertChart';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import SignalWifiConnectedNoInternet4Icon from '@mui/icons-material/SignalWifiConnectedNoInternet4';
 import {CoreNode} from "../../packages/core-sdk/classes/core/CoreNode";
+import {supportSettings} from "../../utils/nodeConfig";
 
 
 function LeftBar(): JSX.Element {
@@ -86,19 +87,22 @@ function LeftBar(): JSX.Element {
 
               <div className="footer">
 
-                  <Button variant={"text"}
-                          size={"large"}
-                          fullWidth
-                          startIcon={<SettingsIcon></SettingsIcon>}
-                          onClick={() => {
-                              dispatch(showSettings());
-                          }}
-                  >Settings</Button>
+                  {supportSettings ? <Button variant={"text"}
+                                             size={"large"}
+                                             fullWidth
+                                             startIcon={<SettingsIcon></SettingsIcon>}
+                                             onClick={() => {
+                                                 dispatch(showSettings());
+                                             }}
+                  >Settings</Button> : ''}
+
 
                   <div className="node" onClick={(ev) => {
-                      dispatch(showSettings());
-                      ev.stopPropagation();
-                      ev.preventDefault();
+                      if (supportSettings) {
+                          dispatch(showSettings());
+                          ev.stopPropagation();
+                          ev.preventDefault();
+                      }
                   }}>
 
                       <Box className="node-url" sx={{ color: 'grey.700'}}>
