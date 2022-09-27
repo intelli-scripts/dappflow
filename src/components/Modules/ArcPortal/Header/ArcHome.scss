@@ -1,0 +1,22 @@
+@import "src/assets/colors";
+
+.arc-home-wrapper {
+  .arc-home-container {
+    margin-top: 20px;
+
+    .arc-list {
+      .arc {
+        padding: 15px;
+        margin: 10px;
+        border: 1px solid $color-grey-light;
+        border-radius: 10px;
+        font-size: 15px;
+        font-family: PoppinsBold !important;
+        &:hover {
+          cursor: pointer;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}

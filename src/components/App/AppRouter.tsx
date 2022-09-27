@@ -41,6 +41,7 @@ import ArcWorkspace from "../Modules/ArcPortal/Arc/RelatedList/ArcWorkspace/ArcW
 import ABIStudio from "../Modules/ABI/ABIStudio/ABIStudio";
 import Dispenser from "../Modules/Dispenser/Dispenser";
 import NodeStatus from "../Modules/NodeStatus/NodeStatus";
+import ArcHome from "../Modules/ArcPortal/Header/ArcHome";
 
 function AppRouter(): JSX.Element {
 
@@ -94,11 +95,13 @@ function AppRouter(): JSX.Element {
                                     <Route path="" element={<Navigate to="indexer" replace />}/>
                                 </Route>
                                 <Route path="/arc-portal" element={<ArcPortal></ArcPortal>}>
+                                    <Route path="/arc-portal/home" element={<ArcHome></ArcHome>} />
                                     <Route path="/arc-portal/arc/:id" element={<Arc></Arc>}>
                                         <Route path="overview" element={<ArcOverview></ArcOverview>} />
                                         <Route path="workspace" element={<ArcWorkspace></ArcWorkspace>} />
                                         <Route path="" element={<Navigate to="overview" replace />}/>
                                     </Route>
+                                    <Route index element={<Navigate to="home" replace />} />
                                 </Route>
                                 <Route path="/abi-studio" element={<ABIStudio></ABIStudio>}></Route>
                                 <Route path="/dispenser" element={<Dispenser></Dispenser>}></Route>

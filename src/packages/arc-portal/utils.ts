@@ -2,6 +2,14 @@ import {A_Arc} from "../arc-portal/types";
 
 export function getArcs(): A_Arc[] {
     return [{
+        id: 0,
+        name: 'ARC-0000: ARC Purpose and Guidelines',
+        markdownUrl: 'https://raw.githubusercontent.com/algorandfoundation/ARCs/main/ARCs/arc-0000.md',
+        markdown: '',
+        github: 'https://github.com/algorandfoundation/ARCs/blob/main/ARCs/arc-0000.md',
+        hasWorkspace: false
+    },
+        {
         id: 3,
         name: 'ARC-0003: Conventions Fungible/Non-Fungible Tokens',
         markdownUrl: 'https://raw.githubusercontent.com/algorandfoundation/ARCs/main/ARCs/arc-0003.md',

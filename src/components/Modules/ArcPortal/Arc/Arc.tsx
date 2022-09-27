@@ -8,6 +8,7 @@ import {loadArc} from "../../../../redux/arcPortal/actions/arc";
 import LoadingTile from "../../../Common/LoadingTile/LoadingTile";
 import {ARC} from "../../../../packages/arc-portal/classes/ARC";
 import GitHubIcon from '@mui/icons-material/GitHub';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 function Arc(): JSX.Element {
 
@@ -34,7 +35,18 @@ function Arc(): JSX.Element {
             {arc.loading ? <LoadingTile></LoadingTile> : <div>
                 <div className="arc-header">
                     <div className="arc-name">
-                        {arcInstance.getName()}
+                        <Button variant={"text"}
+                                style={{marginTop: '-32px'}}
+                                size={"small"}
+                                startIcon={<ArrowBackIcon></ArrowBackIcon>}
+                                onClick={() => {
+                                    navigate('/arc-portal');
+                                }}
+                        >Back</Button>
+                        <div>
+                            {arcInstance.getName()}
+                        </div>
+
                     </div>
                     <div>
                         <Button variant={"contained"}

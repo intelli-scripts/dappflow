@@ -15,6 +15,7 @@ import {isNumber} from "../../../utils/common";
 import KMDConfiguration from "../../LeftBar/KMDConfiguration/KMDConfiguration";
 import {getKMDConfig} from "../../../utils/nodeConfig";
 import {KMDConnectionParams} from "../../../packages/core-sdk/types";
+import LaunchIcon from '@mui/icons-material/Launch';
 
 
 interface DispenserState{
@@ -245,11 +246,13 @@ function Dispenser(): JSX.Element {
                                         <Alert icon={false} color={"warning"}>
                                             Dispenser is available only for sandbox environment.
                                             <br/>
-                                            {dispenerLinks.length > 0 ? 'Please try below dispensers by community.' : ''}
+                                            {dispenerLinks.length > 0 ? 'Please try below dispensers by community.' : 'Community dispensers are not available for this network.'}
 
                                         </Alert>
                                         {dispenerLinks.map((link, index) => {
-                                            return <Button color={"warning"} variant={"outlined"} sx={{marginTop: '15px', marginLeft: '10px'}} onClick={() => {
+                                            return <Button
+                                                endIcon={<LaunchIcon fontSize={"small"}></LaunchIcon>}
+                                                className="black-button" color={"primary"} variant={"contained"} sx={{marginTop: '15px', marginLeft: '10px'}} onClick={() => {
                                                 window.open(link, "_blank")
                                             }
                                             }>
