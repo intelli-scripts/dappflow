@@ -108,13 +108,13 @@ function TransactionsList({transactions = [], loading = false, reachedLastPage =
         },
         {
             ...dataGridCellConfig,
-            field: 'timestamp',
-            headerName: 'Timestamp',
+            field: 'age',
+            headerName: 'Age',
             flex: 2,
             renderCell: (params: GridValueGetterParams) => {
-                const timestamp = new CoreTransaction(params.row).getTimestampDisplayValue('dd mmmm  yyyy HH:MM:ss');
+                const age = new CoreTransaction(params.row).getTimestampDuration();
                 return <div>
-                    {timestamp}
+                    {age} ago
                 </div>;
             }
         },

@@ -4,6 +4,7 @@ import {
 import {TIMESTAMP_DISPLAY_FORMAT} from "../../constants";
 import dateFormat  from "dateformat";
 import {CoreTransaction} from "./CoreTransaction";
+import humanizeDuration from 'humanize-duration';
 
 
 export class CoreBlock {
@@ -31,6 +32,13 @@ export class CoreBlock {
 
     getTimestampDisplayValue(format: string = TIMESTAMP_DISPLAY_FORMAT): string {
         return dateFormat(new Date(this.getTimestamp() * 1000), format);
+    }
+
+    getTimestampDuration(): string {
+        // @ts-ignore
+        const diff = new Date() - new Date(this.getTimestamp() * 1000);
+        const duration = humanizeDuration(diff, { largest: 2, round: true });
+        return duration;
     }
 
     getTransactions(): A_SearchTransaction[] {

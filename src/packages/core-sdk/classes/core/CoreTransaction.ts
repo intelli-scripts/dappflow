@@ -15,6 +15,7 @@ import atob from 'atob';
 import msgpack from "msgpack-lite";
 import dateFormat  from "dateformat";
 import {encodeAddress} from "algosdk";
+import humanizeDuration from 'humanize-duration';
 
 
 export class CoreTransaction {
@@ -180,6 +181,13 @@ export class CoreTransaction {
 
     getTimestampDisplayValue(format: string = TIMESTAMP_DISPLAY_FORMAT): string {
         return dateFormat(new Date(this.getTimestamp() * 1000), format);
+    }
+
+    getTimestampDuration(): string {
+        // @ts-ignore
+        const diff = new Date() - new Date(this.getTimestamp() * 1000);
+        const duration = humanizeDuration(diff, { largest: 2, round: true });
+        return duration;
     }
 
     getSenderRewards(): number {
