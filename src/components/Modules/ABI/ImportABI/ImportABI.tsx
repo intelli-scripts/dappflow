@@ -16,6 +16,7 @@ import {showSnack} from "../../../../redux/common/actions/snackbar";
 import axios from "axios";
 import {handleException} from "../../../../redux/common/actions/exception";
 import {hideLoader, showLoader} from "../../../../redux/common/actions/loader";
+import {ABIContract} from "algosdk";
 
 
 export const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
@@ -109,9 +110,16 @@ function ImportABI(props): JSX.Element {
 
                                                     const reader = new FileReader();
                                                     reader.addEventListener("load", function () {
-                                                        const abi = JSON.parse(reader.result.toString());
-                                                        props.onImport(abi);
-                                                        clearState();
+                                                        try {
+                                                            const abi = JSON.parse(reader.result.toString());
+                                                            new ABIContract(abi);
+                                                            props.onImport(abi);
+                                                            clearState();
+                                                        }
+                                                        catch (e: any) {
+                                                            dispatch(handleException(e));
+                                                        }
+
                                                     }, false);
 
                                                     if (file) {
@@ -160,6 +168,7 @@ function ImportABI(props): JSX.Element {
                                                 try {
                                                     dispatch(showLoader("Loading ABI JSON from the url"))
                                                     const response = await axios.get(url);
+                                                    new ABIContract(response.data);
                                                     props.onImport(response.data);
                                                     dispatch(hideLoader());
                                                     clearState();
