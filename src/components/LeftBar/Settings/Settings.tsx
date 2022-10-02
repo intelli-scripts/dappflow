@@ -30,7 +30,7 @@ const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
         padding: 5,
         paddingLeft: 10,
         marginTop: 5,
-        background: shadedClr
+        border: '1px solid ' + theme.palette.grey[200]
     };
 });
 

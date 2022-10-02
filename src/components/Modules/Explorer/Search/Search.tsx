@@ -14,13 +14,14 @@ import {isValidAddress} from "algosdk";
 import {useNavigate} from "react-router-dom";
 import {A_Application, A_Asset, A_Block} from "../../../../packages/core-sdk/types";
 import {AssetClient} from "../../../../packages/core-sdk/clients/assetClient";
-import {isNumber, shadedClr} from "../../../../utils/common";
+import {isNumber} from "../../../../utils/common";
 import explorer from "../../../../utils/dappflow";
 import {ApplicationClient} from "../../../../packages/core-sdk/clients/applicationClient";
 import {BlockClient} from "../../../../packages/core-sdk/clients/blockClient";
 import {hideLoader, showLoader} from "../../../../redux/common/actions/loader";
 import {useDispatch} from "react-redux";
 import {showSnack} from "../../../../redux/common/actions/snackbar";
+import {theme} from "../../../../theme";
 
 
 interface searchResult {
@@ -150,7 +151,7 @@ function Search(): JSX.Element {
                     padding: 3,
                     paddingLeft: 20,
                     fontSize: 14,
-                    background: shadedClr
+                    border: '1px solid ' + theme.palette.grey[200]
                 }}
                 value={searchStr}
                 endAdornment={<IconButton color="primary" onClick={() => {
