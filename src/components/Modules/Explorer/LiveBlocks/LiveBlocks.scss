@@ -15,6 +15,10 @@
         display: flex;
         justify-content: space-between;
         transition: height 2s;
+        .txn-count {
+          font-size: 15px;
+          font-weight: bold;
+        }
         &.item-enter {
           opacity: 0;
           transform: scale(0.9);

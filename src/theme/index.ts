@@ -11,14 +11,14 @@ declare module '@mui/material/styles' {
 
 export const theme = createTheme({
     shape: {
-        //borderRadius: 10,
+        borderRadius: 10,
     },
     palette: {
         primary: {
-            main: '#6b46fe'
+            main: '#6b46fe',//6b46fe//4caf50
         },
         secondary: {
-            main: '#f44336'
+            main: '#f44336',
         },
     },
     typography: {

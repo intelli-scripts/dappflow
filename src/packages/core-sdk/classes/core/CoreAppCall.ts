@@ -60,6 +60,11 @@ export class CoreAppCall {
 
                 methodArgs.forEach((methodArg, index) => {
                     const txnArg = txnArgs[index];
+
+                    if (!txnArg) {
+                        return;
+                    }
+
                     const type = methodArg.type.toString();
 
                     const decodedArg: A_ABIMethodArgParams = {
