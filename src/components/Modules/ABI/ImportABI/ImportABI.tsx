@@ -80,7 +80,7 @@ function ImportABI(props): JSX.Element {
                     <div className="import-abi-json-container">
 
                         <div className="import-abi-json-header">
-                            <Tabs value={tab} className="tabs-wrapper">
+                            <Tabs value={tab} className="tabs-wrapper" TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" />}}>
                                 <Tab label="File" value="file" onClick={() => {
                                     setState(prevState => ({...prevState, tab: "file"}));
                                 }}/>

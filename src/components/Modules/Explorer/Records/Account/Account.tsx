@@ -152,7 +152,7 @@ function Account(): JSX.Element {
 
                     <div className="account-tabs">
 
-                        <Tabs value={tabValue} className="related-list">
+                        <Tabs TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" />}} value={tabValue} className="related-list">
                             <Tab label="Transactions" value="transactions" onClick={() => {
                                 navigate('/explorer/account/' + address + '/transactions');
                             }}/>

@@ -24,7 +24,7 @@ function Header(): JSX.Element {
 
             <div>
                 <Grid container>
-                    <Tabs value={route} style={{marginLeft: -20}}>
+                    <Tabs sx={{marginLeft: '-20px', borderBottom: '1px solid #f2f2f2'}} value={route} TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" />}}>
                         <Tab label="Home" value="home" onClick={() => {
                             navigate('/explorer/home');
                         }}/>
@@ -44,7 +44,7 @@ function Header(): JSX.Element {
                 </Grid>
             </div>
 
-            <div style={{minWidth: 500, marginTop: -9}}>
+            <div style={{minWidth: 500}}>
                 <Search></Search>
             </div>
 

@@ -60,7 +60,7 @@ function Arc(): JSX.Element {
                 </div>
                 <div className="arc-tabs">
 
-                    <Tabs value={route} className="related-list">
+                    <Tabs TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" />}} value={route} className="related-list">
                         <Tab label="Overview" value="overview" onClick={() => {
                             navigate('/arc-portal/arc/' + id + '/overview');
                         }}/>

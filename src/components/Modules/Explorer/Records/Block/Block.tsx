@@ -80,7 +80,7 @@ function Block(): JSX.Element {
 
                     <div className="block-tabs">
 
-                        <Tabs value="transactions" className="related-list">
+                        <Tabs TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" />}} value="transactions" className="related-list">
                             <Tab label="Transactions" value="transactions" onClick={() => {
                                 navigate('/explorer/block/' + id + '/transactions');
                             }}/>

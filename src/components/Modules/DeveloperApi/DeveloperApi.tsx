@@ -29,6 +29,7 @@ function DeveloperApi(): JSX.Element {
             </div>
 
             <Tabs value={route}
+                  TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" />}}
                   className="tabs-wrapper"
                   >
                 <Tab label="Indexer API" value="indexer" onClick={() => {

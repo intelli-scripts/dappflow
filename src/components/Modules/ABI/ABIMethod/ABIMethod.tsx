@@ -55,7 +55,7 @@ function ABIMethod(props: ABIMethodProps): JSX.Element {
 
                         <div className="method-body">
                             <ABIMethodSignature method={method}></ABIMethodSignature>
-                            <Tabs value={tab} className="method-tabs" onChange={(_, newVal) => {
+                            <Tabs TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" />}} value={tab} className="method-tabs" onChange={(_, newVal) => {
                                 setState(prevState => ({...prevState, tab: newVal}));
                             }}>
                                 <Tab label="Arguments" value="arguments"/>

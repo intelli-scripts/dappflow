@@ -9,13 +9,15 @@ declare module '@mui/material/styles' {
     }
 }
 
+const primaryColor = '#6b46fe';
+
 export const theme = createTheme({
     shape: {
         borderRadius: 10,
     },
     palette: {
         primary: {
-            main: '#6b46fe',//6b46fe//4caf50
+            main: primaryColor
         },
         secondary: {
             main: '#f44336',
@@ -108,7 +110,17 @@ export const theme = createTheme({
                 root: {
                     '&.related-list': {
                         borderBottom: '1px solid #f0f0f0'
-                    }
+                    },
+                    '& .MuiTabs-indicator': {
+                        display: 'flex',
+                        justifyContent: 'center',
+                        backgroundColor: 'transparent',
+                    },
+                    '& .MuiTabs-indicatorSpan': {
+                        maxWidth: '70%',
+                        width: '100%',
+                        backgroundColor: primaryColor
+                    },
                 }
             }
         }

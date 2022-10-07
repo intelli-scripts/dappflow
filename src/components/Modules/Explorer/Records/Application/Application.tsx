@@ -155,7 +155,7 @@ function Application(): JSX.Element {
 
                     <div className="application-tabs">
 
-                        <Tabs value={tabValue} className="related-list">
+                        <Tabs TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" />}} value={tabValue} className="related-list">
                             <Tab label="Transactions" value="transactions" onClick={() => {
                                 navigate('/explorer/application/' + id + '/transactions');
                             }}/>
