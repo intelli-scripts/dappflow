@@ -5,7 +5,6 @@ import {RootState} from "../../../../redux/store";
 import {Alert, Button, Grid} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import {ARC} from "../../../../packages/arc-portal/classes/ARC";
-import {shadedClr} from "../../../../utils/common";
 
 
 function ArcHome(): JSX.Element {
@@ -61,7 +60,7 @@ function ArcHome(): JSX.Element {
                     <div className="arc-list">
                         {list.map((arc) => {
                             const arcInstance = new ARC(arc);
-                            return <div style={{background: shadedClr}} className="arc" key={arcInstance.getId()} onClick={(ev) => {
+                            return <div className="arc" key={arcInstance.getId()} onClick={(ev) => {
                                 navigate('/arc-portal/arc/' + arcInstance.getId());
                             }}>
                                 {arcInstance.getName()}

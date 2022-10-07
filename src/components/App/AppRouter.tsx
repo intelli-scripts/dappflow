@@ -41,7 +41,7 @@ import ArcWorkspace from "../Modules/ArcPortal/Arc/RelatedList/ArcWorkspace/ArcW
 import ABIStudio from "../Modules/ABI/ABIStudio/ABIStudio";
 import Dispenser from "../Modules/Dispenser/Dispenser";
 import NodeStatus from "../Modules/NodeStatus/NodeStatus";
-import ArcHome from "../Modules/ArcPortal/Header/ArcHome";
+import ArcHome from "../Modules/ArcPortal/Home/ArcHome";
 
 function AppRouter(): JSX.Element {
 
