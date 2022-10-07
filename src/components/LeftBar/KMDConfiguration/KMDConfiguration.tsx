@@ -14,7 +14,7 @@ import {
 import {theme} from "../../../theme";
 import {getKMDConfig} from "../../../utils/nodeConfig";
 import {showSnack} from "../../../redux/common/actions/snackbar";
-import {isNumber, shadedClr} from "../../../utils/common";
+import {isNumber} from "../../../utils/common";
 import {hideLoader, showLoader} from "../../../redux/common/actions/loader";
 import {isBrave} from "../../../packages/core-sdk/utils";
 import {KMDConnectionParams} from "../../../packages/core-sdk/types";
@@ -27,7 +27,7 @@ const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
         padding: 5,
         paddingLeft: 10,
         marginTop: 5,
-        background: shadedClr
+        border: '1px solid ' + theme.palette.grey[200]
     };
 });
 
