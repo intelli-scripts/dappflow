@@ -70,15 +70,10 @@ function Application(): JSX.Element {
                                     </div>
                                 </div>
                             </Grid>
-                        </Grid>
-                    </div>
-
-                    <div className="props" style={{background: shadedClr}}>
-                        <Grid container spacing={2}>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <div className="property">
                                     <div className="key">
-                                        Application address
+                                        Application account
                                     </div>
                                     <div className="value small">
                                         <LinkToAccount address={applicationInstance.getApplicationAddress()}></LinkToAccount>

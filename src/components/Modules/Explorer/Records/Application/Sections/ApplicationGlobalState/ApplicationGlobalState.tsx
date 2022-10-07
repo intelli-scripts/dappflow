@@ -4,9 +4,13 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../../../../../../redux/store";
 import {CoreApplication} from "../../../../../../../packages/core-sdk/classes/core/CoreApplication";
 import {DataGrid, GridColDef, GridValueGetterParams} from "@mui/x-data-grid";
-import {dataGridCellConfig, dataGridStyles} from "../../../../../../../theme/styles/datagrid";
+import {
+    dataGridCellConfig,
+    dataGridStylesBlackHeader
+} from "../../../../../../../theme/styles/datagrid";
 import NumberFormat from "react-number-format";
-import {theme} from "../../../../../../../theme";
+import {Grid} from "@mui/material";
+
 
 
 function ApplicationGlobalState(): JSX.Element {
@@ -59,35 +63,37 @@ function ApplicationGlobalState(): JSX.Element {
         <div className={"application-global-state-container"}>
 
             {globalStorage && globalStorage.length > 0 ? <div>
-                <div className="application-global-state-header">
-                    Global state
+
+                <div className="props">
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                            <div className="property">
+                                <div className="key">
+                                    Global state
+                                </div>
+                                <div className="value" style={{marginTop: 20}}>
+                                    <div style={{ width: '100%' }}>
+                                        <DataGrid
+                                            rows={globalStorage}
+                                            columns={columns}
+                                            rowsPerPageOptions={[]}
+                                            disableSelectionOnClick
+                                            autoHeight
+                                            sx={{
+                                                ...dataGridStylesBlackHeader
+                                            }}
+                                            getRowId={(row) => {
+                                                return row.key;
+                                            }}
+                                        />
+                                    </div>
+
+                                </div>
+                            </div>
+                        </Grid>
+                    </Grid>
                 </div>
 
-                <div className="application-global-state-body">
-
-
-                    <div style={{ width: '100%' }}>
-                        <DataGrid
-                            rows={globalStorage}
-                            columns={columns}
-                            rowsPerPageOptions={[]}
-                            disableSelectionOnClick
-                            autoHeight
-                            sx={{
-                                ...dataGridStyles,
-                                '.MuiDataGrid-columnHeader': {
-                                    background: theme.palette.common.black,
-                                    color: theme.palette.common.white
-                                }
-                            }}
-                            getRowId={(row) => {
-                                return row.key;
-                            }}
-                        />
-                    </div>
-
-
-                </div>
             </div> : ''}
 
         </div>

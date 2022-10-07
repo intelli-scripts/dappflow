@@ -3,10 +3,10 @@
 .application-global-state-wrapper {
   .application-global-state-container {
     margin-top: 40px;
-    .application-global-state-header {
-      margin-top: 40px;
-      font-size: 20px;
-      font-weight: bold;
+    border-radius: 10px;
+    border: 1px solid $color-grey-light;
+    .props {
+      margin-top: 0px !important;
     }
     .application-global-state-body {
       margin-top: 25px;

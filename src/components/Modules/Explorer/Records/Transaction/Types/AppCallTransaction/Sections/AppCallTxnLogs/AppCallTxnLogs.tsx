@@ -1,6 +1,5 @@
 import './AppCallTxnLogs.scss';
 import React, {useState} from "react";
-import {shadedClr} from "../../../../../../../../../utils/common";
 import {Button, ButtonGroup} from "@mui/material";
 import {TEXT_ENCODING} from "../../../../../../../../../packages/core-sdk/constants";
 import atob from 'atob';
@@ -31,7 +30,7 @@ function AppCallTxnLogs(props): JSX.Element {
 
 
 
-            <div className="props" style={{background: shadedClr}}>
+            <div className="props">
                 <div className="property">
                     <div className="key">
                         Logs

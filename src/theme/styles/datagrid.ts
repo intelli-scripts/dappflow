@@ -1,4 +1,5 @@
 import {theme} from "../index";
+import {shadedClr, shadedClr1} from "../../utils/common";
 
 export const dataGridCellConfig = {
     sortable: false,
@@ -15,10 +16,10 @@ export const dataGridStyles = {
         backgroundColor: theme.palette.common.white
     },
     '.MuiDataGrid-row:nth-of-type(even)': {
-        backgroundColor: theme.palette.grey["100"]
+        backgroundColor: shadedClr
     },
     '.MuiDataGrid-row:hover': {
-        backgroundColor: theme.palette.grey["200"] + ' !important'
+        backgroundColor: shadedClr1 + ' !important'
     },
     '.MuiDataGrid-cell:focus': {
         outline: "none"
@@ -29,5 +30,13 @@ export const dataGridStyles = {
     '.MuiDataGrid-columnHeader': {
         background: theme.palette.primary.dark,
         color: theme.palette.primary.contrastText
+    }
+};
+
+export const dataGridStylesBlackHeader = {
+    ...dataGridStyles,
+    '.MuiDataGrid-columnHeader': {
+        background: theme.palette.common.black,
+        color: theme.palette.common.white
     }
 };

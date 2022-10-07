@@ -17,12 +17,10 @@
     .plain-args {
       font-size: 14px;
       .arg {
-        padding: 10px;
+        border-bottom: 1px solid $color-grey-light;
+        padding: 15px 0px;
         .arg-prop {
           font-size: 14px;
-        }
-        &:nth-child(odd) {
-          background: $color-grey-very-light;
         }
       }
     }

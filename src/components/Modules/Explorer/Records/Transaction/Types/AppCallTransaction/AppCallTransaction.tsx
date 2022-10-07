@@ -36,18 +36,6 @@ function AppCallTransaction(props): JSX.Element {
                 <div className="props" style={{background: shadedClr}}>
                     <Grid container spacing={2}>
 
-                        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                            <div className="property">
-                                <div className="key">
-                                    Sender
-                                </div>
-                                <div className="value small">
-                                    <LinkToAccount address={txnInstance.getFrom()}></LinkToAccount>
-                                </div>
-                            </div>
-                        </Grid>
-
-
                         <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
                             <div className="property">
                                 <div className="key">
@@ -80,6 +68,17 @@ function AppCallTransaction(props): JSX.Element {
                                 </div>
                                 <div className="value">
                                     {appCallPayload["on-completion"]}
+                                </div>
+                            </div>
+                        </Grid>
+
+                        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                            <div className="property">
+                                <div className="key">
+                                    Sender
+                                </div>
+                                <div className="value small">
+                                    <LinkToAccount address={txnInstance.getFrom()}></LinkToAccount>
                                 </div>
                             </div>
                         </Grid>

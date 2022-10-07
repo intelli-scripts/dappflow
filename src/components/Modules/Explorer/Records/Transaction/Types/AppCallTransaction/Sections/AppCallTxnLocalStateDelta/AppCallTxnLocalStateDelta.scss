@@ -2,10 +2,11 @@
 
 .app-call-txn-local-state-delta-wrapper {
   .app-call-txn-local-state-delta-container {
-    .app-call-txn-local-state-delta-header {
-      margin-top: 40px;
-      font-size: 20px;
-      font-weight: bold;
+    border-radius: 10px;
+    border: 1px solid $color-grey-light;
+    margin-top: 30px;
+    .props {
+      margin-top: 0px !important;
     }
     .app-call-txn-local-state-delta-body {
       margin-top: 25px;
@@ -19,6 +20,7 @@
           margin-bottom: 15px;
           .address {
             margin-bottom: 15px;
+            font-size: 13px;
           }
         }
       }

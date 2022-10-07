@@ -3,11 +3,16 @@
 .app-call-txn-logs-wrapper {
   .app-call-txn-logs-container {
     margin-top: 20px;
+    border-radius: 10px;
+    border: 1px solid $color-grey-light;
+    .props {
+      margin-top: 0px !important;
+    }
     .key {
       margin-bottom: 20px;
     }
     .item {
-      border-bottom: 1px solid $color-grey;
+      border-bottom: 1px solid $color-grey-light;
       padding: 15px 0px;
     }
   }

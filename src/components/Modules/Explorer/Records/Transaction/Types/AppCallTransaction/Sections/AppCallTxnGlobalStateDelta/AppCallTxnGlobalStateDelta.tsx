@@ -1,11 +1,14 @@
 import './AppCallTxnGlobalStateDelta.scss';
 import React from "react";
 import {DataGrid, GridColDef, GridValueGetterParams} from "@mui/x-data-grid";
-import {dataGridCellConfig, dataGridStyles} from "../../../../../../../../../theme/styles/datagrid";
+import {
+    dataGridCellConfig,
+    dataGridStylesBlackHeader
+} from "../../../../../../../../../theme/styles/datagrid";
 import NumberFormat from "react-number-format";
-import {theme} from "../../../../../../../../../theme";
 import {A_GlobalStateDelta} from "../../../../../../../../../packages/core-sdk/types";
 import {CoreGlobalState} from "../../../../../../../../../packages/core-sdk/classes/core/CoreGlobalStateDelta";
+import {Grid} from "@mui/material";
 
 
 function AppCallTxnGlobalStateDelta(props): JSX.Element {
@@ -70,34 +73,38 @@ function AppCallTxnGlobalStateDelta(props): JSX.Element {
 
     return (<div className={"app-call-txn-global-state-delta-wrapper"}>
         <div className={"app-call-txn-global-state-delta-container"}>
-            <div className="app-call-txn-global-state-delta-header">
-                Global state delta
+
+
+            <div className="props">
+                <Grid container spacing={2}>
+                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                        <div className="property">
+                            <div className="key">
+                                Global state delta
+                            </div>
+                            <div className="value" style={{marginTop: 20}}>
+                                <div style={{ width: '100%' }}>
+                                    <DataGrid
+                                        rows={globalStateDelta}
+                                        columns={columns}
+                                        rowsPerPageOptions={[]}
+                                        disableSelectionOnClick
+                                        autoHeight
+                                        sx={{
+                                            ...dataGridStylesBlackHeader
+                                        }}
+                                        getRowId={(row) => {
+                                            return row.key;
+                                        }}
+                                    />
+                                </div>
+
+                            </div>
+                        </div>
+                    </Grid>
+                </Grid>
             </div>
-            <div className="app-call-txn-global-state-delta-body">
 
-
-                <div style={{ width: '100%' }}>
-                    <DataGrid
-                        rows={globalStateDelta}
-                        columns={columns}
-                        rowsPerPageOptions={[]}
-                        disableSelectionOnClick
-                        autoHeight
-                        sx={{
-                            ...dataGridStyles,
-                            '.MuiDataGrid-columnHeader': {
-                                background: theme.palette.common.black,
-                                color: theme.palette.common.white
-                            }
-                        }}
-                        getRowId={(row) => {
-                            return row.key;
-                        }}
-                    />
-                </div>
-
-
-            </div>
         </div>
     </div>);
 }

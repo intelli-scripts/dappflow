@@ -2,18 +2,11 @@
 
 .app-call-txn-global-state-delta-wrapper {
   .app-call-txn-global-state-delta-container {
-    .app-call-txn-global-state-delta-header {
-      margin-top: 40px;
-      font-size: 20px;
-      font-weight: bold;
-    }
-    .app-call-txn-global-state-delta-body {
-      margin-top: 25px;
-      .copy-content {
-        font-size: 16px;
-        margin-right: 10px;
-        vertical-align: text-bottom;
-      }
+    border-radius: 10px;
+    border: 1px solid $color-grey-light;
+    margin-top: 30px;
+    .props {
+      margin-top: 0px !important;
     }
   }
 }
