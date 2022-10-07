@@ -64,9 +64,9 @@ function Transaction(): JSX.Element {
                     <div className="index">
                         {txnInstance.getId()}
                         <div style={{marginTop: 15}}>
-                            <Chip color={"primary"} label={txnInstance.getTypeDisplayValue()} size={"small"}></Chip>
-                            {txnInstance.isMultiSig() ? <Chip style={{marginLeft: 10}} sx={{background: '#000'}} color={"warning"} label="MultiSig" size={"small"} variant={"filled"}></Chip> : ''}
-                            {txnInstance.isLogicSig() ? <Chip style={{marginLeft: 10}} sx={{background: '#000'}} color={"warning"} label="LogicSig" size={"small"}></Chip> : ''}
+                            <Chip color={"warning"} variant={"outlined"} label={txnInstance.getTypeDisplayValue()} size={"small"}></Chip>
+                            {txnInstance.isMultiSig() ? <Chip style={{marginLeft: 10}} color={"warning"} label="MultiSig" size={"small"} variant={"outlined"}></Chip> : ''}
+                            {txnInstance.isLogicSig() ? <Chip style={{marginLeft: 10}} color={"warning"} label="LogicSig" size={"small"} variant={"outlined"}></Chip> : ''}
                         </div>
 
                     </div>
