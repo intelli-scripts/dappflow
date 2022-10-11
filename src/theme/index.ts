@@ -9,7 +9,7 @@ declare module '@mui/material/styles' {
     }
 }
 
-const primaryColor = '#6b46fe';
+const primaryColor = '#6633CC';//6633CC//6b46fe
 
 export const theme = createTheme({
     shape: {
