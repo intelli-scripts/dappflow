@@ -159,13 +159,36 @@ function TransactionsList({transactions = [], loading = false, reachedLastPage =
         },
         {
             ...dataGridCellConfig,
+            field: 'amount',
+            headerName: 'Amount',
+            renderCell: (params: GridValueGetterParams) => {
+                const txnInstance = new CoreTransaction(params.row);
+                const amount = txnInstance.getAmount();
+                const type = txnInstance.getType();
+
+                return <div>
+                    {type === TXN_TYPES.PAYMENT ? <div>
+                        <AlgoIcon width={10}></AlgoIcon>
+                        <NumberFormat
+                            value={microalgosToAlgos(amount)}
+                            displayType={'text'}
+                            thousandSeparator={true}
+                            style={{marginLeft: 5}}
+                        ></NumberFormat>
+                    </div> : ''}
+
+                </div>;
+            }
+        },
+        {
+            ...dataGridCellConfig,
             field: 'fee',
             headerName: 'Fee',
             renderCell: (params: GridValueGetterParams) => {
                 const fee = new CoreTransaction(params.row).getFee();
 
                 return <div>
-                    <AlgoIcon></AlgoIcon>
+                    <AlgoIcon width={10}></AlgoIcon>
                     <NumberFormat
                         value={microalgosToAlgos(fee)}
                         displayType={'text'}
