@@ -4,6 +4,8 @@ import {useDispatch} from "react-redux";
 import {loadIndexerSpec} from "../../../redux/developerApi/actions/developerApi";
 import {Tab, Tabs} from "@mui/material";
 import {Outlet, useLocation, useNavigate} from "react-router-dom";
+import "swagger-ui-react/swagger-ui.css"
+import "../../../assets/swagger-theme.scss";
 
 function DeveloperApi(): JSX.Element {
     const dispatch = useDispatch();
