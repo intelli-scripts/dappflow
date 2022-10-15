@@ -1,5 +1,5 @@
 import {theme} from "../index";
-import {shadedClr, shadedClr1} from "../../utils/common";
+import {shadedClr} from "../../utils/common";
 
 export const dataGridCellConfig = {
     sortable: false,
@@ -15,11 +15,11 @@ export const dataGridStyles = {
     '.MuiDataGrid-row:nth-of-type(odd)': {
         backgroundColor: theme.palette.common.white
     },
-    '.MuiDataGrid-row:nth-of-type(even)': {
-        backgroundColor: shadedClr
-    },
+    // '.MuiDataGrid-row:nth-of-type(even)': {
+    //     backgroundColor: shadedClr
+    // },
     '.MuiDataGrid-row:hover': {
-        backgroundColor: shadedClr1 + ' !important'
+        backgroundColor: shadedClr + ' !important'
     },
     '.MuiDataGrid-cell:focus': {
         outline: "none"

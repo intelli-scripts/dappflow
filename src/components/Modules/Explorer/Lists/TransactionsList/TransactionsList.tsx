@@ -2,7 +2,6 @@ import './TransactionsList.scss';
 import React from "react";
 import {useDispatch} from "react-redux";
 import {
-    Chip,
     CircularProgress,
     Pagination,
     Tooltip
@@ -31,6 +30,7 @@ import LinkToBlock from "../../Common/Links/LinkToBlock";
 import CustomNoRowsOverlay from "../../Common/CustomNoRowsOverlay/CustomNoRowsOverlay";
 import {A_SearchTransaction} from "../../../../../packages/core-sdk/types";
 import LinkToGroup from "../../Common/Links/LinkToGroup";
+import {Alert} from "@mui/lab";
 
 interface TransactionsListProps {
     transactions: A_SearchTransaction[];
@@ -172,7 +172,10 @@ function TransactionsList({transactions = [], loading = false, reachedLastPage =
 
                 return <div className="cell-content">
                     {showArrow ? <ArrowForward fontSize={"small"} style={{verticalAlign: "text-bottom", marginRight: 5}}></ArrowForward> : <span>
-                        <Chip sx={{borderRadius: '3px', marginRight: '5px', fontSize: '10px'}} color={inTxn ? 'success' : 'warning'} variant={"outlined"} label={inTxn ? 'IN' : 'OUT'} size={"small"}></Chip>
+                        <Alert color={inTxn ? 'success' : 'warning'} icon={false} className="mini-alert">
+                            {inTxn ? 'IN' : 'OUT'}
+                        </Alert>
+                        {/*<Chip sx={{borderRadius: '3px', marginRight: '5px', fontSize: '10px'}} color={inTxn ? 'success' : 'warning'} variant={"outlined"} label={inTxn ? 'IN' : 'OUT'} size={"small"}></Chip>*/}
                     </span>}
                     {type === TXN_TYPES.PAYMENT || type === TXN_TYPES.ASSET_TRANSFER ? <span>
                         {showLink ? <LinkToAccount address={to}></LinkToAccount> : to}
