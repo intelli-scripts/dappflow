@@ -9,8 +9,8 @@
     .live-blocks-body {
       margin-top: 20px;
       .block {
-        padding: 20px;
-        margin: 15px 0;
+        padding: 15px;
+        margin: 12px 0;
         display: flex;
         justify-content: space-between;
         transition: height 2s;
@@ -34,13 +34,14 @@
         .round {
           .sub-text {
             margin-top: 15px;
-            font-size: 14px;
+            font-size: 13px;
           }
           a {
             font-weight: bold;
             font-family: PoppinsBold !important;
             color: $color-dark !important;
             text-decoration-color: $color-dark !important;
+            font-size: 13px;
           }
         }
       }

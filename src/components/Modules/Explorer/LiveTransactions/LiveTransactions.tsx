@@ -37,7 +37,7 @@ function LiveTransactions(): JSX.Element {
                             <div className="transaction" key={txnInstance.getId()} style={{borderColor: shadedClr2}}>
                                 <div className="basic">
                                     <div>
-                                        <LinkToTransaction strip={25} id={txnInstance.getId()}></LinkToTransaction>
+                                        <LinkToTransaction id={txnInstance.getId()}></LinkToTransaction>
                                     </div>
                                     <div className="sub-text">
                                         From : <LinkToAccount strip={25} address={txnInstance.getFrom()}></LinkToAccount>
