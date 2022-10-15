@@ -2,7 +2,7 @@ import './LiveBlocks.scss';
 import React from "react";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../redux/store";
-import {shadedClr} from "../../../../utils/common";
+import {shadedClr2} from "../../../../utils/common";
 import LinkToBlock from "../Common/Links/LinkToBlock";
 import {CoreBlock} from "../../../../packages/core-sdk/classes/core/CoreBlock";
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
@@ -27,7 +27,7 @@ function LiveBlocks(): JSX.Element {
                         const blockInstance = new CoreBlock(block);
 
                         return <CSSTransition key={blockInstance.getRound()} timeout={700} classNames="item">
-                            <div className="block" key={blockInstance.getRound()} style={{background: shadedClr}}>
+                            <div className="block" key={blockInstance.getRound()} style={{borderColor: shadedClr2}}>
                                 <div className="round">
                                     <LinkToBlock name={'#' + blockInstance.getRound()} id={blockInstance.getRound()}></LinkToBlock>
                                     <div className="sub-text">

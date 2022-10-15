@@ -2,7 +2,7 @@ import './LiveTransactions.scss';
 import React from "react";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../redux/store";
-import {shadedClr} from "../../../../utils/common";
+import {shadedClr2} from "../../../../utils/common";
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import {CoreTransaction} from "../../../../packages/core-sdk/classes/core/CoreTransaction";
 import LinkToTransaction from "../Common/Links/LinkToTransaction";
@@ -34,10 +34,10 @@ function LiveTransactions(): JSX.Element {
                         const appId = txnInstance.getAppId();
 
                         return <CSSTransition key={txnInstance.getId()} timeout={700} classNames="item">
-                            <div className="transaction" key={txnInstance.getId()} style={{background: shadedClr}}>
+                            <div className="transaction" key={txnInstance.getId()} style={{borderColor: shadedClr2}}>
                                 <div className="basic">
                                     <div>
-                                        ID : <LinkToTransaction strip={25} id={txnInstance.getId()}></LinkToTransaction>
+                                        <LinkToTransaction strip={25} id={txnInstance.getId()}></LinkToTransaction>
                                     </div>
                                     <div className="sub-text">
                                         From : <LinkToAccount strip={25} address={txnInstance.getFrom()}></LinkToAccount>
