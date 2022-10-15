@@ -19,7 +19,7 @@ function ApplicationTransactions(): JSX.Element {
     return (<div className={"application-transactions-wrapper"}>
         <div className={"application-transactions-container"}>
             <div className="application-transactions-body">
-                <TransactionsList transactions={transactions} reachedLastPage={reachedLastPage} loading={application.transactionsDetails.loading}></TransactionsList>
+                <TransactionsList transactions={transactions} reachedLastPage={reachedLastPage} loading={application.transactionsDetails.loading} fields={['id', 'age', 'from', 'to', 'fee']}></TransactionsList>
             </div>
         </div>
     </div>);

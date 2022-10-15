@@ -19,7 +19,7 @@ function AccountTransactions(): JSX.Element {
     return (<div className={"account-transactions-wrapper"}>
         <div className={"account-transactions-container"}>
             <div className="account-transactions-body">
-                <TransactionsList transactions={transactions} reachedLastPage={reachedLastPage} loading={account.transactionsDetails.loading}></TransactionsList>
+                <TransactionsList transactions={transactions} reachedLastPage={reachedLastPage} loading={account.transactionsDetails.loading} record="account" recordId={account.information.address}></TransactionsList>
             </div>
         </div>
     </div>);

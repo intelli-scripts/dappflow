@@ -13,7 +13,7 @@ function BlockTransactions(): JSX.Element {
     return (<div className={"block-transactions-wrapper"}>
         <div className={"block-transactions-container"}>
             <div className="block-transactions-body">
-                <TransactionsList transactions={transactions}></TransactionsList>
+                <TransactionsList transactions={transactions} fields={['id', 'age', 'from', 'to', 'fee', 'amount', 'type']}></TransactionsList>
             </div>
         </div>
     </div>);

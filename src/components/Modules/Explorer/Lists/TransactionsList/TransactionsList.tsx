@@ -34,11 +34,14 @@ import LinkToGroup from "../../Common/Links/LinkToGroup";
 interface TransactionsListProps {
     transactions: A_SearchTransaction[];
     loading?: boolean;
-    reachedLastPage?: Function
+    reachedLastPage?: Function,
+    fields?: string[],
+    record?: string,
+    recordId?: string
 }
 
 
-function TransactionsList({transactions = [], loading = false, reachedLastPage = () => {}}: TransactionsListProps): JSX.Element {
+function TransactionsList({transactions = [], loading = false, reachedLastPage = () => {}, fields = ['id', 'block', 'age', 'from', 'to', 'amount', 'fee', 'type'], record = '', recordId = ''}: TransactionsListProps): JSX.Element {
     const dispatch = useDispatch();
 
     function CustomPagination({loading}) {
@@ -78,60 +81,70 @@ function TransactionsList({transactions = [], loading = false, reachedLastPage =
                 const txnInstance = new CoreTransaction(params.row);
                 const txnId = txnInstance.getId();
                 const groupId = txnInstance.getGroup();
-                let strip = 20;
-                if (groupId) {
-                    strip = 18;
-                }
 
-                return <div>
+                return <div className="cell-content">
                     <Tooltip title="Click to copy">
                         <ContentCopyIcon className="copy-content" onClick={(ev) => {
                             copyContent(ev, dispatch, txnId, 'Txn ID copied');
                         }
                         }></ContentCopyIcon>
                     </Tooltip>
-                    <LinkToTransaction id={txnId} strip={strip}></LinkToTransaction>
                     {groupId ? <span className="group-txn-icon"><LinkToGroup id={groupId} blockId={txnInstance.getBlock()} icon={true}></LinkToGroup></span> : ''}
+                    <LinkToTransaction id={txnId}></LinkToTransaction>
+
                 </div>;
             }
-        },
-        {
+        }
+    ];
+
+    if (fields.indexOf('block') !== -1) {
+        columns.push({
             ...dataGridCellConfig,
             field: 'confirmed-round',
             headerName: 'Block',
             renderCell: (params: GridValueGetterParams) => {
                 const block = new CoreTransaction(params.row).getBlock();
-                return <div>
+                return <div className="cell-content">
                     <LinkToBlock id={block}></LinkToBlock>
                 </div>;
             }
-        },
-        {
+        });
+    }
+    if (fields.indexOf('age') !== -1) {
+        columns.push({
             ...dataGridCellConfig,
             field: 'age',
             headerName: 'Age',
             flex: 2,
             renderCell: (params: GridValueGetterParams) => {
                 const age = new CoreTransaction(params.row).getTimestampDuration();
-                return <div>
+                return <div className="cell-content">
                     {age} ago
                 </div>;
             }
-        },
-        {
+        });
+    }
+    if (fields.indexOf('from') !== -1) {
+        columns.push({
             ...dataGridCellConfig,
             field: 'from',
             headerName: 'From',
             flex: 2,
             renderCell: (params: GridValueGetterParams) => {
                 const from = new CoreTransaction(params.row).getFrom();
+                let showLink = true;
+                if (record === 'account' && recordId === from) {
+                    showLink = false;
+                }
 
-                return <div>
-                    <LinkToAccount address={from} strip={20}></LinkToAccount>
+                return <div className="cell-content">
+                    {showLink ? <LinkToAccount address={from}></LinkToAccount> : from}
                 </div>;
             }
-        },
-        {
+        });
+    }
+    if (fields.indexOf('to') !== -1) {
+        columns.push({
             ...dataGridCellConfig,
             field: 'to',
             headerName: 'To',
@@ -143,21 +156,28 @@ function TransactionsList({transactions = [], loading = false, reachedLastPage =
                 const type = txnInstance.getType();
                 const appId = txnInstance.getAppId();
 
-                return <div>
-                    {type === TXN_TYPES.PAYMENT || type === TXN_TYPES.ASSET_TRANSFER ? <div>
-                        <ArrowForward fontSize={"small"} style={{verticalAlign: "text-bottom", marginRight: 5}}></ArrowForward>
-                        <LinkToAccount address={to} strip={20}></LinkToAccount>
-                    </div> : ''}
+                let showLink = true;
+                if (record === 'account' && recordId === to) {
+                    showLink = false;
+                }
 
-                    {type === TXN_TYPES.APP_CALL ? <div>
+                return <div className="cell-content">
+                    {type === TXN_TYPES.PAYMENT || type === TXN_TYPES.ASSET_TRANSFER ? <span>
+                        <ArrowForward fontSize={"small"} style={{verticalAlign: "text-bottom", marginRight: 5}}></ArrowForward>
+                        {showLink ? <LinkToAccount address={to}></LinkToAccount> : to}
+                    </span> : ''}
+
+                    {type === TXN_TYPES.APP_CALL ? <span>
                         <ArrowForward fontSize={"small"} style={{verticalAlign: "text-bottom", marginRight: 5}}></ArrowForward>
                         <LinkToApplication id={appId} name={'Application: ' + appId}></LinkToApplication>
-                    </div> : ''}
+                    </span> : ''}
 
                 </div>;
             }
-        },
-        {
+        });
+    }
+    if (fields.indexOf('amount') !== -1) {
+        columns.push({
             ...dataGridCellConfig,
             field: 'amount',
             headerName: 'Amount',
@@ -166,7 +186,7 @@ function TransactionsList({transactions = [], loading = false, reachedLastPage =
                 const amount = txnInstance.getAmount();
                 const type = txnInstance.getType();
 
-                return <div>
+                return <div className="cell-content">
                     {type === TXN_TYPES.PAYMENT ? <div>
                         <AlgoIcon width={10}></AlgoIcon>
                         <NumberFormat
@@ -179,15 +199,17 @@ function TransactionsList({transactions = [], loading = false, reachedLastPage =
 
                 </div>;
             }
-        },
-        {
+        });
+    }
+    if (fields.indexOf('fee') !== -1) {
+        columns.push({
             ...dataGridCellConfig,
             field: 'fee',
             headerName: 'Fee',
             renderCell: (params: GridValueGetterParams) => {
                 const fee = new CoreTransaction(params.row).getFee();
 
-                return <div>
+                return <div className="cell-content">
                     <AlgoIcon width={10}></AlgoIcon>
                     <NumberFormat
                         value={microalgosToAlgos(fee)}
@@ -197,19 +219,21 @@ function TransactionsList({transactions = [], loading = false, reachedLastPage =
                     ></NumberFormat>
                 </div>;
             }
-        },
-        {
+        });
+    }
+    if (fields.indexOf('type') !== -1) {
+        columns.push({
             ...dataGridCellConfig,
             field: 'type',
             headerName: 'Type',
             renderCell: (params: GridValueGetterParams) => {
                 const type = new CoreTransaction(params.row).getTypeDisplayValue();
-                return <div>
+                return <div className="cell-content">
                     {type}
                 </div>;
             }
-        }
-    ];
+        });
+    }
 
     return (<div className={"transactions-list-wrapper"}>
         <div className={"transactions-list-container"}>
@@ -227,8 +251,12 @@ function TransactionsList({transactions = [], loading = false, reachedLastPage =
                         sx={{
                             ...dataGridStyles,
                             '.MuiDataGrid-cell': {
-                                fontSize: 13
-                            },
+                                fontSize: 13,
+                                'div.cell-content': {
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis"
+                                }
+                            }
                         }}
                         components={{
                             NoRowsOverlay: CustomNoRowsOverlay,
