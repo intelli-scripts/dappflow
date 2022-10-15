@@ -60,6 +60,14 @@ function Group(): JSX.Element {
                                 </div>
                             </div>
 
+                            <div className="property">
+                                <div className="key">
+                                    Age
+                                </div>
+                                <div className="value">
+                                    {groupInstance.getTimestampDuration()} Ago
+                                </div>
+                            </div>
 
 
                             <div className="property">

@@ -13,7 +13,7 @@ function GroupTransactions(): JSX.Element {
     return (<div className={"group-transactions-wrapper"}>
         <div className={"group-transactions-container"}>
             <div className="group-transactions-body">
-                <TransactionsList transactions={transactions} fields={['id', 'age', 'from', 'to', 'fee', 'amount', 'type']}></TransactionsList>
+                <TransactionsList transactions={transactions} record="group" fields={['id', 'from', 'to', 'fee', 'amount', 'type']}></TransactionsList>
             </div>
         </div>
     </div>);

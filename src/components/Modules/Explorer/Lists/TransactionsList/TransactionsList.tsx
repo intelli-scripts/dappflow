@@ -82,6 +82,7 @@ function TransactionsList({transactions = [], loading = false, reachedLastPage =
                 const txnInstance = new CoreTransaction(params.row);
                 const txnId = txnInstance.getId();
                 const groupId = txnInstance.getGroup();
+                const showGroupIcon = groupId && record !== 'group';
 
                 return <div className="cell-content">
                     <Tooltip title="Click to copy">
@@ -90,7 +91,7 @@ function TransactionsList({transactions = [], loading = false, reachedLastPage =
                         }
                         }></ContentCopyIcon>
                     </Tooltip>
-                    {groupId ? <span className="group-txn-icon"><LinkToGroup id={groupId} blockId={txnInstance.getBlock()} icon={true}></LinkToGroup></span> : ''}
+                    {showGroupIcon ? <span className="group-txn-icon"><LinkToGroup id={groupId} blockId={txnInstance.getBlock()} icon={true}></LinkToGroup></span> : ''}
                     <LinkToTransaction id={txnId}></LinkToTransaction>
 
                 </div>;

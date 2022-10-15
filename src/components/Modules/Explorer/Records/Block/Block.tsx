@@ -52,7 +52,14 @@ function Block(): JSX.Element {
                                     </div>
                                 </div>
 
-
+                                <div className="property">
+                                    <div className="key">
+                                        Age
+                                    </div>
+                                    <div className="value">
+                                        {blockInstance.getTimestampDuration()} Ago
+                                    </div>
+                                </div>
 
                                 <div className="property">
                                     <div className="key">
