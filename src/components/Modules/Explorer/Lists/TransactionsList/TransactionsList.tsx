@@ -2,6 +2,7 @@ import './TransactionsList.scss';
 import React from "react";
 import {useDispatch} from "react-redux";
 import {
+    Chip,
     CircularProgress,
     Pagination,
     Tooltip
@@ -102,6 +103,7 @@ function TransactionsList({transactions = [], loading = false, reachedLastPage =
             ...dataGridCellConfig,
             field: 'confirmed-round',
             headerName: 'Block',
+            flex: 0.8,
             renderCell: (params: GridValueGetterParams) => {
                 const block = new CoreTransaction(params.row).getBlock();
                 return <div className="cell-content">
@@ -115,7 +117,7 @@ function TransactionsList({transactions = [], loading = false, reachedLastPage =
             ...dataGridCellConfig,
             field: 'age',
             headerName: 'Age',
-            flex: 2,
+            flex: 1.5,
             renderCell: (params: GridValueGetterParams) => {
                 const age = new CoreTransaction(params.row).getTimestampDuration();
                 return <div className="cell-content">
@@ -157,18 +159,26 @@ function TransactionsList({transactions = [], loading = false, reachedLastPage =
                 const appId = txnInstance.getAppId();
 
                 let showLink = true;
-                if (record === 'account' && recordId === to) {
-                    showLink = false;
+                let showArrow = true;
+                let inTxn = false;
+                if (record === 'account') {
+                    showArrow = false;
+                    if (recordId === to) {
+                        showLink = false;
+                        inTxn = true;
+                    }
                 }
 
+
                 return <div className="cell-content">
+                    {showArrow ? <ArrowForward fontSize={"small"} style={{verticalAlign: "text-bottom", marginRight: 5}}></ArrowForward> : <span>
+                        <Chip sx={{borderRadius: '3px', marginRight: '5px', fontSize: '10px'}} color={inTxn ? 'success' : 'warning'} variant={"outlined"} label={inTxn ? 'IN' : 'OUT'} size={"small"}></Chip>
+                    </span>}
                     {type === TXN_TYPES.PAYMENT || type === TXN_TYPES.ASSET_TRANSFER ? <span>
-                        <ArrowForward fontSize={"small"} style={{verticalAlign: "text-bottom", marginRight: 5}}></ArrowForward>
                         {showLink ? <LinkToAccount address={to}></LinkToAccount> : to}
                     </span> : ''}
 
                     {type === TXN_TYPES.APP_CALL ? <span>
-                        <ArrowForward fontSize={"small"} style={{verticalAlign: "text-bottom", marginRight: 5}}></ArrowForward>
                         <LinkToApplication id={appId} name={'Application: ' + appId}></LinkToApplication>
                     </span> : ''}
 
