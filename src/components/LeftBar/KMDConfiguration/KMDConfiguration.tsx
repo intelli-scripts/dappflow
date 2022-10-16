@@ -119,8 +119,14 @@ function KMDConfiguration(props): JSX.Element {
         window.location.reload();
     }
 
+    function handleClose() {
+        props.onClose();
+        clearState();
+    }
+
     return (<div>
         {show ? <Dialog
+            onClose={handleClose}
             fullWidth={true}
             maxWidth={"sm"}
             open={show}
@@ -130,10 +136,7 @@ function KMDConfiguration(props): JSX.Element {
                     <div>
                         <div style={{fontWeight: "bold", fontSize: 18}}>KMD Configuration</div>
                     </div>
-                    <IconButton color="primary" onClick={() => {
-                        props.onClose();
-                        clearState();
-                    }}>
+                    <IconButton color="primary" onClick={handleClose}>
                         <CancelOutlined />
                     </IconButton>
                 </div>
@@ -187,10 +190,7 @@ function KMDConfiguration(props): JSX.Element {
                                             variant={"outlined"}
                                             size={"large"}
                                             color={"primary"}
-                                            onClick={() => {
-                                                props.onClose();
-                                                clearState();
-                                            }}
+                                            onClick={handleClose}
                                         >Cancel</Button>
 
                                         <Button

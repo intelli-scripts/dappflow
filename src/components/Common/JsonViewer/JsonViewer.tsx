@@ -41,6 +41,10 @@ function JsonViewer(props): JSX.Element {
         variant = 'contained';
     }
 
+    function handleClose() {
+        setState(prevState => ({...prevState, show: false}));
+    }
+
     return (<div className={"json-viewer-wrapper"}>
         <div className={"json-viewer-container"}>
 
@@ -55,6 +59,7 @@ function JsonViewer(props): JSX.Element {
             >{name}</Button>
 
             {show ? <Dialog
+                onClose={handleClose}
                 fullWidth={true}
                 maxWidth={"md"}
                 open={show}
@@ -65,9 +70,7 @@ function JsonViewer(props): JSX.Element {
                             <div style={{fontWeight: "bold", fontSize: 18}}>{title}</div>
                         </div>
                         <div>
-                            <IconButton color="primary" onClick={() => {
-                                setState(prevState => ({...prevState, show: false}));
-                            }}>
+                            <IconButton color="primary" onClick={handleClose}>
                                 <CancelOutlined />
                             </IconButton>
                         </div>

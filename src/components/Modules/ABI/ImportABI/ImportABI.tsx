@@ -56,8 +56,14 @@ function ImportABI(props): JSX.Element {
         setState({ ...initialState });
     };
 
+    function handleClose() {
+        props.onClose();
+        clearState();
+    }
+
     return (<div>
         {show ? <Dialog
+            onClose={handleClose}
             fullWidth={true}
             maxWidth={"md"}
             open={show}
@@ -67,10 +73,7 @@ function ImportABI(props): JSX.Element {
                     <div>
                         <div style={{fontWeight: "bold", fontSize: 18}}>Import ABI</div>
                     </div>
-                    <IconButton color="primary" onClick={() => {
-                        props.onClose();
-                        clearState();
-                    }}>
+                    <IconButton color="primary" onClick={handleClose}>
                         <CancelOutlined />
                     </IconButton>
                 </div>

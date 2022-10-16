@@ -77,7 +77,9 @@ function AppCallTxnInnerTxns(props): JSX.Element {
         setState({ ...initialState });
     };
 
-
+    function handleClose() {
+        clearState();
+    }
 
     const StyledTreeItem = styled((props: any) => {
 
@@ -171,6 +173,7 @@ function AppCallTxnInnerTxns(props): JSX.Element {
 
 
         {showTxn ? <Dialog
+            onClose={handleClose}
             fullWidth={true}
             maxWidth={"xl"}
             open={showTxn}
@@ -180,9 +183,7 @@ function AppCallTxnInnerTxns(props): JSX.Element {
                     <div>
                         &nbsp;
                     </div>
-                    <IconButton color="primary" onClick={() => {
-                        clearState();
-                    }}>
+                    <IconButton color="primary" onClick={handleClose}>
                         <CancelOutlined />
                     </IconButton>
                 </div>

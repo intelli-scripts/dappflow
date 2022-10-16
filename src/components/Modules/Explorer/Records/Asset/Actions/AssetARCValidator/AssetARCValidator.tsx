@@ -81,6 +81,10 @@ function AssetARCValidator(props): JSX.Element {
     }
 
 
+    function handleClose() {
+        setState(prevState => ({...prevState, show: false}));
+    }
+
     return (<div className={"asset-arc-validator-wrapper"}>
         <div className={"asset-arc-validator-container"}>
 
@@ -95,6 +99,7 @@ function AssetARCValidator(props): JSX.Element {
             >Validate ARC's</Button>
 
             {show ? <Dialog
+                onClose={handleClose}
                 fullWidth={true}
                 maxWidth={"xs"}
                 open={show}
@@ -105,9 +110,7 @@ function AssetARCValidator(props): JSX.Element {
                             <div style={{fontWeight: "bold", fontSize: 18}}>ARC Validator</div>
                         </div>
                         <div>
-                            <IconButton color="primary" onClick={() => {
-                                setState(prevState => ({...prevState, show: false}));
-                            }}>
+                            <IconButton color="primary" onClick={handleClose}>
                                 <CancelOutlined />
                             </IconButton>
                         </div>

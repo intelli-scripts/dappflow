@@ -141,6 +141,10 @@ function Search(): JSX.Element {
         }
     }
 
+    function handleClose() {
+        setState(prevState => ({...prevState, showSearchResults: false}));
+    }
+
     return (<div className={"search-wrapper"}>
         <div className={"search-container"}>
 
@@ -171,6 +175,7 @@ function Search(): JSX.Element {
             fullWidth/>
 
             {showSearchResults ? <Dialog
+                onClose={handleClose}
                 fullWidth={true}
                 maxWidth={"xs"}
                 open={showSearchResults}
@@ -180,9 +185,7 @@ function Search(): JSX.Element {
                         <div>
                             <div style={{fontWeight: "bold", fontSize: 18}}>Search results</div>
                         </div>
-                        <IconButton color="primary" onClick={() => {
-                            setState(prevState => ({...prevState, showSearchResults: false}));
-                        }}>
+                        <IconButton color="primary" onClick={handleClose}>
                             <CancelOutlined />
                         </IconButton>
                     </div>

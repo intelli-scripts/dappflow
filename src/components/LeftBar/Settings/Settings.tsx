@@ -159,8 +159,14 @@ function Settings(): JSX.Element {
         window.location.reload();
     }
 
+    function handleClose() {
+        dispatch(hideSettings());
+        clearState();
+    }
+
     return (<div>
         {show ? <Dialog
+            onClose={handleClose}
             fullWidth={true}
             maxWidth={"sm"}
             open={show}
@@ -170,10 +176,7 @@ function Settings(): JSX.Element {
                     <div>
                         <div style={{fontWeight: "bold", fontSize: 18}}>Node Settings</div>
                     </div>
-                    <IconButton color="primary" onClick={() => {
-                        dispatch(hideSettings());
-                        clearState();
-                    }}>
+                    <IconButton color="primary" onClick={handleClose}>
                         <CancelOutlined />
                     </IconButton>
                 </div>
@@ -280,10 +283,7 @@ function Settings(): JSX.Element {
                                             variant={"outlined"}
                                             size={"large"}
                                             color={"primary"}
-                                            onClick={() => {
-                                                dispatch(hideSettings());
-                                                clearState();
-                                            }}
+                                            onClick={handleClose}
                                         >Cancel</Button>
 
                                         <Button
