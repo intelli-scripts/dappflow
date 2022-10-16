@@ -31,6 +31,7 @@ import CustomNoRowsOverlay from "../../Common/CustomNoRowsOverlay/CustomNoRowsOv
 import {A_SearchTransaction} from "../../../../../packages/core-sdk/types";
 import LinkToGroup from "../../Common/Links/LinkToGroup";
 import {Alert} from "@mui/lab";
+import AssetBalance from "../../Common/AssetBalance/AssetBalance";
 
 interface TransactionsListProps {
     transactions: A_SearchTransaction[];
@@ -38,11 +39,12 @@ interface TransactionsListProps {
     reachedLastPage?: Function,
     fields?: string[],
     record?: string,
-    recordId?: string
+    recordId?: string,
+    recordDef?: any
 }
 
 
-function TransactionsList({transactions = [], loading = false, reachedLastPage = () => {}, fields = ['id', 'block', 'age', 'from', 'to', 'amount', 'fee', 'type'], record = '', recordId = ''}: TransactionsListProps): JSX.Element {
+function TransactionsList({transactions = [], loading = false, reachedLastPage = () => {}, fields = ['id', 'block', 'age', 'from', 'to', 'amount', 'fee', 'type'], record = '', recordId = '', recordDef = {}}: TransactionsListProps): JSX.Element {
     const dispatch = useDispatch();
 
     function CustomPagination({loading}) {
@@ -195,6 +197,7 @@ function TransactionsList({transactions = [], loading = false, reachedLastPage =
             ...dataGridCellConfig,
             field: 'amount',
             headerName: 'Amount',
+            flex: 1.3,
             renderCell: (params: GridValueGetterParams) => {
                 const txnInstance = new CoreTransaction(params.row);
                 const amount = txnInstance.getAmount();
@@ -209,6 +212,10 @@ function TransactionsList({transactions = [], loading = false, reachedLastPage =
                             thousandSeparator={true}
                             style={{marginLeft: 5}}
                         ></NumberFormat>
+                    </div> : ''}
+
+                    {type === TXN_TYPES.ASSET_TRANSFER ? <div>
+                        {record === 'asset' ? <AssetBalance by="asset" assetDef={recordDef} id={txnInstance.getAssetId()} balance={amount}></AssetBalance> : <AssetBalance id={txnInstance.getAssetId()} balance={amount}></AssetBalance>}
                     </div> : ''}
 
                 </div>;
