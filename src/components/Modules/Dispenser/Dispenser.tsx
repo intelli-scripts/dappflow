@@ -138,135 +138,132 @@ function Dispenser(): JSX.Element {
     return (<div className={"dispenser-wrapper"}>
         <div className={"dispenser-container"}>
 
-            <Grid container spacing={0}>
-                <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
-                    <div className={"dispenser-header"}>
-                        <div>
-                            Dispenser
-                        </div>
-                        <div>
-                            {isSandbox ? <Button
-                                size="small"
-                                color={"warning"}
-                                sx={{marginTop: '-5px'}}
-                                variant={"outlined"} onClick={() => {
-                                setState(prevState => ({...prevState, showKmdConfig: true}));
-                            }
-                            }>KMD config</Button> : ''}
+            <div className={"dispenser-header"}>
+                <div>
+                    Dispenser
+                </div>
+                <div>
+                    {isSandbox ? <Button
+                        size="small"
+                        color={"primary"}
+                        sx={{marginTop: '-5px'}}
+                        variant={"outlined"} onClick={() => {
+                        setState(prevState => ({...prevState, showKmdConfig: true}));
+                    }
+                    }>KMD config</Button> : ''}
 
-                        </div>
-                    </div>
-                    <div className={"dispenser-body"}>
-                        {loading ? <div>
-                            <Grid container spacing={0}>
-                                <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                    <LoadingTile></LoadingTile>
-                                </Grid>
-                            </Grid>
-                        </div> : <div>
-                            {isSandbox ? <div className="sandbox-dispenser">
-                                <Grid container spacing={2}>
-                                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                        <div>
-                                            <FormLabel>Target address</FormLabel>
+                </div>
+            </div>
+            <div className={"dispenser-body"}>
+                {loading ? <div>
+                    <Grid container spacing={0}>
+                        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                            <LoadingTile></LoadingTile>
+                        </Grid>
+                    </Grid>
+                </div> : <div>
+                    {isSandbox ? <div className="sandbox-dispenser">
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                <div>
+                                    <FormLabel>Target address</FormLabel>
+                                    <div>
+                                        <TextField
+                                            multiline={true}
+                                            placeholder="Enter your address"
+                                            type={"text"}
+                                            required
+                                            value={address}
+                                            onChange={(ev) => {
+                                                setState(prevState => ({...prevState, address: ev.target.value + ""}));
+                                            }}
+                                            fullWidth
+                                            sx={{marginTop: '10px', marginBottom: '10px', fieldset: {borderRadius: '10px'}}}
+                                            rows={4}
+                                            variant="outlined"
+                                        />
+                                    </div>
+                                </div>
+                                <div>
+                                    <FormLabel>Amount</FormLabel>
+                                    <div>
+
+                                    </div>
+                                    <TextField
+                                        type={"number"}
+                                        required
+                                        size={"medium"}
+                                        value={amount}
+                                        sx={{marginTop: '5px', marginBottom: '10px', fieldset: {borderRadius: '10px'}}}
+                                        onChange={(ev) => {
+                                            setState(prevState => ({...prevState, amount: ev.target.value + ""}));
+                                        }}
+                                        variant="outlined"
+                                        fullWidth
+                                        InputProps={{
+                                            endAdornment: <Box sx={{color: 'grey.500'}}>
+                                                Algos
+                                            </Box>
+                                        }}
+                                    />
+                                </div>
+
+                                <div style={{marginTop: '15px', textAlign: "right"}}>
+                                    <Button color={"primary"}
+                                            className="black-button"
+                                            fullWidth
+                                            size={"large"}
+                                            variant={"contained"} onClick={() => {
+                                        dispense();
+                                    }
+                                    }>Dispense</Button>
+                                </div>
+
+                                <div style={{marginTop: '30px', wordBreak: "break-all"}}>
+                                    {success ? <div>
+                                        <Alert icon={false} color={"success"}>
                                             <div>
-                                                <TextField
-                                                    multiline={true}
-                                                    placeholder="Enter your address"
-                                                    type={"text"}
-                                                    required
-                                                    value={address}
-                                                    onChange={(ev) => {
-                                                        setState(prevState => ({...prevState, address: ev.target.value + ""}));
-                                                    }}
-                                                    fullWidth
-                                                    sx={{marginTop: '10px', marginBottom: '10px', fieldset: {borderRadius: '10px'}}}
-                                                    rows={4}
-                                                    variant="outlined"
-                                                />
+                                                Transaction successful :
                                             </div>
-                                        </div>
-                                        <div>
-                                            <FormLabel>Amount</FormLabel>
-                                            <div>
-
-                                            </div>
-                                            <TextField
-                                                type={"number"}
-                                                required
-                                                size={"medium"}
-                                                value={amount}
-                                                sx={{marginTop: '5px', marginBottom: '10px', fieldset: {borderRadius: '10px'}}}
-                                                onChange={(ev) => {
-                                                    setState(prevState => ({...prevState, amount: ev.target.value + ""}));
-                                                }}
-                                                variant="outlined"
-                                                fullWidth
-                                                InputProps={{
-                                                    endAdornment: <Box sx={{color: 'grey.500'}}>
-                                                        Algos
-                                                    </Box>
-                                                }}
-                                            />
-                                        </div>
-
-                                        <div style={{marginTop: '15px', textAlign: "right"}}>
-                                            <Button color={"primary"}
-                                                    fullWidth
-                                                    size={"large"}
-                                                    variant={"contained"} onClick={() => {
-                                                dispense();
-                                            }
-                                            }>Dispense</Button>
-                                        </div>
-
-                                        <div style={{marginTop: '30px', wordBreak: "break-all"}}>
-                                            {success ? <div>
-                                                <Alert icon={false} color={"success"}>
-                                                    <div>
-                                                        Transaction successful :
-                                                    </div>
-                                                    <LinkToTransaction id={txId} sx={{color: 'common.black', marginTop: 15}}></LinkToTransaction>
-                                                </Alert>
-
-                                            </div> : ''}
-
-                                            {error ? <div>
-                                                <Alert icon={false} color={"error"}>
-                                                    {errMsg}
-                                                </Alert>
-
-                                            </div> : ''}
-                                        </div>
-                                    </Grid>
-                                </Grid>
-                            </div> : <div>
-                                <Grid container spacing={0}>
-                                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                        <Alert icon={false} color={"warning"}>
-                                            Dispenser is available only for sandbox environment.
-                                            <br/>
-                                            {dispenerLinks.length > 0 ? 'Please try below dispensers by community.' : 'Community dispensers are not available for this network.'}
-
+                                            <LinkToTransaction id={txId} sx={{color: 'common.black', marginTop: 15}}></LinkToTransaction>
                                         </Alert>
-                                        {dispenerLinks.map((link, index) => {
-                                            return <Button
-                                                endIcon={<LaunchIcon fontSize={"small"}></LaunchIcon>}
-                                                className="black-button" color={"primary"} variant={"contained"} sx={{marginTop: '15px', marginLeft: '10px'}} onClick={() => {
-                                                window.open(link, "_blank")
-                                            }
-                                            }>
-                                                Dispenser {index + 1}
-                                            </Button>
-                                        })}
-                                    </Grid>
-                                </Grid>
 
-                            </div>}
-                        </div>}
-                    </div>
-                </Grid>
-            </Grid>
+                                    </div> : ''}
+
+                                    {error ? <div>
+                                        <Alert icon={false} color={"error"}>
+                                            {errMsg}
+                                        </Alert>
+
+                                    </div> : ''}
+                                </div>
+                            </Grid>
+                        </Grid>
+                    </div> : <div>
+                        <Grid container spacing={0}>
+                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                <Alert icon={false} color={"warning"}>
+                                    Dispenser is available only for sandbox environment.
+                                    <br/>
+                                    {dispenerLinks.length > 0 ? 'Please try below dispensers by community.' : 'Community dispensers are not available for this network.'}
+
+                                </Alert>
+                                {dispenerLinks.map((link, index) => {
+                                    return <Button
+                                        endIcon={<LaunchIcon fontSize={"small"}></LaunchIcon>}
+                                        className="black-button" color={"primary"} variant={"contained"} sx={{marginTop: '15px', marginLeft: '10px'}} onClick={() => {
+                                        window.open(link, "_blank")
+                                    }
+                                    }>
+                                        Dispenser {index + 1}
+                                    </Button>
+                                })}
+                            </Grid>
+                        </Grid>
+
+                    </div>}
+                </div>}
+            </div>
 
 
 

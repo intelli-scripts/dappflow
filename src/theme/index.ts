@@ -111,16 +111,16 @@ export const theme = createTheme({
                     '&.related-list': {
                         borderBottom: '1px solid #f0f0f0'
                     },
-                    '& .MuiTabs-indicator': {
-                        display: 'flex',
-                        justifyContent: 'center',
-                        backgroundColor: 'transparent',
-                    },
-                    '& .MuiTabs-indicatorSpan': {
-                        maxWidth: '70%',
-                        width: '100%',
-                        backgroundColor: primaryColor
-                    },
+                    // '& .MuiTabs-indicator': {
+                    //     display: 'flex',
+                    //     justifyContent: 'center',
+                    //     backgroundColor: 'transparent',
+                    // },
+                    // '& .MuiTabs-indicatorSpan': {
+                    //     maxWidth: '70%',
+                    //     width: '100%',
+                    //     backgroundColor: primaryColor
+                    // },
                 }
             }
         }
