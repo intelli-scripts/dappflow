@@ -14,8 +14,6 @@ function Home(): JSX.Element {
                 </div>
                 <div className="search-section">
                     <Grid container spacing={2}>
-                        <Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
-                        </Grid>
                         <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                             <Search></Search>
                         </Grid>
@@ -26,7 +24,7 @@ function Home(): JSX.Element {
                         <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
                             <LiveBlocks></LiveBlocks>
                         </Grid>
-                        <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                        <Grid item xs={12} sm={12} md={6} lg={5} xl={5}>
                             <LiveTransactions></LiveTransactions>
                         </Grid>
                     </Grid>

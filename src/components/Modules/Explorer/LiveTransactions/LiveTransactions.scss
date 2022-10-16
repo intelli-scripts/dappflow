@@ -17,6 +17,7 @@
         border: 1px solid $color-grey-light;
         border-left-width: 6px;
         border-radius: 4px;
+        background: $color-light;
         .txn-type {
           font-size: 15px;
           font-weight: bold;
@@ -45,6 +46,7 @@
             color: $color-dark !important;
             text-decoration-color: $color-dark !important;
             font-size: 13px;
+            font-weight: bold;
           }
         }
       }
