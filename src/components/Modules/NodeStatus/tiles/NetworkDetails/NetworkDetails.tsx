@@ -2,7 +2,6 @@ import './NetworkDetails.scss';
 import React from "react";
 import {Card, CardActions, CardContent, Link} from "@mui/material";
 import LoadingTile from "../../../../Common/LoadingTile/LoadingTile";
-import {shadedClr} from "../../../../../utils/common";
 import {CoreNode} from "../../../../../packages/core-sdk/classes/core/CoreNode";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../../redux/store";
@@ -22,7 +21,7 @@ function NetworkDetails(): JSX.Element {
         <div className={"network-details-container"}>
 
             <React.Fragment>
-                <Card variant="outlined" sx={{background: shadedClr}} className="tile">
+                <Card variant="outlined" className="tile">
                     <CardContent>
                         <div className="tile-header">
                             <div className="tile-title">

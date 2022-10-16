@@ -33,10 +33,10 @@ function NodeStatus(): JSX.Element {
                                 <ConsensusVersion></ConsensusVersion>
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                <NodeCatchup></NodeCatchup>
+                                <IndexerStatus></IndexerStatus>
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                <IndexerStatus></IndexerStatus>
+                                <NodeCatchup></NodeCatchup>
                             </Grid>
                         </Grid>
                     </Grid>

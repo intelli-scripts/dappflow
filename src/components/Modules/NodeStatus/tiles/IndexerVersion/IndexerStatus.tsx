@@ -2,7 +2,6 @@ import './IndexerStatus.scss';
 import React from "react";
 import {Card, CardContent, Link} from "@mui/material";
 import LoadingTile from "../../../../Common/LoadingTile/LoadingTile";
-import {shadedClr} from "../../../../../utils/common";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../../redux/store";
 import LinkToBlock from "../../../Explorer/Common/Links/LinkToBlock";
@@ -24,7 +23,7 @@ function IndexerStatus(): JSX.Element {
         <div className={"indexer-status-container"}>
 
             <React.Fragment>
-                <Card variant="outlined" sx={{background: shadedClr}} className="tile">
+                <Card variant="outlined" className="tile">
                     <CardContent>
                         <div className="tile-header">
                             <div className="tile-title">

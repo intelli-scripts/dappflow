@@ -2,7 +2,6 @@ import './ConsensusVersion.scss';
 import React from "react";
 import {Card, CardActions, CardContent} from "@mui/material";
 import LoadingTile from "../../../../Common/LoadingTile/LoadingTile";
-import {shadedClr} from "../../../../../utils/common";
 import {CoreNode} from "../../../../../packages/core-sdk/classes/core/CoreNode";
 import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
 import {useSelector} from "react-redux";
@@ -26,7 +25,7 @@ function ConsensusVersion(): JSX.Element {
         <div className={"consensus-version-container"}>
 
             <React.Fragment>
-                <Card variant="outlined" sx={{background: shadedClr}} className="tile">
+                <Card variant="outlined" className="tile">
                     <CardContent>
                         <div className="tile-header">
                             <div className="tile-title">

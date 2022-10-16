@@ -3,7 +3,6 @@ import React from "react";
 import {Card, CardContent, Link} from "@mui/material";
 import LoadingTile from "../../../../Common/LoadingTile/LoadingTile";
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
-import {shadedClr} from "../../../../../utils/common";
 import humanizeDuration from 'humanize-duration';
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../../redux/store";
@@ -24,7 +23,7 @@ function NodeCatchup(): JSX.Element {
         <div className={"node-catchup-container"}>
 
             <React.Fragment>
-                <Card variant="outlined" sx={{background: shadedClr}} className="tile">
+                <Card variant="outlined" className="tile">
                     <CardContent>
                         <div className="tile-header">
                             <div className="tile-title">

@@ -55,21 +55,24 @@ function LeftBar(): JSX.Element {
                   <Tabs value={route} orientation={"vertical"} sx={{'.Mui-selected': {
                           backgroundColor: shadedClr1,
                       },
+                      '.MuiButtonBase-root': {
+                          minHeight: '60px',
+                      },
                       '.MuiTabs-indicator': {
-                            display: "none"
+                          display: "none"
                       }
                   }}>
                       <Tab icon={<StorageIcon></StorageIcon>} iconPosition="start" label="Explorer" value="explorer" onClick={() => {
                           navigate('/explorer');
+                      }}/>
+                      <Tab icon={<DeveloperBoardIcon></DeveloperBoardIcon>} iconPosition="start" label="ABI Studio" value="abi-studio" onClick={() => {
+                          navigate('/abi-studio');
                       }}/>
                       <Tab icon={<CodeIcon></CodeIcon>} iconPosition="start" label="Developer API" value="developer-api" onClick={() => {
                           navigate('/developer-api');
                       }}/>
                       <Tab icon={<GavelIcon></GavelIcon>} iconPosition="start" label="ARC Portal" value="arc-portal" onClick={() => {
                           navigate('/arc-portal');
-                      }}/>
-                      <Tab icon={<DeveloperBoardIcon></DeveloperBoardIcon>} iconPosition="start" label="ABI Studio" value="abi-studio" onClick={() => {
-                          navigate('/abi-studio');
                       }}/>
                       <Tab icon={<ShowerIcon></ShowerIcon>} iconPosition="start" label="Dispenser" value="dispenser" onClick={() => {
                           navigate('/dispenser');

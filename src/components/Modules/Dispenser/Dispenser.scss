@@ -2,7 +2,11 @@
 
 .dispenser-wrapper {
   .dispenser-container {
-    margin-top: 20px;
+    width: 400px;
+    margin: 150px auto 0px;
+    box-shadow: rgb(204 204 204 / 25%) 0 0 6px 3px;
+    border-radius: 10px;
+    padding: 50px;
     .dispenser-header {
       margin-bottom: 20px;
       padding-bottom: 10px;

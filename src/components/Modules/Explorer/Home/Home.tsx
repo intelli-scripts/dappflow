@@ -23,7 +23,7 @@ function Home(): JSX.Element {
                 </div>
                 <div className="live-section">
                     <Grid container spacing={2}>
-                        <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                        <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
                             <LiveBlocks></LiveBlocks>
                         </Grid>
                         <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
