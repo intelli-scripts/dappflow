@@ -57,7 +57,8 @@ function LeftBar(): JSX.Element {
                       },
                       '.MuiButtonBase-root': {
                           minHeight: '50px',
-                          borderRadius: '10px'
+                          borderRadius: '10px',
+                          marginBottom: '10px'
                       },
                       '.MuiTabs-indicator': {
                           display: "none"
