@@ -17,17 +17,21 @@
         margin-bottom: 20px;
         font-weight: normal;
       }
-      .property {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 15px;
-        .key {
-          font-family: PoppinsBold !important;
-        }
-        .value {
-          color: $color-grey-dark;
-          .algo-icon {
-            margin-left: 5px;
+      .props {
+        margin-top: 25px;
+        border-radius: 10px;
+        padding: 0;
+        .property {
+          margin-top: 10px;
+          .key {
+            font-family: PoppinsBold !important;
+          }
+          .value {
+            margin-top: 10px;
+            color: $color-grey-dark;
+            &.small {
+              font-size: 13px;
+            }
           }
         }
       }

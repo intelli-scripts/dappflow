@@ -24,4 +24,10 @@ export class BlockClient {
         const response = await this.client.statusAfterBlock(round).do();
         return response as A_Block;
     }
+
+    async getBlockHash(round: number): Promise<any> {
+        const response = await this.client.getBlockHash(round).do();
+        return response;
+    }
+
 }

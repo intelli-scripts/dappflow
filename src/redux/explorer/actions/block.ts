@@ -8,7 +8,8 @@ import {A_Block} from "../../../packages/core-sdk/types";
 export interface Block {
     information: A_Block,
     error: boolean,
-    loading: boolean
+    loading: boolean,
+    hash: string
 }
 
 const initialState: Block = {
@@ -19,7 +20,8 @@ const initialState: Block = {
         round: 0,
         transactions: [],
         timestamp: 0
-    }
+    },
+    hash: ''
 }
 
 export const loadBlock = createAsyncThunk(
@@ -32,12 +34,28 @@ export const loadBlock = createAsyncThunk(
             dispatch(setLoading(true));
             const blockInfo = await blockClient.get(id);
             dispatch(setLoading(false));
+            dispatch(loadBlockHash(id));
             return blockInfo;
         }
         catch (e: any) {
             dispatch(handleException(e));
             dispatch(setError(true));
             dispatch(setLoading(false));
+        }
+    }
+);
+
+export const loadBlockHash = createAsyncThunk(
+    'block/loadBlockHash',
+    async (id: number, thunkAPI) => {
+        const {dispatch} = thunkAPI;
+        try {
+            const blockClient = new BlockClient(explorer.network);
+            const {blockHash} = await blockClient.getBlockHash(id);
+            return blockHash;
+        }
+        catch (e: any) {
+            dispatch(handleException(e));
         }
     }
 );
@@ -59,6 +77,11 @@ export const blockSlice = createSlice({
         builder.addCase(loadBlock.fulfilled, (state, action: PayloadAction<A_Block>) => {
             if (action.payload) {
                 state.information = action.payload;
+            }
+        });
+        builder.addCase(loadBlockHash.fulfilled, (state, action: PayloadAction<string>) => {
+            if (action.payload) {
+                state.hash = action.payload;
             }
         });
     },

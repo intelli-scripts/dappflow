@@ -3,11 +3,12 @@ import React, {useEffect} from "react";
 import {Outlet, useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../../redux/store";
-import {Grid, Tab, Tabs} from "@mui/material";
+import {Chip, Grid, Tab, Tabs} from "@mui/material";
 import {loadBlock} from "../../../../../redux/explorer/actions/block";
 import LoadingTile from "../../../../Common/LoadingTile/LoadingTile";
 import {CoreBlock} from "../../../../../packages/core-sdk/classes/core/CoreBlock";
 import CustomError from "../../Common/CustomError/CustomError";
+import LinkToBlock from "../../Common/Links/LinkToBlock";
 
 
 function Block(): JSX.Element {
@@ -19,6 +20,12 @@ function Block(): JSX.Element {
     const block = useSelector((state: RootState) => state.block);
 
     const blockInstance = new CoreBlock(block.information);
+    const txnTypes = blockInstance.getTransactionsTypesCount();
+
+    let txnTypesList: string[] = [];
+    if (txnTypes) {
+        txnTypesList = txnTypes.split(",");
+    }
 
     useEffect(() => {
         dispatch(loadBlock(Number(id)));
@@ -41,7 +48,7 @@ function Block(): JSX.Element {
 
 
                     <div className="props">
-                        <Grid container spacing={2}>
+                        <Grid container spacing={1}>
                             <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
                                 <div className="property">
                                     <div className="key">
@@ -52,6 +59,18 @@ function Block(): JSX.Element {
                                     </div>
                                 </div>
 
+
+
+
+
+
+
+
+
+
+                            </Grid>
+
+                            <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
                                 <div className="property">
                                     <div className="key">
                                         Age
@@ -60,25 +79,52 @@ function Block(): JSX.Element {
                                         {blockInstance.getTimestampDuration()} Ago
                                     </div>
                                 </div>
+                            </Grid>
 
+                            <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
                                 <div className="property">
                                     <div className="key">
-                                        Txn count
+                                        Previous round
+                                    </div>
+                                    <div className="value">
+                                        <LinkToBlock id={blockInstance.getRound() - 1}></LinkToBlock>
+                                    </div>
+                                </div>
+                            </Grid>
+
+                            <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
+                                <div className="property">
+                                    <div className="key">
+                                        Total transactions
                                     </div>
                                     <div className="value">
                                         {blockInstance.getTransactionsCount()}
                                     </div>
                                 </div>
-
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
                                 <div className="property">
                                     <div className="key">
-                                        Txn types
+                                        Transaction types
                                     </div>
                                     <div className="value">
-                                        {blockInstance.getTransactionsTypesCount() ? blockInstance.getTransactionsTypesCount() : '-'}
+                                        {txnTypesList.length > 0 ? <div>
+                                            {txnTypesList.map((type) => {
+                                                return <Chip key={type} label={type} size={"small"} sx={{marginLeft: '5px'}} color={"warning"} variant={"outlined"}></Chip>
+                                            })}
+                                        </div> : '-'}
                                     </div>
                                 </div>
-
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                <div className="property">
+                                    <div className="key">
+                                        Hash
+                                    </div>
+                                    <div className="value">
+                                        {block.hash}
+                                    </div>
+                                </div>
                             </Grid>
                         </Grid>
                     </div>

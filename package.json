@@ -20,7 +20,7 @@
     "@types/react-dom": "^17.0.9",
     "@types/react-transition-group": "^4.4.5",
     "@types/sass-loader": "^8.0.3",
-    "algosdk": "^1.18.1",
+    "algosdk": "^1.22.0",
     "atob": "^2.1.2",
     "axios": "^0.27.2",
     "buffer": "^6.0.3",

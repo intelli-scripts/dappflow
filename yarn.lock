@@ -3220,10 +3220,10 @@ algo-msgpack-with-bigint@^2.1.1:
   resolved "https://registry.yarnpkg.com/algo-msgpack-with-bigint/-/algo-msgpack-with-bigint-2.1.1.tgz#38bb717220525b3ff42232eefdcd9efb9ad405d6"
   integrity sha512-F1tGh056XczEaEAqu7s+hlZUDWwOBT70Eq0lfMpBP2YguSQVyxRbprLq5rELXKQOyOaixTWYhMeMQMzP0U5FoQ==
 
-algosdk@^1.18.1:
-  version "1.18.1"
-  resolved "https://registry.yarnpkg.com/algosdk/-/algosdk-1.18.1.tgz#b9be65a713af98712f62f31188bf185c12972e28"
-  integrity sha512-P0mlSfMSbylMfUG2SZgxnhSE1JvQFIK4wT8O9ZvBvy1+pxs53MdAKfYkfC95cK3VqCvq616PuXM6bzI2mpQbPA==
+algosdk@^1.22.0:
+  version "1.22.0"
+  resolved "https://registry.yarnpkg.com/algosdk/-/algosdk-1.22.0.tgz#7d38232883a4de3bb9403fb9592cdaf0785c8b35"
+  integrity sha512-oj2G1ucLyqfTAPM9iIWiSfU0Jmwx1gaafqlC2RaWcwHx86cwnFTwEf/haFQ9yoirkIozVlZYTYtv+Ltkj3il8w==
   dependencies:
     algo-msgpack-with-bigint "^2.1.1"
     buffer "^6.0.2"
@@ -3234,6 +3234,9 @@ algosdk@^1.18.1:
     json-bigint "^1.0.0"
     superagent "^6.1.0"
     tweetnacl "^1.0.3"
+    vlq "^2.0.4"
+  optionalDependencies:
+    fsevents "2.1.2"
 
 ansi-escapes@^4.2.1, ansi-escapes@^4.3.1:
   version "4.3.2"
@@ -5854,6 +5857,11 @@ fs.realpath@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/fs.realpath/-/fs.realpath-1.0.0.tgz#1504ad2523158caa40db4a2787cb01411994ea4f"
   integrity sha1-FQStJSMVjKpA20onh8sBQRmU6k8=
+
+fsevents@2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.1.2.tgz#4c0a1fb34bc68e543b4b82a9ec392bfbda840805"
+  integrity sha512-R4wDiBwZ0KzpgOWetKDug1FZcYhqYnUYKtfZYt4mD5SBz76q0KR4Q9o7GIPamsVPGmW3EYPPJ0dOOjvx32ldZA==
 
 fsevents@^2.3.2, fsevents@~2.3.2:
   version "2.3.2"
@@ -10922,6 +10930,11 @@ vary@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
+
+vlq@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/vlq/-/vlq-2.0.4.tgz#6057b85729245b9829e3cc7755f95b228d4fe041"
+  integrity sha512-aodjPa2wPQFkra1G8CzJBTHXhgk3EVSwxSWXNPr1fgdFLUb8kvLV1iEb6rFgasIsjP82HWI6dsb5Io26DDnasA==
 
 w3c-hr-time@^1.0.2:
   version "1.0.2"
