@@ -74,7 +74,7 @@ export class ARC3 {
             return validation;
         }
 
-        const {decimals, image, animation_url, external_url, image_integrity, image_mimetype, animation_url_integrity, animation_url_mimetype} = metadata;
+        const {decimals, image, animation_url, external_url, image_mimetype, animation_url_mimetype} = metadata;
 
         if (decimals !== undefined && decimals !== this.assetInstance.getDecimals()) {
             validation.valid = false;
@@ -84,17 +84,17 @@ export class ARC3 {
             validation.valid = false;
             validation.errors.push("Atleast one of the URI fields (image, external_url, animation_url) should be defined in the metadata");
         }
-        else if (image && !image_integrity) {
-            validation.valid = false;
-            validation.errors.push("image is provided but image_integrity is not provided");
-        }
+        // else if (image && !image_integrity) {
+        //     validation.valid = false;
+        //     validation.errors.push("image is provided but image_integrity is not provided");
+        // }
         else if (image && !image_mimetype) {
             validation.warnings.push("image is provided but image_mimetype is not provided");
         }
-        else if (animation_url && !animation_url_integrity) {
-            validation.valid = false;
-            validation.errors.push("animation_url is provided but animation_url_integrity is not provided");
-        }
+        // else if (animation_url && !animation_url_integrity) {
+        //     validation.valid = false;
+        //     validation.errors.push("animation_url is provided but animation_url_integrity is not provided");
+        // }
         else if (animation_url && !animation_url_mimetype) {
             validation.warnings.push("animation_url is provided but animation_url_mimetype is not provided");
         }
