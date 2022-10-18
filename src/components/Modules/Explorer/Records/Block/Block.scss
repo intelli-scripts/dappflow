@@ -32,6 +32,18 @@
             &.small {
               font-size: 13px;
             }
+            .mini-alert {
+              padding: 5px;
+              border-radius: 4px;
+              display: inline-block;
+              margin: 5px 5px 0 0;
+              font-weight: bold;
+              text-align: center;
+              font-size: 13px;
+              .MuiAlert-message {
+                padding: 0;
+              }
+            }
           }
         }
       }

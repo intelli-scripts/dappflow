@@ -178,7 +178,6 @@ function TransactionsList({transactions = [], loading = false, reachedLastPage =
                         <Alert color={inTxn ? 'success' : 'warning'} icon={false} className="mini-alert">
                             {inTxn ? 'IN' : 'OUT'}
                         </Alert>
-                        {/*<Chip sx={{borderRadius: '3px', marginRight: '5px', fontSize: '10px'}} color={inTxn ? 'success' : 'warning'} variant={"outlined"} label={inTxn ? 'IN' : 'OUT'} size={"small"}></Chip>*/}
                     </span>}
                     {type === TXN_TYPES.PAYMENT || type === TXN_TYPES.ASSET_TRANSFER ? <span>
                         {showLink ? <LinkToAccount address={to}></LinkToAccount> : to}

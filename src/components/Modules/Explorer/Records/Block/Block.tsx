@@ -3,12 +3,13 @@ import React, {useEffect} from "react";
 import {Outlet, useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../../redux/store";
-import {Chip, Grid, Tab, Tabs} from "@mui/material";
+import {Grid, Tab, Tabs} from "@mui/material";
 import {loadBlock} from "../../../../../redux/explorer/actions/block";
 import LoadingTile from "../../../../Common/LoadingTile/LoadingTile";
 import {CoreBlock} from "../../../../../packages/core-sdk/classes/core/CoreBlock";
 import CustomError from "../../Common/CustomError/CustomError";
 import LinkToBlock from "../../Common/Links/LinkToBlock";
+import {Alert} from "@mui/lab";
 
 
 function Block(): JSX.Element {
@@ -49,34 +50,26 @@ function Block(): JSX.Element {
 
                     <div className="props">
                         <Grid container spacing={1}>
-                            <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
-                                <div className="property">
-                                    <div className="key">
-                                        Timestamp
-                                    </div>
-                                    <div className="value">
-                                        {blockInstance.getTimestampDisplayValue()}
-                                    </div>
-                                </div>
 
 
-
-
-
-
-
-
-
-
-                            </Grid>
 
                             <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
                                 <div className="property">
                                     <div className="key">
-                                        Age
+                                        Total transactions
+                                        {blockInstance.getTransactionsCount() > 0 ? ": " + blockInstance.getTransactionsCount() : ''}
+
                                     </div>
                                     <div className="value">
-                                        {blockInstance.getTimestampDuration()} Ago
+                                        {blockInstance.getTransactionsCount() > 0 ? <div>
+                                            {txnTypesList.map((type) => {
+                                                return <Alert key={type} color={'warning'} icon={false} className="mini-alert">
+                                                    {type}
+                                                </Alert>
+                                            })}
+                                        </div> : 0}
+
+
                                     </div>
                                 </div>
                             </Grid>
@@ -92,30 +85,33 @@ function Block(): JSX.Element {
                                 </div>
                             </Grid>
 
+                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}></Grid>
+
                             <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
                                 <div className="property">
                                     <div className="key">
-                                        Total transactions
+                                        Timestamp
                                     </div>
                                     <div className="value">
-                                        {blockInstance.getTransactionsCount()}
+                                        {blockInstance.getTimestampDisplayValue()}
                                     </div>
                                 </div>
+
+
                             </Grid>
+
                             <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
                                 <div className="property">
                                     <div className="key">
-                                        Transaction types
+                                        Age
                                     </div>
                                     <div className="value">
-                                        {txnTypesList.length > 0 ? <div>
-                                            {txnTypesList.map((type) => {
-                                                return <Chip key={type} label={type} size={"small"} sx={{marginLeft: '5px'}} color={"warning"} variant={"outlined"}></Chip>
-                                            })}
-                                        </div> : '-'}
+                                        {blockInstance.getTimestampDuration()} Ago
                                     </div>
                                 </div>
                             </Grid>
+
+
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <div className="property">
                                     <div className="key">
