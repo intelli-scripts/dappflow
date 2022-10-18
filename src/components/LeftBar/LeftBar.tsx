@@ -56,7 +56,7 @@ function LeftBar(): JSX.Element {
                           backgroundColor: shadedClr1,
                       },
                       '.MuiButtonBase-root': {
-                          minHeight: '60px',
+                          minHeight: '50px',
                       },
                       '.MuiTabs-indicator': {
                           display: "none"
@@ -116,7 +116,7 @@ function LeftBar(): JSX.Element {
                               label={<div>
                               {success ? <span>
                                   <CheckCircleIcon sx={{fontSize: '15px'}} color={"primary"}></CheckCircleIcon>
-                                  connected to : {new CoreNode(node.status, node.versionsCheck, node.genesis, node.health).getGenesisId()}
+                                  Network : {new CoreNode(node.status, node.versionsCheck, node.genesis, node.health).getGenesisId()}
                               </span> : <span>
                                   <SignalWifiConnectedNoInternet4Icon sx={{fontSize: '15px'}} color={"warning"}></SignalWifiConnectedNoInternet4Icon>
                                   Unable to connect</span>}

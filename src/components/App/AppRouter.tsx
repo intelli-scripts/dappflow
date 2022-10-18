@@ -27,7 +27,6 @@ import ApplicationTransactions
 import Transaction from "../Modules/Explorer/Records/Transaction/Transaction";
 import Group from "../Modules/Explorer/Records/Group/Group";
 import GroupTransactions from "../Modules/Explorer/Records/Group/RelatedList/GroupTransactions/GroupTransactions";
-import {Grid} from "@mui/material";
 import LeftBar from "../LeftBar/LeftBar";
 import Settings from "../LeftBar/Settings/Settings";
 import Loader from "../Common/Loader/Loader";
@@ -48,11 +47,11 @@ function AppRouter(): JSX.Element {
 
     return (<div>
         <BrowserRouter>
-            <Grid container spacing={0}>
-                <Grid item xs={12} sm={12} md={3} lg={2} xl={2}>
+            <div className="app-container">
+                <div className="app-left">
                     <LeftBar></LeftBar>
-                </Grid>
-                <Grid item xs={12} sm={12} md={9} lg={10} xl={10}>
+                </div>
+                <div className="app-right">
                     <div className="content-wrapper">
                         <div className="content-container">
                             <Routes>
@@ -111,8 +110,8 @@ function AppRouter(): JSX.Element {
                         </div>
 
                     </div>
-                </Grid>
-            </Grid>
+                </div>
+            </div>
 
 
             <Settings></Settings>
