@@ -8,6 +8,7 @@ import LoadingTile from "../../../../Common/LoadingTile/LoadingTile";
 import {loadGroup} from "../../../../../redux/explorer/actions/group";
 import {CoreGroup} from "../../../../../packages/core-sdk/classes/core/CoreGroup";
 import LinkToBlock from "../../Common/Links/LinkToBlock";
+import {Alert} from "@mui/lab";
 
 
 function Group(): JSX.Element {
@@ -19,7 +20,12 @@ function Group(): JSX.Element {
     const group = useSelector((state: RootState) => state.group);
 
     const groupInstance = new CoreGroup(group.information);
-    groupInstance.getTransactionsTypesCount();
+
+    const txnTypes = groupInstance.getTransactionsTypesCount();
+    let txnTypesList: string[] = [];
+    if (txnTypes) {
+        txnTypesList = txnTypes.split(",");
+    }
 
     useEffect(() => {
         dispatch(loadGroup({id, blockId: Number(blockId)}));
@@ -72,21 +78,33 @@ function Group(): JSX.Element {
 
                             <div className="property">
                                 <div className="key">
-                                    Txn count
+                                    Total transactions
+                                    <div>
+                                        {txnTypesList.map((type) => {
+                                            return <Alert key={type} color={'warning'} icon={false} className="mini-alert">
+                                                {type}
+                                            </Alert>
+                                        })}
+                                    </div>
                                 </div>
                                 <div className="value">
                                     {groupInstance.getTransactionsCount()}
+
                                 </div>
                             </div>
 
-                            <div className="property">
-                                <div className="key">
-                                    Txn types
-                                </div>
-                                <div className="value">
-                                    {groupInstance.getTransactionsTypesCount() ? groupInstance.getTransactionsTypesCount() : '-'}
-                                </div>
-                            </div>
+                            {/*<div className="property">*/}
+                            {/*    <div className="key">*/}
+                            {/*        Txn types*/}
+                            {/*    </div>*/}
+                            {/*    <div className="value">*/}
+                            {/*        {txnTypesList.map((type) => {*/}
+                            {/*            return <Alert key={type} color={'warning'} icon={false} className="mini-alert">*/}
+                            {/*                {type}*/}
+                            {/*            </Alert>*/}
+                            {/*        })}*/}
+                            {/*    </div>*/}
+                            {/*</div>*/}
 
                         </Grid>
                     </Grid>
