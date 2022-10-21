@@ -11,7 +11,7 @@ function AccountCreatedApplications(): JSX.Element {
     return (<div className={"account-created-applications-wrapper"}>
         <div className={"account-created-applications-container"}>
             <div className="account-created-applications-body">
-                <ApplicationsList applications={createdApplications}></ApplicationsList>
+                <ApplicationsList applications={createdApplications} fields={['id']}></ApplicationsList>
             </div>
         </div>
     </div>);

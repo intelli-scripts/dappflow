@@ -59,8 +59,10 @@ function ApplicationsList({applications = [], loading = false, fields = ['id', '
         );
     }
 
-    const fieldsMap = {
-        'id': {
+    const columns: GridColDef[] = [];
+
+    if (fields.indexOf('id') !== -1) {
+        columns.push({
             ...dataGridCellConfig,
             field: 'id',
             headerName: 'Application ID',
@@ -76,8 +78,10 @@ function ApplicationsList({applications = [], loading = false, fields = ['id', '
                     <LinkToApplication id={appInstance.getId()}></LinkToApplication>
                 </div>;
             }
-        },
-        'creator': {
+        });
+    }
+    if (fields.indexOf('creator') !== -1) {
+        columns.push({
             ...dataGridCellConfig,
             field: 'creator',
             headerName: 'Creator',
@@ -94,16 +98,8 @@ function ApplicationsList({applications = [], loading = false, fields = ['id', '
                     <LinkToAccount address={appInstance.getCreator()}></LinkToAccount>
                 </div>;
             }
-        }
-    };
-
-    const columns: GridColDef[] = [
-
-    ];
-
-    fields.forEach((field) => {
-        columns.push(fieldsMap[field]);
-    });
+        });
+    }
 
     return (<div className={"applications-list-wrapper"}>
         <div className={"applications-list-container"}>
