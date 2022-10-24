@@ -63,7 +63,7 @@ function Block(): JSX.Element {
                                     <div className="value">
                                         {blockInstance.getTransactionsCount() > 0 ? <div>
                                             {txnTypesList.map((type) => {
-                                                return <Alert key={type} color={'warning'} icon={false} className="mini-alert">
+                                                return <Alert key={type} color={'success'} icon={false} className="mini-alert">
                                                     {type}
                                                 </Alert>
                                             })}

@@ -10,13 +10,13 @@ import {
 } from "@mui/material";
 import {CancelOutlined} from "@mui/icons-material";
 import FileUploadIcon from '@mui/icons-material/FileUpload';
-import {shadedClr} from "../../../../utils/common";
 import {useDispatch} from "react-redux";
 import {showSnack} from "../../../../redux/common/actions/snackbar";
 import axios from "axios";
 import {handleException} from "../../../../redux/common/actions/exception";
 import {hideLoader, showLoader} from "../../../../redux/common/actions/loader";
 import {ABIContract} from "algosdk";
+import {theme} from "../../../../theme";
 
 
 export const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
@@ -24,8 +24,7 @@ export const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
         padding: 5,
         paddingLeft: 10,
         marginTop: 5,
-        background: shadedClr,
-        border: '1px solid ' + theme.palette.grey["400"],
+        border: '1px solid ' + theme.palette.grey[200],
         fontSize: 14
     };
 });
@@ -148,11 +147,17 @@ function ImportABI(props): JSX.Element {
                                         }}
                                         fullWidth/>
 
-                                    <div>
+                                    <div style={{color: theme.palette.grey[600], marginTop: '10px', marginBottom: '10px'}}>
+                                        <span style={{fontSize: '13px'}}>Example: &nbsp;</span>
                                         <Chip onClick={() => {
                                             setState(prevState => ({...prevState, url: "https://raw.githubusercontent.com/algorandlabs/smart-asa/develop/smart_asa_abi.json"}));
-                                        }} label="Smart ASA ABI example" size="small" color={"primary"} variant={"outlined"}
-                                              sx={{marginTop: '10px', marginBottom: '10px'}}
+                                        }} label="Smart ASA ABI" size="small" color={"warning"} variant={"outlined"}
+                                        ></Chip>
+
+                                        <Chip onClick={() => {
+                                            setState(prevState => ({...prevState, url: "https://raw.githubusercontent.com/algorand-devrel/coin-flipper/master/contracts/artifacts/contract.json"}));
+                                        }} label="Coin Flipper" size="small" color={"warning"} variant={"outlined"}
+                                              sx={{marginLeft: '10px'}}
                                         ></Chip>
                                     </div>
 
