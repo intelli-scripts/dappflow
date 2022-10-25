@@ -78,33 +78,20 @@ function Group(): JSX.Element {
 
                             <div className="property">
                                 <div className="key">
-                                    Total transactions
+                                    Total transactions : {groupInstance.getTransactionsCount()}
                                     <div>
                                         {txnTypesList.map((type) => {
-                                            return <Alert key={type} color={'warning'} icon={false} className="mini-alert">
+                                            return <Alert key={type} color={'error'} icon={false} className="mini-alert">
                                                 {type}
                                             </Alert>
                                         })}
                                     </div>
                                 </div>
                                 <div className="value">
-                                    {groupInstance.getTransactionsCount()}
+
 
                                 </div>
                             </div>
-
-                            {/*<div className="property">*/}
-                            {/*    <div className="key">*/}
-                            {/*        Txn types*/}
-                            {/*    </div>*/}
-                            {/*    <div className="value">*/}
-                            {/*        {txnTypesList.map((type) => {*/}
-                            {/*            return <Alert key={type} color={'warning'} icon={false} className="mini-alert">*/}
-                            {/*                {type}*/}
-                            {/*            </Alert>*/}
-                            {/*        })}*/}
-                            {/*    </div>*/}
-                            {/*</div>*/}
 
                         </Grid>
                     </Grid>

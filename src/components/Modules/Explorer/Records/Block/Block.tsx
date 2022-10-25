@@ -56,14 +56,13 @@ function Block(): JSX.Element {
                             <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
                                 <div className="property">
                                     <div className="key">
-                                        Total transactions
-                                        {blockInstance.getTransactionsCount() > 0 ? ": " + blockInstance.getTransactionsCount() : ''}
+                                        Total transactions : {blockInstance.getTransactionsCount()}
 
                                     </div>
                                     <div className="value">
                                         {blockInstance.getTransactionsCount() > 0 ? <div>
                                             {txnTypesList.map((type) => {
-                                                return <Alert key={type} color={'success'} icon={false} className="mini-alert">
+                                                return <Alert key={type} color={'error'} icon={false} className="mini-alert">
                                                     {type}
                                                 </Alert>
                                             })}
