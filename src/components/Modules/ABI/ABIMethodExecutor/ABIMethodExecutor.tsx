@@ -1,9 +1,8 @@
 import './ABIMethodExecutor.scss';
 import React from "react";
-import {ABIMethodParams} from "algosdk";
-import {Dialog, DialogActions, DialogContent, DialogTitle, IconButton} from "@mui/material";
+import {ABIMethod, ABIMethodParams} from "algosdk";
+import {Alert, Dialog, DialogActions, DialogContent, DialogTitle, IconButton} from "@mui/material";
 import {CancelOutlined} from "@mui/icons-material";
-import ABIMethodSignature from "../ABIMethodSignature/ABIMethodSignature";
 
 interface ABIMethodExecutorProps{
     show: boolean,
@@ -32,6 +31,8 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
         ev.stopPropagation();
     }
 
+    const abiMethodInstance = new ABIMethod(method);
+
     return (<div className={"abi-method-executor-wrapper"}>
         <div className={"abi-method-executor-container"}>
 
@@ -56,7 +57,13 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
                 </DialogTitle>
                 <DialogContent>
                     <div>
-                        <ABIMethodSignature method={method}></ABIMethodSignature>
+                        <Alert icon={false} color={"warning"}>
+                            <div>
+                                <span>
+                                    {abiMethodInstance.getSignature()}
+                                </span>
+                            </div>
+                        </Alert>
                     </div>
                 </DialogContent>
                 <DialogActions>
