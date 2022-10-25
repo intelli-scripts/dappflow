@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import {
     Accordion,
     AccordionDetails,
-    AccordionSummary,
+    AccordionSummary, Button,
     Chip,
     Grid,
     Tab,
@@ -12,17 +12,20 @@ import {
 import {ExpandMore} from "@mui/icons-material";
 import {ABIMethodParams, ABIMethod as ABIMethodSDK} from "algosdk";
 import ABIMethodSignature from "../ABIMethodSignature/ABIMethodSignature";
+import ABIMethodExecutor from "../ABIMethodExecutor/ABIMethodExecutor";
 
 type ABIMethodProps = {
     method: ABIMethodParams
 };
 
 interface ABIMethodState{
-    tab: string
+    tab: string,
+    showExecutor: boolean
 }
 
 const initialState: ABIMethodState = {
-    tab: "arguments"
+    tab: "arguments",
+    showExecutor: false
 };
 
 function ABIMethod(props: ABIMethodProps): JSX.Element {
@@ -32,7 +35,7 @@ function ABIMethod(props: ABIMethodProps): JSX.Element {
     const args = abiMethodInstance.args;
 
     const [
-        {tab},
+        {tab, showExecutor},
         setState
     ] = useState(initialState);
 
@@ -43,6 +46,13 @@ function ABIMethod(props: ABIMethodProps): JSX.Element {
                     <AccordionSummary
                         expandIcon={<ExpandMore />}>
                         <div>
+                            <span className="method-exec">
+                                <Button onClick={(ev) => {
+                                    setState(prevState => ({...prevState, showExecutor: true}));
+                                    ev.preventDefault();
+                                    ev.stopPropagation();
+                                }} color={"primary"} variant={"outlined"} size={"small"}>Execute</Button>
+                            </span>
                             <span className="method-name">
                                 {abiMethodInstance.name}
                             </span>
@@ -106,6 +116,9 @@ function ABIMethod(props: ABIMethodProps): JSX.Element {
                     </AccordionDetails>
                 </Accordion>
             </div>
+            <ABIMethodExecutor show={showExecutor} method={method} handleClose={() => {
+                setState(prevState => ({...prevState, showExecutor: false}));
+            }}></ABIMethodExecutor>
         </div>
     </div>);
 }
