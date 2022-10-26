@@ -66,7 +66,7 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
                             </div>
                         </div>
                         <div className="abi-method-executor-body">
-                            {!canExecute ? '' : <div>
+                            {canExecute ? '' : <div>
                                 <Alert icon={false} color={"warning"}>
                                     This method cannot be executed. Only below transaction types are allowed.
                                     <div style={{marginTop: '5px'}}>
