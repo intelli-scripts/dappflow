@@ -128,7 +128,7 @@ function KMDConfiguration(props): JSX.Element {
         {show ? <Dialog
             onClose={handleClose}
             fullWidth={true}
-            maxWidth={"sm"}
+            maxWidth={"xs"}
             open={show}
         >
             <DialogTitle >
@@ -172,7 +172,7 @@ function KMDConfiguration(props): JSX.Element {
                                     <FormLabel style={{color: primaryClr}}>KMD token</FormLabel>
                                     <ShadedInput
                                         multiline={true}
-                                        rows={3}
+                                        rows={4}
                                         placeholder="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
                                         value={token}
                                         onChange={(ev) => {
@@ -198,7 +198,7 @@ function KMDConfiguration(props): JSX.Element {
                                             variant={"contained"}
                                             size={"large"}
                                             color={"primary"}
-                                            style={{marginLeft: 15}}
+                                            style={{marginLeft: '10px'}}
                                             className="black-button"
                                             onClick={() => {
                                                 saveConfig();
