@@ -1,10 +1,12 @@
 import './ABIMethodExecutor.scss';
 import React from "react";
 import {ABIMethod, ABIMethodParams} from "algosdk";
-import {Alert, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography} from "@mui/material";
+import {Alert, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Typography} from "@mui/material";
 import {CancelOutlined} from "@mui/icons-material";
 import ABIMethodExecutorCls from '../../../../packages/abi/classes/ABIMethodExecutor';
 import {ABI_METHOD_EXECUTOR_SUPPORTED_TXN_TYPES} from "../../../../packages/abi/types";
+import ABIMethodSignature from "../ABIMethodSignature/ABIMethodSignature";
+import {shadedClr} from "../../../../utils/common";
 
 interface ABIMethodExecutorProps{
     show: boolean,
@@ -66,16 +68,34 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
                             </div>
                         </div>
                         <div className="abi-method-executor-body">
-                            {canExecute ? '' : <div>
-                                <Alert icon={false} color={"warning"}>
-                                    This method cannot be executed. Only below transaction types are allowed.
-                                    <div style={{marginTop: '5px'}}>
-                                        <Typography variant={"subtitle2"}>
-                                            {ABI_METHOD_EXECUTOR_SUPPORTED_TXN_TYPES.join(', ')}
-                                        </Typography>
+
+                            <Grid container spacing={2}>
+                                <Grid item xs={12} sm={6} md={8} lg={8} xl={8}>
+                                    <div className="abi-method-executor-panel-wrapper">
+                                        <div className="abi-method-executor-panel-container">
+                                            {canExecute ? '' : <div>
+                                                <Alert icon={false} color={"warning"}>
+                                                    This method cannot be executed. Only below transaction types are supported.
+                                                    <div style={{marginTop: '20px'}}>
+                                                        <Typography variant={"subtitle2"}>
+                                                            Supported : {ABI_METHOD_EXECUTOR_SUPPORTED_TXN_TYPES.join(', ')}
+                                                        </Typography>
+                                                        <Typography variant={"subtitle2"}>
+                                                            Current : {abiMethodExecutorInstance.getTxnTypes().join(', ')}
+                                                        </Typography>
+                                                    </div>
+                                                </Alert>
+                                            </div>}
+                                        </div>
                                     </div>
-                                </Alert>
-                            </div>}
+
+                                </Grid>
+                                <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
+                                    <ABIMethodSignature color={"warning"} method={method} sx={{background: shadedClr}} fields ={['sig', 'count', 'selector']}></ABIMethodSignature>
+                                </Grid>
+                            </Grid>
+
+
 
                         </div>
                     </div>

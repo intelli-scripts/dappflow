@@ -7,4 +7,4 @@ export interface A_Application_ABI {
     abi: ABIContractParams;
 }
 
-export const ABI_METHOD_EXECUTOR_SUPPORTED_TXN_TYPES = [ABITransactionType.pay, ABITransactionType.axfer];
+export const ABI_METHOD_EXECUTOR_SUPPORTED_TXN_TYPES: ABITransactionType[] = [ABITransactionType.pay, ABITransactionType.axfer];

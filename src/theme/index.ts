@@ -63,6 +63,12 @@ export const theme = createTheme({
                     '&.black-button': {
                         background: '#000'
                     }
+                },
+                outlined: {
+                    '&.black-button': {
+                        borderColor: '#000',
+                        color: '#000'
+                    }
                 }
             }
         },

@@ -16,6 +16,12 @@
     }
   }
   .abi-method-executor-body {
-    min-height: 500px;
+    .abi-method-executor-panel-wrapper {
+      .abi-method-executor-panel-container {
+        min-height: 500px;
+        border-right: 1px solid $color-grey-light;
+        padding: 0 15px 0 0;
+      }
+    }
   }
 }

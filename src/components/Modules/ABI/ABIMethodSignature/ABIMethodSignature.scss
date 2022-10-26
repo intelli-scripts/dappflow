@@ -11,15 +11,11 @@
           margin-bottom: 5px;
           font-family: PoppinsLight !important;
           font-size: 14px;
-          &.inline {
-            display: inline-block;
-          }
         }
         .method-sig-section-value {
           font-weight: bold;
-          &.inline {
-            display: inline-block;
-            margin-left: 10px;
+          &.break {
+            word-break: break-word;
           }
         }
       }
