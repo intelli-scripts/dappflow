@@ -7,13 +7,13 @@ import ABIMethods from "../ABIMethods/ABIMethods";
 import ABINetworks from "../ABINetworks/ABINetworks";
 import {ABIContract, ABIContractParams} from "algosdk";
 
-function ABIEditor(props): JSX.Element {
-    let abi: ABIContractParams = props.abi;
-    let hideNetworks: boolean = props.hideNetworks;
+type ABIEditorProps = {
+    abi: ABIContractParams,
+    hideNetworks?: boolean,
+    supportExecutor?: boolean
+};
 
-    if (!abi) {
-        abi = {methods: [], name: ""};
-    }
+function ABIEditor({abi = {methods: [], name: ""}, hideNetworks = false, supportExecutor = false}: ABIEditorProps): JSX.Element {
 
     const abiInstance = new ABIContract(abi);
     const networks = abiInstance.networks;
@@ -37,7 +37,7 @@ function ABIEditor(props): JSX.Element {
                     </Box>
                     <div className="abi-body">
                         {!hideNetworks ? <ABINetworks networks={networks}></ABINetworks> : ''}
-                        <ABIMethods abi={abi}></ABIMethods>
+                        <ABIMethods abi={abi} supportExecutor={supportExecutor}></ABIMethods>
                     </div>
                 </div>
             </div>

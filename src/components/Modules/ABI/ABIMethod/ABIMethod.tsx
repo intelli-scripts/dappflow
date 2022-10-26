@@ -13,14 +13,16 @@ import {ExpandMore} from "@mui/icons-material";
 import {ABIMethodParams, ABIMethod as ABIMethodSDK} from "algosdk";
 import ABIMethodSignature from "../ABIMethodSignature/ABIMethodSignature";
 import ABIMethodExecutor from "../ABIMethodExecutor/ABIMethodExecutor";
+import OfflineBoltIcon from '@mui/icons-material/OfflineBolt';
 
 type ABIMethodProps = {
-    method: ABIMethodParams
+    method: ABIMethodParams,
+    supportExecutor?: boolean
 };
 
 interface ABIMethodState{
     tab: string,
-    showExecutor: boolean
+    showExecutor: boolean,
 }
 
 const initialState: ABIMethodState = {
@@ -28,9 +30,9 @@ const initialState: ABIMethodState = {
     showExecutor: false
 };
 
-function ABIMethod(props: ABIMethodProps): JSX.Element {
+function ABIMethod({method, supportExecutor = true}: ABIMethodProps): JSX.Element {
     
-    const {method} = props;
+
     const abiMethodInstance = new ABIMethodSDK(method);
     const args = abiMethodInstance.args;
 
@@ -45,20 +47,24 @@ function ABIMethod(props: ABIMethodProps): JSX.Element {
                 <Accordion className="rounded">
                     <AccordionSummary
                         expandIcon={<ExpandMore />}>
-                        <div>
-                            <span className="method-exec">
-                                <Button onClick={(ev) => {
-                                    setState(prevState => ({...prevState, showExecutor: true}));
-                                    ev.preventDefault();
-                                    ev.stopPropagation();
-                                }} color={"primary"} variant={"outlined"} size={"small"}>Execute</Button>
-                            </span>
+                        <div style={{width: '100%'}}>
                             <span className="method-name">
                                 {abiMethodInstance.name}
                             </span>
                             <span className="method-desc">
                                 {abiMethodInstance.description}
                             </span>
+                            {supportExecutor ? <span className="method-exec">
+                                <Button onClick={(ev) => {
+                                    setState(prevState => ({...prevState, showExecutor: true}));
+                                    ev.preventDefault();
+                                    ev.stopPropagation();
+                                }} color={"primary"}
+                                        startIcon={<OfflineBoltIcon></OfflineBoltIcon>}
+                                        className="black-button"
+                                        variant={"outlined"} size={"small"}>Execute</Button>
+                            </span> : ''}
+
                         </div>
                     </AccordionSummary>
                     <AccordionDetails>

@@ -5,9 +5,12 @@ import ABIMethod from "../ABIMethod/ABIMethod";
 import {ABIContract, ABIContractParams} from "algosdk";
 import {theme} from "../../../../theme";
 
+type ABIMethodsProps = {
+    abi: ABIContractParams,
+    supportExecutor?: boolean
+};
 
-function ABIMethods(props): JSX.Element {
-    let abi: ABIContractParams = props.abi;
+function ABIMethods({abi, supportExecutor = false}: ABIMethodsProps): JSX.Element {
 
     const abiInstance = new ABIContract(abi);
 
@@ -21,7 +24,7 @@ function ABIMethods(props): JSX.Element {
             <div className={"abi-methods-body"}>
                 {abiInstance.methods.map((method, index) => {
                     return <div key={"method_" + index}>
-                        <ABIMethod method={method.toJSON()}></ABIMethod>
+                        <ABIMethod method={method.toJSON()} supportExecutor={supportExecutor}></ABIMethod>
                     </div>;
                 })}
             </div>

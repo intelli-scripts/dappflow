@@ -5,11 +5,15 @@
     .abi-method {
       margin-top: 15px;
       .method-exec {
-        margin-right: 15px;
+        margin-right: 25px;
+        float: right;
       }
       .method-name {
         font-size: 18px;
         font-weight: bold;
+        margin-top: 5px;
+        display: inline-block;
+        margin-bottom: 5px;
       }
       .method-desc {
         margin-left: 15px;

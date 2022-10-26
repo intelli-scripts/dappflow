@@ -46,6 +46,12 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
                 fullWidth={true}
                 maxWidth={"lg"}
                 open={show}
+
+                PaperProps={{
+                    sx: {
+                        height: '80vh'
+                    }
+                }}
             >
                 <DialogTitle >
                     <div style={{display: 'flex', justifyContent: 'space-between'}}>
