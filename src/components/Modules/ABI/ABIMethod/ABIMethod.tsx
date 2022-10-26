@@ -4,16 +4,14 @@ import {
     Accordion,
     AccordionDetails,
     AccordionSummary, Button,
-    Chip,
-    Grid,
-    Tab,
-    Tabs
+    Grid
 } from "@mui/material";
 import {ExpandMore} from "@mui/icons-material";
 import {ABIMethodParams, ABIMethod as ABIMethodSDK} from "algosdk";
 import ABIMethodSignature from "../ABIMethodSignature/ABIMethodSignature";
 import ABIMethodExecutor from "../ABIMethodExecutor/ABIMethodExecutor";
 import OfflineBoltIcon from '@mui/icons-material/OfflineBolt';
+import {Alert} from "@mui/lab";
 
 type ABIMethodProps = {
     method: ABIMethodParams,
@@ -21,12 +19,10 @@ type ABIMethodProps = {
 };
 
 interface ABIMethodState{
-    tab: string,
     showExecutor: boolean,
 }
 
 const initialState: ABIMethodState = {
-    tab: "arguments",
     showExecutor: false
 };
 
@@ -37,7 +33,7 @@ function ABIMethod({method, supportExecutor = true}: ABIMethodProps): JSX.Elemen
     const args = abiMethodInstance.args;
 
     const [
-        {tab, showExecutor},
+        {showExecutor},
         setState
     ] = useState(initialState);
 
@@ -70,53 +66,67 @@ function ABIMethod({method, supportExecutor = true}: ABIMethodProps): JSX.Elemen
                     <AccordionDetails>
 
                         <div className="method-body">
-                            <ABIMethodSignature method={method}></ABIMethodSignature>
-                            <Tabs TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" />}} value={tab} className="method-tabs" onChange={(_, newVal) => {
-                                setState(prevState => ({...prevState, tab: newVal}));
-                            }}>
-                                <Tab label="Arguments" value="arguments"/>
-                            </Tabs>
 
-                            <div className="arguments">
-                                <div className="arguments-header">
-                                    <Grid container spacing={0}>
-                                        <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
-                                            Name
-                                        </Grid>
-                                        <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
-                                            Type
-                                        </Grid>
-                                        <Grid item xs={12} sm={4} md={6} lg={6} xl={6}>
-                                            Description
-                                        </Grid>
-                                    </Grid>
-                                </div>
+                            <Grid container spacing={2}>
+                                <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                    <div className="method-title">Method details</div>
+                                    <ABIMethodSignature method={method}></ABIMethodSignature>
+                                </Grid>
 
+                            </Grid>
 
-                                {args.map((arg) => {
-                                    return <div className="arg" key={arg.name}>
-                                        <Grid container spacing={0}>
-                                            <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
-                                                <div className="arg-prop">{arg.name}</div>
+                            <Grid container spacing={2}>
+                                <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                    <div className="arguments">
+                                        <div className="arguments-title">Arguments</div>
+                                        <div className="arguments-header">
+                                            <Grid container spacing={0}>
+                                                <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
+                                                    Name
+                                                </Grid>
+                                                <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
+                                                    Type
+                                                </Grid>
+                                                <Grid item xs={12} sm={4} md={6} lg={6} xl={6}>
+                                                    Description
+                                                </Grid>
                                             </Grid>
-                                            <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
-                                                <div className="arg-prop">{arg.type.toString()}</div>
-                                            </Grid>
-                                            <Grid item xs={12} sm={4} md={6} lg={6} xl={6}>
-                                                <div className="arg-prop">{arg.description}</div>
-                                            </Grid>
-                                        </Grid>
-                                    </div>;
-                                })}
+                                        </div>
 
-                                <div className="method-returns">
-                                    <Chip color={"primary"} label={"Returns: " + abiMethodInstance.returns.type} variant={"outlined"}></Chip>
-                                    <div className="method-returns-desc">
-                                        {abiMethodInstance.returns.description}
+
+                                        {args.map((arg) => {
+                                            return <div className="arg" key={arg.name}>
+                                                <Grid container spacing={0}>
+                                                    <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
+                                                        <div className="arg-prop">{arg.name}</div>
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={4} md={3} lg={3} xl={3}>
+                                                        <div className="arg-prop">{arg.type.toString()}</div>
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={4} md={6} lg={6} xl={6}>
+                                                        <div className="arg-prop">{arg.description}</div>
+                                                    </Grid>
+                                                </Grid>
+                                            </div>;
+                                        })}
+
+                                        <div className="method-returns">
+                                            <div className="method-returns-title">Returns</div>
+                                            <Alert color={'success'} icon={false} className="mini-alert">
+                                                {abiMethodInstance.returns.type.toString()}
+                                            </Alert>
+
+                                            <div className="method-returns-desc">
+                                                {abiMethodInstance.returns.description}
+                                            </div>
+                                        </div>
+
                                     </div>
-                                </div>
+                                </Grid>
+                            </Grid>
 
-                            </div>
+
+
                         </div>
 
                     </AccordionDetails>
