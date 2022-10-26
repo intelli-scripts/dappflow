@@ -34,7 +34,6 @@ function ABIMethodSignature({method, sx = {}, fields = ['sig','count','selector'
         setState
     ] = useState(initialState);
 
-    console.log(fields);
     function setTextEncoding(encoding: string) {
         setState(prevState => ({...prevState, textEncoding: encoding}));
     }
