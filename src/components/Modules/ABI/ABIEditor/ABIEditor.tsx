@@ -14,12 +14,6 @@ function ABIEditor(props): JSX.Element {
     if (!abi) {
         abi = {methods: [], name: ""};
     }
-    if (!hideNetworks) {
-        hideNetworks = false;
-    }
-    else {
-        hideNetworks = true;
-    }
 
     const abiInstance = new ABIContract(abi);
     const networks = abiInstance.networks;

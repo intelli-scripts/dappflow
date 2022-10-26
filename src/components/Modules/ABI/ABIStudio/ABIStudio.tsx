@@ -1,5 +1,5 @@
 import './ABIStudio.scss';
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import ABIEditor from "../ABIEditor/ABIEditor";
 import ABIActions from "../ABIActions/ABIActions";
 import {ABIContractParams} from "algosdk";
@@ -16,6 +16,14 @@ const initialState: ABIStudioState = {
 
 function ABIStudio(): JSX.Element {
 
+
+    useEffect(() => {
+        const storedAbi = localStorage.getItem('abi');
+        if (storedAbi) {
+            setState(prevState => ({...prevState, abi: JSON.parse(storedAbi), imported: true}));
+        }
+
+    }, []);
 
     const [
         {imported, abi},
@@ -36,6 +44,7 @@ function ABIStudio(): JSX.Element {
             <div className={"abi-studio-body"}>
                 <ABIActions onImport={(abi) => {
                     setState(prevState => ({...prevState, abi, imported: true}));
+                    localStorage.setItem('abi', JSON.stringify(abi));
                 }}></ABIActions>
                 {imported ? <ABIEditor abi={abi}></ABIEditor> : ''}
             </div>
