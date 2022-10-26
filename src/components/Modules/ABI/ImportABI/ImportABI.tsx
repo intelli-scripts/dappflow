@@ -36,7 +36,7 @@ interface ImportABIState{
 }
 
 const initialState: ImportABIState = {
-    tab: "file",
+    tab: "url",
     url: ''
 };
 
@@ -83,11 +83,11 @@ function ImportABI(props): JSX.Element {
 
                         <div className="import-abi-json-header">
                             <Tabs value={tab} className="tabs-wrapper" TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" />}}>
+                                <Tab label="URL" value="url" onClick={() => {
+                                    setState(prevState => ({...prevState, tab: "url"}));
+                                }}/>
                                 <Tab label="File" value="file" onClick={() => {
                                     setState(prevState => ({...prevState, tab: "file"}));
-                                }}/>
-                                <Tab label="Link" value="link" onClick={() => {
-                                    setState(prevState => ({...prevState, tab: "link"}));
                                 }}/>
                             </Tabs>
                         </div>
@@ -136,18 +136,20 @@ function ImportABI(props): JSX.Element {
                                 </div>
                             </div> : ''}
 
-                            {tab === 'link' ? <div className="link-wrapper">
-                                <div className="link-container">
+                            {tab === 'url' ? <div className="url-wrapper">
+                                <div className="url-container">
                                     <FormLabel sx={{color: 'grey.900', fontWeight: 'bold', marginBottom: '15px'}}>Enter a URL</FormLabel>
                                     <ShadedInput
-                                        placeholder="http://localhost/abi.json"
+                                        placeholder="https://google.com/abi.json"
                                         value={url}
+                                        multiline={true}
+                                        rows={3}
                                         onChange={(ev) => {
                                             setState(prevState => ({...prevState, url: ev.target.value}));
                                         }}
                                         fullWidth/>
 
-                                    <div style={{color: theme.palette.grey[600], marginTop: '10px', marginBottom: '10px'}}>
+                                    <div style={{color: theme.palette.grey[600], marginTop: '20px', marginBottom: '10px'}}>
                                         <span style={{fontSize: '13px'}}>Example: &nbsp;</span>
                                         <Chip onClick={() => {
                                             setState(prevState => ({...prevState, url: "https://raw.githubusercontent.com/algorandlabs/smart-asa/develop/smart_asa_abi.json"}));
