@@ -183,7 +183,7 @@ function AppCallTxnInnerTxns(props): JSX.Element {
                     <div>
                         &nbsp;
                     </div>
-                    <IconButton color="primary" onClick={handleClose}>
+                    <IconButton color="warning" onClick={handleClose}>
                         <CancelOutlined />
                     </IconButton>
                 </div>

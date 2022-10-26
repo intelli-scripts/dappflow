@@ -70,7 +70,7 @@ function JsonViewer(props): JSX.Element {
                             <div style={{fontWeight: "bold", fontSize: 18}}>{title}</div>
                         </div>
                         <div>
-                            <IconButton color="primary" onClick={handleClose}>
+                            <IconButton color="warning" onClick={handleClose}>
                                 <CancelOutlined />
                             </IconButton>
                         </div>

@@ -5,3 +5,17 @@
 
   }
 }
+
+.abi-method-executor-modal-content {
+  .abi-method-executor-header {
+    .abi-method-name {
+      font-family: PoppinsBold !important;
+      margin-bottom: 15px;
+      border-bottom: 1px solid $color-grey-light;
+      padding-bottom: 15px;
+    }
+  }
+  .abi-method-executor-body {
+    min-height: 500px;
+  }
+}

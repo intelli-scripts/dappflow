@@ -72,7 +72,7 @@ function ImportABI(props): JSX.Element {
                     <div>
                         <div style={{fontWeight: "bold", fontSize: 18}}>Import ABI</div>
                     </div>
-                    <IconButton color="primary" onClick={handleClose}>
+                    <IconButton color="warning" onClick={handleClose}>
                         <CancelOutlined />
                     </IconButton>
                 </div>

@@ -110,7 +110,7 @@ function AssetARCValidator(props): JSX.Element {
                             <div style={{fontWeight: "bold", fontSize: 18}}>ARC Validator</div>
                         </div>
                         <div>
-                            <IconButton color="primary" onClick={handleClose}>
+                            <IconButton color="warning" onClick={handleClose}>
                                 <CancelOutlined />
                             </IconButton>
                         </div>

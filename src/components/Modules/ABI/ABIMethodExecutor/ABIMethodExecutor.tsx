@@ -1,8 +1,10 @@
 import './ABIMethodExecutor.scss';
 import React from "react";
 import {ABIMethod, ABIMethodParams} from "algosdk";
-import {Alert, Dialog, DialogActions, DialogContent, DialogTitle, IconButton} from "@mui/material";
+import {Alert, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography} from "@mui/material";
 import {CancelOutlined} from "@mui/icons-material";
+import ABIMethodExecutorCls from '../../../../packages/abi/classes/ABIMethodExecutor';
+import {ABI_METHOD_EXECUTOR_SUPPORTED_TXN_TYPES} from "../../../../packages/abi/types";
 
 interface ABIMethodExecutorProps{
     show: boolean,
@@ -31,7 +33,8 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
         ev.stopPropagation();
     }
 
-    const abiMethodInstance = new ABIMethod(method);
+    const abiMethodExecutorInstance = new ABIMethodExecutorCls(method);
+    const canExecute = abiMethodExecutorInstance.canExecute();
 
     return (<div className={"abi-method-executor-wrapper"}>
         <div className={"abi-method-executor-container"}>
@@ -39,7 +42,7 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
             {show ? <Dialog
                 onClose={onClose}
                 fullWidth={true}
-                maxWidth={"md"}
+                maxWidth={"lg"}
                 open={show}
             >
                 <DialogTitle >
@@ -48,7 +51,7 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
                             <div style={{fontWeight: "bold", fontSize: 18}}>Execute ABI Method</div>
                         </div>
                         <div>
-                            <IconButton color="primary" onClick={onClose}>
+                            <IconButton color="warning" onClick={onClose}>
                                 <CancelOutlined />
                             </IconButton>
                         </div>
@@ -56,15 +59,27 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
                     </div>
                 </DialogTitle>
                 <DialogContent>
-                    <div>
-                        <Alert icon={false} color={"warning"}>
-                            <div>
-                                <span>
-                                    {abiMethodInstance.getSignature()}
-                                </span>
+                    <div className="abi-method-executor-modal-content">
+                        <div className="abi-method-executor-header">
+                            <div className="abi-method-name">
+                                {new ABIMethod(method).name}
                             </div>
-                        </Alert>
+                        </div>
+                        <div className="abi-method-executor-body">
+                            {!canExecute ? '' : <div>
+                                <Alert icon={false} color={"warning"}>
+                                    This method cannot be executed. Only below transaction types are allowed.
+                                    <div style={{marginTop: '5px'}}>
+                                        <Typography variant={"subtitle2"}>
+                                            {ABI_METHOD_EXECUTOR_SUPPORTED_TXN_TYPES.join(', ')}
+                                        </Typography>
+                                    </div>
+                                </Alert>
+                            </div>}
+
+                        </div>
                     </div>
+
                 </DialogContent>
                 <DialogActions>
 

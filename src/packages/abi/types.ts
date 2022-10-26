@@ -1,4 +1,4 @@
-import {ABIContractParams} from "algosdk";
+import {ABIContractParams, ABITransactionType} from "algosdk";
 
 export interface A_Application_ABI {
     id?: number,
@@ -6,3 +6,5 @@ export interface A_Application_ABI {
     app: number;
     abi: ABIContractParams;
 }
+
+export const ABI_METHOD_EXECUTOR_SUPPORTED_TXN_TYPES = [ABITransactionType.pay, ABITransactionType.axfer];
