@@ -156,7 +156,13 @@ function ImportABI(props): JSX.Element {
 
                                         <Chip onClick={() => {
                                             setState(prevState => ({...prevState, url: "https://raw.githubusercontent.com/algorand-devrel/coin-flipper/master/contracts/artifacts/contract.json"}));
-                                        }} label="Coin Flipper" size="small" color={"warning"} variant={"outlined"}
+                                        }} label="Coin Flipper ABI" size="small" color={"warning"} variant={"outlined"}
+                                              sx={{marginLeft: '10px'}}
+                                        ></Chip>
+
+                                        <Chip onClick={() => {
+                                            setState(prevState => ({...prevState, url: "https://raw.githubusercontent.com/algorand-devrel/ExtendableDAO/main/src/contracts/dao_abi.json"}));
+                                        }} label="DAO ABI" size="small" color={"warning"} variant={"outlined"}
                                               sx={{marginLeft: '10px'}}
                                         ></Chip>
                                     </div>
