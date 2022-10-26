@@ -284,13 +284,15 @@ function Settings(): JSX.Element {
                                             size={"large"}
                                             color={"primary"}
                                             onClick={handleClose}
-                                        >Cancel</Button>
+                                            className="black-button"
+                                        >Close</Button>
 
                                         <Button
                                             variant={"contained"}
                                             size={"large"}
                                             color={"primary"}
                                             style={{marginLeft: 15}}
+                                            className="black-button"
                                             onClick={() => {
                                                 saveConfig();
                                             }}

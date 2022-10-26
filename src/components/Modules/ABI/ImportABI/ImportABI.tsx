@@ -173,6 +173,7 @@ function ImportABI(props): JSX.Element {
                                     <Button color={"primary"}
                                             variant={"contained"}
                                             sx={{marginTop: '15px'}}
+                                            className="black-button"
                                             onClick={async () => {
                                                 if (!url) {
                                                     dispatch(showSnack({
