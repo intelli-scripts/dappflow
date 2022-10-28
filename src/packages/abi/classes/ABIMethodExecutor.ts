@@ -13,6 +13,10 @@ export default class ABIMethodExecutor {
     }
 
     canExecute(): boolean {
+        if (this.isGroup()) {
+            return false
+        }
+
         let supported = true;
 
         const txnTypes = this.getTxnTypes();
@@ -44,4 +48,5 @@ export default class ABIMethodExecutor {
 
         return txnTypes;
     }
+
 }

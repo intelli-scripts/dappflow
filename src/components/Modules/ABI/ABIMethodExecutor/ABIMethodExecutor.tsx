@@ -1,12 +1,22 @@
 import './ABIMethodExecutor.scss';
 import React from "react";
 import {ABIMethod, ABIMethodParams} from "algosdk";
-import {Alert, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Typography} from "@mui/material";
+import {
+    Alert,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    Grid,
+    IconButton,
+    TextField
+} from "@mui/material";
 import {CancelOutlined} from "@mui/icons-material";
 import ABIMethodExecutorCls from '../../../../packages/abi/classes/ABIMethodExecutor';
-import {ABI_METHOD_EXECUTOR_SUPPORTED_TXN_TYPES} from "../../../../packages/abi/types";
 import ABIMethodSignature from "../ABIMethodSignature/ABIMethodSignature";
 import {shadedClr} from "../../../../utils/common";
+import OfflineBoltIcon from '@mui/icons-material/OfflineBolt';
 
 interface ABIMethodExecutorProps{
     show: boolean,
@@ -35,8 +45,11 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
         ev.stopPropagation();
     }
 
+    console.log(method);
+    const abiMethodInstance = new ABIMethod(method);
     const abiMethodExecutorInstance = new ABIMethodExecutorCls(method);
     const canExecute = abiMethodExecutorInstance.canExecute();
+    const args = abiMethodInstance.args;
 
     return (<div className={"abi-method-executor-wrapper"}>
         <div className={"abi-method-executor-container"}>
@@ -44,7 +57,7 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
             {show ? <Dialog
                 onClose={onClose}
                 fullWidth={true}
-                maxWidth={"lg"}
+                maxWidth={"md"}
                 open={show}
 
                 PaperProps={{
@@ -69,35 +82,62 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
                 <DialogContent>
                     <div className="abi-method-executor-modal-content">
                         <div className="abi-method-executor-header">
-                            <div className="abi-method-name">
-                                {new ABIMethod(method).name}
-                            </div>
+                            {/*<div className="abi-method-name">*/}
+
+                            {/*</div>*/}
                         </div>
                         <div className="abi-method-executor-body">
 
                             <Grid container spacing={2}>
-                                <Grid item xs={12} sm={6} md={8} lg={8} xl={8}>
+                                <Grid item xs={12} sm={6} md={7} lg={7} xl={7}>
                                     <div className="abi-method-executor-panel-wrapper">
                                         <div className="abi-method-executor-panel-container">
-                                            {canExecute ? '' : <div>
-                                                <Alert icon={false} color={"warning"}>
-                                                    This method cannot be executed. Only below transaction types are supported.
-                                                    <div style={{marginTop: '20px'}}>
-                                                        <Typography variant={"subtitle2"}>
-                                                            Supported : {ABI_METHOD_EXECUTOR_SUPPORTED_TXN_TYPES.join(', ')}
-                                                        </Typography>
-                                                        <Typography variant={"subtitle2"}>
-                                                            Current : {abiMethodExecutorInstance.getTxnTypes().join(', ')}
-                                                        </Typography>
+                                            <ABIMethodSignature color={"warning"} method={method} sx={{background: shadedClr}} fields ={['sig']}></ABIMethodSignature>
+
+                                            {canExecute ? <div className="abi-method-args-form-wrapper">
+                                                <div className="abi-method-args-form-container">
+                                                    {/*<div className="abi-method-args-form-title">Arguments</div>*/}
+                                                    {args.map((arg) => {
+                                                        return <div className="abi-method-arg" key={arg.name}>
+                                                            <TextField
+                                                                fullWidth
+                                                                InputLabelProps={{
+                                                                    shrink: true,
+                                                                }}
+                                                                label={arg.name + " (" + arg.type.toString() + ')'}
+                                                                variant="outlined" />
+                                                        </div>
+                                                    })}
+                                                    <div className="abi-method-execute">
+                                                        <Button
+                                                            style={{marginRight: '10px'}}
+                                                            variant={"outlined"}
+                                                            className="black-button"
+                                                            onClick={onClose}
+                                                        >Close</Button>
+                                                        <Button
+                                                            startIcon={<OfflineBoltIcon></OfflineBoltIcon>}
+                                                            variant={"contained"}
+                                                            className="black-button"
+                                                        >Execute</Button>
                                                     </div>
+                                                </div>
+                                            </div> : <div className="info-message">
+                                                <Alert icon={false} color={"warning"}>
+                                                    Group transactions are not yet supported by dappflow. It is on our roadmap though.
                                                 </Alert>
                                             </div>}
                                         </div>
                                     </div>
-
                                 </Grid>
-                                <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
-                                    <ABIMethodSignature color={"warning"} method={method} sx={{background: shadedClr}} fields ={['sig', 'count', 'selector']}></ABIMethodSignature>
+                                <Grid item xs={12} sm={6} md={5} lg={5} xl={5}>
+                                    <div className="abi-method-result-wrapper">
+                                        <div className="abi-method-result-container">
+                                            <div className="abi-method-result-title">
+                                                Result
+                                            </div>
+                                        </div>
+                                    </div>
                                 </Grid>
                             </Grid>
 

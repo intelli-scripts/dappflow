@@ -7,6 +7,10 @@
         margin-bottom: 10px;
         padding-bottom: 10px;
         border-bottom: 1px solid $color-light;
+        &:last-child {
+          border-bottom: none;
+          padding-bottom: 0;
+        }
         .method-sig-section-key {
           margin-bottom: 5px;
           font-family: PoppinsLight !important;
