@@ -9,9 +9,12 @@ import {
 import {ExpandMore} from "@mui/icons-material";
 import {ABIMethodParams, ABIMethod as ABIMethodSDK} from "algosdk";
 import ABIMethodSignature from "../ABIMethodSignature/ABIMethodSignature";
+import ABIMethodExecutorCls from "../../../../packages/abi/classes/ABIMethodExecutor";
 import ABIMethodExecutor from "../ABIMethodExecutor/ABIMethodExecutor";
 import OfflineBoltIcon from '@mui/icons-material/OfflineBolt';
 import {Alert} from "@mui/lab";
+import {showSnack} from "../../../../redux/common/actions/snackbar";
+import {useDispatch} from "react-redux";
 
 type ABIMethodProps = {
     method: ABIMethodParams,
@@ -28,7 +31,7 @@ const initialState: ABIMethodState = {
 
 function ABIMethod({method, supportExecutor = true}: ABIMethodProps): JSX.Element {
     
-
+    const dispatch = useDispatch();
     const abiMethodInstance = new ABIMethodSDK(method);
     const args = abiMethodInstance.args;
 
@@ -52,9 +55,17 @@ function ABIMethod({method, supportExecutor = true}: ABIMethodProps): JSX.Elemen
                             </span>
                             {supportExecutor ? <span className="method-exec">
                                 <Button onClick={(ev) => {
-                                    setState(prevState => ({...prevState, showExecutor: true}));
                                     ev.preventDefault();
                                     ev.stopPropagation();
+
+                                    if (!new ABIMethodExecutorCls(method).canExecute()) {
+                                        dispatch(showSnack({
+                                            severity: 'error',
+                                            message: 'Group transactions are yet supported by dappflow. It is on our roadmap.'
+                                        }));
+                                        return;
+                                    }
+                                    setState(prevState => ({...prevState, showExecutor: true}));
                                 }} color={"primary"}
                                         startIcon={<OfflineBoltIcon></OfflineBoltIcon>}
                                         className="black-button"

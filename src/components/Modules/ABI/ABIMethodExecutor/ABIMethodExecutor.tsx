@@ -2,21 +2,27 @@ import './ABIMethodExecutor.scss';
 import React from "react";
 import {ABIMethod, ABIMethodParams} from "algosdk";
 import {
-    Alert,
     Button,
     Dialog,
     DialogActions,
     DialogContent,
-    DialogTitle,
+    DialogTitle, FormLabel,
     Grid,
-    IconButton,
-    TextField
+    IconButton, InputBase, InputBaseProps, styled
 } from "@mui/material";
 import {CancelOutlined} from "@mui/icons-material";
-import ABIMethodExecutorCls from '../../../../packages/abi/classes/ABIMethodExecutor';
-import ABIMethodSignature from "../ABIMethodSignature/ABIMethodSignature";
-import {shadedClr} from "../../../../utils/common";
 import OfflineBoltIcon from '@mui/icons-material/OfflineBolt';
+import {theme} from "../../../../theme";
+
+const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
+    return {
+        padding: 5,
+        paddingLeft: 10,
+        marginTop: 5,
+        fontSize: 14,
+        border: '1px solid ' + theme.palette.grey[200]
+    };
+});
 
 interface ABIMethodExecutorProps{
     show: boolean,
@@ -45,10 +51,7 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
         ev.stopPropagation();
     }
 
-    console.log(method);
     const abiMethodInstance = new ABIMethod(method);
-    const abiMethodExecutorInstance = new ABIMethodExecutorCls(method);
-    const canExecute = abiMethodExecutorInstance.canExecute();
     const args = abiMethodInstance.args;
 
     return (<div className={"abi-method-executor-wrapper"}>
@@ -82,9 +85,9 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
                 <DialogContent>
                     <div className="abi-method-executor-modal-content">
                         <div className="abi-method-executor-header">
-                            {/*<div className="abi-method-name">*/}
-
-                            {/*</div>*/}
+                            <div className="abi-method-name">
+                                {abiMethodInstance.name}
+                            </div>
                         </div>
                         <div className="abi-method-executor-body">
 
@@ -92,20 +95,28 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
                                 <Grid item xs={12} sm={6} md={7} lg={7} xl={7}>
                                     <div className="abi-method-executor-panel-wrapper">
                                         <div className="abi-method-executor-panel-container">
-                                            <ABIMethodSignature color={"warning"} method={method} sx={{background: shadedClr}} fields ={['sig']}></ABIMethodSignature>
+                                            {/*<ABIMethodSignature color={"warning"} method={method} sx={{background: shadedClr}} fields ={['sig']}></ABIMethodSignature>*/}
 
-                                            {canExecute ? <div className="abi-method-args-form-wrapper">
+                                            <div className="abi-method-args-form-wrapper">
                                                 <div className="abi-method-args-form-container">
                                                     {/*<div className="abi-method-args-form-title">Arguments</div>*/}
                                                     {args.map((arg) => {
                                                         return <div className="abi-method-arg" key={arg.name}>
-                                                            <TextField
-                                                                fullWidth
-                                                                InputLabelProps={{
-                                                                    shrink: true,
+                                                            <FormLabel sx={{marginLeft: '5px', fontSize: '13px', fontWeight: 'bold', color: theme.palette.grey[600]}}>{`${arg.name} (${arg.type.toString()})`}</FormLabel>
+                                                            <ShadedInput
+                                                                placeholder={arg.type.toString()}
+                                                                onChange={(ev) => {
+
                                                                 }}
-                                                                label={arg.name + " (" + arg.type.toString() + ')'}
-                                                                variant="outlined" />
+                                                                fullWidth/>
+
+                                                            {/*<TextField*/}
+                                                            {/*    fullWidth*/}
+                                                            {/*    InputLabelProps={{*/}
+                                                            {/*        shrink: true,*/}
+                                                            {/*    }}*/}
+                                                            {/*    label={arg.name + " (" + arg.type.toString() + ')'}*/}
+                                                            {/*    variant="outlined" />*/}
                                                         </div>
                                                     })}
                                                     <div className="abi-method-execute">
@@ -122,11 +133,8 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
                                                         >Execute</Button>
                                                     </div>
                                                 </div>
-                                            </div> : <div className="info-message">
-                                                <Alert icon={false} color={"warning"}>
-                                                    Group transactions are not yet supported by dappflow. It is on our roadmap though.
-                                                </Alert>
-                                            </div>}
+                                            </div>
+
                                         </div>
                                     </div>
                                 </Grid>

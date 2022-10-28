@@ -16,18 +16,20 @@
     }
   }
   .abi-method-executor-body {
-    border-top: 1px solid $color-grey-light;
     .abi-method-executor-panel-wrapper {
       .abi-method-executor-panel-container {
+        height: auto;
         min-height: 500px;
         border-right: 1px solid $color-grey-light;
-        padding: 15px 15px 0 0;
+        padding: 0 15px 0 0;
         .abi-method-args-form-wrapper {
           .abi-method-args-form-container {
-            margin-top: 25px;
             .abi-method-args-form-title {
               font-weight: bold;
               margin-bottom: 20px;
+            }
+            .abi-method-arg {
+              margin: 15px 0;
             }
             .abi-method-execute {
               text-align: right;
@@ -35,18 +37,16 @@
             }
           }
         }
-        .info-message {
-          margin-top: 20px;
-        }
       }
     }
     .abi-method-result-wrapper {
       .abi-method-result-container {
         .abi-method-result-title {
-          padding-top: 15px;
+          padding-top: 20px;
           font-weight: bold;
+          color: $color-grey-dark;
+          text-align: center;
           font-size: 18px;
-          text-decoration: underline;
         }
       }
     }
