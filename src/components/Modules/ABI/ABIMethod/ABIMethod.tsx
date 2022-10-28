@@ -61,7 +61,7 @@ function ABIMethod({method, supportExecutor = true}: ABIMethodProps): JSX.Elemen
                                     if (!new ABIMethodExecutorCls(method).canExecute()) {
                                         dispatch(showSnack({
                                             severity: 'error',
-                                            message: 'Group transactions are yet supported by dappflow. It is on our roadmap.'
+                                            message: 'Group transactions are not yet supported by Dappflow. It is on our roadmap.'
                                         }));
                                         return;
                                     }

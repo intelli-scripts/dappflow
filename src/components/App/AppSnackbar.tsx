@@ -2,6 +2,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {hideSnack} from '../../redux/common/actions/snackbar';
 import {Alert, Snackbar} from "@mui/material";
+import {theme} from "../../theme";
 
 
 function AppSnackbar(): JSX.Element {
@@ -10,18 +11,26 @@ function AppSnackbar(): JSX.Element {
 
     // @ts-ignore
     return (<Snackbar
-        style={{bottom: 50}}
+        style={{bottom: 20}}
         open={snackbar.show}
+        autoHideDuration={5000}
         anchorOrigin={{ vertical: 'bottom',
-            horizontal: 'center' }}
-        autoHideDuration={5000} onClose={() => {dispatch(hideSnack())}}>
-        <Alert
-            style={{borderRadius: 10}}
-            icon={false}
-            severity={snackbar.severity}
-            onClose={() => {dispatch(hideSnack())}}>
-            <span dangerouslySetInnerHTML={{__html: snackbar.message}}></span>
-        </Alert>
+            horizontal: 'right' }}
+        onClose={() => {dispatch(hideSnack())}}>
+            <Alert
+                sx={{
+                        color: theme.palette.common.black,
+                        borderRadius: 0,
+                        paddingTop: '20px',
+                        paddingBottom: '20px',
+                        minWidth: '400px',
+                    borderLeft: '4px solid ' + theme.palette.grey[600]
+                    }}
+                icon={false}
+                severity={snackbar.severity}
+                onClose={() => {dispatch(hideSnack())}}>
+                <span dangerouslySetInnerHTML={{__html: snackbar.message}}></span>
+            </Alert>
     </Snackbar>);
 }
 
