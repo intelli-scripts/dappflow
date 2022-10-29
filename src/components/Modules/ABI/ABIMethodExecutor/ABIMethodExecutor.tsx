@@ -109,14 +109,6 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
 
                                                                 }}
                                                                 fullWidth/>
-
-                                                            {/*<TextField*/}
-                                                            {/*    fullWidth*/}
-                                                            {/*    InputLabelProps={{*/}
-                                                            {/*        shrink: true,*/}
-                                                            {/*    }}*/}
-                                                            {/*    label={arg.name + " (" + arg.type.toString() + ')'}*/}
-                                                            {/*    variant="outlined" />*/}
                                                         </div>
                                                     })}
                                                     <div className="abi-method-execute">
