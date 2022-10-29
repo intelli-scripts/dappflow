@@ -20,6 +20,7 @@ import {ApplicationClient} from "../../../../packages/core-sdk/clients/applicati
 import dappflow from "../../../../utils/dappflow";
 import {handleException} from "../../../../redux/common/actions/exception";
 import {hideLoader, showLoader} from "../../../../redux/common/actions/loader";
+import ABIConfigCls from '../../../../packages/abi/classes/ABIConfig';
 
 
 const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
@@ -63,7 +64,7 @@ function ABIConfig({show = defaultProps.show, handleClose}: ABIConfigProps): JSX
     });
 
     useEffect(() => {
-        const savedAppId = localStorage.getItem('abi_app_id');
+        const savedAppId = new ABIConfigCls().getAppId();
         setState(prevState => ({...prevState, appId: savedAppId}));
     }, [show]);
 
@@ -117,36 +118,36 @@ function ABIConfig({show = defaultProps.show, handleClose}: ABIConfigProps): JSX
                                         variant={"contained"}
                                         className="black-button"
                                         onClick={async (ev) => {
-                                            if (!appId) {
-                                                dispatch(showSnack({
-                                                    severity: 'error',
-                                                    message: 'Invalid App ID'
-                                                }));
-                                                return;
-                                            }
-                                            if (!isNumber(appId)) {
-                                                dispatch(showSnack({
-                                                    severity: 'error',
-                                                    message: 'Invalid App ID'
-                                                }));
-                                                return;
+
+
+                                            if (appId) {
+                                                if (!isNumber(appId)) {
+                                                    dispatch(showSnack({
+                                                        severity: 'error',
+                                                        message: 'Invalid App ID'
+                                                    }));
+                                                    return;
+                                                }
+
+                                                try {
+                                                    dispatch(showLoader('Validating App ID'));
+                                                    await new ApplicationClient(dappflow.network).get(Number(appId));
+                                                    dispatch(hideLoader());
+                                                } catch (e: any) {
+                                                    dispatch(handleException(e));
+                                                    dispatch(hideLoader());
+                                                    return;
+                                                }
                                             }
 
-                                            try {
-                                                dispatch(showLoader('Validating App ID'));
-                                                await new ApplicationClient(dappflow.network).get(Number(appId));
-                                                dispatch(hideLoader());
-                                            } catch (e: any) {
-                                                dispatch(handleException(e));
-                                                dispatch(hideLoader());
-                                                return;
-                                            }
 
-                                            localStorage.setItem('abi_app_id', appId);
+                                            new ABIConfigCls().setAppId(appId || "");
+
                                             dispatch(showSnack({
                                                 severity: 'success',
                                                 message: 'Saved successfully.'
                                             }));
+
                                             onClose(ev);
 
                                         }

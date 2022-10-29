@@ -16,6 +16,7 @@ import KMDConfiguration from "../../LeftBar/KMDConfiguration/KMDConfiguration";
 import {getKMDConfig} from "../../../utils/nodeConfig";
 import {KMDConnectionParams} from "../../../packages/core-sdk/types";
 import LaunchIcon from '@mui/icons-material/Launch';
+import AlgoIcon from "../Explorer/AlgoIcon/AlgoIcon";
 
 
 interface DispenserState{
@@ -170,7 +171,7 @@ function Dispenser(): JSX.Element {
                                     <div>
                                         <TextField
                                             multiline={true}
-                                            placeholder="Enter your address"
+                                            placeholder="L3E67NGZMM5G7PXFV377HJZBJJ335F32GTA77JAIOBXAXPZF2ZRNEPH2MA"
                                             type={"text"}
                                             required
                                             value={address}
@@ -202,7 +203,7 @@ function Dispenser(): JSX.Element {
                                         fullWidth
                                         InputProps={{
                                             endAdornment: <Box sx={{color: 'grey.500'}}>
-                                                Algos
+                                                <AlgoIcon></AlgoIcon>
                                             </Box>
                                         }}
                                     />

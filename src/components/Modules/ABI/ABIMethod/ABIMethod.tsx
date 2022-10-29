@@ -15,6 +15,7 @@ import OfflineBoltIcon from '@mui/icons-material/OfflineBolt';
 import {Alert} from "@mui/lab";
 import {showSnack} from "../../../../redux/common/actions/snackbar";
 import {useDispatch} from "react-redux";
+import ABIConfig from "../../../../packages/abi/classes/ABIConfig";
 
 type ABIMethodProps = {
     method: ABIMethodParams,
@@ -65,6 +66,17 @@ function ABIMethod({method, supportExecutor = true}: ABIMethodProps): JSX.Elemen
                                         }));
                                         return;
                                     }
+
+                                    const appId = new ABIConfig().getAppId();
+
+                                    if (!appId) {
+                                        dispatch(showSnack({
+                                            severity: 'error',
+                                            message: 'App ID is null. Before you execute please setup an App ID using the config button above.'
+                                        }));
+                                        return;
+                                    }
+
                                     setState(prevState => ({...prevState, showExecutor: true}));
                                 }} color={"primary"}
                                         startIcon={<OfflineBoltIcon></OfflineBoltIcon>}
