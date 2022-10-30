@@ -18,6 +18,7 @@ import arcs from "./arcPortal/actions/arcs";
 import arc from "./arcPortal/actions/arc";
 import node from "./network/actions/node";
 import app from "./app/actions/app";
+import kmd from "./explorer/actions/kmd";
 
 export const store = configureStore({
     reducer: {
@@ -39,7 +40,8 @@ export const store = configureStore({
         arcs: arcs,
         arc: arc,
         node: node,
-        app: app
+        app: app,
+        kmd: kmd
     },
 });
 
