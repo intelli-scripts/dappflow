@@ -22,11 +22,20 @@
         min-height: 500px;
         border-right: 1px solid $color-grey-light;
         padding: 0 15px 0 0;
+        .abi-method-metadata {
+          .metadata-item {
+            font-size: 14px;
+            margin: 10px 0;
+          }
+        }
         .abi-method-args-form-wrapper {
           .abi-method-args-form-container {
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid $color-grey-light;
             .abi-method-args-form-title {
               font-weight: bold;
-              margin-bottom: 20px;
+              text-decoration: underline;
             }
             .abi-method-arg {
               margin: 15px 0;

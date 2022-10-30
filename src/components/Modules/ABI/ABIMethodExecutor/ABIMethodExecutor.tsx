@@ -1,6 +1,6 @@
 import './ABIMethodExecutor.scss';
-import React from "react";
-import {ABIMethod, ABIMethodParams} from "algosdk";
+import React, {useEffect, useState} from "react";
+import {ABIMethod, ABIMethodParams, mnemonicToSecretKey} from "algosdk";
 import {
     Button,
     Dialog,
@@ -13,6 +13,12 @@ import {
 import {CancelOutlined} from "@mui/icons-material";
 import OfflineBoltIcon from '@mui/icons-material/OfflineBolt';
 import {theme} from "../../../../theme";
+import {useSelector} from "react-redux";
+import {RootState} from "../../../../redux/store";
+import ABIConfig from "../../../../packages/abi/classes/ABIConfig";
+import {CoreNode} from "../../../../packages/core-sdk/classes/core/CoreNode";
+import {ellipseString} from "../../../../packages/core-sdk/utils";
+
 
 const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
     return {
@@ -43,16 +49,52 @@ const defaultProps: ABIMethodExecutorProps = {
     }
 };
 
+interface ABIMethodExecutorState{
+    appId: number,
+    signer: string
+}
+
+const initialState: ABIMethodExecutorState = {
+    appId: 0,
+    signer: ''
+};
+
 function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.method, handleClose}: ABIMethodExecutorProps): JSX.Element {
+
+    const [
+        {appId, signer},
+        setState
+    ] = useState({
+        ...initialState,
+        appId: new ABIConfig().getAppId()
+    });
+
+
+    const abiMethodInstance = new ABIMethod(method);
+    const args = abiMethodInstance.args;
+    const node = useSelector((state: RootState) => state.node);
+    const {status, versionsCheck, genesis, health} = node;
+    const kmd = useSelector((state: RootState) => state.kmd);
+    const {mnemonics} = kmd;
+    const accounts = mnemonics.map((mnemonic) => {
+        return mnemonicToSecretKey(mnemonic);
+    })
+
+    useEffect(() => {
+        const isSandbox = new CoreNode(status, versionsCheck, genesis, health).isSandbox();
+        if (isSandbox) {
+            if (accounts.length > 0) {
+                setState(prevState => ({...prevState, signer: accounts[0].addr}));
+            }
+        }
+    }, [show, status, versionsCheck, genesis, health, accounts]);
+
 
     function onClose(ev) {
         handleClose();
         ev.preventDefault();
         ev.stopPropagation();
     }
-
-    const abiMethodInstance = new ABIMethod(method);
-    const args = abiMethodInstance.args;
 
     return (<div className={"abi-method-executor-wrapper"}>
         <div className={"abi-method-executor-container"}>
@@ -95,11 +137,17 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
                                 <Grid item xs={12} sm={6} md={7} lg={7} xl={7}>
                                     <div className="abi-method-executor-panel-wrapper">
                                         <div className="abi-method-executor-panel-container">
-                                            {/*<ABIMethodSignature color={"warning"} method={method} sx={{background: shadedClr}} fields ={['sig']}></ABIMethodSignature>*/}
-
+                                            <div className="abi-method-metadata">
+                                                <div className="metadata-item">
+                                                    Application ID : {appId}
+                                                </div>
+                                                <div className="metadata-item">
+                                                    Signer : {signer ? ellipseString(signer, 30) : ''}
+                                                </div>
+                                            </div>
                                             <div className="abi-method-args-form-wrapper">
                                                 <div className="abi-method-args-form-container">
-                                                    {/*<div className="abi-method-args-form-title">Arguments</div>*/}
+                                                    <div className="abi-method-args-form-title">Arguments</div>
                                                     {args.map((arg) => {
                                                         return <div className="abi-method-arg" key={arg.name}>
                                                             <FormLabel sx={{marginLeft: '5px', fontSize: '13px', fontWeight: 'bold', color: theme.palette.grey[600]}}>{`${arg.name} (${arg.type.toString()})`}</FormLabel>
