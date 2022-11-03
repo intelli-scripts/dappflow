@@ -90,9 +90,7 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
     const {status, versionsCheck, genesis, health} = node;
     const kmd = useSelector((state: RootState) => state.kmd);
     const {mnemonics} = kmd;
-    const accounts = mnemonics.map((mnemonic) => {
-        return mnemonicToSecretKey(mnemonic);
-    })
+
 
     const clearState = () => {
         setState({ ...initialState });
@@ -113,11 +111,14 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
     useEffect(() => {
         const isSandbox = new CoreNode(status, versionsCheck, genesis, health).isSandbox();
         if (isSandbox) {
-            if (accounts.length > 0) {
+            if (mnemonics.length > 0) {
+                const accounts = mnemonics.map((mnemonic) => {
+                    return mnemonicToSecretKey(mnemonic);
+                })
                 setState(prevState => ({...prevState, signer: accounts[0].addr}));
             }
         }
-    }, [show, status, versionsCheck, genesis, health, accounts]);
+    }, [show, status, versionsCheck, genesis, health]);
 
 
     function onClose(ev) {
@@ -146,7 +147,7 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
         try {
             const abiMethodExecutorInstance = new ABIMethodExecutorCls(method);
             const unsignedTxns = await abiMethodExecutorInstance.getUnsignedTxns(Number(appId), signer, executorArgs);
-            const signedTxns = await abiMethodExecutorInstance.signMethodTxns(unsignedTxns, accounts[0]);
+            const signedTxns = await abiMethodExecutorInstance.signMethodTxns(unsignedTxns, mnemonicToSecretKey(mnemonics[0]));
             await abiMethodExecutorInstance.execute(signedTxns);
         }
         catch (e: any) {
