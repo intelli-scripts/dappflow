@@ -27,3 +27,5 @@ export enum NETWORKS {
     MAINNET = 'mainnet',
     SANDBOX = 'sandbox'
 }
+
+export const BLOCK_TIME = 3.6;
