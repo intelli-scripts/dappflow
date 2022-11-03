@@ -6,7 +6,7 @@ import {
     abiTypeIsTransaction,
     AtomicTransactionComposer, TransactionWithSigner
 } from "algosdk";
-import {ABI_METHOD_EXECUTOR_SUPPORTED_TXN_TYPES} from "../types";
+import {A_ABI_METHOD_EXECUTOR_ARG, ABI_METHOD_EXECUTOR_SUPPORTED_TXN_TYPES} from "../types";
 import {TransactionClient} from "../../core-sdk/clients/transactionClient";
 import dappflow from "../../../utils/dappflow";
 
@@ -23,7 +23,7 @@ export default class ABIMethodExecutor {
 
     canExecute(): boolean {
         if (this.isGroup()) {
-            return false
+            return false;
         }
 
         let supported = true;
@@ -58,10 +58,15 @@ export default class ABIMethodExecutor {
         return txnTypes;
     }
 
-    parseArgumentValue(val: any, dataType: string) {
+    parseArgumentValue(arg: A_ABI_METHOD_EXECUTOR_ARG): any {
+        const dataType = arg.type.toString();
+        const val = arg.value;
+
         switch (dataType) {
             case "uint64":
             case "byte":
+            case "asset":
+            case "application":
                 return BigInt(val);
             case "bool":
                 return Boolean(val);
@@ -70,7 +75,7 @@ export default class ABIMethodExecutor {
         }
     }
 
-    async getUnsignedTxns(appId: number, from: string, args: any[] = []): Promise<TransactionWithSigner[]> {
+    async getUnsignedTxns(appId: number, from: string, args: A_ABI_METHOD_EXECUTOR_ARG[] = []): Promise<TransactionWithSigner[]> {
         const atc = new AtomicTransactionComposer();
 
         const sp = await new TransactionClient(dappflow.network).getSuggestedParams();
@@ -83,10 +88,7 @@ export default class ABIMethodExecutor {
         }
 
         const methodArgs = args.map((arg) =>
-                this.parseArgumentValue(
-                    arg.value,
-                    arg.type
-                )
+                this.parseArgumentValue(arg)
             ).filter((value) => value !== undefined && value !== "" && value !== null);
 
         atc.addMethodCall({
@@ -95,7 +97,7 @@ export default class ABIMethodExecutor {
             ...appCallParams
         });
 
-        const unsignedTxns = atc.buildGroup();
+        const unsignedTxns= atc.buildGroup();
         return unsignedTxns;
     }
 }

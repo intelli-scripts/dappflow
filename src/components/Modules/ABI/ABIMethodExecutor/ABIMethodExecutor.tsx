@@ -25,6 +25,7 @@ import {ellipseString} from "../../../../packages/core-sdk/utils";
 import {showSnack} from "../../../../redux/common/actions/snackbar";
 import {handleException} from "../../../../redux/common/actions/exception";
 import ABIMethodExecutorCls from "../../../../packages/abi/classes/ABIMethodExecutor";
+import {A_ABI_METHOD_EXECUTOR_ARG} from "../../../../packages/abi/types";
 
 
 const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
@@ -58,19 +59,21 @@ const defaultProps: ABIMethodExecutorProps = {
 
 interface ABIMethodExecutorState{
     appId: number,
-    signer: string
+    signer: string,
+    executorArgs: A_ABI_METHOD_EXECUTOR_ARG[]
 }
 
 const initialState: ABIMethodExecutorState = {
     appId: 0,
-    signer: ''
+    signer: '',
+    executorArgs: []
 };
 
 function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.method, handleClose}: ABIMethodExecutorProps): JSX.Element {
 
     const dispatch = useDispatch();
     const [
-        {appId, signer},
+        {appId, signer, executorArgs},
         setState
     ] = useState({
         ...initialState,
@@ -80,6 +83,9 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
 
     const abiMethodInstance = new ABIMethod(method);
     const args = abiMethodInstance.args;
+
+
+
     const node = useSelector((state: RootState) => state.node);
     const {status, versionsCheck, genesis, health} = node;
     const kmd = useSelector((state: RootState) => state.kmd);
@@ -87,6 +93,18 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
     const accounts = mnemonics.map((mnemonic) => {
         return mnemonicToSecretKey(mnemonic);
     })
+
+    useEffect(() => {
+        const processedArgs: A_ABI_METHOD_EXECUTOR_ARG[] = [];
+        args.forEach((arg) => {
+            processedArgs.push({
+                ...arg,
+                value: ''
+            });
+            setState(prevState => ({...prevState, executorArgs: processedArgs}));
+        });
+    }, []);
+
 
     useEffect(() => {
         const isSandbox = new CoreNode(status, versionsCheck, genesis, health).isSandbox();
@@ -122,7 +140,7 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
 
         try {
             const abiMethodExecutorInstance = new ABIMethodExecutorCls(method);
-            const unsignedTxns = await abiMethodExecutorInstance.getUnsignedTxns(Number(appId), signer);
+            const unsignedTxns = await abiMethodExecutorInstance.getUnsignedTxns(Number(appId), signer, executorArgs);
             const signedTxn = unsignedTxns[0].txn.signTxn(accounts[0].sk);
             console.log(signedTxn);
         }
@@ -183,13 +201,20 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
                                             <div className="abi-method-args-form-wrapper">
                                                 <div className="abi-method-args-form-container">
                                                     <div className="abi-method-args-form-title">Arguments</div>
-                                                    {args.map((arg) => {
+                                                    {executorArgs.map((arg, index) => {
                                                         return <div className="abi-method-arg" key={arg.name}>
                                                             <FormLabel sx={{marginLeft: '5px', fontSize: '13px', fontWeight: 'bold', color: theme.palette.grey[600]}}>{`${arg.name} (${arg.type.toString()})`}</FormLabel>
                                                             <ShadedInput
                                                                 placeholder={arg.type.toString()}
+                                                                value={arg.value}
                                                                 onChange={(ev) => {
+                                                                    const processedArgs = executorArgs;
+                                                                    processedArgs[index] = {
+                                                                        ...arg,
+                                                                        value: ev.target.value
+                                                                    };
 
+                                                                    setState(prevState => ({...prevState, executorArgs: processedArgs}));
                                                                 }}
                                                                 fullWidth/>
                                                         </div>
