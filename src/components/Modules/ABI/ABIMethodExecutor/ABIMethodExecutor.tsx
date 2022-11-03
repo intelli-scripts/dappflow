@@ -1,6 +1,10 @@
 import './ABIMethodExecutor.scss';
 import React, {useEffect, useState} from "react";
-import {ABIMethod, ABIMethodParams, mnemonicToSecretKey} from "algosdk";
+import {
+    ABIMethod,
+    ABIMethodParams,
+    mnemonicToSecretKey
+} from "algosdk";
 import {
     Button,
     Dialog,
@@ -13,11 +17,14 @@ import {
 import {CancelOutlined} from "@mui/icons-material";
 import OfflineBoltIcon from '@mui/icons-material/OfflineBolt';
 import {theme} from "../../../../theme";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../redux/store";
 import ABIConfig from "../../../../packages/abi/classes/ABIConfig";
 import {CoreNode} from "../../../../packages/core-sdk/classes/core/CoreNode";
 import {ellipseString} from "../../../../packages/core-sdk/utils";
+import {showSnack} from "../../../../redux/common/actions/snackbar";
+import {handleException} from "../../../../redux/common/actions/exception";
+import ABIMethodExecutorCls from "../../../../packages/abi/classes/ABIMethodExecutor";
 
 
 const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
@@ -61,6 +68,7 @@ const initialState: ABIMethodExecutorState = {
 
 function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.method, handleClose}: ABIMethodExecutorProps): JSX.Element {
 
+    const dispatch = useDispatch();
     const [
         {appId, signer},
         setState
@@ -94,6 +102,33 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
         handleClose();
         ev.preventDefault();
         ev.stopPropagation();
+    }
+
+    async function execute() {
+        if (!appId) {
+            dispatch(showSnack({
+                severity: 'error',
+                message: 'Invalid Application ID.'
+            }));
+            return;
+        }
+        if (!signer) {
+            dispatch(showSnack({
+                severity: 'error',
+                message: 'Invalid Signer.'
+            }));
+            return;
+        }
+
+        try {
+            const abiMethodExecutorInstance = new ABIMethodExecutorCls(method);
+            const unsignedTxns = await abiMethodExecutorInstance.getUnsignedTxns(Number(appId), signer);
+            const signedTxn = unsignedTxns[0].txn.signTxn(accounts[0].sk);
+            console.log(signedTxn);
+        }
+        catch (e: any) {
+            dispatch(handleException(e));
+        }
     }
 
     return (<div className={"abi-method-executor-wrapper"}>
@@ -170,6 +205,7 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
                                                             startIcon={<OfflineBoltIcon></OfflineBoltIcon>}
                                                             variant={"contained"}
                                                             className="black-button"
+                                                            onClick={execute}
                                                         >Execute</Button>
                                                     </div>
                                                 </div>

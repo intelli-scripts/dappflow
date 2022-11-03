@@ -1,5 +1,14 @@
-import {ABIArgumentType, ABIMethod, ABIMethodParams, ABITransactionType, abiTypeIsTransaction} from "algosdk";
+import {
+    ABIArgumentType,
+    ABIMethod,
+    ABIMethodParams,
+    ABITransactionType,
+    abiTypeIsTransaction,
+    AtomicTransactionComposer, TransactionWithSigner
+} from "algosdk";
 import {ABI_METHOD_EXECUTOR_SUPPORTED_TXN_TYPES} from "../types";
+import {TransactionClient} from "../../core-sdk/clients/transactionClient";
+import dappflow from "../../../utils/dappflow";
 
 export default class ABIMethodExecutor {
     method: ABIMethodParams
@@ -49,4 +58,44 @@ export default class ABIMethodExecutor {
         return txnTypes;
     }
 
+    parseArgumentValue(val: any, dataType: string) {
+        switch (dataType) {
+            case "uint64":
+            case "byte":
+                return BigInt(val);
+            case "bool":
+                return Boolean(val);
+            default:
+                return val;
+        }
+    }
+
+    async getUnsignedTxns(appId: number, from: string, args: any[] = []): Promise<TransactionWithSigner[]> {
+        const atc = new AtomicTransactionComposer();
+
+        const sp = await new TransactionClient(dappflow.network).getSuggestedParams();
+
+        const appCallParams = {
+            appID: appId,
+            sender: from,
+            suggestedParams:sp,
+            signer: undefined
+        }
+
+        const methodArgs = args.map((arg) =>
+                this.parseArgumentValue(
+                    arg.value,
+                    arg.type
+                )
+            ).filter((value) => value !== undefined && value !== "" && value !== null);
+
+        atc.addMethodCall({
+            method: new ABIMethod(this.method),
+            methodArgs: methodArgs,
+            ...appCallParams
+        });
+
+        const unsignedTxns = atc.buildGroup();
+        return unsignedTxns;
+    }
 }
