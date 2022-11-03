@@ -3,12 +3,13 @@ import {
     ABIMethod,
     ABIMethodParams,
     ABITransactionType,
-    abiTypeIsTransaction,
+    abiTypeIsTransaction, Account,
     AtomicTransactionComposer, TransactionWithSigner
 } from "algosdk";
 import {A_ABI_METHOD_EXECUTOR_ARG, ABI_METHOD_EXECUTOR_SUPPORTED_TXN_TYPES} from "../types";
 import {TransactionClient} from "../../core-sdk/clients/transactionClient";
 import dappflow from "../../../utils/dappflow";
+import {WalletSigner} from "../../signers";
 
 export default class ABIMethodExecutor {
     method: ABIMethodParams
@@ -99,5 +100,21 @@ export default class ABIMethodExecutor {
 
         const unsignedTxns= atc.buildGroup();
         return unsignedTxns;
+    }
+
+    async signMethodTxns(unsignedTxns: TransactionWithSigner[], account: Account): Promise<Uint8Array[]> {
+        const signer = new WalletSigner(account);
+        const txns = [];
+        unsignedTxns.forEach((unsignedTxn) => {
+            txns.push(unsignedTxn.txn);
+        });
+        const signedTxns = signer.signGroupTxns(txns);
+        return signedTxns
+    }
+
+    async execute(signedTxns: Uint8Array[]) {
+        const txnClient = new TransactionClient(dappflow.network);
+        const resp = await txnClient.send(signedTxns);
+        console.log(resp);
     }
 }

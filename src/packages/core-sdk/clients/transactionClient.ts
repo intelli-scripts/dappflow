@@ -39,4 +39,8 @@ export class TransactionClient {
         const sp = await this.client.getTransactionParams().do();
         return sp;
     }
+
+    async send(txns: Uint8Array | Uint8Array[]): Promise<any> {
+        return await this.client.sendRawTransaction(txns).do();
+    }
 }

@@ -58,13 +58,13 @@ const defaultProps: ABIMethodExecutorProps = {
 };
 
 interface ABIMethodExecutorState{
-    appId: number,
+    appId: string,
     signer: string,
     executorArgs: A_ABI_METHOD_EXECUTOR_ARG[]
 }
 
 const initialState: ABIMethodExecutorState = {
-    appId: 0,
+    appId: '',
     signer: '',
     executorArgs: []
 };
@@ -94,6 +94,10 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
         return mnemonicToSecretKey(mnemonic);
     })
 
+    const clearState = () => {
+        setState({ ...initialState });
+    };
+
     useEffect(() => {
         const processedArgs: A_ABI_METHOD_EXECUTOR_ARG[] = [];
         args.forEach((arg) => {
@@ -103,7 +107,7 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
             });
             setState(prevState => ({...prevState, executorArgs: processedArgs}));
         });
-    }, []);
+    }, [show]);
 
 
     useEffect(() => {
@@ -118,6 +122,7 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
 
     function onClose(ev) {
         handleClose();
+        clearState();
         ev.preventDefault();
         ev.stopPropagation();
     }
@@ -141,8 +146,8 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
         try {
             const abiMethodExecutorInstance = new ABIMethodExecutorCls(method);
             const unsignedTxns = await abiMethodExecutorInstance.getUnsignedTxns(Number(appId), signer, executorArgs);
-            const signedTxn = unsignedTxns[0].txn.signTxn(accounts[0].sk);
-            console.log(signedTxn);
+            const signedTxns = await abiMethodExecutorInstance.signMethodTxns(unsignedTxns, accounts[0]);
+            await abiMethodExecutorInstance.execute(signedTxns);
         }
         catch (e: any) {
             dispatch(handleException(e));
