@@ -121,6 +121,20 @@ export function getNodes(): NodeConnectionParams[] {
                 port: '',
                 token: '',
             }
+        },
+        {
+            id: 'algoexplorer_betanet',
+            label: 'AlgoExplorer betanet',
+            algod: {
+                url: 'https://node.betanet.algoexplorerapi.io',
+                port: '',
+                token: '',
+            },
+            indexer: {
+                url: 'https://algoindexer.betanet.algoexplorerapi.io',
+                port: '',
+                token: '',
+            }
         }];
 }
 
