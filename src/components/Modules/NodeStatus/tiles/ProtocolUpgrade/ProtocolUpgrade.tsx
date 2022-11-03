@@ -8,6 +8,7 @@ import {RootState} from "../../../../../redux/store";
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import {CoreNode} from "../../../../../packages/core-sdk/classes/core/CoreNode";
 import LinkToBlock from "../../../Explorer/Common/Links/LinkToBlock";
+import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
 
 
 function ProtocolUpgrade(): JSX.Element {
@@ -39,7 +40,7 @@ function ProtocolUpgrade(): JSX.Element {
                                     <ErrorOutlineIcon fontSize={"large"} color={"warning"}></ErrorOutlineIcon>
                                     <span>Protocol Upgrade planned</span>
                                 </div> : <div className="tile-status">
-                                    <ErrorOutlineIcon fontSize={"large"} color={"warning"}></ErrorOutlineIcon>
+                                    <CheckCircleOutlinedIcon fontSize={"large"} color={"primary"}></CheckCircleOutlinedIcon>
                                     <span>No protocol upgrade is planned</span>
                                 </div>}
 
