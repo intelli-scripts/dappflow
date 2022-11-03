@@ -7,6 +7,7 @@ import IndexerStatus from "./tiles/IndexerVersion/IndexerStatus";
 import NetworkDetails from "./tiles/NetworkDetails/NetworkDetails";
 import {loadNodeDetails} from "../../../redux/network/actions/node";
 import {useDispatch} from "react-redux";
+import ProtocolUpgrade from "./tiles/ProtocolUpgrade/ProtocolUpgrade";
 
 
 function NodeStatus(): JSX.Element {
@@ -31,6 +32,9 @@ function NodeStatus(): JSX.Element {
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <ConsensusVersion></ConsensusVersion>
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                <ProtocolUpgrade></ProtocolUpgrade>
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <IndexerStatus></IndexerStatus>

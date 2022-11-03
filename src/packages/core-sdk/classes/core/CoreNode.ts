@@ -6,8 +6,9 @@ import {
     REACT_APP_TESTNET_HASH,
     REACT_APP_BETA_CONSENSUS_VERSION,
     REACT_APP_MASTER_CONSENSUS_VERSION,
-    REACT_APP_NIGHTLY_CONSENSUS_VERSION
+    REACT_APP_NIGHTLY_CONSENSUS_VERSION, REACT_APP_BETANET_HASH
 } from "../../../../env";
+import {BLOCK_TIME} from "../../constants";
 
 export class CoreNode {
     private status: A_Status;
@@ -24,6 +25,10 @@ export class CoreNode {
     
     isSandbox(): boolean {
         return this.getGenesisId() === REACT_APP_SANDNET_GENESIS_ID;
+    }
+
+    isBetanet(): boolean {
+        return this.getGenesisHash() === REACT_APP_BETANET_HASH;
     }
 
     isTestnet(): boolean {
@@ -45,6 +50,10 @@ export class CoreNode {
     getDispenserLinks(): string[] {
         const links: string[] = [];
 
+        if (this.isBetanet()) {
+            links.push('https://betanet.algoexplorer.io/dispenser');
+            links.push('https://bank.betanet.algodev.network/');
+        }
         if (this.isTestnet()) {
             links.push('https://testnet.algoexplorer.io/dispenser');
             links.push('https://bank.testnet.algorand.network');
@@ -66,6 +75,9 @@ export class CoreNode {
     }
 
     getLatestConsensusVersion(): string {
+        if (this.isBetanet()) {
+            return REACT_APP_STABLE_CONSENSUS_VERSION;
+        }
         if (this.isTestnet()) {
             return REACT_APP_STABLE_CONSENSUS_VERSION;
         }
@@ -141,5 +153,21 @@ export class CoreNode {
 
     hasIndexerCaughtUp(): boolean {
         return this.getIndexerBehindBlocks() <= 50;
+    }
+
+    getProtocolUpgradeBlock(): number {
+        return this.status["next-version-round"];
+    }
+
+    getProtocolUpgradeRemainingBlocks(): number {
+        return this.getProtocolUpgradeBlock() - this.status["last-round"];
+    }
+
+    hasProtocolUpgrade(): boolean {
+        return this.getProtocolUpgradeRemainingBlocks() > 100;
+    }
+
+    getProtocolUpgradeRemainingSeconds(): number {
+        return this.getProtocolUpgradeRemainingBlocks() * BLOCK_TIME * 1000;
     }
 }
