@@ -95,6 +95,20 @@ export function getNodes(): NodeConnectionParams[] {
             }
         },
         {
+            id: 'algonode_betanet',
+            label: 'Algonode betanet',
+            algod: {
+                url: 'https://betanet-api.algonode.cloud',
+                port: '',
+                token: '',
+            },
+            indexer: {
+                url: 'https://betanet-idx.algonode.cloud',
+                port: '',
+                token: '',
+            }
+        },
+        {
             id: 'algoexplorer_testnet',
             label: 'AlgoExplorer testnet',
             algod: {
