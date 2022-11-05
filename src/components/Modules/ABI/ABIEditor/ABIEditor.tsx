@@ -8,28 +8,32 @@ import ABINetworks from "../ABINetworks/ABINetworks";
 import {ABIContract, ABIContractParams} from "algosdk";
 import ABIConfig from "../ABIConfig/ABIConfig";
 import SettingsIcon from '@mui/icons-material/Settings';
+import CreateApp from "../../AppManager/CreateApp/CreateApp";
 
 type ABIEditorProps = {
     abi: ABIContractParams,
     hideNetworks?: boolean,
-    supportExecutor?: boolean
+    supportExecutor?: boolean,
+    supportCreateApp?: boolean
 };
 
 interface ABIEditorState{
     showConfig: boolean,
+    showCreateApp: boolean,
 }
 
 const initialState: ABIEditorState = {
-    showConfig: false
+    showConfig: false,
+    showCreateApp: false
 };
 
-function ABIEditor({abi = {methods: [], name: ""}, hideNetworks = false, supportExecutor = false}: ABIEditorProps): JSX.Element {
+function ABIEditor({abi = {methods: [], name: ""}, hideNetworks = false, supportExecutor = false, supportCreateApp = false}: ABIEditorProps): JSX.Element {
 
     const abiInstance = new ABIContract(abi);
     const networks = abiInstance.networks;
 
     const [
-        {showConfig},
+        {showConfig, showCreateApp},
         setState
     ] = useState(initialState);
 
@@ -50,7 +54,7 @@ function ABIEditor({abi = {methods: [], name: ""}, hideNetworks = false, support
                             <JsonViewer obj={abi} variant="outlined" title="ABI JSON" name="ABI JSON"></JsonViewer>
                             {supportExecutor ? <div style={{marginLeft: '10px'}}>
                                 <Button color={"primary"}
-                                        endIcon={<SettingsIcon fontSize={"small"}></SettingsIcon>}
+                                        startIcon={<SettingsIcon fontSize={"small"}></SettingsIcon>}
                                         variant={"outlined"}
                                         size={"small"}
                                         onClick={() => {
@@ -59,6 +63,18 @@ function ABIEditor({abi = {methods: [], name: ""}, hideNetworks = false, support
                                 >Config</Button>
                                 <ABIConfig show={showConfig} handleClose={() => {setState(prevState => ({...prevState, showConfig: false}));}}></ABIConfig>
                             </div> : ''}
+
+                            {supportCreateApp ? <div style={{marginLeft: '10px'}}>
+                                <Button color={"primary"}
+                                        variant={"outlined"}
+                                        size={"small"}
+                                        onClick={() => {
+                                            setState(prevState => ({...prevState, showCreateApp: true}));
+                                        }}
+                                >Create App</Button>
+                                <CreateApp show={showCreateApp} handleClose={() => {setState(prevState => ({...prevState, showCreateApp: false}));}}></CreateApp>
+                            </div> : ''}
+
                         </div>
                     </Box>
                     <div className="abi-body">

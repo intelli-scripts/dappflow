@@ -6,6 +6,7 @@ import {
 import {Network} from "../network";
 import axios from 'axios';
 import {A_TransactionsResponse} from "./transactionClient";
+import {CompileResponse} from "algosdk/dist/types/src/client/v2/algod/models/types";
 
 export type A_ApplicationTransactionsResponse = A_TransactionsResponse;
 export type A_ApplicationsResponse = {
@@ -64,5 +65,11 @@ export class ApplicationClient{
                 'x-algo-api-token': this.network.getAlgodToken()
             }
         });
+    }
+
+    async compileProgram(programSource: string): Promise<CompileResponse> {
+        const encoder = new TextEncoder();
+        const programBytes = encoder.encode(programSource);
+        return  await this.client.compile(programBytes).do();
     }
 }

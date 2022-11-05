@@ -46,7 +46,7 @@ function ABIStudio(): JSX.Element {
                     setState(prevState => ({...prevState, abi, imported: true}));
                     localStorage.setItem('abi', JSON.stringify(abi));
                 }}></ABIActions>
-                {imported ? <ABIEditor abi={abi} supportExecutor={true}></ABIEditor> : ''}
+                {imported ? <ABIEditor abi={abi} supportExecutor={true} supportCreateApp={true}></ABIEditor> : ''}
             </div>
 
         </div>
