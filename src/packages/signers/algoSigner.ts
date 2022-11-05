@@ -75,7 +75,7 @@ export class BrowserAlgoSigner implements Signer{
             if (this.isNetworkSupported(name)) {
                 const accounts: SignerAccount[] = [];
                 // @ts-ignore
-                const connection = await AlgoSigner.connect();
+                await AlgoSigner.connect();
                 // @ts-ignore
                 const wallets = await AlgoSigner.accounts({
                     ledger: this.getAlgoSignerNet(name)

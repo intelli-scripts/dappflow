@@ -7,7 +7,6 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../../../../redux/store";
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import {CoreNode} from "../../../../../packages/core-sdk/classes/core/CoreNode";
-import LinkToBlock from "../../../Explorer/Common/Links/LinkToBlock";
 import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
 
 
@@ -48,13 +47,13 @@ function ProtocolUpgrade(): JSX.Element {
                                     <div className="tile-detail">
                                         <div className="key">Upgrade round : </div>
                                         <div className="value">
-                                            <LinkToBlock id={coreNodeInstance.getProtocolUpgradeBlock()}></LinkToBlock>
+                                            {coreNodeInstance.getProtocolUpgradeBlock()}
                                         </div>
                                     </div>
                                     <div className="tile-detail">
                                         <div className="key">current round : </div>
                                         <div className="value">
-                                            <LinkToBlock id={health.round}></LinkToBlock>
+                                            {health.round}
                                         </div>
                                     </div>
                                     <div className="tile-detail">
