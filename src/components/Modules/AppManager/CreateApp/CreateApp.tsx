@@ -8,10 +8,10 @@ import {
     DialogTitle, FormLabel, Grid,
     IconButton,
     InputBase,
-    InputBaseProps,
-    styled, TextField, Tooltip
+    InputBaseProps, MenuItem, Select,
+    styled
 } from "@mui/material";
-import {CancelOutlined, CloudUpload, CloudUploadOutlined, FileUploadOutlined} from "@mui/icons-material";
+import {CancelOutlined, FileUploadOutlined} from "@mui/icons-material";
 import {theme} from "../../../../theme";
 import {useDispatch} from "react-redux";
 import {getFileContent} from "../../../../packages/core-sdk/utils/fileUtils";
@@ -19,8 +19,9 @@ import {hideLoader, showLoader} from "../../../../redux/common/actions/loader";
 import {handleException} from "../../../../redux/common/actions/exception";
 import {ApplicationClient} from "../../../../packages/core-sdk/clients/applicationClient";
 import dappflow from "../../../../utils/dappflow";
-import {ApplicationParams, CompileResponse} from "algosdk/dist/types/src/client/v2/algod/models/types";
-import {TransactionApplication} from "algosdk/dist/types/src/client/v2/indexer/models/types";
+import {CompileResponse} from "algosdk/dist/types/src/client/v2/algod/models/types";
+import {ABIContract, ABIContractParams, getMethodByName} from "algosdk";
+import {ABIMethodParams} from "algosdk/dist/types/src/abi/method";
 
 
 const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
@@ -42,7 +43,8 @@ const formLabelStyle = {
 
 interface CreateAppProps{
     show: boolean,
-    handleClose?: Function
+    handleClose?: Function,
+    abi?: ABIContractParams,
 }
 
 const defaultProps: CreateAppProps = {
@@ -56,7 +58,10 @@ interface CreateAppState{
         clearProgram: string,
         globalBytes: string,
         localBytes: string,
-    }
+        globalInts: string,
+        localInts: string,
+    },
+    abiMethod: ABIMethodParams
 }
 
 const initialState: CreateAppState = {
@@ -65,17 +70,28 @@ const initialState: CreateAppState = {
         approvalProgram: '',
         clearProgram: '',
         globalBytes: '',
-        localBytes: ''
+        localBytes: '',
+        globalInts: '',
+        localInts: ''
     },
+    abiMethod: {
+        name: '',
+        desc: '',
+        args: [],
+        returns: {
+            type: '',
+            desc: ''
+        }
+    }
 };
 
 
-function CreateApp({show = defaultProps.show, handleClose}: CreateAppProps): JSX.Element {
+function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], name: ""}}: CreateAppProps): JSX.Element {
 
     const dispatch = useDispatch();
 
     const [
-        {params},
+        {params, abiMethod},
         setState
     ] = useState({
         ...initialState
@@ -120,7 +136,7 @@ function CreateApp({show = defaultProps.show, handleClose}: CreateAppProps): JSX
             {show ? <Dialog
                 onClose={onClose}
                 fullWidth
-                maxWidth={"xs"}
+                maxWidth={"sm"}
                 open={show}
             >
                 <DialogTitle >
@@ -142,7 +158,7 @@ function CreateApp({show = defaultProps.show, handleClose}: CreateAppProps): JSX
                             <div>
 
                                 <Grid container spacing={2}>
-                                    <Grid item xs={12} sm={12} md={12} xl={12}>
+                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                                         <FormLabel sx={formLabelStyle}>Global bytes</FormLabel>
                                         <ShadedInput
                                             value={params.globalBytes}
@@ -156,7 +172,21 @@ function CreateApp({show = defaultProps.show, handleClose}: CreateAppProps): JSX
                                             }
                                             fullWidth/>
                                     </Grid>
-                                    <Grid item xs={12} sm={12} md={12} xl={12}>
+                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                                        <FormLabel sx={formLabelStyle}>Global ints</FormLabel>
+                                        <ShadedInput
+                                            value={params.globalInts}
+                                            placeholder="20"
+                                            onChange={(ev) => {
+                                                setState(prevState => ({...prevState, params: {
+                                                        ...params,
+                                                        globalInts: ev.target.value
+                                                    }}));
+                                            }
+                                            }
+                                            fullWidth/>
+                                    </Grid>
+                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                                         <FormLabel sx={formLabelStyle}>Local bytes</FormLabel>
                                         <ShadedInput
                                             value={params.localBytes}
@@ -170,7 +200,21 @@ function CreateApp({show = defaultProps.show, handleClose}: CreateAppProps): JSX
                                             }
                                             fullWidth/>
                                     </Grid>
-                                    <Grid item xs={12} sm={12} md={12} xl={12}>
+                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                                        <FormLabel sx={formLabelStyle}>Local ints</FormLabel>
+                                        <ShadedInput
+                                            value={params.localInts}
+                                            placeholder="10"
+                                            onChange={(ev) => {
+                                                setState(prevState => ({...prevState, params: {
+                                                        ...params,
+                                                        localInts: ev.target.value
+                                                    }}));
+                                            }
+                                            }
+                                            fullWidth/>
+                                    </Grid>
+                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                                         <FormLabel sx={formLabelStyle}>Approval program</FormLabel>
                                         <div style={{marginTop: '10px'}}>
                                             <Button
@@ -201,7 +245,7 @@ function CreateApp({show = defaultProps.show, handleClose}: CreateAppProps): JSX
                                         </div>
                                     </Grid>
 
-                                    <Grid item xs={12} sm={12} md={12} xl={12}>
+                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                                         <FormLabel sx={formLabelStyle}>Clear program</FormLabel>
                                         <div style={{marginTop: '10px'}}>
                                             <Button
@@ -231,10 +275,34 @@ function CreateApp({show = defaultProps.show, handleClose}: CreateAppProps): JSX
                                         </div>
                                     </Grid>
 
+
+                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                                        <FormLabel sx={formLabelStyle}>ABI Method</FormLabel>
+                                        <div style={{marginTop: '10px'}}>
+
+                                            <Select
+                                                size={"small"}
+                                                value={abiMethod.name}
+                                                onChange={(ev) => {
+                                                    const methodInstance = getMethodByName(new ABIContract(abi).methods, ev.target.value);
+                                                    setState(prevState => ({...prevState, abiMethod: {
+                                                            ...methodInstance.toJSON()
+                                                        }}));
+                                                }}
+                                                fullWidth
+                                                color={"primary"}
+                                            >
+                                                {abi.methods.map((method) => {
+                                                    return <MenuItem value={method.name} key={method.name}>{method.name}</MenuItem>;
+                                                })}
+                                            </Select>
+
+                                        </div>
+                                    </Grid>
+
                                 </Grid>
                                 <Button
                                     sx={{marginTop: '20px'}}
-                                    fullWidth
                                     size={"large"}
                                     variant={"contained"}
                                     className="black-button"

@@ -76,8 +76,7 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
         {appId, signer, executorArgs},
         setState
     ] = useState({
-        ...initialState,
-        appId: new ABIConfig().getAppId()
+        ...initialState
     });
 
 
@@ -103,7 +102,7 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
                 ...arg,
                 value: ''
             });
-            setState(prevState => ({...prevState, executorArgs: processedArgs}));
+            setState(prevState => ({...prevState, executorArgs: processedArgs, appId: new ABIConfig().getAppId()}));
         });
     }, [show]);
 

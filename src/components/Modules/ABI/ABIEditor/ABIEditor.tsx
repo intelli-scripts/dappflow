@@ -72,7 +72,7 @@ function ABIEditor({abi = {methods: [], name: ""}, hideNetworks = false, support
                                             setState(prevState => ({...prevState, showCreateApp: true}));
                                         }}
                                 >Create App</Button>
-                                <CreateApp show={showCreateApp} handleClose={() => {setState(prevState => ({...prevState, showCreateApp: false}));}}></CreateApp>
+                                <CreateApp abi={abi} show={showCreateApp} handleClose={() => {setState(prevState => ({...prevState, showCreateApp: false}));}}></CreateApp>
                             </div> : ''}
 
                         </div>
