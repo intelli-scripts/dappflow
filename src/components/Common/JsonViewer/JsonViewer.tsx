@@ -1,10 +1,10 @@
 import './JsonViewer.scss';
 import React, {useState} from "react";
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton} from "@mui/material";
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
 import ReactJson from 'react-json-view'
-import {CancelOutlined} from "@mui/icons-material";
 import {copyContent, exportData} from "../../../utils/common";
 import {useDispatch} from "react-redux";
+import CloseIcon from "@mui/icons-material/Close";
 
 interface JsonViewerState{
     show: boolean,
@@ -70,9 +70,7 @@ function JsonViewer(props): JSX.Element {
                             <div style={{fontWeight: "bold", fontSize: 18}}>{title}</div>
                         </div>
                         <div>
-                            <IconButton color="warning" onClick={handleClose}>
-                                <CancelOutlined />
-                            </IconButton>
+                            <CloseIcon className="modal-close-button" onClick={handleClose}/>
                         </div>
 
                     </div>

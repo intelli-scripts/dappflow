@@ -5,10 +5,8 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
-    DialogTitle, FormLabel,
-    IconButton, InputBase, InputBaseProps, styled, Tab, Tabs, Typography
+    DialogTitle, FormLabel, InputBase, InputBaseProps, styled, Tab, Tabs, Typography
 } from "@mui/material";
-import {CancelOutlined} from "@mui/icons-material";
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import {useDispatch} from "react-redux";
 import {showSnack} from "../../../../redux/common/actions/snackbar";
@@ -17,6 +15,7 @@ import {handleException} from "../../../../redux/common/actions/exception";
 import {hideLoader, showLoader} from "../../../../redux/common/actions/loader";
 import {ABIContract} from "algosdk";
 import {theme} from "../../../../theme";
+import CloseIcon from "@mui/icons-material/Close";
 
 
 export const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
@@ -72,9 +71,7 @@ function ImportABI(props): JSX.Element {
                     <div>
                         <div style={{fontWeight: "bold", fontSize: 18}}>Import ABI</div>
                     </div>
-                    <IconButton color="warning" onClick={handleClose}>
-                        <CancelOutlined />
-                    </IconButton>
+                    <CloseIcon className="modal-close-button" onClick={handleClose}/>
                 </div>
             </DialogTitle>
             <DialogContent>

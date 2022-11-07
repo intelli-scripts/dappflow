@@ -6,12 +6,11 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle, FormLabel, Grid,
-    IconButton,
     InputBase,
     InputBaseProps, MenuItem, Select,
     styled
 } from "@mui/material";
-import {CancelOutlined, FileUploadOutlined} from "@mui/icons-material";
+import {FileUploadOutlined} from "@mui/icons-material";
 import {theme} from "../../../../theme";
 import {useDispatch} from "react-redux";
 import {getFileContent} from "../../../../packages/core-sdk/utils/fileUtils";
@@ -22,6 +21,7 @@ import dappflow from "../../../../utils/dappflow";
 import {CompileResponse} from "algosdk/dist/types/src/client/v2/algod/models/types";
 import {ABIContract, ABIContractParams, getMethodByName} from "algosdk";
 import {ABIMethodParams} from "algosdk/dist/types/src/abi/method";
+import CloseIcon from "@mui/icons-material/Close";
 
 
 const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
@@ -145,9 +145,7 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
                             <div style={{fontWeight: "bold", fontSize: 18}}>Create Application</div>
                         </div>
                         <div>
-                            <IconButton color="warning" onClick={onClose}>
-                                <CancelOutlined />
-                            </IconButton>
+                            <CloseIcon className="modal-close-button" onClick={onClose}/>
                         </div>
 
                     </div>

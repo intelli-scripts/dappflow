@@ -4,14 +4,12 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../redux/store";
 import React, {useState} from "react";
 import {hideSettings} from "../../../redux/settings/actions/settings";
-import {CancelOutlined} from "@mui/icons-material";
 import {
     Button, Chip,
     Dialog,
     DialogActions,
     DialogContent,
     DialogTitle, FormLabel, Grid,
-    IconButton,
     InputBase, InputBaseProps, styled, Typography
 } from "@mui/material";
 import {theme} from "../../../theme";
@@ -22,6 +20,7 @@ import {Network} from "../../../packages/core-sdk/network";
 import {hideLoader, showLoader} from "../../../redux/common/actions/loader";
 import {isBrave} from "../../../packages/core-sdk/utils";
 import {NodeConnectionParams} from "../../../packages/core-sdk/types";
+import CloseIcon from '@mui/icons-material/Close';
 
 const nodeConfig = getNodeConfig();
 
@@ -176,9 +175,7 @@ function Settings(): JSX.Element {
                     <div>
                         <div style={{fontWeight: "bold", fontSize: 18}}>Node Settings</div>
                     </div>
-                    <IconButton color="warning" onClick={handleClose}>
-                        <CancelOutlined />
-                    </IconButton>
+                    <CloseIcon className="modal-close-button" onClick={handleClose}/>
                 </div>
             </DialogTitle>
             <DialogContent>

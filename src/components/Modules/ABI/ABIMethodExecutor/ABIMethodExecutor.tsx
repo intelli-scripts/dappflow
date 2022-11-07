@@ -11,10 +11,8 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle, FormLabel,
-    Grid,
-    IconButton, InputBase, InputBaseProps, styled
+    Grid, InputBase, InputBaseProps, styled
 } from "@mui/material";
-import {CancelOutlined} from "@mui/icons-material";
 import OfflineBoltIcon from '@mui/icons-material/OfflineBolt';
 import {theme} from "../../../../theme";
 import {useDispatch, useSelector} from "react-redux";
@@ -26,6 +24,7 @@ import {showSnack} from "../../../../redux/common/actions/snackbar";
 import {handleException} from "../../../../redux/common/actions/exception";
 import ABIMethodExecutorCls from "../../../../packages/abi/classes/ABIMethodExecutor";
 import {A_ABI_METHOD_EXECUTOR_ARG} from "../../../../packages/abi/types";
+import CloseIcon from "@mui/icons-material/Close";
 
 
 const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
@@ -175,9 +174,7 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
                             <div style={{fontWeight: "bold", fontSize: 18}}>Execute ABI Method</div>
                         </div>
                         <div>
-                            <IconButton color="warning" onClick={onClose}>
-                                <CancelOutlined />
-                            </IconButton>
+                            <CloseIcon className="modal-close-button" onClick={onClose}/>
                         </div>
 
                     </div>

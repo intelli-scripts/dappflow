@@ -1,14 +1,12 @@
 import './KMDConfiguration.scss';
 import {useDispatch} from "react-redux";
 import React, {useState} from "react";
-import {CancelOutlined} from "@mui/icons-material";
 import {
     Button,
     Dialog,
     DialogActions,
     DialogContent,
     DialogTitle, FormLabel, Grid,
-    IconButton,
     InputBase, InputBaseProps, styled
 } from "@mui/material";
 import {theme} from "../../../theme";
@@ -19,6 +17,7 @@ import {hideLoader, showLoader} from "../../../redux/common/actions/loader";
 import {isBrave} from "../../../packages/core-sdk/utils";
 import {KMDConnectionParams} from "../../../packages/core-sdk/types";
 import {KmdClient} from "../../../packages/core-sdk/clients/kmdClient";
+import CloseIcon from "@mui/icons-material/Close";
 
 const kmdConfig = getKMDConfig();
 
@@ -136,9 +135,7 @@ function KMDConfiguration(props): JSX.Element {
                     <div>
                         <div style={{fontWeight: "bold", fontSize: 18}}>KMD Configuration</div>
                     </div>
-                    <IconButton color="warning" onClick={handleClose}>
-                        <CancelOutlined />
-                    </IconButton>
+                    <CloseIcon className="modal-close-button" onClick={handleClose}/>
                 </div>
             </DialogTitle>
             <DialogContent>

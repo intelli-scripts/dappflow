@@ -6,12 +6,10 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle, FormLabel,
-    IconButton,
     InputBase,
     InputBaseProps,
     styled
 } from "@mui/material";
-import {CancelOutlined} from "@mui/icons-material";
 import {theme} from "../../../../theme";
 import {useDispatch} from "react-redux";
 import {showSnack} from "../../../../redux/common/actions/snackbar";
@@ -21,6 +19,7 @@ import dappflow from "../../../../utils/dappflow";
 import {handleException} from "../../../../redux/common/actions/exception";
 import {hideLoader, showLoader} from "../../../../redux/common/actions/loader";
 import ABIConfigCls from '../../../../packages/abi/classes/ABIConfig';
+import CloseIcon from "@mui/icons-material/Close";
 
 
 const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
@@ -89,9 +88,7 @@ function ABIConfig({show = defaultProps.show, handleClose}: ABIConfigProps): JSX
                             <div style={{fontWeight: "bold", fontSize: 18}}>ABI Config</div>
                         </div>
                         <div>
-                            <IconButton color="warning" onClick={onClose}>
-                                <CancelOutlined />
-                            </IconButton>
+                            <CloseIcon className="modal-close-button" onClick={onClose}/>
                         </div>
 
                     </div>

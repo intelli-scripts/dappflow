@@ -31,3 +31,9 @@ body {
 * {
   font-family: "Poppins" !important;
 }
+
+.modal-close-button {
+  &:hover {
+    cursor: pointer;
+  }
+}
