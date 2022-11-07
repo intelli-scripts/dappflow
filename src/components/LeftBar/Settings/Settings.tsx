@@ -33,6 +33,12 @@ const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
     };
 });
 
+const formLabelStyle = {
+    marginLeft: '5px',
+    fontSize: '14px',
+    fontWeight: 'bold',
+    color: theme.palette.grey[600]
+};
 
 interface SettingsState{
     algodUrl: string,
@@ -57,7 +63,6 @@ function Settings(): JSX.Element {
     const dispatch = useDispatch();
     const settings = useSelector((state: RootState) => state.settings);
     const {show} = settings;
-    const primaryClr = theme.palette.primary.main;
     const nodes = getNodes();
 
 
@@ -210,7 +215,7 @@ function Settings(): JSX.Element {
                         <div className="settings-body">
                             <Grid container spacing={2}>
                                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                    <FormLabel style={{color: primaryClr}}>Algod url</FormLabel>
+                                    <FormLabel sx={formLabelStyle}>Algod url</FormLabel>
                                     <ShadedInput
                                         placeholder="http://localhost"
                                         value={algodUrl}
@@ -220,7 +225,7 @@ function Settings(): JSX.Element {
                                         fullWidth/>
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                    <FormLabel style={{color: primaryClr}}>Algod port</FormLabel>
+                                    <FormLabel sx={formLabelStyle}>Algod port</FormLabel>
                                     <ShadedInput
                                         placeholder="4001"
                                         value={algodPort}
@@ -230,7 +235,7 @@ function Settings(): JSX.Element {
                                         fullWidth/>
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                    <FormLabel style={{color: primaryClr}}>Algod token</FormLabel>
+                                    <FormLabel sx={formLabelStyle}>Algod token</FormLabel>
                                     <ShadedInput
                                         placeholder="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
                                         value={algodToken}
@@ -245,7 +250,7 @@ function Settings(): JSX.Element {
 
 
                                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                    <FormLabel style={{color: primaryClr}}>Indexer url</FormLabel>
+                                    <FormLabel sx={formLabelStyle}>Indexer url</FormLabel>
                                     <ShadedInput
                                         placeholder="http://localhost"
                                         value={indexerUrl}
@@ -255,7 +260,7 @@ function Settings(): JSX.Element {
                                         fullWidth/>
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                    <FormLabel style={{color: primaryClr}}>Indexer port</FormLabel>
+                                    <FormLabel sx={formLabelStyle}>Indexer port</FormLabel>
                                     <ShadedInput
                                         placeholder="8980"
                                         value={indexerPort}
@@ -265,7 +270,7 @@ function Settings(): JSX.Element {
                                         fullWidth/>
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                    <FormLabel style={{color: primaryClr}}>Indexer token</FormLabel>
+                                    <FormLabel sx={formLabelStyle}>Indexer token</FormLabel>
                                     <ShadedInput
                                         placeholder=""
                                         value={indexerToken}

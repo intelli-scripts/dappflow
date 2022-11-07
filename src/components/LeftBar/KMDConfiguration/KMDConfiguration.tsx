@@ -30,6 +30,12 @@ const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
     };
 });
 
+const formLabelStyle = {
+    marginLeft: '5px',
+    fontSize: '14px',
+    fontWeight: 'bold',
+    color: theme.palette.grey[600]
+};
 
 interface KMDConfigurationState{
     url: string,
@@ -47,9 +53,6 @@ function KMDConfiguration(props): JSX.Element {
 
     const dispatch = useDispatch();
     const show = props.show ? true : false;
-    const primaryClr = theme.palette.primary.main;
-
-
 
     const [
         {url, port, token},
@@ -146,7 +149,7 @@ function KMDConfiguration(props): JSX.Element {
                         <div className="kmd-configuration-body">
                             <Grid container spacing={2}>
                                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                    <FormLabel style={{color: primaryClr}}>KMD url</FormLabel>
+                                    <FormLabel sx={formLabelStyle}>KMD url</FormLabel>
                                     <ShadedInput
                                         placeholder="http://localhost"
                                         value={url}
@@ -156,7 +159,7 @@ function KMDConfiguration(props): JSX.Element {
                                         fullWidth/>
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                    <FormLabel style={{color: primaryClr}}>KMD port</FormLabel>
+                                    <FormLabel sx={formLabelStyle}>KMD port</FormLabel>
                                     <ShadedInput
                                         placeholder="4002"
                                         value={port}
@@ -166,7 +169,7 @@ function KMDConfiguration(props): JSX.Element {
                                         fullWidth/>
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                    <FormLabel style={{color: primaryClr}}>KMD token</FormLabel>
+                                    <FormLabel sx={formLabelStyle}>KMD token</FormLabel>
                                     <ShadedInput
                                         multiline={true}
                                         rows={4}

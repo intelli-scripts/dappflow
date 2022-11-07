@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../redux/store";
 import LoadingTile from "../../Common/LoadingTile/LoadingTile";
-import {Alert, Box, Button, FormLabel, Grid, TextField} from "@mui/material";
+import {Alert, Button, FormLabel, Grid, InputBase, InputBaseProps, styled} from "@mui/material";
 import {CoreNode} from "../../../packages/core-sdk/classes/core/CoreNode";
 import {KmdClient} from "../../../packages/core-sdk/clients/kmdClient";
 import {showSnack} from "../../../redux/common/actions/snackbar";
@@ -16,8 +16,21 @@ import KMDConfiguration from "../../LeftBar/KMDConfiguration/KMDConfiguration";
 import {getKMDConfig} from "../../../utils/nodeConfig";
 import {KMDConnectionParams} from "../../../packages/core-sdk/types";
 import LaunchIcon from '@mui/icons-material/Launch';
-import AlgoIcon from "../Explorer/AlgoIcon/AlgoIcon";
+import {theme} from "../../../theme";
 
+const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
+    return {
+        padding: 5,
+        paddingLeft: 10,
+        marginTop: 5,
+        border: '1px solid ' + theme.palette.grey[200]
+    };
+});
+
+const formLabelStyle = {
+    marginLeft: '5px',
+    color: theme.palette.grey[600]
+};
 
 interface DispenserState{
     address: string,
@@ -146,7 +159,7 @@ function Dispenser(): JSX.Element {
                 <div>
                     {isSandbox ? <Button
                         size="small"
-                        color={"primary"}
+                        color={"warning"}
                         sx={{marginTop: '-5px'}}
                         variant={"outlined"} onClick={() => {
                         setState(prevState => ({...prevState, showKmdConfig: true}));
@@ -167,30 +180,25 @@ function Dispenser(): JSX.Element {
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                 <div>
-                                    <FormLabel>Address</FormLabel>
-                                    <div>
-                                        <TextField
-                                            multiline={true}
-                                            placeholder="L3E67NGZMM5G7PXFV377HJZBJJ335F32GTA77JAIOBXAXPZF2ZRNEPH2MA"
-                                            type={"text"}
-                                            required
-                                            value={address}
-                                            onChange={(ev) => {
-                                                setState(prevState => ({...prevState, address: ev.target.value + ""}));
-                                            }}
-                                            fullWidth
-                                            sx={{marginTop: '10px', marginBottom: '10px', fieldset: {borderRadius: '10px'}}}
-                                            rows={4}
-                                            variant="outlined"
-                                        />
-                                    </div>
+                                    <FormLabel sx={formLabelStyle}>Address</FormLabel>
+                                    <ShadedInput
+                                        multiline={true}
+                                        placeholder="L3E67NGZMM5G7PXFV377HJZBJJ335F32GTA77JAIOBXAXPZF2ZRNEPH2MA"
+                                        type={"text"}
+                                        required
+                                        value={address}
+                                        onChange={(ev) => {
+                                            setState(prevState => ({...prevState, address: ev.target.value + ""}));
+                                        }}
+                                        fullWidth
+                                        sx={{marginTop: '5px', marginBottom: '10px', fieldset: {borderRadius: '10px'}}}
+                                        rows={4}
+                                    />
                                 </div>
                                 <div>
-                                    <FormLabel>Amount</FormLabel>
-                                    <div>
+                                    <FormLabel sx={formLabelStyle}>Amount</FormLabel>
 
-                                    </div>
-                                    <TextField
+                                    <ShadedInput
                                         type={"number"}
                                         required
                                         size={"medium"}
@@ -199,13 +207,7 @@ function Dispenser(): JSX.Element {
                                         onChange={(ev) => {
                                             setState(prevState => ({...prevState, amount: ev.target.value + ""}));
                                         }}
-                                        variant="outlined"
                                         fullWidth
-                                        InputProps={{
-                                            endAdornment: <Box sx={{color: 'grey.500'}}>
-                                                <AlgoIcon></AlgoIcon>
-                                            </Box>
-                                        }}
                                     />
                                 </div>
 
