@@ -13,40 +13,28 @@
     position: relative;
     .footer {
       position: absolute;
-      bottom: 0px;
+      bottom: 0;
       width: 100%;
-      padding: 10px 0px;
-      border-top: 1px solid $color-grey-light;
 
-      .node-wrapper {
-        .node-container {
+      .node {
+        color: $color-dark;
+        .node-url {
           text-align: center;
-          margin-top: 20px;
-          border-top: 1px solid $color-grey-very-light;
-          padding: 15px 0;
-          &:hover {
-            cursor: pointer;
-          }
-          .node {
-            color: $color-dark;
-            .node-url {
-              text-align: center;
-              font-size: 13px;
-              color: $color-dark;
-              svg {
-                margin-right: 5px;
-              }
-            }
+          font-size: 13px;
+          color: $color-dark;
+          svg {
+            margin-right: 5px;
           }
         }
       }
 
-      .connect-wallet-wrapper {
-        .connect-wallet-container {
+      .bottom-menu-item-wrapper {
+        .bottom-menu-item-container {
           text-align: center;
-          border-top: 1px solid $color-grey-very-light;
           padding: 15px 0;
-          margin-bottom: -10px;
+          &:hover {
+            cursor: pointer;
+          }
         }
       }
 

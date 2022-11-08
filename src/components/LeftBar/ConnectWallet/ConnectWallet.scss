@@ -1,0 +1,115 @@
+@import '../../../assets/colors';
+
+.connect-wallet-wrapper {
+  .connect-wallet-container {
+    margin-bottom: 40px;
+    .wallet-connect-home-wrapper {
+      .wallet-connect-home-container {
+        .header {
+          margin-top: 20px;
+          text-align: center;
+          .text {
+            font-size: 18px;
+            font-weight: bold;
+            font-family: PoppinsBold !important;
+            svg {
+              vertical-align: sub;
+              margin-right: 5px;
+            }
+          }
+        }
+        .body {
+          margin-top: 40px;
+          .signer {
+            padding: 20px 50px;
+            img.logo {
+              vertical-align: middle;
+              margin-right: 15px;
+              height: 25px;
+              width: 25px;
+              border-radius: 50%;
+            }
+            .name {
+              vertical-align: sub;
+              font-size: 16px;
+            }
+            svg {
+              float: right;
+            }
+            &:hover {
+              cursor: pointer;
+              background: $color-grey-very-light;
+            }
+          }
+        }
+        .footer {
+          text-align: center;
+          margin-top: 50px;
+          margin-bottom: 20px;
+          padding: 0 25px;
+        }
+      }
+    }
+
+    .accounts-wrapper {
+      .accounts-container {
+        .header {
+          font-size: 20px;
+          text-align: center;
+          .logo {
+            width: 30px;
+            height: 30px;
+            vertical-align: middle;
+            margin-right: 10px;
+          }
+        }
+        .body {
+          margin-top: 40px;
+          img.loading {
+            width: 40%;
+          }
+          .connecting {
+            text-align: center;
+            margin-top: 75px;
+            font-size: 20px;
+            color: #A9A9A9;
+          }
+          .error-message {
+            text-align: center;
+            margin-top: 40px;
+            color: $color-grey-dark;
+            padding: 0 40px;
+            line-height: 1.2;
+            svg {
+              font-size: 50px;
+              margin-bottom: 20px;
+              margin-top: 50px;
+            }
+            img {
+              width: 170px;
+              height: 140px;
+              margin-bottom: 20px;
+            }
+          }
+          .account {
+            font-size: 14px;
+            font-weight: bold;
+            overflow-wrap: anywhere;
+            margin: 15px 40px;
+            background: #D7F7E2;
+            color: $color-dark;
+            padding: 15px;
+            border-radius: 10px;
+            line-height: 1.4;
+            &:hover {
+              background: linear-gradient(249.61deg, #60DD8B -8.07%, #0BB68C 99.24%);
+              cursor: pointer;
+              color: $color-light;
+            }
+          }
+        }
+      }
+    }
+
+  }
+}

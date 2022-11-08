@@ -395,18 +395,4 @@ export type A_Genesis = {
 
 export type A_ABIMethodArgParams = ABIMethodArgParams & {value: string, decodedValue: ABIValue, decoded: boolean}
 
-export interface A_CreateApplicationParams {
-    from: string
-    approvalProgram: Uint8Array
-    clearProgram: Uint8Array
-    localInts: number
-    localBytes: number
-    globalInts: number
-    globalBytes: number
-    onComplete: OnApplicationComplete
-    appArgs?: any[]
-    foreignAccounts?: string[]
-    foreignApps?: number[]
-    foreignAssets?: number[]
-}
 

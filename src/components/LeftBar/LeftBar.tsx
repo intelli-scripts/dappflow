@@ -19,6 +19,8 @@ import ShowerIcon from '@mui/icons-material/Shower';
 import InsertChartIcon from '@mui/icons-material/InsertChart';
 import {CoreNode} from "../../packages/core-sdk/classes/core/CoreNode";
 import {supportSettings} from "../../utils/nodeConfig";
+import {showConnectWallet} from "../../redux/wallet/actions/connectWallet";
+import ConnectWallet from "./ConnectWallet/ConnectWallet";
 
 
 function LeftBar(): JSX.Element {
@@ -92,14 +94,14 @@ function LeftBar(): JSX.Element {
 
 
 
-                  <div className="node-wrapper" style={{backgroundColor: shadedClr1}} onClick={(ev) => {
+                  <div className="bottom-menu-item-wrapper" style={{backgroundColor: shadedClr1}} onClick={(ev) => {
                       if (supportSettings) {
                           dispatch(showSettings());
                           ev.stopPropagation();
                           ev.preventDefault();
                       }
                   }}>
-                      <div className="node-container">
+                      <div className="bottom-menu-item-container">
                           <div className="node">
 
                               <Box className="node-url" sx={{ color: 'grey.700'}}>
@@ -117,15 +119,16 @@ function LeftBar(): JSX.Element {
                       </div>
                   </div>
 
-                  <div className="connect-wallet-wrapper" style={{backgroundColor: shadedClr2}}>
-                      <div className="connect-wallet-container">
+                  <div className="bottom-menu-item-wrapper" style={{backgroundColor: shadedClr2}}>
+                      <div className="bottom-menu-item-container">
                           <Button variant={"outlined"}
                                   size={"small"}
                                   className="black-button"
                                   onClick={() => {
-
+                                      dispatch(showConnectWallet());
                                   }}
                           >Connect wallet</Button>
+                          <ConnectWallet></ConnectWallet>
                       </div>
                   </div>
 
