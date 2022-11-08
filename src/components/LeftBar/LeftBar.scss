@@ -17,21 +17,36 @@
       width: 100%;
       padding: 10px 0px;
       border-top: 1px solid $color-grey-light;
-      .node {
-        margin: 10px 0px;
-        &:hover {
-          cursor: pointer;
-        }
-        .node-url {
+
+      .node-wrapper {
+        .node-container {
           text-align: center;
-          font-size: 13px;
+          margin-top: 20px;
+          border-top: 1px solid $color-grey-very-light;
+          padding: 15px 0;
           &:hover {
             cursor: pointer;
           }
-          svg {
-            margin-right: 5px;
-            vertical-align: sub;
+          .node {
+            color: $color-dark;
+            .node-url {
+              text-align: center;
+              font-size: 13px;
+              color: $color-dark;
+              svg {
+                margin-right: 5px;
+              }
+            }
           }
+        }
+      }
+
+      .connect-wallet-wrapper {
+        .connect-wallet-container {
+          text-align: center;
+          border-top: 1px solid $color-grey-very-light;
+          padding: 15px 0;
+          margin-bottom: -10px;
         }
       }
 

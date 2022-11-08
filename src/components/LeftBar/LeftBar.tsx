@@ -1,7 +1,7 @@
 import './LeftBar.scss';
 import {
     Box,
-    Button, Chip, Tab, Tabs
+    Button, Tab, Tabs
 } from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import React from "react";
@@ -10,15 +10,13 @@ import {showSettings} from "../../redux/settings/actions/settings";
 import Logo from '../../assets/images/logo-black.png';
 import {useLocation, useNavigate} from "react-router-dom";
 import {RootState} from "../../redux/store";
-import {shadedClr, shadedClr1} from "../../utils/common";
+import {shadedClr, shadedClr1, shadedClr2} from "../../utils/common";
 import CodeIcon from '@mui/icons-material/Code';
 import StorageIcon from '@mui/icons-material/Storage';
 import GavelIcon from '@mui/icons-material/Gavel';
 import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
 import ShowerIcon from '@mui/icons-material/Shower';
 import InsertChartIcon from '@mui/icons-material/InsertChart';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import SignalWifiConnectedNoInternet4Icon from '@mui/icons-material/SignalWifiConnectedNoInternet4';
 import {CoreNode} from "../../packages/core-sdk/classes/core/CoreNode";
 import {supportSettings} from "../../utils/nodeConfig";
 
@@ -92,40 +90,45 @@ function LeftBar(): JSX.Element {
 
               <div className="footer">
 
-                  {supportSettings ? <Button variant={"text"}
-                                             size={"large"}
-                                             fullWidth
-                                             startIcon={<SettingsIcon></SettingsIcon>}
-                                             onClick={() => {
-                                                 dispatch(showSettings());
-                                             }}
-                  >Settings</Button> : ''}
 
 
-                  <div className="node" onClick={(ev) => {
+                  <div className="node-wrapper" style={{backgroundColor: shadedClr1}} onClick={(ev) => {
                       if (supportSettings) {
                           dispatch(showSettings());
                           ev.stopPropagation();
                           ev.preventDefault();
                       }
                   }}>
+                      <div className="node-container">
+                          <div className="node">
 
-                      <Box className="node-url" sx={{ color: 'grey.700'}}>
+                              <Box className="node-url" sx={{ color: 'grey.700'}}>
 
-                          <Chip
-                              clickable
-                              variant={"outlined"}
-                              label={<div>
-                              {success ? <span>
-                                  <CheckCircleIcon sx={{fontSize: '15px'}} color={"primary"}></CheckCircleIcon>
-                                  Network : {new CoreNode(node.status, node.versionsCheck, node.genesis, node.health).getGenesisId()}
+                                  <div>
+                                      <SettingsIcon fontSize={"small"} sx={{verticalAlign: 'middle'}} color={success ? 'primary' : 'warning'}></SettingsIcon>
+                                      {success ? <span>
+                                  {new CoreNode(node.status, node.versionsCheck, node.genesis, node.health).getGenesisId()}
                               </span> : <span>
-                                  <SignalWifiConnectedNoInternet4Icon sx={{fontSize: '15px'}} color={"warning"}></SignalWifiConnectedNoInternet4Icon>
                                   Unable to connect</span>}
+                                  </div>
 
-                          </div>}></Chip>
-                      </Box>
+                              </Box>
+                          </div>
+                      </div>
                   </div>
+
+                  <div className="connect-wallet-wrapper" style={{backgroundColor: shadedClr2}}>
+                      <div className="connect-wallet-container">
+                          <Button variant={"outlined"}
+                                  size={"small"}
+                                  className="black-button"
+                                  onClick={() => {
+
+                                  }}
+                          >Connect wallet</Button>
+                      </div>
+                  </div>
+
 
 
 
