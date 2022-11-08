@@ -50,10 +50,16 @@ function ConnectWallet(): JSX.Element {
         }
     }, [accounts]);
 
+    function handleClose() {
+        dispatch(hideConnectWallet());
+        clearState();
+    }
+
     return (<div>
         {connectWallet.show ? <Dialog
             fullWidth={true}
             maxWidth={"xs"}
+            onClose={handleClose}
             sx={{'.MuiPaper-root': {width: '350px'}}}
             open={connectWallet.show}
         >
@@ -65,10 +71,7 @@ function ConnectWallet(): JSX.Element {
                         }}/> : ''}
 
                     </div>
-                    <CloseIcon className="modal-close-button" onClick={() => {
-                        dispatch(hideConnectWallet());
-                        clearState();
-                    }}/>
+                    <CloseIcon className="modal-close-button" onClick={handleClose}/>
                 </div>
             </DialogTitle>
             <DialogContent style={{padding: 0}}>
@@ -144,10 +147,9 @@ function ConnectWallet(): JSX.Element {
                                         return (<div className='account' key={account.address} onClick={async () => {
                                             const address = account.address;
                                             await dispatch(loadWallet(address));
-                                            dispatch(hideConnectWallet());
                                             localStorage.setItem("signer", selectedSigner.name);
                                             localStorage.setItem("address", address);
-                                            clearState();
+                                            handleClose();
                                         }}>
                                             {account.address}
                                         </div>);
