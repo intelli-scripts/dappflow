@@ -108,48 +108,52 @@ function ABIConfig({show = defaultProps.show, handleClose}: ABIConfigProps): JSX
                                         }
                                         fullWidth/>
 
-                                    <Button
-                                        sx={{marginTop: '20px'}}
-                                        fullWidth
-                                        size={"large"}
-                                        variant={"contained"}
-                                        className="black-button"
-                                        onClick={async (ev) => {
+
+                                    <div style={{marginTop: '40px', textAlign: 'center'}}>
+
+                                        <Button
+                                            size={"large"}
+                                            fullWidth
+                                            variant={"contained"}
+                                            className="black-button"
+                                            onClick={async (ev) => {
 
 
-                                            if (appId) {
-                                                if (!isNumber(appId)) {
-                                                    dispatch(showSnack({
-                                                        severity: 'error',
-                                                        message: 'Invalid App ID'
-                                                    }));
-                                                    return;
+                                                if (appId) {
+                                                    if (!isNumber(appId)) {
+                                                        dispatch(showSnack({
+                                                            severity: 'error',
+                                                            message: 'Invalid App ID'
+                                                        }));
+                                                        return;
+                                                    }
+
+                                                    try {
+                                                        dispatch(showLoader('Validating App ID'));
+                                                        await new ApplicationClient(dappflow.network).get(Number(appId));
+                                                        dispatch(hideLoader());
+                                                    } catch (e: any) {
+                                                        dispatch(handleException(e));
+                                                        dispatch(hideLoader());
+                                                        return;
+                                                    }
                                                 }
 
-                                                try {
-                                                    dispatch(showLoader('Validating App ID'));
-                                                    await new ApplicationClient(dappflow.network).get(Number(appId));
-                                                    dispatch(hideLoader());
-                                                } catch (e: any) {
-                                                    dispatch(handleException(e));
-                                                    dispatch(hideLoader());
-                                                    return;
-                                                }
+
+                                                new ABIConfigCls().setAppId(appId || "");
+
+                                                dispatch(showSnack({
+                                                    severity: 'success',
+                                                    message: 'Saved successfully.'
+                                                }));
+
+                                                onClose(ev);
+
                                             }
+                                            }
+                                        >Save</Button>
+                                    </div>
 
-
-                                            new ABIConfigCls().setAppId(appId || "");
-
-                                            dispatch(showSnack({
-                                                severity: 'success',
-                                                message: 'Saved successfully.'
-                                            }));
-
-                                            onClose(ev);
-
-                                        }
-                                        }
-                                    >Save</Button>
                                 </div>
                             </div>
 

@@ -7,7 +7,7 @@ import {
     DialogContent,
     DialogTitle, FormLabel, Grid,
     InputBase,
-    InputBaseProps, MenuItem, Select,
+    InputBaseProps,
     styled
 } from "@mui/material";
 import {FileUploadOutlined} from "@mui/icons-material";
@@ -19,7 +19,7 @@ import {handleException} from "../../../../redux/common/actions/exception";
 import {ApplicationClient} from "../../../../packages/core-sdk/clients/applicationClient";
 import dappflow from "../../../../utils/dappflow";
 import {CompileResponse} from "algosdk/dist/types/src/client/v2/algod/models/types";
-import {ABIContract, ABIContractParams, getMethodByName} from "algosdk";
+import {ABIContractParams} from "algosdk";
 import {ABIMethodParams} from "algosdk/dist/types/src/abi/method";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -60,6 +60,7 @@ interface CreateAppState{
         localBytes: string,
         globalInts: string,
         localInts: string,
+        note: string
     },
     abiMethod: ABIMethodParams
 }
@@ -72,7 +73,8 @@ const initialState: CreateAppState = {
         globalBytes: '',
         localBytes: '',
         globalInts: '',
-        localInts: ''
+        localInts: '',
+        note: ''
     },
     abiMethod: {
         name: '',
@@ -91,7 +93,7 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
     const dispatch = useDispatch();
 
     const [
-        {params, abiMethod},
+        {params},
         setState
     ] = useState({
         ...initialState
@@ -218,9 +220,8 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
                                             <Button
                                                 variant="outlined"
                                                 component="label"
-                                                className="black-button"
                                                 size={"small"}
-                                                color={"primary"}>
+                                                color={"warning"}>
                                                 <FileUploadOutlined fontSize={"small"} sx={{marginRight: '5px'}}></FileUploadOutlined>
                                                 Upload
                                                 <input
@@ -249,9 +250,8 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
                                             <Button
                                                 variant="outlined"
                                                 component="label"
-                                                className="black-button"
                                                 size={"small"}
-                                                color={"primary"}>
+                                                color={"warning"}>
                                                 <FileUploadOutlined fontSize={"small"} sx={{marginRight: '5px'}}></FileUploadOutlined>
                                                 Upload
                                                 <input
@@ -274,40 +274,66 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
                                     </Grid>
 
 
-                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                                        <FormLabel sx={formLabelStyle}>ABI Method</FormLabel>
-                                        <div style={{marginTop: '10px'}}>
-
-                                            <Select
-                                                size={"small"}
-                                                value={abiMethod.name}
-                                                onChange={(ev) => {
-                                                    const methodInstance = getMethodByName(new ABIContract(abi).methods, ev.target.value);
-                                                    setState(prevState => ({...prevState, abiMethod: {
-                                                            ...methodInstance.toJSON()
-                                                        }}));
-                                                }}
-                                                fullWidth
-                                                color={"primary"}
-                                            >
-                                                {abi.methods.map((method) => {
-                                                    return <MenuItem value={method.name} key={method.name}>{method.name}</MenuItem>;
-                                                })}
-                                            </Select>
-
-                                        </div>
+                                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                        <FormLabel sx={formLabelStyle}>Note</FormLabel>
+                                        <ShadedInput
+                                            multiline
+                                            rows={4}
+                                            value={params.note}
+                                            placeholder="Note"
+                                            onChange={(ev) => {
+                                                setState(prevState => ({...prevState, params: {
+                                                        ...params,
+                                                        note: ev.target.value
+                                                    }}));
+                                            }
+                                            }
+                                            fullWidth/>
                                     </Grid>
 
+                                    {/*<Grid item xs={12} sm={12} md={6} lg={6} xl={6}>*/}
+                                    {/*    <FormLabel sx={formLabelStyle}>ABI Method</FormLabel>*/}
+                                    {/*    <div style={{marginTop: '10px'}}>*/}
+
+                                    {/*        <Select*/}
+                                    {/*            size={"small"}*/}
+                                    {/*            value={abiMethod.name}*/}
+                                    {/*            onChange={(ev) => {*/}
+                                    {/*                const methodInstance = getMethodByName(new ABIContract(abi).methods, ev.target.value);*/}
+                                    {/*                setState(prevState => ({...prevState, abiMethod: {*/}
+                                    {/*                        ...methodInstance.toJSON()*/}
+                                    {/*                    }}));*/}
+                                    {/*            }}*/}
+                                    {/*            fullWidth*/}
+                                    {/*            color={"primary"}*/}
+                                    {/*        >*/}
+                                    {/*            {abi.methods.map((method) => {*/}
+                                    {/*                return <MenuItem value={method.name} key={method.name}>{method.name}</MenuItem>;*/}
+                                    {/*            })}*/}
+                                    {/*        </Select>*/}
+
+                                    {/*    </div>*/}
+                                    {/*</Grid>*/}
+
                                 </Grid>
-                                <Button
-                                    sx={{marginTop: '20px'}}
-                                    size={"large"}
-                                    variant={"contained"}
-                                    className="black-button"
-                                    onClick={async (ev) => {
+
+                                <Grid sx={{marginTop: '40px', textAlign: 'center'}}>
+                                    <Button
+                                        variant={"outlined"}
+                                        className="black-button"
+                                        sx={{marginRight: '10px'}}
+                                        onClick={onClose}
+                                    >Close</Button>
+
+                                    <Button
+                                        variant={"contained"}
+                                        className="black-button"
+                                        onClick={async (ev) => {
                                         }
-                                    }
-                                >Create</Button>
+                                        }
+                                    >Create</Button>
+                                </Grid>
+
                             </div>
 
 
