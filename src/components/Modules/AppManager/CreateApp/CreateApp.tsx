@@ -63,7 +63,10 @@ interface CreateAppState{
         localBytes: string,
         globalInts: string,
         localInts: string,
-        note: string
+        note: string,
+        foreignAssets: string,
+        foreignApps: string,
+        accounts: string
     },
     abiMethod: ABIMethodParams
 }
@@ -77,7 +80,10 @@ const initialState: CreateAppState = {
         localBytes: '',
         globalInts: '',
         localInts: '',
-        note: ''
+        note: '',
+        foreignApps: '',
+        foreignAssets: '',
+        accounts: ''
     },
     abiMethod: {
         name: '',
@@ -135,7 +141,7 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
     }
 
     async function create() {
-        const {globalBytes, globalInts, localBytes, localInts, approvalProgram, clearProgram, note} = params;
+        const {globalBytes, globalInts, localBytes, localInts, approvalProgram, clearProgram, note, foreignAssets, foreignApps, accounts} = params;
         if (!globalBytes || !isNumber(globalBytes)) {
             dispatch(showSnack({
                 severity: 'error',
@@ -185,8 +191,8 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
                 appApprovalProgram: txnInstance.toUint8Array(approvalProgram),
                 appArgs: [],
                 appClearProgram: txnInstance.toUint8Array(clearProgram),
-                appForeignApps: [],
-                appForeignAssets: [],
+                appForeignApps: foreignApps ? foreignApps.split(',').map(app => Number(app)): [],
+                appForeignAssets: foreignAssets ? foreignAssets.split(',').map(asset => Number(asset)): [],
                 appGlobalByteSlices: Number(globalBytes),
                 appGlobalInts: Number(globalInts),
                 appIndex: 0,
@@ -206,7 +212,7 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
                 reKeyTo: "",
                 suggestedParams: undefined,
                 type: undefined,
-                appAccounts: [],
+                appAccounts: accounts ? accounts.split(','): [],
                 note: txnInstance.toUint8Array(note)
             });
 
@@ -359,11 +365,63 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
                                     </Grid>
 
 
-                                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+
+                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                                        <FormLabel sx={formLabelStyle}>Foreign assets</FormLabel>
+                                        <ShadedInput
+                                            multiline
+                                            rows={3}
+                                            value={params.foreignAssets}
+                                            placeholder="Note"
+                                            onChange={(ev) => {
+                                                setState(prevState => ({...prevState, params: {
+                                                        ...params,
+                                                        foreignAssets: ev.target.value
+                                                    }}));
+                                            }
+                                            }
+                                            fullWidth/>
+                                    </Grid>
+
+                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                                        <FormLabel sx={formLabelStyle}>Foreign apps</FormLabel>
+                                        <ShadedInput
+                                            multiline
+                                            rows={3}
+                                            value={params.foreignApps}
+                                            placeholder="Note"
+                                            onChange={(ev) => {
+                                                setState(prevState => ({...prevState, params: {
+                                                        ...params,
+                                                        foreignApps: ev.target.value
+                                                    }}));
+                                            }
+                                            }
+                                            fullWidth/>
+                                    </Grid>
+
+                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                                        <FormLabel sx={formLabelStyle}>Accounts</FormLabel>
+                                        <ShadedInput
+                                            multiline
+                                            rows={3}
+                                            value={params.accounts}
+                                            placeholder="Note"
+                                            onChange={(ev) => {
+                                                setState(prevState => ({...prevState, params: {
+                                                        ...params,
+                                                        accounts: ev.target.value
+                                                    }}));
+                                            }
+                                            }
+                                            fullWidth/>
+                                    </Grid>
+
+                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                                         <FormLabel sx={formLabelStyle}>Note</FormLabel>
                                         <ShadedInput
                                             multiline
-                                            rows={4}
+                                            rows={3}
                                             value={params.note}
                                             placeholder="Note"
                                             onChange={(ev) => {
