@@ -2,8 +2,7 @@ import './ABIMethodExecutor.scss';
 import React, {useEffect, useState} from "react";
 import {
     ABIMethod,
-    ABIMethodParams,
-    mnemonicToSecretKey
+    ABIMethodParams
 } from "algosdk";
 import {
     Button,
@@ -15,11 +14,8 @@ import {
 } from "@mui/material";
 import OfflineBoltIcon from '@mui/icons-material/OfflineBolt';
 import {theme} from "../../../../theme";
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../../../redux/store";
+import {useDispatch} from "react-redux";
 import ABIConfig from "../../../../packages/abi/classes/ABIConfig";
-import {CoreNode} from "../../../../packages/core-sdk/classes/core/CoreNode";
-import {ellipseString} from "../../../../packages/core-sdk/utils";
 import {showSnack} from "../../../../redux/common/actions/snackbar";
 import {handleException} from "../../../../redux/common/actions/exception";
 import ABIMethodExecutorCls from "../../../../packages/abi/classes/ABIMethodExecutor";
@@ -58,13 +54,11 @@ const defaultProps: ABIMethodExecutorProps = {
 
 interface ABIMethodExecutorState{
     appId: string,
-    signer: string,
     executorArgs: A_ABI_METHOD_EXECUTOR_ARG[]
 }
 
 const initialState: ABIMethodExecutorState = {
     appId: '',
-    signer: '',
     executorArgs: []
 };
 
@@ -72,7 +66,7 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
 
     const dispatch = useDispatch();
     const [
-        {appId, signer, executorArgs},
+        {appId, executorArgs},
         setState
     ] = useState({
         ...initialState
@@ -81,13 +75,6 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
 
     const abiMethodInstance = new ABIMethod(method);
     const args = abiMethodInstance.args;
-
-
-
-    const node = useSelector((state: RootState) => state.node);
-    const {status, versionsCheck, genesis, health} = node;
-    const kmd = useSelector((state: RootState) => state.kmd);
-    const {mnemonics} = kmd;
 
 
     const clearState = () => {
@@ -106,18 +93,6 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
     }, [show]);
 
 
-    useEffect(() => {
-        const isSandbox = new CoreNode(status, versionsCheck, genesis, health).isSandbox();
-        if (isSandbox) {
-            if (mnemonics.length > 0) {
-                const accounts = mnemonics.map((mnemonic) => {
-                    return mnemonicToSecretKey(mnemonic);
-                })
-                setState(prevState => ({...prevState, signer: accounts[0].addr}));
-            }
-        }
-    }, [show, status, versionsCheck, genesis, health]);
-
 
     function onClose(ev) {
         handleClose();
@@ -134,19 +109,11 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
             }));
             return;
         }
-        if (!signer) {
-            dispatch(showSnack({
-                severity: 'error',
-                message: 'Invalid Signer.'
-            }));
-            return;
-        }
 
         try {
             const abiMethodExecutorInstance = new ABIMethodExecutorCls(method);
-            const unsignedTxns = await abiMethodExecutorInstance.getUnsignedTxns(Number(appId), signer, executorArgs);
-            const signedTxns = await abiMethodExecutorInstance.signMethodTxns(unsignedTxns, mnemonicToSecretKey(mnemonics[0]));
-            await abiMethodExecutorInstance.execute(signedTxns);
+            const unsignedTxns = await abiMethodExecutorInstance.getUnsignedTxns(Number(appId), 'CESUKTCKPQZQJ2ZOP5K6M6557S327ZNIWYSIGD7BMLAPFWDJDQWFCHZNMI', executorArgs);
+            console.log(unsignedTxns);
         }
         catch (e: any) {
             dispatch(handleException(e));
@@ -195,9 +162,6 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
                                             <div className="abi-method-metadata">
                                                 <div className="metadata-item">
                                                     Application ID : {appId}
-                                                </div>
-                                                <div className="metadata-item">
-                                                    Signer : {signer ? ellipseString(signer, 30) : ''}
                                                 </div>
                                             </div>
                                             <div className="abi-method-args-form-wrapper">

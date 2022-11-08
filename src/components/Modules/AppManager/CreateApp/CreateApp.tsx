@@ -22,6 +22,9 @@ import {CompileResponse} from "algosdk/dist/types/src/client/v2/algod/models/typ
 import {ABIContractParams} from "algosdk";
 import {ABIMethodParams} from "algosdk/dist/types/src/abi/method";
 import CloseIcon from "@mui/icons-material/Close";
+import {showSnack} from "../../../../redux/common/actions/snackbar";
+import {isNumber} from "../../../../utils/common";
+import {ApplicationTransaction} from "../../../../packages/core-sdk/transactions/applicationTransaction";
 
 
 const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
@@ -121,13 +124,95 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
             dispatch(showLoader('Compiling program'));
             const compileResp = await new ApplicationClient(dappflow.network).compileProgram(content);
             dispatch(hideLoader());
-            console.log(compileResp);
 
             target.value = null;
             return compileResp;
         }
         catch (e: any) {
             dispatch(hideLoader());
+            dispatch(handleException(e));
+        }
+    }
+
+    async function create() {
+        const {globalBytes, globalInts, localBytes, localInts, approvalProgram, clearProgram, note} = params;
+        if (!globalBytes || !isNumber(globalBytes)) {
+            dispatch(showSnack({
+                severity: 'error',
+                message: 'Invalid global bytes'
+            }));
+            return;
+        }
+        if (!globalInts || !isNumber(globalInts)) {
+            dispatch(showSnack({
+                severity: 'error',
+                message: 'Invalid global ints'
+            }));
+            return;
+        }
+        if (!localBytes || !isNumber(localBytes)) {
+            dispatch(showSnack({
+                severity: 'error',
+                message: 'Invalid local bytes'
+            }));
+            return;
+        }
+        if (!localInts || !isNumber(localInts)) {
+            dispatch(showSnack({
+                severity: 'error',
+                message: 'Invalid local ints'
+            }));
+            return;
+        }
+        if (!approvalProgram) {
+            dispatch(showSnack({
+                severity: 'error',
+                message: 'Invalid approval program'
+            }));
+            return;
+        }
+        if (!clearProgram) {
+            dispatch(showSnack({
+                severity: 'error',
+                message: 'Invalid clear program'
+            }));
+            return;
+        }
+
+        try {
+            const txnInstance = new ApplicationTransaction(dappflow.network);
+            const unsignedTxn = await txnInstance.prepareCreateTxn({
+                appApprovalProgram: txnInstance.toUint8Array(approvalProgram),
+                appArgs: [],
+                appClearProgram: txnInstance.toUint8Array(clearProgram),
+                appForeignApps: [],
+                appForeignAssets: [],
+                appGlobalByteSlices: Number(globalBytes),
+                appGlobalInts: Number(globalInts),
+                appIndex: 0,
+                appLocalByteSlices: Number(localBytes),
+                appLocalInts: Number(localInts),
+                appOnComplete: undefined,
+                boxes: [],
+                extraPages: 0,
+                fee: 0,
+                firstRound: 0,
+                flatFee: false,
+                from: "CESUKTCKPQZQJ2ZOP5K6M6557S327ZNIWYSIGD7BMLAPFWDJDQWFCHZNMI",
+                genesisHash: "",
+                genesisID: "",
+                lastRound: 0,
+                lease: undefined,
+                reKeyTo: "",
+                suggestedParams: undefined,
+                type: undefined,
+                appAccounts: [],
+                note: txnInstance.toUint8Array(note)
+            });
+
+            console.log(unsignedTxn);
+        }
+        catch (e: any) {
             dispatch(handleException(e));
         }
     }
@@ -328,9 +413,7 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
                                     <Button
                                         variant={"contained"}
                                         className="black-button"
-                                        onClick={async (ev) => {
-                                        }
-                                        }
+                                        onClick={create}
                                     >Create</Button>
                                 </Grid>
 

@@ -1,4 +1,4 @@
-import {Algodv2, SuggestedParams} from "algosdk";
+import {Algodv2} from "algosdk";
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
 import {Network} from "../network";
 import {A_SearchTransaction} from "../types";
@@ -33,14 +33,5 @@ export class TransactionClient {
     async get(id: string): Promise<A_SearchTransaction> {
         const {transactions} = await this.indexer.searchForTransactions().txid(id).do();
         return transactions[0];
-    }
-
-    async getSuggestedParams(): Promise<SuggestedParams>{
-        const sp = await this.client.getTransactionParams().do();
-        return sp;
-    }
-
-    async send(txns: Uint8Array | Uint8Array[]): Promise<any> {
-        return await this.client.sendRawTransaction(txns).do();
     }
 }
