@@ -1,7 +1,7 @@
 import {Signer} from "./types";
 import * as sdk from "algosdk";
-import {NETWORKS} from "./constants";
 import {LogicSigAccount} from "algosdk";
+import {NETWORKS} from "../core-sdk/constants";
 
 export class LogicSigner implements Signer{
 

@@ -32,6 +32,13 @@
         .bottom-menu-item-container {
           text-align: center;
           padding: 15px 0;
+          .small-text {
+            font-size: 11px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            margin: 0 15px;
+          }
           &:hover {
             cursor: pointer;
           }

@@ -1,7 +1,7 @@
 import {Signer, SignerAccount} from "./types";
 import {Transaction} from "algosdk";
 import MyAlgoConnect from '@randlabs/myalgo-connect';
-import {NETWORKS} from "./constants";
+import {NETWORKS} from "../core-sdk/constants";
 
 
 export class MyAlgoWalletSigner implements Signer{

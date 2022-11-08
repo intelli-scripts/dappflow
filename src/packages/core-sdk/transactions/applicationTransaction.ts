@@ -12,7 +12,7 @@ export class ApplicationTransaction extends BaseTransaction{
 
     async prepareCreateTxn(params: AppCreateTxn): Promise<Transaction> {
         const suggestedParams = await this.getSuggestedParams();
-        const {from, appOnComplete, appApprovalProgram, appClearProgram, appLocalByteSlices, appLocalInts, appGlobalByteSlices, appGlobalInts, appArgs, appForeignApps, appForeignAssets, appAccounts, note} = params;
-        return sdk.makeApplicationCreateTxn(from, suggestedParams, appOnComplete, appApprovalProgram, appClearProgram, appLocalInts, appLocalByteSlices, appGlobalInts, appGlobalByteSlices, appArgs, appAccounts, appForeignApps, appForeignAssets, note);
+        const {from, appOnComplete, appApprovalProgram, appClearProgram, appLocalByteSlices, appLocalInts, appGlobalByteSlices, appGlobalInts, appArgs, appForeignApps, appForeignAssets, appAccounts, note, extraPages, reKeyTo, lease, boxes} = params;
+        return sdk.makeApplicationCreateTxn(from, suggestedParams, appOnComplete, appApprovalProgram, appClearProgram, appLocalInts, appLocalByteSlices, appGlobalInts, appGlobalByteSlices, appArgs, appAccounts, appForeignApps, appForeignAssets, note, lease, reKeyTo, extraPages, boxes);
     }
 }

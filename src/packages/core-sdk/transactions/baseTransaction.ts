@@ -1,6 +1,7 @@
 import {Algodv2, SuggestedParams} from "algosdk";
 import IndexerClient from "algosdk/dist/types/src/client/v2/indexer/indexer";
 import {Network} from "../network";
+import {PendingTransactionResponse} from "algosdk/dist/types/src/client/v2/algod/models/types";
 
 
 export class BaseTransaction {
@@ -26,4 +27,17 @@ export class BaseTransaction {
         const enc = new TextEncoder();
         return enc.encode(text);
     }
+
+    async waitForConfirmation(txId: string): Promise<PendingTransactionResponse> {
+        const status = await this.client.status().do();
+        let lastRound = status["last-round"];
+        while (true) {
+            const pendingInfo = await this.client.pendingTransactionInformation(txId).do();
+            if (pendingInfo["confirmed-round"] !== null && pendingInfo["confirmed-round"] > 0) {
+                return pendingInfo as PendingTransactionResponse;
+            }
+            lastRound++;
+            await this.client.statusAfterBlock(lastRound).do();
+        }
+    };
 }

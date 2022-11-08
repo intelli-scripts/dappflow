@@ -30,6 +30,8 @@ function LeftBar(): JSX.Element {
     const node = useSelector((state: RootState) => state.node);
     const location = useLocation();
 
+    const wallet = useSelector((state: RootState) => state.wallet);
+
     const {connection} = liveData;
     let {success} = connection;
     let route = location.pathname;
@@ -121,13 +123,16 @@ function LeftBar(): JSX.Element {
 
                   <div className="bottom-menu-item-wrapper" style={{backgroundColor: shadedClr2}}>
                       <div className="bottom-menu-item-container">
-                          <Button variant={"outlined"}
-                                  size={"small"}
-                                  className="black-button"
-                                  onClick={() => {
-                                      dispatch(showConnectWallet());
-                                  }}
-                          >Connect wallet</Button>
+                          {wallet.information.address ? <div onClick={() => {
+                              dispatch(showConnectWallet());
+                          }} className="small-text">{wallet.information.address}</div> : <Button variant={"outlined"}
+                                                                     size={"small"}
+                                                                     className="black-button"
+                                                                     onClick={() => {
+                                                                         dispatch(showConnectWallet());
+                                                                     }}
+                          >Connect wallet</Button>}
+
                           <ConnectWallet></ConnectWallet>
                       </div>
                   </div>

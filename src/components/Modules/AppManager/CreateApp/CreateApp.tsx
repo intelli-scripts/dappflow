@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import {FileUploadOutlined} from "@mui/icons-material";
 import {theme} from "../../../../theme";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {getFileContent} from "../../../../packages/core-sdk/utils/fileUtils";
 import {hideLoader, showLoader} from "../../../../redux/common/actions/loader";
 import {handleException} from "../../../../redux/common/actions/exception";
@@ -25,6 +25,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import {showSnack} from "../../../../redux/common/actions/snackbar";
 import {isNumber} from "../../../../utils/common";
 import {ApplicationTransaction} from "../../../../packages/core-sdk/transactions/applicationTransaction";
+import {RootState} from "../../../../redux/store";
+import {TransactionClient} from "../../../../packages/core-sdk/clients/transactionClient";
 
 
 const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
@@ -100,6 +102,7 @@ const initialState: CreateAppState = {
 function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], name: ""}}: CreateAppProps): JSX.Element {
 
     const dispatch = useDispatch();
+    const wallet = useSelector((state: RootState) => state.wallet);
 
     const [
         {params},
@@ -186,6 +189,8 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
         }
 
         try {
+            dispatch(showLoader('Signing transaction'));
+
             const txnInstance = new ApplicationTransaction(dappflow.network);
             const unsignedTxn = await txnInstance.prepareCreateTxn({
                 appApprovalProgram: txnInstance.toUint8Array(approvalProgram),
@@ -200,25 +205,41 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
                 appLocalInts: Number(localInts),
                 appOnComplete: undefined,
                 boxes: [],
-                extraPages: 0,
+                extraPages: 2,
                 fee: 0,
                 firstRound: 0,
                 flatFee: false,
-                from: "CESUKTCKPQZQJ2ZOP5K6M6557S327ZNIWYSIGD7BMLAPFWDJDQWFCHZNMI",
+                from: wallet.information.address,
                 genesisHash: "",
                 genesisID: "",
                 lastRound: 0,
                 lease: undefined,
-                reKeyTo: "",
+                reKeyTo: undefined,
                 suggestedParams: undefined,
                 type: undefined,
                 appAccounts: accounts ? accounts.split(','): [],
                 note: txnInstance.toUint8Array(note)
             });
 
-            console.log(unsignedTxn);
+            const signedTxn = await dappflow.signer.signTxn(unsignedTxn);
+            dispatch(hideLoader());
+
+            dispatch(showLoader('Broadcasting transaction to network'));
+            const {txId} = await txnInstance.send(signedTxn);
+            dispatch(hideLoader());
+
+            dispatch(showLoader('Waiting for confirmation'));
+            await txnInstance.waitForConfirmation(txId);
+            dispatch(hideLoader());
+
+            dispatch(showLoader('Waiting for confirmation'));
+            const txn = await new TransactionClient(dappflow.network).get(txId);
+            dispatch(hideLoader());
+
+            console.log(txn);
         }
         catch (e: any) {
+            dispatch(hideLoader());
             dispatch(handleException(e));
         }
     }

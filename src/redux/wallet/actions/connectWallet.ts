@@ -3,6 +3,7 @@ import {SignerAccount} from "../../../packages/signers/types";
 import {SupportedSigner} from "../../../packages/signers";
 import {setSigner} from "./signer";
 import {loadWallet} from "./wallet";
+import dappflow from "../../../utils/dappflow";
 
 
 export interface ConnectWallet {
@@ -21,18 +22,18 @@ const initialState: ConnectWallet = {
 
 export const connect = createAsyncThunk(
     'connectWallet/connect',
-    async (signer: SupportedSigner, thunkAPI) => {
-        const {dispatch, getState} = thunkAPI;
+    async (payload: { signer: SupportedSigner, network: string }, thunkAPI) => {
+        const {dispatch} = thunkAPI;
         try {
-            console.log(signer);
-            const appState: any = getState();
-            const {network} = appState;
+            const {signer, network} = payload;
+
             dispatch(walletConnecting());
             dispatch(clearAccounts());
             dispatch(setSigner(signer.name));
+            dappflow.setSigner(signer.name);
 
             // @ts-ignore
-            const accounts = await signer.instance.connect(network.name, (err, payload)=> {
+            const accounts = await signer.instance.connect(network, (err, payload)=> {
                 dispatch(walletConnected());
                 dispatch(setErrorMessage(payload.params[0].message));
             });

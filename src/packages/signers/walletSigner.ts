@@ -1,6 +1,6 @@
 import {Signer} from "./types";
 import {Account, Transaction} from "algosdk";
-import {NETWORKS} from "./constants";
+import {NETWORKS} from "../core-sdk/constants";
 
 export class WalletSigner implements Signer{
     private wallet: Account;

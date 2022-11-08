@@ -14,6 +14,8 @@ import {ArrowBack, ErrorOutlineOutlined} from "@mui/icons-material";
 import CloseIcon from "@mui/icons-material/Close";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import PowerIcon from '@mui/icons-material/Power';
+import {CoreNode} from "../../../packages/core-sdk/classes/core/CoreNode";
+import {NETWORKS} from "../../../packages/core-sdk/constants";
 
 
 interface ConnectWalletState{
@@ -31,6 +33,24 @@ const initialState: ConnectWalletState = {
 function ConnectWallet(): JSX.Element {
 
     const dispatch = useDispatch();
+
+    const node = useSelector((state: RootState) => state.node);
+    const {versionsCheck, status, genesis, health} = node;
+
+    let network = '';
+    const nodeInstance = new CoreNode(status, versionsCheck, genesis, health);
+    if (nodeInstance.isTestnet()) {
+        network = NETWORKS.TESTNET;
+    }
+    if (nodeInstance.isBetanet()) {
+        network = NETWORKS.BETANET;
+    }
+    if (nodeInstance.isMainnet()) {
+        network = NETWORKS.MAINNET;
+    }
+    if (nodeInstance.isSandbox()) {
+        network = NETWORKS.SANDBOX;
+    }
 
     const connectWallet = useSelector((state: RootState) => state.connectWallet);
     const {accounts} = connectWallet;
@@ -91,7 +111,7 @@ function ConnectWallet(): JSX.Element {
                                         return (<div className="signer"
                                                      key={signer.name}
                                                      onClick={() => {
-                                                         dispatch(connect(signer));
+                                                         dispatch(connect({signer, network: network}));
                                                          setState(prevState => ({ ...prevState, view: 'accounts', selectedSigner: signer }));
                                                      }}
                                         >
@@ -134,7 +154,8 @@ function ConnectWallet(): JSX.Element {
                                             style={{marginTop: 70}}
                                             className="black-button"
                                             onClick={() => {
-                                                dispatch(connect(selectedSigner));
+
+                                                dispatch(connect({signer: selectedSigner, network}));
                                             }}
                                         >Try again</Button>
                                     </div> : ''}

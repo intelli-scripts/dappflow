@@ -1,6 +1,7 @@
 import {Signer, SignerAccount} from "./types";
 import {Transaction} from "algosdk";
-import {ALGO_SIGNER_NET, NETWORKS} from "./constants";
+import {ALGO_SIGNER_NET} from "./constants";
+import {NETWORKS} from "../core-sdk/constants";
 
 export class BrowserAlgoSigner implements Signer{
     private supportedNetworks: string[];
