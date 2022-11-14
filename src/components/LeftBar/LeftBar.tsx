@@ -1,7 +1,7 @@
 import './LeftBar.scss';
 import {
     Box,
-    Button, Tab, Tabs
+    Button, Menu, MenuItem, Tab, Tabs
 } from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import React from "react";
@@ -19,8 +19,10 @@ import ShowerIcon from '@mui/icons-material/Shower';
 import InsertChartIcon from '@mui/icons-material/InsertChart';
 import {CoreNode} from "../../packages/core-sdk/classes/core/CoreNode";
 import {supportSettings} from "../../utils/nodeConfig";
-import {showConnectWallet} from "../../redux/wallet/actions/connectWallet";
+import {resetConnectWallet, showConnectWallet} from "../../redux/wallet/actions/connectWallet";
 import ConnectWallet from "./ConnectWallet/ConnectWallet";
+import dappflow from "../../utils/dappflow";
+import {resetWallet} from "../../redux/wallet/actions/wallet";
 
 
 function LeftBar(): JSX.Element {
@@ -38,6 +40,14 @@ function LeftBar(): JSX.Element {
     route = route.substring(1);
     route = route.split('/')[0];
 
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event: any) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
   return (
       <div className="left-bar-wrapper">
@@ -123,14 +133,41 @@ function LeftBar(): JSX.Element {
 
                   <div className="bottom-menu-item-wrapper" style={{backgroundColor: shadedClr2}}>
                       <div className="bottom-menu-item-container">
-                          {wallet.information.address ? <div onClick={() => {
-                              dispatch(showConnectWallet());
-                          }} className="small-text">{wallet.information.address}</div> : <Button variant={"outlined"}
-                                                                     size={"small"}
-                                                                     className="black-button"
-                                                                     onClick={() => {
-                                                                         dispatch(showConnectWallet());
-                                                                     }}
+                          {wallet.information.address ? <div className="small-text">
+
+
+                              <span onClick={handleClick}>
+                                  {wallet.information.address}
+                              </span>
+                              <Menu
+                                  id="basic-menu"
+                                  anchorEl={anchorEl}
+                                  open={open}
+                                  onClose={handleClose}>
+                                  <MenuItem onClick={(e) => {
+                                      dispatch(showConnectWallet());
+                                      handleClose();
+                                      e.preventDefault();
+                                      e.stopPropagation();
+                                    }
+                                  }>Switch wallet</MenuItem>
+                                  <MenuItem onClick={(e) => {
+                                      dappflow.signer.logout();
+                                      dispatch(resetWallet());
+                                      localStorage.removeItem("signer");
+                                      localStorage.removeItem("address");
+                                      handleClose();
+                                      e.preventDefault();
+                                      e.stopPropagation();
+                                  }}>Disconnect</MenuItem>
+                              </Menu>
+
+                          </div> : <Button variant={"outlined"}
+                                           size={"small"}
+                                           className="black-button"
+                                           onClick={() => {
+                                               dispatch(showConnectWallet());
+                                           }}
                           >Connect wallet</Button>}
 
                           <ConnectWallet></ConnectWallet>

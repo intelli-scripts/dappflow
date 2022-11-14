@@ -55,6 +55,7 @@ export const walletSlice = createSlice({
     name: 'wallet',
     initialState,
     reducers: {
+        resetWallet: state => initialState
     },
     extraReducers: (builder) => {
         builder.addCase(loadWallet.fulfilled, (state, action: PayloadAction<A_AccountInformation>) => {
@@ -63,4 +64,5 @@ export const walletSlice = createSlice({
     }
 });
 
+export const { resetWallet } = walletSlice.actions
 export default walletSlice.reducer
