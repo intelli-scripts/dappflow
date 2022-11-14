@@ -1,7 +1,7 @@
 import './LeftBar.scss';
 import {
     Box,
-    Button, Menu, MenuItem, Tab, Tabs
+    Button, ListItemIcon, ListItemText, Menu, MenuItem, Tab, Tabs
 } from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import React from "react";
@@ -22,6 +22,9 @@ import {supportSettings} from "../../utils/nodeConfig";
 import {showConnectWallet} from "../../redux/wallet/actions/connectWallet";
 import ConnectWallet from "./ConnectWallet/ConnectWallet";
 import {logOut} from "../../redux/wallet/actions/wallet";
+import LogoutIcon from '@mui/icons-material/Logout';
+import SwapCallsIcon from '@mui/icons-material/SwapCalls';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 
 
 function LeftBar(): JSX.Element {
@@ -39,12 +42,14 @@ function LeftBar(): JSX.Element {
     route = route.substring(1);
     route = route.split('/')[0];
 
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event: any) => {
+    const [menuAnchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(menuAnchorEl);
+
+    const showWalletMenu = (event: any) => {
         setAnchorEl(event.currentTarget);
     };
-    const handleClose = () => {
+
+    const closeWalletMenu = () => {
         setAnchorEl(null);
     };
 
@@ -132,30 +137,56 @@ function LeftBar(): JSX.Element {
 
                   <div className="bottom-menu-item-wrapper" style={{backgroundColor: shadedClr2}}>
                       <div className="bottom-menu-item-container">
-                          {wallet.information.address ? <div className="small-text">
+                          {wallet.information.address ? <div>
 
 
-                              <span onClick={handleClick}>
+                              <div className="small-text" onClick={showWalletMenu}>
+                                  <AccountBalanceWalletIcon fontSize="small" sx={{marginRight: '5px', verticalAlign: 'middle'}} color={"primary"}></AccountBalanceWalletIcon>
                                   {wallet.information.address}
-                              </span>
+                              </div>
                               <Menu
-                                  id="basic-menu"
-                                  anchorEl={anchorEl}
+                                  anchorEl={menuAnchorEl}
                                   open={open}
-                                  onClose={handleClose}>
-                                  <MenuItem onClick={(e) => {
+                                  disableAutoFocusItem={true}
+                                  anchorOrigin={{
+                                      vertical: 'top',
+                                      horizontal: 'left',
+                                  }}
+                                  transformOrigin={{
+                                      vertical: 'top',
+                                      horizontal: 'left',
+                                  }}
+                                  MenuListProps={{
+
+                                  }}
+                                  onClose={closeWalletMenu}>
+                                  <MenuItem
+                                      selected={false}
+                                      onClick={(e) => {
                                       dispatch(showConnectWallet());
-                                      handleClose();
+                                      closeWalletMenu();
                                       e.preventDefault();
                                       e.stopPropagation();
                                     }
-                                  }>Switch wallet</MenuItem>
-                                  <MenuItem onClick={(e) => {
+                                  }>
+                                      <ListItemIcon>
+                                          <SwapCallsIcon fontSize="small" color={"warning"}/>
+                                      </ListItemIcon>
+                                      <ListItemText sx={{fontSize: '13px'}} disableTypography>Switch wallet</ListItemText>
+                                  </MenuItem>
+                                  <MenuItem
+                                      selected={false}
+                                      onClick={(e) => {
                                       dispatch(logOut());
-                                      handleClose();
+                                      closeWalletMenu();
                                       e.preventDefault();
                                       e.stopPropagation();
-                                  }}>Disconnect</MenuItem>
+                                  }}>
+                                      <ListItemIcon>
+                                          <LogoutIcon fontSize="small" color={"warning"}/>
+                                      </ListItemIcon>
+                                      <ListItemText sx={{fontSize: '13px'}} disableTypography>Disconnect</ListItemText>
+                                  </MenuItem>
                               </Menu>
 
                           </div> : <Button variant={"outlined"}
