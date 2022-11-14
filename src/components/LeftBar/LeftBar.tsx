@@ -19,10 +19,9 @@ import ShowerIcon from '@mui/icons-material/Shower';
 import InsertChartIcon from '@mui/icons-material/InsertChart';
 import {CoreNode} from "../../packages/core-sdk/classes/core/CoreNode";
 import {supportSettings} from "../../utils/nodeConfig";
-import {resetConnectWallet, showConnectWallet} from "../../redux/wallet/actions/connectWallet";
+import {showConnectWallet} from "../../redux/wallet/actions/connectWallet";
 import ConnectWallet from "./ConnectWallet/ConnectWallet";
-import dappflow from "../../utils/dappflow";
-import {resetWallet} from "../../redux/wallet/actions/wallet";
+import {logOut} from "../../redux/wallet/actions/wallet";
 
 
 function LeftBar(): JSX.Element {
@@ -152,10 +151,7 @@ function LeftBar(): JSX.Element {
                                     }
                                   }>Switch wallet</MenuItem>
                                   <MenuItem onClick={(e) => {
-                                      dappflow.signer.logout();
-                                      dispatch(resetWallet());
-                                      localStorage.removeItem("signer");
-                                      localStorage.removeItem("address");
+                                      dispatch(logOut());
                                       handleClose();
                                       e.preventDefault();
                                       e.stopPropagation();

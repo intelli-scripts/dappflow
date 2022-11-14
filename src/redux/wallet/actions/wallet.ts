@@ -51,6 +51,17 @@ export const loadWallet = createAsyncThunk(
     }
 );
 
+export const logOut = createAsyncThunk(
+    'wallet/logOut',
+    async (_, thunkAPI) => {
+        const {dispatch} = thunkAPI;
+        dappflow.signer.logout();
+        dispatch(resetWallet());
+        localStorage.removeItem("signer");
+        localStorage.removeItem("address");
+    }
+);
+
 export const walletSlice = createSlice({
     name: 'wallet',
     initialState,

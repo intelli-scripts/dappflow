@@ -21,6 +21,7 @@ import {hideLoader, showLoader} from "../../../redux/common/actions/loader";
 import {isBrave} from "../../../packages/core-sdk/utils";
 import {NodeConnectionParams} from "../../../packages/core-sdk/types";
 import CloseIcon from '@mui/icons-material/Close';
+import {logOut} from "../../../redux/wallet/actions/wallet";
 
 const nodeConfig = getNodeConfig();
 
@@ -160,6 +161,7 @@ function Settings(): JSX.Element {
         localStorage.setItem('indexerToken', indexerToken || '');
         dispatch(hideSettings());
         dispatch(hideLoader());
+        dispatch(logOut());
         window.location.reload();
     }
 
