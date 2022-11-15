@@ -9,6 +9,9 @@ import {ABIContract, ABIContractParams} from "algosdk";
 import ABIConfig from "../ABIConfig/ABIConfig";
 import SettingsIcon from '@mui/icons-material/Settings';
 import CreateApp from "../../AppManager/CreateApp/CreateApp";
+import {showSnack} from "../../../../redux/common/actions/snackbar";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../../../../redux/store";
 
 type ABIEditorProps = {
     abi: ABIContractParams,
@@ -31,6 +34,8 @@ function ABIEditor({abi = {methods: [], name: ""}, hideNetworks = false, support
 
     const abiInstance = new ABIContract(abi);
     const networks = abiInstance.networks;
+    const wallet = useSelector((state: RootState) => state.wallet);
+    const dispatch = useDispatch();
 
     const [
         {showConfig, showCreateApp},
@@ -69,6 +74,14 @@ function ABIEditor({abi = {methods: [], name: ""}, hideNetworks = false, support
                                         variant={"outlined"}
                                         size={"small"}
                                         onClick={() => {
+                                            if (!wallet.information.address) {
+                                                dispatch(showSnack({
+                                                    severity: 'error',
+                                                    message: 'Please connect your wallet'
+                                                }));
+                                                return;
+                                            }
+
                                             setState(prevState => ({...prevState, showCreateApp: true}));
                                         }}
                                 >Create App</Button>
