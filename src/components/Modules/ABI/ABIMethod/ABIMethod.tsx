@@ -14,8 +14,9 @@ import ABIMethodExecutor from "../ABIMethodExecutor/ABIMethodExecutor";
 import OfflineBoltIcon from '@mui/icons-material/OfflineBolt';
 import {Alert} from "@mui/lab";
 import {showSnack} from "../../../../redux/common/actions/snackbar";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import ABIConfig from "../../../../packages/abi/classes/ABIConfig";
+import {RootState} from "../../../../redux/store";
 
 type ABIMethodProps = {
     method: ABIMethodParams,
@@ -33,6 +34,7 @@ const initialState: ABIMethodState = {
 function ABIMethod({method, supportExecutor = true}: ABIMethodProps): JSX.Element {
     
     const dispatch = useDispatch();
+    const wallet = useSelector((state: RootState) => state.wallet);
     const abiMethodInstance = new ABIMethodSDK(method);
     const args = abiMethodInstance.args;
 
@@ -58,6 +60,14 @@ function ABIMethod({method, supportExecutor = true}: ABIMethodProps): JSX.Elemen
                                 <Button onClick={(ev) => {
                                     ev.preventDefault();
                                     ev.stopPropagation();
+
+                                    if (!wallet.information.address) {
+                                        dispatch(showSnack({
+                                            severity: 'error',
+                                            message: 'Please connect your wallet'
+                                        }));
+                                        return;
+                                    }
 
                                     if (!new ABIMethodExecutorCls(method).canExecute()) {
                                         dispatch(showSnack({

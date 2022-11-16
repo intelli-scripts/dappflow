@@ -398,7 +398,7 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
                                             multiline
                                             rows={3}
                                             value={params.foreignAssets}
-                                            placeholder="Comma separated list of foreign assets"
+                                            placeholder="Comma separated list of assets"
                                             onChange={(ev) => {
                                                 setState(prevState => ({...prevState, params: {
                                                         ...params,
@@ -415,7 +415,7 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
                                             multiline
                                             rows={3}
                                             value={params.foreignApps}
-                                            placeholder="Comma separated list of foreign apps"
+                                            placeholder="Comma separated list of apps"
                                             onChange={(ev) => {
                                                 setState(prevState => ({...prevState, params: {
                                                         ...params,

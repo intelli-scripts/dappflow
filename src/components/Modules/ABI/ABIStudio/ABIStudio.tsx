@@ -3,6 +3,7 @@ import React, {useEffect, useState} from "react";
 import ABIEditor from "../ABIEditor/ABIEditor";
 import ABIActions from "../ABIActions/ABIActions";
 import {ABIContractParams} from "algosdk";
+import ABIConfig from "../../../../packages/abi/classes/ABIConfig";
 
 interface ABIStudioState{
     imported: boolean,
@@ -44,6 +45,7 @@ function ABIStudio(): JSX.Element {
             <div className={"abi-studio-body"}>
                 <ABIActions onImport={(abi) => {
                     setState(prevState => ({...prevState, abi, imported: true}));
+                    new ABIConfig().setAppId("");
                     localStorage.setItem('abi', JSON.stringify(abi));
                 }}></ABIActions>
                 {imported ? <ABIEditor abi={abi} supportExecutor={true} supportCreateApp={true}></ABIEditor> : ''}

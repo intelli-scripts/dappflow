@@ -2,12 +2,11 @@ import './ABIEditor.scss';
 import React, {useState} from "react";
 import {shadedClr, shadedClr2} from "../../../../utils/common";
 import JsonViewer from "../../../Common/JsonViewer/JsonViewer";
-import {Box, Button} from "@mui/material";
+import {Box, Button, Grid} from "@mui/material";
 import ABIMethods from "../ABIMethods/ABIMethods";
 import ABINetworks from "../ABINetworks/ABINetworks";
 import {ABIContract, ABIContractParams} from "algosdk";
 import ABIConfig from "../ABIConfig/ABIConfig";
-import SettingsIcon from '@mui/icons-material/Settings';
 import CreateApp from "../../AppManager/CreateApp/CreateApp";
 import {showSnack} from "../../../../redux/common/actions/snackbar";
 import {useDispatch, useSelector} from "react-redux";
@@ -47,48 +46,55 @@ function ABIEditor({abi = {methods: [], name: ""}, hideNetworks = false, support
             <div className={"abi-editor-body"}>
                 <div className="abi" style={{backgroundColor: shadedClr}}>
                     <Box className="abi-header" sx={{borderColor: shadedClr2 + ' !important'}}>
-                        <div>
-                            <div className="abi-name">
-                                ABI: {abiInstance.name}
-                            </div>
-                            <div className="abi-desc">
-                                Description: {abiInstance.description ? abiInstance.description : '--Empty--'}
-                            </div>
-                        </div>
-                        <div style={{display: "flex", justifyContent: "space-between"}}>
-                            <JsonViewer obj={abi} variant="outlined" title="ABI JSON" name="ABI JSON"></JsonViewer>
-                            {supportExecutor ? <div style={{marginLeft: '10px'}}>
-                                <Button color={"primary"}
-                                        startIcon={<SettingsIcon fontSize={"small"}></SettingsIcon>}
-                                        variant={"outlined"}
-                                        size={"small"}
-                                        onClick={() => {
-                                            setState(prevState => ({...prevState, showConfig: true}));
-                                        }}
-                                >Config</Button>
-                                <ABIConfig show={showConfig} handleClose={() => {setState(prevState => ({...prevState, showConfig: false}));}}></ABIConfig>
-                            </div> : ''}
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                                <div>
+                                    <div className="abi-name">
+                                        ABI: {abiInstance.name}
+                                    </div>
+                                    <div className="abi-desc">
+                                        Description: {abiInstance.description ? abiInstance.description : '--Empty--'}
+                                    </div>
+                                </div>
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                                <div style={{display: "flex", justifyContent: "end"}}>
+                                    <JsonViewer obj={abi} variant="outlined" title="ABI JSON" name="ABI JSON"></JsonViewer>
+                                    {supportExecutor ? <div style={{marginLeft: '10px'}}>
+                                        <Button color={"primary"}
+                                                variant={"outlined"}
+                                                size={"small"}
+                                                onClick={() => {
+                                                    setState(prevState => ({...prevState, showConfig: true}));
+                                                }}
+                                        >Config</Button>
+                                        <ABIConfig show={showConfig} handleClose={() => {setState(prevState => ({...prevState, showConfig: false}));}}></ABIConfig>
+                                    </div> : ''}
 
-                            {supportCreateApp ? <div style={{marginLeft: '10px'}}>
-                                <Button color={"primary"}
-                                        variant={"outlined"}
-                                        size={"small"}
-                                        onClick={() => {
-                                            if (!wallet.information.address) {
-                                                dispatch(showSnack({
-                                                    severity: 'error',
-                                                    message: 'Please connect your wallet'
-                                                }));
-                                                return;
-                                            }
+                                    {supportCreateApp ? <div style={{marginLeft: '10px'}}>
+                                        <Button color={"primary"}
+                                                variant={"outlined"}
+                                                size={"small"}
+                                                onClick={() => {
+                                                    if (!wallet.information.address) {
+                                                        dispatch(showSnack({
+                                                            severity: 'error',
+                                                            message: 'Please connect your wallet'
+                                                        }));
+                                                        return;
+                                                    }
 
-                                            setState(prevState => ({...prevState, showCreateApp: true}));
-                                        }}
-                                >Create App</Button>
-                                <CreateApp abi={abi} show={showCreateApp} handleClose={() => {setState(prevState => ({...prevState, showCreateApp: false}));}}></CreateApp>
-                            </div> : ''}
+                                                    setState(prevState => ({...prevState, showCreateApp: true}));
+                                                }}
+                                        >Create App</Button>
+                                        <CreateApp abi={abi} show={showCreateApp} handleClose={() => {setState(prevState => ({...prevState, showCreateApp: false}));}}></CreateApp>
+                                    </div> : ''}
 
-                        </div>
+                                </div>
+                            </Grid>
+                        </Grid>
+
+
                     </Box>
                     <div className="abi-body">
                         {!hideNetworks ? <ABINetworks networks={networks}></ABINetworks> : ''}
