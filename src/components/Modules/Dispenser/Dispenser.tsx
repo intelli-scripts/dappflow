@@ -71,7 +71,7 @@ function Dispenser(): JSX.Element {
     }
 
     function setSuccess(txId: string) {
-        setState(prevState => ({...prevState, success: true, error: false, txId, errMsg: "", address: ""}));
+        setState(prevState => ({...prevState, success: true, error: false, txId, errMsg: "", address: "", amount: ""}));
     }
 
     function setError(message: string) {

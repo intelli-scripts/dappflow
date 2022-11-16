@@ -92,18 +92,15 @@
             }
           }
           .account {
-            font-size: 14px;
-            font-weight: bold;
+            font-size: 12px;
             overflow-wrap: anywhere;
-            margin: 15px 40px;
-            background: #D7F7E2;
-            color: $color-dark;
-            padding: 15px;
+            margin: 10px 40px;
+            padding: 10px;
             border-radius: 10px;
-            line-height: 1.4;
+            border: 1px solid $color-grey-light;
             &:hover {
-              background: linear-gradient(249.61deg, #60DD8B -8.07%, #0BB68C 99.24%);
               cursor: pointer;
+              background: $color-dark;
               color: $color-light;
             }
           }

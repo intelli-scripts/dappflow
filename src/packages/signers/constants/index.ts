@@ -8,5 +8,6 @@ export enum SIGNERS {
 export enum ALGO_SIGNER_NET {
     BETANET = "BetaNet",
     TESTNET = 'TestNet',
-    MAINNET = 'MainNet'
+    MAINNET = 'MainNet',
+    SANDBOX = 'sandnet-v1'
 }

@@ -1,5 +1,5 @@
 import {Signer, SignerAccount} from "./types";
-import {Transaction} from "algosdk";
+import {generateAccount, secretKeyToMnemonic, Transaction} from "algosdk";
 import {ALGO_SIGNER_NET} from "./constants";
 import {NETWORKS} from "../core-sdk/constants";
 
@@ -7,7 +7,7 @@ export class BrowserAlgoSigner implements Signer{
     private supportedNetworks: string[];
 
     constructor() {
-        this.supportedNetworks = [NETWORKS.TESTNET, NETWORKS.MAINNET];
+        this.supportedNetworks = [NETWORKS.TESTNET, NETWORKS.MAINNET, NETWORKS.BETANET, NETWORKS.SANDBOX];
     }
 
     async signTxn(unsignedTxn: Transaction): Promise<Uint8Array> {
@@ -59,7 +59,7 @@ export class BrowserAlgoSigner implements Signer{
         return this.supportedNetworks.indexOf(name) !== -1;
     }
 
-    getAlgoSignerNet(name: string): string {
+    getAlgoSignerLedger(name: string): string | any {
         if (name === NETWORKS.MAINNET) {
             return ALGO_SIGNER_NET.MAINNET
         }
@@ -69,9 +69,17 @@ export class BrowserAlgoSigner implements Signer{
         if (name === NETWORKS.TESTNET) {
             return ALGO_SIGNER_NET.TESTNET
         }
+        if (name === NETWORKS.SANDBOX) {
+            return ALGO_SIGNER_NET.SANDBOX
+        }
     }
 
     async connect(name: string): Promise<SignerAccount[]> {
+        const test = generateAccount();
+        console.log(secretKeyToMnemonic(test.sk));
+        const algoSignerLedger = this.getAlgoSignerLedger(name);
+
+        console.log(algoSignerLedger);
         if (this.isInstalled()) {
             if (this.isNetworkSupported(name)) {
                 const accounts: SignerAccount[] = [];
@@ -79,7 +87,7 @@ export class BrowserAlgoSigner implements Signer{
                 await AlgoSigner.connect();
                 // @ts-ignore
                 const wallets = await AlgoSigner.accounts({
-                    ledger: this.getAlgoSignerNet(name)
+                    ledger: algoSignerLedger
                 });
 
                 if (wallets) {
