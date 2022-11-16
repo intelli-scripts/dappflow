@@ -14,13 +14,18 @@ import {
 } from "@mui/material";
 import OfflineBoltIcon from '@mui/icons-material/OfflineBolt';
 import {theme} from "../../../../theme";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import ABIConfig from "../../../../packages/abi/classes/ABIConfig";
 import {showSnack} from "../../../../redux/common/actions/snackbar";
 import {handleException} from "../../../../redux/common/actions/exception";
 import ABIMethodExecutorCls from "../../../../packages/abi/classes/ABIMethodExecutor";
 import {A_ABI_METHOD_EXECUTOR_ARG} from "../../../../packages/abi/types";
 import CloseIcon from "@mui/icons-material/Close";
+import {RootState} from "../../../../redux/store";
+import dappflow from "../../../../utils/dappflow";
+import {hideLoader, showLoader} from "../../../../redux/common/actions/loader";
+import {TransactionClient} from "../../../../packages/core-sdk/clients/transactionClient";
+import {BaseTransaction} from "../../../../packages/core-sdk/transactions/baseTransaction";
 
 
 const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
@@ -64,6 +69,7 @@ const initialState: ABIMethodExecutorState = {
 
 function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.method, handleClose}: ABIMethodExecutorProps): JSX.Element {
 
+    const wallet = useSelector((state: RootState) => state.wallet);
     const dispatch = useDispatch();
     const [
         {appId, executorArgs},
@@ -111,9 +117,31 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
         }
 
         try {
+            dispatch(showLoader('Signing transaction'));
             const abiMethodExecutorInstance = new ABIMethodExecutorCls(method);
-            const unsignedTxns = await abiMethodExecutorInstance.getUnsignedTxns(Number(appId), 'CESUKTCKPQZQJ2ZOP5K6M6557S327ZNIWYSIGD7BMLAPFWDJDQWFCHZNMI', executorArgs);
-            console.log(unsignedTxns);
+            const unsignedTxns = await abiMethodExecutorInstance.getUnsignedTxns(Number(appId), wallet.information.address, executorArgs);
+
+            const signedTxns = await dappflow.signer.signGroupTxns(unsignedTxns.map((unsignedTxn) => {
+                return unsignedTxn.txn;
+            }));
+            dispatch(hideLoader());
+
+            const txnInstance = new BaseTransaction(dappflow.network);
+            dispatch(showLoader('Broadcasting transaction to network'));
+            const {txId} = await txnInstance.send(signedTxns);
+            dispatch(hideLoader());
+
+            dispatch(showLoader('Waiting for confirmation'));
+            await txnInstance.waitForConfirmation(txId);
+            const txn = await new TransactionClient(dappflow.network).get(txId);
+            console.log(txn);
+            dispatch(hideLoader());
+
+            handleClose();
+            dispatch(showSnack({
+                severity: 'success',
+                message: 'Method executed successfully: ' + txId
+            }));
         }
         catch (e: any) {
             dispatch(handleException(e));

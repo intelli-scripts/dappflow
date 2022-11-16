@@ -398,7 +398,7 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
                                             multiline
                                             rows={3}
                                             value={params.foreignAssets}
-                                            placeholder="Note"
+                                            placeholder="Comma separated list of foreign assets"
                                             onChange={(ev) => {
                                                 setState(prevState => ({...prevState, params: {
                                                         ...params,
@@ -415,7 +415,7 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
                                             multiline
                                             rows={3}
                                             value={params.foreignApps}
-                                            placeholder="Note"
+                                            placeholder="Comma separated list of foreign apps"
                                             onChange={(ev) => {
                                                 setState(prevState => ({...prevState, params: {
                                                         ...params,
@@ -432,7 +432,7 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
                                             multiline
                                             rows={3}
                                             value={params.accounts}
-                                            placeholder="Note"
+                                            placeholder="Comma separated list of accounts"
                                             onChange={(ev) => {
                                                 setState(prevState => ({...prevState, params: {
                                                         ...params,
@@ -449,7 +449,7 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
                                             multiline
                                             rows={3}
                                             value={params.note}
-                                            placeholder="Note"
+                                            placeholder="Enter your note"
                                             onChange={(ev) => {
                                                 setState(prevState => ({...prevState, params: {
                                                         ...params,

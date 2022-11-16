@@ -1,5 +1,5 @@
 import {Signer, SignerAccount} from "./types";
-import {generateAccount, secretKeyToMnemonic, Transaction} from "algosdk";
+import {Transaction} from "algosdk";
 import {ALGO_SIGNER_NET} from "./constants";
 import {NETWORKS} from "../core-sdk/constants";
 
@@ -75,11 +75,8 @@ export class BrowserAlgoSigner implements Signer{
     }
 
     async connect(name: string): Promise<SignerAccount[]> {
-        const test = generateAccount();
-        console.log(secretKeyToMnemonic(test.sk));
         const algoSignerLedger = this.getAlgoSignerLedger(name);
 
-        console.log(algoSignerLedger);
         if (this.isInstalled()) {
             if (this.isNetworkSupported(name)) {
                 const accounts: SignerAccount[] = [];
