@@ -27,6 +27,8 @@ import {isNumber} from "../../../../utils/common";
 import {ApplicationTransaction} from "../../../../packages/core-sdk/transactions/applicationTransaction";
 import {RootState} from "../../../../redux/store";
 import {TransactionClient} from "../../../../packages/core-sdk/clients/transactionClient";
+import ABIConfig from "../../../../packages/abi/classes/ABIConfig";
+import {CoreTransaction} from "../../../../packages/core-sdk/classes/core/CoreTransaction";
 
 
 const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
@@ -191,11 +193,11 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
         try {
             dispatch(showLoader('Signing transaction'));
 
-            const txnInstance = new ApplicationTransaction(dappflow.network);
-            const unsignedTxn = await txnInstance.prepareCreateTxn({
-                appApprovalProgram: txnInstance.toUint8Array(approvalProgram),
+            const appCallInstance = new ApplicationTransaction(dappflow.network);
+            const unsignedTxn = await appCallInstance.prepareCreateTxn({
+                appApprovalProgram: appCallInstance.getProgramBytes(approvalProgram),
                 appArgs: [],
-                appClearProgram: txnInstance.toUint8Array(clearProgram),
+                appClearProgram: appCallInstance.getProgramBytes(clearProgram),
                 appForeignApps: foreignApps ? foreignApps.split(',').map(app => Number(app)): [],
                 appForeignAssets: foreignAssets ? foreignAssets.split(',').map(asset => Number(asset)): [],
                 appGlobalByteSlices: Number(globalBytes),
@@ -218,25 +220,28 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
                 suggestedParams: undefined,
                 type: undefined,
                 appAccounts: accounts ? accounts.split(','): [],
-                note: txnInstance.toUint8Array(note)
+                note: appCallInstance.toUint8Array(note)
             });
 
             const signedTxn = await dappflow.signer.signTxn(unsignedTxn);
             dispatch(hideLoader());
 
             dispatch(showLoader('Broadcasting transaction to network'));
-            const {txId} = await txnInstance.send(signedTxn);
+            const {txId} = await appCallInstance.send(signedTxn);
             dispatch(hideLoader());
 
             dispatch(showLoader('Waiting for confirmation'));
-            await txnInstance.waitForConfirmation(txId);
-            dispatch(hideLoader());
-
-            dispatch(showLoader('Waiting for confirmation'));
+            await appCallInstance.waitForConfirmation(txId);
             const txn = await new TransactionClient(dappflow.network).get(txId);
             dispatch(hideLoader());
 
-            console.log(txn);
+            const txnInstance = new CoreTransaction(txn);
+            new ABIConfig().setAppId(txnInstance.getAppId().toString());
+            handleClose();
+            dispatch(showSnack({
+                severity: 'success',
+                message: 'Application created successfully. You can execute the ABI calls.'
+            }));
         }
         catch (e: any) {
             dispatch(hideLoader());

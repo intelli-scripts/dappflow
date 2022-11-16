@@ -10,6 +10,10 @@ export class ApplicationTransaction extends BaseTransaction{
         super(network);
     }
 
+    getProgramBytes(program: string): Uint8Array {
+        return new Uint8Array(Buffer.from(program, "base64"));
+    }
+
     async prepareCreateTxn(params: AppCreateTxn): Promise<Transaction> {
         const suggestedParams = await this.getSuggestedParams();
         const {from, appOnComplete, appApprovalProgram, appClearProgram, appLocalByteSlices, appLocalInts, appGlobalByteSlices, appGlobalInts, appArgs, appForeignApps, appForeignAssets, appAccounts, note, extraPages, reKeyTo, lease, boxes} = params;
