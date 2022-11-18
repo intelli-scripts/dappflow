@@ -29,6 +29,9 @@
       }
 
       .bottom-menu-item-wrapper {
+        &:not(:last-child) {
+          margin: 5px 0;
+        }
         .bottom-menu-item-container {
           text-align: center;
           padding: 15px 0;

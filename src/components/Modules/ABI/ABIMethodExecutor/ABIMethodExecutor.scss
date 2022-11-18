@@ -39,6 +39,15 @@
             }
             .abi-method-arg {
               margin: 15px 0;
+              .arg-transaction-wrapper {
+                .arg-transaction-container {
+                  margin-top: 15px;
+                  margin-bottom: 25px;
+                  background: $color-grey-very-light;
+                  padding: 15px;
+                  border-radius: 10px;
+                }
+              }
             }
             .abi-method-execute {
               text-align: right;

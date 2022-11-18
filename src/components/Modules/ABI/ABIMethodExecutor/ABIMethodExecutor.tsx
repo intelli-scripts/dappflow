@@ -2,7 +2,7 @@ import './ABIMethodExecutor.scss';
 import React, {useEffect, useState} from "react";
 import {
     ABIMethod,
-    ABIMethodParams
+    ABIMethodParams, abiTypeIsTransaction, TransactionType
 } from "algosdk";
 import {
     Button,
@@ -65,6 +65,17 @@ interface ABIMethodExecutorState{
 const initialState: ABIMethodExecutorState = {
     appId: '',
     executorArgs: []
+};
+
+const formLabelSx = {
+    marginLeft: '5px',
+    fontSize: '13px',
+    fontWeight: 'bold',
+    color: theme.palette.grey[600]
+};
+
+const argTransactionSx = {
+    background: theme.palette.common.white.toString()
 };
 
 function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.method, handleClose}: ABIMethodExecutorProps): JSX.Element {
@@ -197,8 +208,59 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
                                                     <div className="abi-method-args-form-title">Arguments</div>
                                                     {executorArgs.map((arg, index) => {
                                                         return <div className="abi-method-arg" key={arg.name}>
-                                                            <FormLabel sx={{marginLeft: '5px', fontSize: '13px', fontWeight: 'bold', color: theme.palette.grey[600]}}>{`${arg.name} (${arg.type.toString()})`}</FormLabel>
-                                                            <ShadedInput
+                                                            <FormLabel sx={formLabelSx}>{`${arg.name} (${arg.type.toString()})`}</FormLabel>
+                                                            {abiTypeIsTransaction(arg.type.toString()) ? <div>
+                                                                <div className="arg-transaction-wrapper">
+                                                                    <div className="arg-transaction-container">
+                                                                        {arg.type.toString() === TransactionType.pay ? <div>
+
+                                                                            <FormLabel sx={formLabelSx}>To</FormLabel>
+                                                                            <ShadedInput
+                                                                                placeholder="To address"
+                                                                                multiline
+                                                                                rows={2}
+                                                                                value={arg.value.to}
+                                                                                sx={{...argTransactionSx, marginBottom: '10px'}}
+                                                                                onChange={(ev) => {
+                                                                                    const processedArgs = executorArgs;
+                                                                                    processedArgs[index] = {
+                                                                                        ...arg,
+                                                                                        value: {
+                                                                                            ...arg.value,
+                                                                                            to: ev.target.value
+                                                                                        }
+                                                                                    };
+
+                                                                                    setState(prevState => ({...prevState, executorArgs: processedArgs}));
+                                                                                }}
+                                                                                fullWidth/>
+
+
+                                                                            <FormLabel sx={{...formLabelSx}}>Amount</FormLabel>
+                                                                            <ShadedInput
+                                                                                placeholder="Amount"
+                                                                                value={arg.value.amount}
+                                                                                sx={argTransactionSx}
+                                                                                onChange={(ev) => {
+                                                                                    const processedArgs = executorArgs;
+                                                                                    processedArgs[index] = {
+                                                                                        ...arg,
+                                                                                        value: {
+                                                                                            ...arg.value,
+                                                                                            amount: ev.target.value
+                                                                                        }
+                                                                                    };
+
+                                                                                    setState(prevState => ({...prevState, executorArgs: processedArgs}));
+                                                                                }}
+                                                                                fullWidth/>
+
+
+                                                                        </div> : ''}
+                                                                    </div>
+                                                                </div>
+
+                                                            </div> : <ShadedInput
                                                                 placeholder={arg.type.toString()}
                                                                 value={arg.value}
                                                                 onChange={(ev) => {
@@ -210,7 +272,8 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
 
                                                                     setState(prevState => ({...prevState, executorArgs: processedArgs}));
                                                                 }}
-                                                                fullWidth/>
+                                                                fullWidth/>}
+
                                                         </div>
                                                     })}
                                                     <div className="abi-method-execute">

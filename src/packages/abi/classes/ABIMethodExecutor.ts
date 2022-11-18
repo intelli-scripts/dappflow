@@ -3,7 +3,7 @@ import {
     ABIMethod,
     ABIMethodParams,
     ABITransactionType,
-    abiTypeIsTransaction,
+    abiTypeIsTransaction, algosToMicroalgos,
     AtomicTransactionComposer, makeBasicAccountTransactionSigner,
     Transaction,
     TransactionType,
@@ -108,11 +108,10 @@ export default class ABIMethodExecutor {
             signer
         }
 
-        console.log(sp);
         const methodArgs = args.map((arg) => {
             const val = this.parseArgumentValue(arg);
             if (abiTypeIsTransaction(arg.type.toString())) {
-                const txn = new Transaction({type: TransactionType.pay, from: from, to: from, amount: 1000, fee: sp.fee, ...sp});
+                const txn = new Transaction({type: TransactionType.pay, from: from, to: val.to, amount: algosToMicroalgos(val.amount), fee: sp.fee, ...sp});
                 return {
                     txn: txn,
                     signer: makeBasicAccountTransactionSigner({addr: from, sk: undefined})
