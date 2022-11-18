@@ -133,8 +133,7 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
 
             dispatch(showLoader('Waiting for confirmation'));
             await txnInstance.waitForConfirmation(txId);
-            const txn = await new TransactionClient(dappflow.network).get(txId);
-            console.log(txn);
+            await new TransactionClient(dappflow.network).get(txId);
             dispatch(hideLoader());
 
             handleClose();
@@ -144,6 +143,7 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
             }));
         }
         catch (e: any) {
+            dispatch(hideLoader());
             dispatch(handleException(e));
         }
     }

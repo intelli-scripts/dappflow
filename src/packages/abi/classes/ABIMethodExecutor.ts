@@ -4,7 +4,10 @@ import {
     ABIMethodParams,
     ABITransactionType,
     abiTypeIsTransaction,
-    AtomicTransactionComposer, TransactionWithSigner
+    AtomicTransactionComposer, makeBasicAccountTransactionSigner,
+    Transaction,
+    TransactionType,
+    TransactionWithSigner
 } from "algosdk";
 import {A_ABI_METHOD_EXECUTOR_ARG, ABI_METHOD_EXECUTOR_SUPPORTED_TXN_TYPES} from "../types";
 import dappflow from "../../../utils/dappflow";
@@ -22,10 +25,6 @@ export default class ABIMethodExecutor {
     }
 
     canExecute(): boolean {
-        if (this.isGroup()) {
-            return false;
-        }
-
         let supported = true;
 
         const txnTypes = this.getTxnTypes();
@@ -70,31 +69,66 @@ export default class ABIMethodExecutor {
                 return BigInt(val);
             case "bool":
                 return Boolean(val);
+            case "byte[]":
+                return new Uint8Array(Buffer.from(val, "base64"));
             default:
                 return val;
         }
     }
 
+    getSequenceOfTxnTypes(): string[] {
+        const txnTypes: string[] = [];
+
+        const args = this.getArgs();
+        args.forEach((arg) => {
+            if (abiTypeIsTransaction(arg.type.toString())) {
+                txnTypes.push(arg.type.toString());
+            }
+            else {
+                if (txnTypes.indexOf('current') === -1) {
+                    txnTypes.push('current');
+                }
+            }
+        });
+
+        return txnTypes;
+    }
+
     async getUnsignedTxns(appId: number, from: string, args: A_ABI_METHOD_EXECUTOR_ARG[] = []): Promise<TransactionWithSigner[]> {
+        console.log(this.getSequenceOfTxnTypes());
         const atc = new AtomicTransactionComposer();
 
         const sp = await new BaseTransaction(dappflow.network).getSuggestedParams();
+        const signer = undefined;
 
         const appCallParams = {
             appID: appId,
             sender: from,
-            suggestedParams:sp,
-            signer: undefined
+            suggestedParams: sp,
+            signer
         }
 
-        const methodArgs = args.map((arg) =>
-                this.parseArgumentValue(arg)
-            ).filter((value) => value !== undefined && value !== "" && value !== null);
+        console.log(sp);
+        const methodArgs = args.map((arg) => {
+            const val = this.parseArgumentValue(arg);
+            if (abiTypeIsTransaction(arg.type.toString())) {
+                const txn = new Transaction({type: TransactionType.pay, from: from, to: from, amount: 1000, fee: sp.fee, ...sp});
+                return {
+                    txn: txn,
+                    signer: makeBasicAccountTransactionSigner({addr: from, sk: undefined})
+                };
+            }
+            else {
+                return val;
+            }
+        }).filter((value) => value !== undefined && value !== "" && value !== null);
+
+        console.log(methodArgs);
 
         atc.addMethodCall({
+            ...appCallParams,
             method: new ABIMethod(this.method),
-            methodArgs: methodArgs,
-            ...appCallParams
+            methodArgs
         });
 
         const unsignedTxns= atc.buildGroup();
