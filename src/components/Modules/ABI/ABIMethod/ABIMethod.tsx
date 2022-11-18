@@ -15,8 +15,8 @@ import OfflineBoltIcon from '@mui/icons-material/OfflineBolt';
 import {Alert} from "@mui/lab";
 import {showSnack} from "../../../../redux/common/actions/snackbar";
 import {useDispatch, useSelector} from "react-redux";
-import ABIConfig from "../../../../packages/abi/classes/ABIConfig";
 import {RootState} from "../../../../redux/store";
+import {ABI_METHOD_EXECUTOR_SUPPORTED_TXN_TYPES} from "../../../../packages/abi/types";
 
 type ABIMethodProps = {
     method: ABIMethodParams,
@@ -72,20 +72,11 @@ function ABIMethod({method, supportExecutor = true}: ABIMethodProps): JSX.Elemen
                                     if (!new ABIMethodExecutorCls(method).canExecute()) {
                                         dispatch(showSnack({
                                             severity: 'error',
-                                            message: 'Group transactions are not yet supported by Dappflow. It is on our roadmap.'
+                                            message: `Cannot execute.Only [${ABI_METHOD_EXECUTOR_SUPPORTED_TXN_TYPES.join(',')}] are supported`
                                         }));
                                         return;
                                     }
 
-                                    const appId = new ABIConfig().getAppId();
-
-                                    if (!appId) {
-                                        dispatch(showSnack({
-                                            severity: 'error',
-                                            message: 'App ID is null. Before you execute please setup an App ID using the config button above.'
-                                        }));
-                                        return;
-                                    }
 
                                     setState(prevState => ({...prevState, showExecutor: true}));
                                 }} color={"primary"}

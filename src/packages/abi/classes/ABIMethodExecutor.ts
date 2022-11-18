@@ -9,9 +9,14 @@ import {
     TransactionType,
     TransactionWithSigner
 } from "algosdk";
-import {A_ABI_METHOD_EXECUTOR_ARG, ABI_METHOD_EXECUTOR_SUPPORTED_TXN_TYPES} from "../types";
+import {
+    A_ABI_METHOD_EXECUTOR_APP_CREATION_PARAMS,
+    A_ABI_METHOD_EXECUTOR_ARG,
+    ABI_METHOD_EXECUTOR_SUPPORTED_TXN_TYPES
+} from "../types";
 import dappflow from "../../../utils/dappflow";
 import {BaseTransaction} from "../../core-sdk/transactions/baseTransaction";
+import {ApplicationTransaction} from "../../core-sdk/transactions/applicationTransaction";
 
 export default class ABIMethodExecutor {
     method: ABIMethodParams
@@ -94,24 +99,55 @@ export default class ABIMethodExecutor {
         return txnTypes;
     }
 
-    async getUnsignedTxns(appId: number, from: string, args: A_ABI_METHOD_EXECUTOR_ARG[] = []): Promise<TransactionWithSigner[]> {
-        console.log(this.getSequenceOfTxnTypes());
+    async getUnsignedTxns(appId: number, from: string, args: A_ABI_METHOD_EXECUTOR_ARG[] = [], isCreation: boolean = false, params: A_ABI_METHOD_EXECUTOR_APP_CREATION_PARAMS): Promise<TransactionWithSigner[]> {
+        const appCallInstance = new ApplicationTransaction(dappflow.network);
+        
         const atc = new AtomicTransactionComposer();
 
         const sp = await new BaseTransaction(dappflow.network).getSuggestedParams();
         const signer = undefined;
 
-        const appCallParams = {
+        let appCallParams = {
             appID: appId,
             sender: from,
-            suggestedParams: sp,
-            signer
+            suggestedParams: {
+                ...sp
+            },
+            signer,
+            numGlobalInts: undefined,
+            numGlobalByteSlices: undefined,
+            numLocalInts: undefined,
+            numLocalByteSlices: undefined,
+            approvalProgram: undefined,
+            clearProgram: undefined,
+            note: undefined
         }
+        
+        if (isCreation) {
+            appCallParams.appID = 0;
+            appCallParams.numGlobalInts = Number(params.globalInts);
+            appCallParams.numGlobalByteSlices = Number(params.globalBytes);
+            appCallParams.numLocalInts = Number(params.localInts);
+            appCallParams.numLocalByteSlices = Number(params.localBytes);
+            appCallParams.approvalProgram = appCallInstance.getProgramBytes(params.approvalProgram);
+            appCallParams.clearProgram = appCallInstance.getProgramBytes(params.clearProgram);
+            appCallParams.note = appCallInstance.toUint8Array(params.note);
+        }
+        else {
+            delete appCallParams.numGlobalByteSlices;
+            delete appCallParams.numGlobalInts;
+            delete appCallParams.numLocalInts;
+            delete appCallParams.numLocalByteSlices;
+            delete appCallParams.approvalProgram;
+            delete appCallParams.clearProgram;
+        }
+
+        console.log(appCallParams);
 
         const methodArgs = args.map((arg) => {
             const val = this.parseArgumentValue(arg);
             if (abiTypeIsTransaction(arg.type.toString())) {
-                const txn = new Transaction({type: TransactionType.pay, from: from, to: val.to, amount: algosToMicroalgos(val.amount), fee: sp.fee, ...sp});
+                const txn = new Transaction({type: TransactionType.pay, from: from, to: val.to, amount: algosToMicroalgos(val.amount), ...sp});
                 return {
                     txn: txn,
                     signer: makeBasicAccountTransactionSigner({addr: from, sk: undefined})
@@ -122,7 +158,6 @@ export default class ABIMethodExecutor {
             }
         }).filter((value) => value !== undefined && value !== "" && value !== null);
 
-        console.log(methodArgs);
 
         atc.addMethodCall({
             ...appCallParams,

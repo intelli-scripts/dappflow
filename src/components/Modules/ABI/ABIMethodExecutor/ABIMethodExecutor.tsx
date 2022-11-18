@@ -5,7 +5,7 @@ import {
     ABIMethodParams, abiTypeIsTransaction, TransactionType
 } from "algosdk";
 import {
-    Button,
+    Button, ButtonGroup,
     Dialog,
     DialogActions,
     DialogContent,
@@ -19,13 +19,18 @@ import ABIConfig from "../../../../packages/abi/classes/ABIConfig";
 import {showSnack} from "../../../../redux/common/actions/snackbar";
 import {handleException} from "../../../../redux/common/actions/exception";
 import ABIMethodExecutorCls from "../../../../packages/abi/classes/ABIMethodExecutor";
-import {A_ABI_METHOD_EXECUTOR_ARG} from "../../../../packages/abi/types";
+import {A_ABI_METHOD_EXECUTOR_APP_CREATION_PARAMS, A_ABI_METHOD_EXECUTOR_ARG} from "../../../../packages/abi/types";
 import CloseIcon from "@mui/icons-material/Close";
 import {RootState} from "../../../../redux/store";
 import dappflow from "../../../../utils/dappflow";
 import {hideLoader, showLoader} from "../../../../redux/common/actions/loader";
 import {TransactionClient} from "../../../../packages/core-sdk/clients/transactionClient";
 import {BaseTransaction} from "../../../../packages/core-sdk/transactions/baseTransaction";
+import {FileUploadOutlined} from "@mui/icons-material";
+import {CompileResponse} from "algosdk/dist/types/src/client/v2/algod/models/types";
+import {getFileContent} from "../../../../packages/core-sdk/utils/fileUtils";
+import {ApplicationClient} from "../../../../packages/core-sdk/clients/applicationClient";
+import {CoreTransaction} from "../../../../packages/core-sdk/classes/core/CoreTransaction";
 
 
 const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
@@ -59,12 +64,25 @@ const defaultProps: ABIMethodExecutorProps = {
 
 interface ABIMethodExecutorState{
     appId: string,
-    executorArgs: A_ABI_METHOD_EXECUTOR_ARG[]
+    executorArgs: A_ABI_METHOD_EXECUTOR_ARG[],
+    creation: boolean,
+    creationParams: A_ABI_METHOD_EXECUTOR_APP_CREATION_PARAMS
 }
 
 const initialState: ABIMethodExecutorState = {
     appId: '',
-    executorArgs: []
+    executorArgs: [],
+    creation: false,
+    creationParams: {
+        id: '',
+        approvalProgram: '',
+        clearProgram: '',
+        globalBytes: '',
+        localBytes: '',
+        globalInts: '',
+        localInts: '',
+        note: ''
+    },
 };
 
 const formLabelSx = {
@@ -83,7 +101,7 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
     const wallet = useSelector((state: RootState) => state.wallet);
     const dispatch = useDispatch();
     const [
-        {appId, executorArgs},
+        {appId, executorArgs, creation, creationParams},
         setState
     ] = useState({
         ...initialState
@@ -105,8 +123,8 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
                 ...arg,
                 value: ''
             });
-            setState(prevState => ({...prevState, executorArgs: processedArgs, appId: new ABIConfig().getAppId()}));
         });
+        setState(prevState => ({...prevState, executorArgs: processedArgs, appId: new ABIConfig().getAppId()}));
     }, [show]);
 
 
@@ -119,18 +137,11 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
     }
 
     async function execute() {
-        if (!appId) {
-            dispatch(showSnack({
-                severity: 'error',
-                message: 'Invalid Application ID.'
-            }));
-            return;
-        }
 
         try {
             dispatch(showLoader('Signing transaction'));
             const abiMethodExecutorInstance = new ABIMethodExecutorCls(method);
-            const unsignedTxns = await abiMethodExecutorInstance.getUnsignedTxns(Number(appId), wallet.information.address, executorArgs);
+            const unsignedTxns = await abiMethodExecutorInstance.getUnsignedTxns(appId ? Number(appId) : undefined, wallet.information.address, executorArgs, creation, creationParams);
 
             const signedTxns = await dappflow.signer.signGroupTxns(unsignedTxns.map((unsignedTxn) => {
                 return unsignedTxn.txn;
@@ -144,14 +155,43 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
 
             dispatch(showLoader('Waiting for confirmation'));
             await txnInstance.waitForConfirmation(txId);
-            await new TransactionClient(dappflow.network).get(txId);
+            const txn = await new TransactionClient(dappflow.network).get(txId);
             dispatch(hideLoader());
 
             handleClose();
+            clearState();
+
+            if (creation) {
+                const txnInstance = new CoreTransaction(txn);
+                new ABIConfig().setAppId(txnInstance.getAppId().toString());
+            }
+
             dispatch(showSnack({
                 severity: 'success',
                 message: 'Method executed successfully: ' + txId
             }));
+        }
+        catch (e: any) {
+            dispatch(hideLoader());
+            dispatch(handleException(e));
+        }
+    }
+
+    async function validateProgram(event): Promise<CompileResponse> {
+        let file = event.target.files[0];
+        const target = event.target;
+
+        try {
+            dispatch(showLoader('Reading TEAL program'));
+            const content = await getFileContent(file);
+            dispatch(hideLoader());
+
+            dispatch(showLoader('Compiling program'));
+            const compileResp = await new ApplicationClient(dappflow.network).compileProgram(content);
+            dispatch(hideLoader());
+
+            target.value = null;
+            return compileResp;
         }
         catch (e: any) {
             dispatch(hideLoader());
@@ -199,8 +239,168 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
                                     <div className="abi-method-executor-panel-wrapper">
                                         <div className="abi-method-executor-panel-container">
                                             <div className="abi-method-metadata">
-                                                <div className="metadata-item">
+                                                {appId ? <div className="metadata-item">
                                                     Application ID : {appId}
+                                                </div> : ''}
+                                            </div>
+                                            <div className="abi-method-app-creation-wrapper">
+                                                <div className="abi-method-app-creation-container">
+                                                    <div className="abi-method-app-creation-question">
+                                                        Do you want to use this method for app creation ?
+                                                    </div>
+
+                                                    <ButtonGroup color={"warning"} variant="outlined" size={"small"} style={{marginTop: 20}}>
+                                                        <Button variant={creation ? 'contained' : 'outlined'} onClick={() => {setState(prevState => ({...prevState, creation: true}));}}>Yes</Button>
+                                                        <Button variant={!creation ? 'contained' : 'outlined'} onClick={() => {setState(prevState => ({...prevState, creation: false}));}}>No</Button>
+                                                    </ButtonGroup>
+
+                                                    {creation ? <div className="abi-method-app-creation-form">
+                                                        <div className="abi-method-app-creation-form-content">
+                                                            <div>
+                                                                <Grid container spacing={2}>
+                                                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                                                                        <FormLabel sx={formLabelSx}>Global bytes</FormLabel>
+                                                                        <ShadedInput
+                                                                            value={creationParams.globalBytes}
+                                                                            placeholder="20"
+                                                                            onChange={(ev) => {
+                                                                                setState(prevState => ({...prevState, creationParams: {
+                                                                                        ...creationParams,
+                                                                                        globalBytes: ev.target.value
+                                                                                    }}));
+                                                                            }
+                                                                            }
+                                                                            fullWidth/>
+                                                                    </Grid>
+                                                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                                                                        <FormLabel sx={formLabelSx}>Global ints</FormLabel>
+                                                                        <ShadedInput
+                                                                            value={creationParams.globalInts}
+                                                                            placeholder="20"
+                                                                            onChange={(ev) => {
+                                                                                setState(prevState => ({...prevState, creationParams: {
+                                                                                        ...creationParams,
+                                                                                        globalInts: ev.target.value
+                                                                                    }}));
+                                                                            }
+                                                                            }
+                                                                            fullWidth/>
+                                                                    </Grid>
+                                                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                                                                        <FormLabel sx={formLabelSx}>Local bytes</FormLabel>
+                                                                        <ShadedInput
+                                                                            value={creationParams.localBytes}
+                                                                            placeholder="10"
+                                                                            onChange={(ev) => {
+                                                                                setState(prevState => ({...prevState, creationParams: {
+                                                                                        ...creationParams,
+                                                                                        localBytes: ev.target.value
+                                                                                    }}));
+                                                                            }
+                                                                            }
+                                                                            fullWidth/>
+                                                                    </Grid>
+                                                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                                                                        <FormLabel sx={formLabelSx}>Local ints</FormLabel>
+                                                                        <ShadedInput
+                                                                            value={creationParams.localInts}
+                                                                            placeholder="10"
+                                                                            onChange={(ev) => {
+                                                                                setState(prevState => ({...prevState, creationParams: {
+                                                                                        ...creationParams,
+                                                                                        localInts: ev.target.value
+                                                                                    }}));
+                                                                            }
+                                                                            }
+                                                                            fullWidth/>
+                                                                    </Grid>
+                                                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                                                                        <FormLabel sx={formLabelSx}>Approval program</FormLabel>
+                                                                        <div style={{marginTop: '10px'}}>
+                                                                            <Button
+                                                                                variant="outlined"
+                                                                                component="label"
+                                                                                size={"small"}
+                                                                                color={"warning"}>
+                                                                                <FileUploadOutlined fontSize={"small"} sx={{marginRight: '5px'}}></FileUploadOutlined>
+                                                                                Upload
+                                                                                <input
+                                                                                    type="file"
+                                                                                    // accept=".teal"
+                                                                                    style={{ display: "none" }}
+                                                                                    onChange={async (event) => {
+                                                                                        const compileResponse = await validateProgram(event);
+                                                                                        setState(prevState => ({...prevState, creationParams: {
+                                                                                                ...creationParams,
+                                                                                                approvalProgram: compileResponse.result
+                                                                                            }}));
+                                                                                    }} />
+
+                                                                            </Button>
+                                                                            {creationParams.approvalProgram ? <div className="teal-program">
+                                                                                {creationParams.approvalProgram}
+                                                                            </div> : ''}
+
+                                                                        </div>
+                                                                    </Grid>
+
+                                                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                                                                        <FormLabel sx={formLabelSx}>Clear program</FormLabel>
+                                                                        <div style={{marginTop: '10px'}}>
+                                                                            <Button
+                                                                                variant="outlined"
+                                                                                component="label"
+                                                                                size={"small"}
+                                                                                color={"warning"}>
+                                                                                <FileUploadOutlined fontSize={"small"} sx={{marginRight: '5px'}}></FileUploadOutlined>
+                                                                                Upload
+                                                                                <input
+                                                                                    type="file"
+                                                                                    // accept=".teal"
+                                                                                    style={{ display: "none" }}
+                                                                                    onChange={async (event) => {
+                                                                                        const compileResponse = await validateProgram(event);
+                                                                                        setState(prevState => ({...prevState, creationParams: {
+                                                                                                ...creationParams,
+                                                                                                clearProgram: compileResponse.result
+                                                                                            }}));
+                                                                                    }} />
+                                                                            </Button>
+                                                                            {creationParams.clearProgram ? <div className="teal-program">
+                                                                                {creationParams.clearProgram}
+                                                                            </div> : ''}
+
+                                                                        </div>
+                                                                    </Grid>
+
+
+                                                                    
+                                                                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                                                        <FormLabel sx={formLabelSx}>Note</FormLabel>
+                                                                        <ShadedInput
+                                                                            multiline
+                                                                            rows={3}
+                                                                            value={creationParams.note}
+                                                                            placeholder="Enter your note"
+                                                                            onChange={(ev) => {
+                                                                                setState(prevState => ({...prevState, creationParams: {
+                                                                                        ...creationParams,
+                                                                                        note: ev.target.value
+                                                                                    }}));
+                                                                            }
+                                                                            }
+                                                                            fullWidth/>
+                                                                    </Grid>
+
+
+                                                                </Grid>
+
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div> : ''}
+
                                                 </div>
                                             </div>
                                             <div className="abi-method-args-form-wrapper">
