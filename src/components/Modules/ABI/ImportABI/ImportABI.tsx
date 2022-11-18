@@ -164,6 +164,13 @@ function ImportABI(props): JSX.Element {
                                         }} label="DAO ABI" size="small" color={"warning"} variant={"outlined"}
                                               sx={{marginLeft: '10px'}}
                                         ></Chip>
+
+                                        <Chip onClick={() => {
+                                            setState(prevState => ({...prevState, url: "https://raw.githubusercontent.com/AlgoPoaP/algopoap-smartcontracts/main/algopoap-contract.json"}));
+                                        }} label="AlgoPoaP ABI" size="small" color={"warning"} variant={"outlined"}
+                                              sx={{marginLeft: '10px'}}
+                                        ></Chip>
+
                                     </div>
 
 
