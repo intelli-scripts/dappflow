@@ -10,7 +10,7 @@ import {showSettings} from "../../redux/settings/actions/settings";
 import Logo from '../../assets/images/logo-black.png';
 import {useLocation, useNavigate} from "react-router-dom";
 import {RootState} from "../../redux/store";
-import {shadedClr, shadedClr1} from "../../utils/common";
+import {shadedClr, shadedClr1, shadedClr2} from "../../utils/common";
 import CodeIcon from '@mui/icons-material/Code';
 import StorageIcon from '@mui/icons-material/Storage';
 import GavelIcon from '@mui/icons-material/Gavel';
@@ -111,14 +111,14 @@ function LeftBar(): JSX.Element {
 
 
 
-                  <div className="bottom-menu-item-wrapper" style={{backgroundColor: shadedClr1}} onClick={(ev) => {
+                  <div className="bottom-menu-item-wrapper" onClick={(ev) => {
                       if (supportSettings) {
                           dispatch(showSettings());
                           ev.stopPropagation();
                           ev.preventDefault();
                       }
                   }}>
-                      <div className="bottom-menu-item-container">
+                      <div className="bottom-menu-item-container" style={{borderTopColor: shadedClr2}}>
                           <div className="node">
 
                               <Box className="node-url" sx={{ color: 'grey.700'}}>
@@ -136,8 +136,8 @@ function LeftBar(): JSX.Element {
                       </div>
                   </div>
 
-                  <div className="bottom-menu-item-wrapper" style={{backgroundColor: shadedClr1}}>
-                      <div className="bottom-menu-item-container">
+                  <div className="bottom-menu-item-wrapper">
+                      <div className="bottom-menu-item-container" style={{borderTopColor: shadedClr2}}>
                           {wallet.information.address ? <div>
 
 

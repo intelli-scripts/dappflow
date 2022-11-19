@@ -1,5 +1,5 @@
 import './ABIMethodExecutor.scss';
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {
     ABIMethod,
     ABIMethodParams, abiTypeIsTransaction, TransactionType
@@ -112,6 +112,7 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
         ...initialState
     });
 
+    const resultRef = useRef();
 
     const abiMethodInstance = new ABIMethod(method);
     const args = abiMethodInstance.args;
@@ -148,12 +149,18 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
 
     function setError(msg: string) {
         setState(prevState => ({...prevState, error: msg}));
+        focusResult();
     }
 
     function setSuccess(msg: string) {
         setState(prevState => ({...prevState, success: msg}));
+        focusResult();
     }
 
+    function focusResult() {
+        // @ts-ignore
+        resultRef.current.focus();
+    }
     async function execute() {
 
         resetResult();
@@ -223,7 +230,6 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
         catch (e: any) {
             dispatch(hideLoader());
             setError(e.message);
-            //dispatch(handleException(e));
         }
     }
 
@@ -555,7 +561,7 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
                                             <div className="abi-method-result-title">
                                                 Result
                                             </div>
-                                            <div className="abi-method-result-body">
+                                            <div className="abi-method-result-body" ref={resultRef} tabIndex={-1}>
                                                 {error ? <div>
                                                     <Alert icon={<Error></Error>} color={"warning"} sx={{wordBreak: "break-word"}}>{error}</Alert>
                                                 </div> : ''}
