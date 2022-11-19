@@ -25,6 +25,7 @@ import {logOut} from "../../redux/wallet/actions/wallet";
 import LogoutIcon from '@mui/icons-material/Logout';
 import SwapCallsIcon from '@mui/icons-material/SwapCalls';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 
 function LeftBar(): JSX.Element {
@@ -186,6 +187,20 @@ function LeftBar(): JSX.Element {
                                           <LogoutIcon fontSize="small" color={"warning"}/>
                                       </ListItemIcon>
                                       <ListItemText sx={{fontSize: '13px'}} disableTypography>Disconnect</ListItemText>
+                                  </MenuItem>
+                                  <MenuItem
+                                      selected={false}
+                                      onClick={(e) => {
+                                          navigate('/explorer/account/' + wallet.information.address);
+                                          closeWalletMenu();
+                                          e.preventDefault();
+                                          e.stopPropagation();
+                                      }
+                                      }>
+                                      <ListItemIcon>
+                                          <VisibilityIcon fontSize="small" color={"warning"}/>
+                                      </ListItemIcon>
+                                      <ListItemText sx={{fontSize: '13px'}} disableTypography>View in explorer</ListItemText>
                                   </MenuItem>
                               </Menu>
 

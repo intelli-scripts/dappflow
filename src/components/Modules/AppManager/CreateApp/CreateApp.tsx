@@ -338,7 +338,7 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
                                                 variant="outlined"
                                                 component="label"
                                                 size={"small"}
-                                                color={"warning"}>
+                                                color={"primary"}>
                                                 <FileUploadOutlined fontSize={"small"} sx={{marginRight: '5px'}}></FileUploadOutlined>
                                                 Upload
                                                 <input
@@ -368,7 +368,7 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
                                                 variant="outlined"
                                                 component="label"
                                                 size={"small"}
-                                                color={"warning"}>
+                                                color={"primary"}>
                                                 <FileUploadOutlined fontSize={"small"} sx={{marginRight: '5px'}}></FileUploadOutlined>
                                                 Upload
                                                 <input

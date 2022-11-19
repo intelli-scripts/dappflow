@@ -29,12 +29,10 @@
       }
 
       .bottom-menu-item-wrapper {
-        &:not(:last-child) {
-          margin: 5px 0;
-        }
         .bottom-menu-item-container {
           text-align: center;
           padding: 15px 0;
+          border-top: 1px solid $color-grey;
           .small-text {
             font-size: 12px;
             white-space: nowrap;
