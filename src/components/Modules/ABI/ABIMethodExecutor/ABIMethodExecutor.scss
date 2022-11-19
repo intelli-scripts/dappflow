@@ -8,11 +8,17 @@
 
 .abi-method-executor-modal-content {
   .abi-method-executor-header {
+    margin-bottom: 15px;
+    border-bottom: 1px solid $color-grey-light;
+    padding-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
     .abi-method-name {
       font-family: PoppinsBold !important;
-      margin-bottom: 15px;
-      border-bottom: 1px solid $color-grey-light;
-      padding-bottom: 15px;
+    }
+    .abi-app-id {
+      font-size: 14px;
+      font-weight: bold;
     }
   }
   .abi-method-executor-body {
@@ -87,6 +93,9 @@
           color: $color-grey-dark;
           text-align: center;
           font-size: 18px;
+        }
+        .abi-method-result-body {
+          margin-top: 25px;
         }
       }
     }

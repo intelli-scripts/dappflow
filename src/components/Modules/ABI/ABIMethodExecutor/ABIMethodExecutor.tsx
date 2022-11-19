@@ -5,6 +5,7 @@ import {
     ABIMethodParams, abiTypeIsTransaction, TransactionType
 } from "algosdk";
 import {
+    Alert,
     Button, ButtonGroup,
     Dialog,
     DialogActions,
@@ -31,6 +32,7 @@ import {CompileResponse} from "algosdk/dist/types/src/client/v2/algod/models/typ
 import {getFileContent} from "../../../../packages/core-sdk/utils/fileUtils";
 import {ApplicationClient} from "../../../../packages/core-sdk/clients/applicationClient";
 import {CoreTransaction} from "../../../../packages/core-sdk/classes/core/CoreTransaction";
+import {isNumber} from "../../../../utils/common";
 
 
 const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
@@ -66,7 +68,8 @@ interface ABIMethodExecutorState{
     appId: string,
     executorArgs: A_ABI_METHOD_EXECUTOR_ARG[],
     creation: boolean,
-    creationParams: A_ABI_METHOD_EXECUTOR_APP_CREATION_PARAMS
+    creationParams: A_ABI_METHOD_EXECUTOR_APP_CREATION_PARAMS,
+    error: string
 }
 
 const initialState: ABIMethodExecutorState = {
@@ -83,6 +86,7 @@ const initialState: ABIMethodExecutorState = {
         localInts: '',
         note: ''
     },
+    error: ''
 };
 
 const formLabelSx = {
@@ -101,7 +105,7 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
     const wallet = useSelector((state: RootState) => state.wallet);
     const dispatch = useDispatch();
     const [
-        {appId, executorArgs, creation, creationParams},
+        {appId, executorArgs, creation, creationParams, error},
         setState
     ] = useState({
         ...initialState
@@ -136,12 +140,53 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
         ev.stopPropagation();
     }
 
+    function setError(msg: string) {
+        setState(prevState => ({...prevState, error: msg}));
+    }
+
     async function execute() {
+
+        setError("");
+
+        if (creation) {
+            const {globalBytes, globalInts, localInts, localBytes, approvalProgram, clearProgram} = creationParams;
+
+            if (!globalBytes || !isNumber(globalBytes)) {
+                setError('Invalid global bytes');
+                return;
+            }
+            if (!globalInts || !isNumber(globalInts)) {
+                setError('Invalid global ints');
+                return;
+            }
+            if (!localBytes || !isNumber(localBytes)) {
+                setError('Invalid local bytes');
+                return;
+            }
+            if (!localInts || !isNumber(localInts)) {
+                setError('Invalid local ints');
+                return;
+            }
+            if (!approvalProgram) {
+                setError('Invalid approval program');
+                return;
+            }
+            if (!clearProgram) {
+                setError('Invalid clear program');
+                return;
+            }
+        }
+        else {
+            if (!appId) {
+                setError('Invalid app id');
+                return;
+            }
+        }
 
         try {
             dispatch(showLoader('Signing transaction'));
             const abiMethodExecutorInstance = new ABIMethodExecutorCls(method);
-            const unsignedTxns = await abiMethodExecutorInstance.getUnsignedTxns(appId ? Number(appId) : undefined, wallet.information.address, executorArgs, creation, creationParams);
+            const unsignedTxns = await abiMethodExecutorInstance.getUnsignedTxns(creation ? undefined : Number(appId) , wallet.information.address, executorArgs, creation, creationParams);
 
             const signedTxns = await dappflow.signer.signGroupTxns(unsignedTxns.map((unsignedTxn) => {
                 return unsignedTxn.txn;
@@ -173,7 +218,8 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
         }
         catch (e: any) {
             dispatch(hideLoader());
-            dispatch(handleException(e));
+            setError(e.message);
+            //dispatch(handleException(e));
         }
     }
 
@@ -231,6 +277,11 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
                             <div className="abi-method-name">
                                 {abiMethodInstance.name}
                             </div>
+                            <div className="abi-app-id">
+                                {!creation && appId ? <div>
+                                    APP ID : {appId}
+                                </div> : ''}
+                            </div>
                         </div>
                         <div className="abi-method-executor-body">
 
@@ -239,9 +290,6 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
                                     <div className="abi-method-executor-panel-wrapper">
                                         <div className="abi-method-executor-panel-container">
                                             <div className="abi-method-metadata">
-                                                {appId ? <div className="metadata-item">
-                                                    Application ID : {appId}
-                                                </div> : ''}
                                             </div>
                                             <div className="abi-method-app-creation-wrapper">
                                                 <div className="abi-method-app-creation-container">
@@ -249,7 +297,7 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
                                                         Do you want to use this method for app creation ?
                                                     </div>
 
-                                                    <ButtonGroup color={"warning"} variant="outlined" size={"small"} style={{marginTop: 20}}>
+                                                    <ButtonGroup color={"primary"} variant="outlined" size={"small"} style={{marginTop: 20}}>
                                                         <Button variant={creation ? 'contained' : 'outlined'} onClick={() => {setState(prevState => ({...prevState, creation: true}));}}>Yes</Button>
                                                         <Button variant={!creation ? 'contained' : 'outlined'} onClick={() => {setState(prevState => ({...prevState, creation: false}));}}>No</Button>
                                                     </ButtonGroup>
@@ -321,7 +369,7 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
                                                                                 variant="outlined"
                                                                                 component="label"
                                                                                 size={"small"}
-                                                                                color={"warning"}>
+                                                                                color={"primary"}>
                                                                                 <FileUploadOutlined fontSize={"small"} sx={{marginRight: '5px'}}></FileUploadOutlined>
                                                                                 Upload
                                                                                 <input
@@ -351,7 +399,7 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
                                                                                 variant="outlined"
                                                                                 component="label"
                                                                                 size={"small"}
-                                                                                color={"warning"}>
+                                                                                color={"primary"}>
                                                                                 <FileUploadOutlined fontSize={"small"} sx={{marginRight: '5px'}}></FileUploadOutlined>
                                                                                 Upload
                                                                                 <input
@@ -405,7 +453,8 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
                                             </div>
                                             <div className="abi-method-args-form-wrapper">
                                                 <div className="abi-method-args-form-container">
-                                                    <div className="abi-method-args-form-title">Arguments</div>
+                                                    {executorArgs.length > 0 ? <div className="abi-method-args-form-title">Arguments</div> : ''}
+
                                                     {executorArgs.map((arg, index) => {
                                                         return <div className="abi-method-arg" key={arg.name}>
                                                             <FormLabel sx={formLabelSx}>{`${arg.name} (${arg.type.toString()})`}</FormLabel>
@@ -501,6 +550,11 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
                                         <div className="abi-method-result-container">
                                             <div className="abi-method-result-title">
                                                 Result
+                                            </div>
+                                            <div className="abi-method-result-body">
+                                                {error ? <div>
+                                                    <Alert icon={false} color={"error"}>{error}</Alert>
+                                                </div> : ''}
                                             </div>
                                         </div>
                                     </div>
