@@ -17,7 +17,6 @@ import OfflineBoltIcon from '@mui/icons-material/OfflineBolt';
 import {theme} from "../../../../theme";
 import {useDispatch, useSelector} from "react-redux";
 import ABIConfig from "../../../../packages/abi/classes/ABIConfig";
-import {showSnack} from "../../../../redux/common/actions/snackbar";
 import {handleException} from "../../../../redux/common/actions/exception";
 import ABIMethodExecutorCls from "../../../../packages/abi/classes/ABIMethodExecutor";
 import {A_ABI_METHOD_EXECUTOR_APP_CREATION_PARAMS, A_ABI_METHOD_EXECUTOR_ARG} from "../../../../packages/abi/types";
@@ -27,7 +26,7 @@ import dappflow from "../../../../utils/dappflow";
 import {hideLoader, showLoader} from "../../../../redux/common/actions/loader";
 import {TransactionClient} from "../../../../packages/core-sdk/clients/transactionClient";
 import {BaseTransaction} from "../../../../packages/core-sdk/transactions/baseTransaction";
-import {FileUploadOutlined} from "@mui/icons-material";
+import {Error, FileUploadOutlined} from "@mui/icons-material";
 import {CompileResponse} from "algosdk/dist/types/src/client/v2/algod/models/types";
 import {getFileContent} from "../../../../packages/core-sdk/utils/fileUtils";
 import {ApplicationClient} from "../../../../packages/core-sdk/clients/applicationClient";
@@ -69,7 +68,8 @@ interface ABIMethodExecutorState{
     executorArgs: A_ABI_METHOD_EXECUTOR_ARG[],
     creation: boolean,
     creationParams: A_ABI_METHOD_EXECUTOR_APP_CREATION_PARAMS,
-    error: string
+    error: string,
+    success: string
 }
 
 const initialState: ABIMethodExecutorState = {
@@ -86,7 +86,8 @@ const initialState: ABIMethodExecutorState = {
         localInts: '',
         note: ''
     },
-    error: ''
+    error: '',
+    success: ''
 };
 
 const formLabelSx = {
@@ -105,7 +106,7 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
     const wallet = useSelector((state: RootState) => state.wallet);
     const dispatch = useDispatch();
     const [
-        {appId, executorArgs, creation, creationParams, error},
+        {appId, executorArgs, creation, creationParams, error, success},
         setState
     ] = useState({
         ...initialState
@@ -140,13 +141,22 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
         ev.stopPropagation();
     }
 
+    function resetResult() {
+        setError("");
+        setSuccess("");
+    }
+
     function setError(msg: string) {
         setState(prevState => ({...prevState, error: msg}));
     }
 
+    function setSuccess(msg: string) {
+        setState(prevState => ({...prevState, success: msg}));
+    }
+
     async function execute() {
 
-        setError("");
+        resetResult();
 
         if (creation) {
             const {globalBytes, globalInts, localInts, localBytes, approvalProgram, clearProgram} = creationParams;
@@ -203,18 +213,12 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
             const txn = await new TransactionClient(dappflow.network).get(txId);
             dispatch(hideLoader());
 
-            handleClose();
-            clearState();
-
             if (creation) {
                 const txnInstance = new CoreTransaction(txn);
                 new ABIConfig().setAppId(txnInstance.getAppId().toString());
             }
 
-            dispatch(showSnack({
-                severity: 'success',
-                message: 'Method executed successfully: ' + txId
-            }));
+            setSuccess('Method executed successfully : ' + txId);
         }
         catch (e: any) {
             dispatch(hideLoader());
@@ -553,8 +557,21 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
                                             </div>
                                             <div className="abi-method-result-body">
                                                 {error ? <div>
-                                                    <Alert icon={false} color={"error"}>{error}</Alert>
+                                                    <Alert icon={<Error></Error>} color={"warning"} sx={{wordBreak: "break-word"}}>{error}</Alert>
                                                 </div> : ''}
+
+                                                {success ? <div>
+                                                    <Alert color={"success"} sx={{wordBreak: "break-word"}}>
+                                                        <div>
+                                                            <div>
+                                                                {success}
+                                                            </div>
+                                                        </div>
+                                                        {/*<LinkToTransaction id={txId} sx={{color: 'common.black', marginTop: 15}}></LinkToTransaction>*/}
+                                                    </Alert>
+
+                                                </div> : ''}
+
                                             </div>
                                         </div>
                                     </div>
