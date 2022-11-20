@@ -1,8 +1,27 @@
 import {
     A_Application, A_GlobalState, A_GlobalStateDecrypted
 } from "../../types";
-import {encodeAddress, getApplicationAddress} from "algosdk";
+import {encodeAddress, getApplicationAddress, OnApplicationComplete} from "algosdk";
 import isUtf8 from 'is-utf8';
+
+export function getOnCompleteKeys(): string[] {
+    return Object.keys(OnApplicationComplete).filter(key => key.indexOf("OC") !== -1) as string[];
+}
+
+export function getOnCompleteOperations(): {name: string, value: string}[]{
+    const onCompleteKeys = getOnCompleteKeys()
+
+    const onCompleteOperations = [];
+
+    onCompleteKeys.forEach((key) => {
+        onCompleteOperations.push({
+            name: key,
+            value: OnApplicationComplete[key]
+        });
+    });
+
+    return onCompleteOperations;
+}
 
 export class CoreApplication {
     application: A_Application;

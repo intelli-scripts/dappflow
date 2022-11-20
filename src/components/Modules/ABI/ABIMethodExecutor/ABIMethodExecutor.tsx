@@ -32,6 +32,7 @@ import {getFileContent} from "../../../../packages/core-sdk/utils/fileUtils";
 import {ApplicationClient} from "../../../../packages/core-sdk/clients/applicationClient";
 import {CoreTransaction} from "../../../../packages/core-sdk/classes/core/CoreTransaction";
 import {isNumber} from "../../../../utils/common";
+import {getOnCompleteOperations} from "../../../../packages/core-sdk/classes/core/CoreApplication";
 
 
 const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
@@ -114,16 +115,9 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
         ...initialState
     });
 
-    const onCompleteKeys = Object.keys(OnApplicationComplete).filter(key => key.indexOf("OC") !== -1) as string[];
 
-    const onCompleteArray = [];
 
-    onCompleteKeys.forEach((key) => {
-        onCompleteArray.push({
-            name: key,
-            val: OnApplicationComplete[key]
-        });
-    });
+    const onCompleteArray = getOnCompleteOperations();
 
     const resultRef = useRef();
 
@@ -410,7 +404,7 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
                                                                                 }}
                                                                             >
                                                                                 {onCompleteArray.map((item) => {
-                                                                                    return <MenuItem value={item.val} key={item.val}>{item.name}</MenuItem>;
+                                                                                    return <MenuItem value={item.value} key={item.value}>{item.name}</MenuItem>;
                                                                                 })}
                                                                             </Select>
                                                                         </div>

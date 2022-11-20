@@ -7,7 +7,7 @@ import {
     DialogContent,
     DialogTitle, FormLabel, Grid,
     InputBase,
-    InputBaseProps,
+    InputBaseProps, MenuItem, Select,
     styled
 } from "@mui/material";
 import {FileUploadOutlined} from "@mui/icons-material";
@@ -19,7 +19,7 @@ import {handleException} from "../../../../redux/common/actions/exception";
 import {ApplicationClient} from "../../../../packages/core-sdk/clients/applicationClient";
 import dappflow from "../../../../utils/dappflow";
 import {CompileResponse} from "algosdk/dist/types/src/client/v2/algod/models/types";
-import {ABIContractParams} from "algosdk";
+import {ABIContractParams, OnApplicationComplete} from "algosdk";
 import {ABIMethodParams} from "algosdk/dist/types/src/abi/method";
 import CloseIcon from "@mui/icons-material/Close";
 import {showSnack} from "../../../../redux/common/actions/snackbar";
@@ -29,6 +29,7 @@ import {RootState} from "../../../../redux/store";
 import {TransactionClient} from "../../../../packages/core-sdk/clients/transactionClient";
 import ABIConfig from "../../../../packages/abi/classes/ABIConfig";
 import {CoreTransaction} from "../../../../packages/core-sdk/classes/core/CoreTransaction";
+import {getOnCompleteOperations} from "../../../../packages/core-sdk/classes/core/CoreApplication";
 
 
 const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
@@ -70,7 +71,9 @@ interface CreateAppState{
         note: string,
         foreignAssets: string,
         foreignApps: string,
-        accounts: string
+        accounts: string,
+        extraPages: string,
+        onComplete: string
     },
     abiMethod: ABIMethodParams
 }
@@ -87,7 +90,9 @@ const initialState: CreateAppState = {
         note: '',
         foreignApps: '',
         foreignAssets: '',
-        accounts: ''
+        accounts: '',
+        extraPages: '0',
+        onComplete: OnApplicationComplete.NoOpOC.toString()
     },
     abiMethod: {
         name: '',
@@ -103,6 +108,7 @@ const initialState: CreateAppState = {
 
 function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], name: ""}}: CreateAppProps): JSX.Element {
 
+    const onCompleteArray = getOnCompleteOperations();
     const dispatch = useDispatch();
     const wallet = useSelector((state: RootState) => state.wallet);
 
@@ -146,7 +152,7 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
     }
 
     async function create() {
-        const {globalBytes, globalInts, localBytes, localInts, approvalProgram, clearProgram, note, foreignAssets, foreignApps, accounts} = params;
+        const {globalBytes, globalInts, localBytes, localInts, approvalProgram, clearProgram, note, foreignAssets, foreignApps, accounts, extraPages, onComplete} = params;
         if (!globalBytes || !isNumber(globalBytes)) {
             dispatch(showSnack({
                 severity: 'error',
@@ -205,9 +211,9 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
                 appIndex: 0,
                 appLocalByteSlices: Number(localBytes),
                 appLocalInts: Number(localInts),
-                appOnComplete: undefined,
+                appOnComplete: onComplete as unknown as OnApplicationComplete,
                 boxes: [],
-                extraPages: 2,
+                extraPages: Number(extraPages),
                 fee: 0,
                 firstRound: 0,
                 flatFee: false,
@@ -331,6 +337,68 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
                                             }
                                             fullWidth/>
                                     </Grid>
+
+                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                                        <FormLabel sx={formLabelStyle}>On Application Complete</FormLabel>
+                                        <div>
+                                            <Select
+                                                fullWidth
+                                                size={"small"}
+                                                value={params.onComplete}
+                                                onChange={(ev) => {
+                                                    setState(prevState => ({...prevState, params: {
+                                                            ...params,
+                                                            onComplete: ev.target.value
+                                                        }}));
+                                                }}
+                                                color={"primary"}
+                                                sx={{
+                                                    fontSize: '13px',
+                                                    marginTop: '5px',
+                                                    fieldset: {
+                                                        borderRadius: "10px",
+                                                        border: '1px solid ' + theme.palette.grey[200]
+                                                    }
+                                                }}
+                                            >
+                                                {onCompleteArray.map((item) => {
+                                                    return <MenuItem value={item.value} key={item.value}>{item.name}</MenuItem>;
+                                                })}
+                                            </Select>
+                                        </div>
+
+                                    </Grid>
+                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                                        <FormLabel sx={formLabelStyle}>Extra pages</FormLabel>
+                                        <div>
+                                            <Select
+                                                fullWidth
+                                                size={"small"}
+                                                value={params.extraPages}
+                                                onChange={(ev) => {
+                                                    setState(prevState => ({...prevState, params: {
+                                                            ...params,
+                                                            extraPages: ev.target.value
+                                                        }}));
+                                                }}
+                                                color={"primary"}
+                                                sx={{
+                                                    fontSize: '13px',
+                                                    marginTop: '5px',
+                                                    fieldset: {
+                                                        borderRadius: "10px",
+                                                        border: '1px solid ' + theme.palette.grey[200]
+                                                    }
+                                                }}
+                                            >
+                                                {[0, 1, 2, 3].map((dec) => {
+                                                    return <MenuItem value={dec} key={dec}>{dec}</MenuItem>;
+                                                })}
+                                            </Select>
+                                        </div>
+
+                                    </Grid>
+
                                     <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                                         <FormLabel sx={formLabelStyle}>Approval program</FormLabel>
                                         <div style={{marginTop: '10px'}}>
