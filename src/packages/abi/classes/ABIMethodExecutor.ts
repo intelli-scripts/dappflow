@@ -120,7 +120,8 @@ export default class ABIMethodExecutor {
             numLocalByteSlices: undefined,
             approvalProgram: undefined,
             clearProgram: undefined,
-            note: undefined
+            note: undefined,
+            extraPages: undefined
         }
         
         if (isCreation) {
@@ -132,6 +133,7 @@ export default class ABIMethodExecutor {
             appCallParams.approvalProgram = appCallInstance.getProgramBytes(params.approvalProgram);
             appCallParams.clearProgram = appCallInstance.getProgramBytes(params.clearProgram);
             appCallParams.note = appCallInstance.toUint8Array(params.note);
+            appCallParams.extraPages = Number(params.extraPages);
         }
         else {
             delete appCallParams.numGlobalByteSlices;
@@ -140,9 +142,8 @@ export default class ABIMethodExecutor {
             delete appCallParams.numLocalByteSlices;
             delete appCallParams.approvalProgram;
             delete appCallParams.clearProgram;
+            delete appCallParams.extraPages;
         }
-
-        console.log(appCallParams);
 
         const methodArgs = args.map((arg) => {
             const val = this.parseArgumentValue(arg);

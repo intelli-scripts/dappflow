@@ -24,5 +24,6 @@ export interface A_ABI_METHOD_EXECUTOR_APP_CREATION_PARAMS {
     localBytes: string,
     globalInts: string,
     localInts: string,
-    note: string
+    note: string,
+    extraPages: string
 }

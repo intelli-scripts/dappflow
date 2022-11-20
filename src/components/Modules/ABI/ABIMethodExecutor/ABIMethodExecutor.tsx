@@ -11,7 +11,7 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle, FormLabel,
-    Grid, InputBase, InputBaseProps, styled
+    Grid, InputBase, InputBaseProps, MenuItem, Select, styled
 } from "@mui/material";
 import OfflineBoltIcon from '@mui/icons-material/OfflineBolt';
 import {theme} from "../../../../theme";
@@ -84,7 +84,8 @@ const initialState: ABIMethodExecutorState = {
         localBytes: '',
         globalInts: '',
         localInts: '',
-        note: ''
+        note: '',
+        extraPages: '0'
     },
     error: '',
     success: ''
@@ -431,7 +432,31 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
                                                                         </div>
                                                                     </Grid>
 
-
+                                                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                                                                        <FormLabel sx={formLabelSx}>Extra pages</FormLabel>
+                                                                        <Select
+                                                                            size={"small"}
+                                                                            value={creationParams.extraPages}
+                                                                            onChange={(ev) => {
+                                                                                setState(prevState => ({...prevState, creationParams: {
+                                                                                        ...creationParams,
+                                                                                        extraPages: ev.target.value
+                                                                                    }}));
+                                                                            }}
+                                                                            fullWidth
+                                                                            color={"primary"}
+                                                                            sx={{
+                                                                                marginTop: '5px',
+                                                                                fieldset: {
+                                                                                    borderRadius: "10px"
+                                                                                }
+                                                                            }}
+                                                                        >
+                                                                            {[0, 1, 2, 3].map((dec) => {
+                                                                                return <MenuItem value={dec} key={dec}>{dec}</MenuItem>;
+                                                                            })}
+                                                                        </Select>
+                                                                    </Grid>
                                                                     
                                                                     <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                                                         <FormLabel sx={formLabelSx}>Note</FormLabel>
