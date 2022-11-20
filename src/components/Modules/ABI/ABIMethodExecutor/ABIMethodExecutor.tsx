@@ -2,7 +2,7 @@ import './ABIMethodExecutor.scss';
 import React, {useEffect, useRef, useState} from "react";
 import {
     ABIMethod,
-    ABIMethodParams, abiTypeIsTransaction, TransactionType
+    ABIMethodParams, abiTypeIsTransaction, OnApplicationComplete, TransactionType
 } from "algosdk";
 import {
     Alert,
@@ -85,7 +85,8 @@ const initialState: ABIMethodExecutorState = {
         globalInts: '',
         localInts: '',
         note: '',
-        extraPages: '0'
+        extraPages: '0',
+        onComplete: OnApplicationComplete.NoOpOC.toString()
     },
     error: '',
     success: ''
@@ -111,6 +112,17 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
         setState
     ] = useState({
         ...initialState
+    });
+
+    const onCompleteKeys = Object.keys(OnApplicationComplete).filter(key => key.indexOf("OC") !== -1) as string[];
+
+    const onCompleteArray = [];
+
+    onCompleteKeys.forEach((key) => {
+        onCompleteArray.push({
+            name: key,
+            val: OnApplicationComplete[key]
+        });
     });
 
     const resultRef = useRef();
@@ -373,6 +385,71 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
                                                                             }
                                                                             fullWidth/>
                                                                     </Grid>
+
+                                                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                                                                        <FormLabel sx={formLabelSx}>On Application Complete</FormLabel>
+                                                                        <div>
+                                                                            <Select
+                                                                                fullWidth
+                                                                                size={"small"}
+                                                                                value={creationParams.onComplete}
+                                                                                onChange={(ev) => {
+                                                                                    setState(prevState => ({...prevState, creationParams: {
+                                                                                            ...creationParams,
+                                                                                            onComplete: ev.target.value
+                                                                                        }}));
+                                                                                }}
+                                                                                color={"primary"}
+                                                                                sx={{
+                                                                                    fontSize: '13px',
+                                                                                    marginTop: '5px',
+                                                                                    fieldset: {
+                                                                                        borderRadius: "10px",
+                                                                                        border: '1px solid ' + theme.palette.grey[200]
+                                                                                    }
+                                                                                }}
+                                                                            >
+                                                                                {onCompleteArray.map((item) => {
+                                                                                    return <MenuItem value={item.val} key={item.val}>{item.name}</MenuItem>;
+                                                                                })}
+                                                                            </Select>
+                                                                        </div>
+
+                                                                    </Grid>
+                                                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                                                                        <FormLabel sx={formLabelSx}>Extra pages</FormLabel>
+                                                                        <div>
+                                                                            <Select
+                                                                                fullWidth
+                                                                                size={"small"}
+                                                                                value={creationParams.extraPages}
+                                                                                onChange={(ev) => {
+                                                                                    setState(prevState => ({...prevState, creationParams: {
+                                                                                            ...creationParams,
+                                                                                            extraPages: ev.target.value
+                                                                                        }}));
+                                                                                }}
+                                                                                color={"primary"}
+                                                                                sx={{
+                                                                                    fontSize: '13px',
+                                                                                    marginTop: '5px',
+                                                                                    fieldset: {
+                                                                                        borderRadius: "10px",
+                                                                                        border: '1px solid ' + theme.palette.grey[200]
+                                                                                    }
+                                                                                }}
+                                                                            >
+                                                                                {[0, 1, 2, 3].map((dec) => {
+                                                                                    return <MenuItem value={dec} key={dec}>{dec}</MenuItem>;
+                                                                                })}
+                                                                            </Select>
+                                                                        </div>
+
+                                                                    </Grid>
+
+
+
+
                                                                     <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                                                                         <FormLabel sx={formLabelSx}>Approval program</FormLabel>
                                                                         <div style={{marginTop: '10px'}}>
@@ -432,32 +509,7 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
                                                                         </div>
                                                                     </Grid>
 
-                                                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                                                                        <FormLabel sx={formLabelSx}>Extra pages</FormLabel>
-                                                                        <Select
-                                                                            size={"small"}
-                                                                            value={creationParams.extraPages}
-                                                                            onChange={(ev) => {
-                                                                                setState(prevState => ({...prevState, creationParams: {
-                                                                                        ...creationParams,
-                                                                                        extraPages: ev.target.value
-                                                                                    }}));
-                                                                            }}
-                                                                            fullWidth
-                                                                            color={"primary"}
-                                                                            sx={{
-                                                                                marginTop: '5px',
-                                                                                fieldset: {
-                                                                                    borderRadius: "10px"
-                                                                                }
-                                                                            }}
-                                                                        >
-                                                                            {[0, 1, 2, 3].map((dec) => {
-                                                                                return <MenuItem value={dec} key={dec}>{dec}</MenuItem>;
-                                                                            })}
-                                                                        </Select>
-                                                                    </Grid>
-                                                                    
+
                                                                     <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                                                         <FormLabel sx={formLabelSx}>Note</FormLabel>
                                                                         <ShadedInput

@@ -3,8 +3,10 @@ import {
     ABIMethod,
     ABIMethodParams,
     ABITransactionType,
-    abiTypeIsTransaction, algosToMicroalgos,
-    AtomicTransactionComposer, makeBasicAccountTransactionSigner,
+    abiTypeIsTransaction,
+    algosToMicroalgos,
+    AtomicTransactionComposer,
+    makeBasicAccountTransactionSigner,
     Transaction,
     TransactionType,
     TransactionWithSigner
@@ -121,7 +123,8 @@ export default class ABIMethodExecutor {
             approvalProgram: undefined,
             clearProgram: undefined,
             note: undefined,
-            extraPages: undefined
+            extraPages: undefined,
+            onComplete: undefined
         }
         
         if (isCreation) {
@@ -134,6 +137,7 @@ export default class ABIMethodExecutor {
             appCallParams.clearProgram = appCallInstance.getProgramBytes(params.clearProgram);
             appCallParams.note = appCallInstance.toUint8Array(params.note);
             appCallParams.extraPages = Number(params.extraPages);
+            appCallParams.onComplete = params.onComplete;
         }
         else {
             delete appCallParams.numGlobalByteSlices;
@@ -143,6 +147,7 @@ export default class ABIMethodExecutor {
             delete appCallParams.approvalProgram;
             delete appCallParams.clearProgram;
             delete appCallParams.extraPages;
+            delete appCallParams.onComplete;
         }
 
         const methodArgs = args.map((arg) => {

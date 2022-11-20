@@ -25,5 +25,6 @@ export interface A_ABI_METHOD_EXECUTOR_APP_CREATION_PARAMS {
     globalInts: string,
     localInts: string,
     note: string,
-    extraPages: string
+    extraPages: string,
+    onComplete: string
 }
