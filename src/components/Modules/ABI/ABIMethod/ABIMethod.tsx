@@ -72,7 +72,7 @@ function ABIMethod({method, supportExecutor = true}: ABIMethodProps): JSX.Elemen
                                     if (!new ABIMethodExecutorCls(method).canExecute()) {
                                         dispatch(showSnack({
                                             severity: 'error',
-                                            message: `Cannot execute.Only [${ABI_METHOD_EXECUTOR_SUPPORTED_TXN_TYPES.join(',')}] are supported`
+                                            message: `Cannot execute.Only [${ABI_METHOD_EXECUTOR_SUPPORTED_TXN_TYPES.join(',')}] are supported. But this method has [${new ABIMethodExecutorCls(method).getSequenceOfTxnTypes().join(',')}]`
                                         }));
                                         return;
                                     }

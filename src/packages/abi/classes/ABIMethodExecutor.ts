@@ -103,7 +103,8 @@ export default class ABIMethodExecutor {
 
     async getUnsignedTxns(appId: number, from: string, args: A_ABI_METHOD_EXECUTOR_ARG[] = [], isCreation: boolean = false, params: A_ABI_METHOD_EXECUTOR_APP_CREATION_PARAMS): Promise<TransactionWithSigner[]> {
         const appCallInstance = new ApplicationTransaction(dappflow.network);
-        
+
+        console.log(args);
         const atc = new AtomicTransactionComposer();
 
         const sp = await new BaseTransaction(dappflow.network).getSuggestedParams();
@@ -152,8 +153,16 @@ export default class ABIMethodExecutor {
 
         const methodArgs = args.map((arg) => {
             const val = this.parseArgumentValue(arg);
-            if (abiTypeIsTransaction(arg.type.toString())) {
-                const txn = new Transaction({type: TransactionType.pay, from: from, to: val.to, amount: algosToMicroalgos(val.amount), ...sp});
+            const argType = arg.type.toString() as TransactionType;
+            if (abiTypeIsTransaction(argType)) {
+                let txn;
+                if (argType === TransactionType.pay) {
+                    txn = new Transaction({type: TransactionType.pay, from: from, to: val.to, amount: algosToMicroalgos(val.amount), ...sp});
+                }
+                else if (argType === TransactionType.axfer) {
+                    txn = new Transaction({type: TransactionType.axfer, assetIndex: Number(val.assetId), from: from, to: val.to, amount: algosToMicroalgos(val.amount), ...sp});
+                }
+
                 return {
                     txn: txn,
                     signer: makeBasicAccountTransactionSigner({addr: from, sk: undefined})
@@ -165,6 +174,7 @@ export default class ABIMethodExecutor {
         }).filter((value) => value !== undefined && value !== "" && value !== null);
 
 
+        console.log(methodArgs);
         atc.addMethodCall({
             ...appCallParams,
             method: new ABIMethod(this.method),

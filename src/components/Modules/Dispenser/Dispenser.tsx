@@ -17,6 +17,7 @@ import {getKMDConfig} from "../../../utils/nodeConfig";
 import {KMDConnectionParams} from "../../../packages/core-sdk/types";
 import LaunchIcon from '@mui/icons-material/Launch';
 import {theme} from "../../../theme";
+import AlgoIcon from "../Explorer/AlgoIcon/AlgoIcon";
 
 const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
     return {
@@ -207,6 +208,7 @@ function Dispenser(): JSX.Element {
                                         onChange={(ev) => {
                                             setState(prevState => ({...prevState, amount: ev.target.value + ""}));
                                         }}
+                                        endAdornment={<div style={{marginRight: '10px'}}><AlgoIcon></AlgoIcon></div>}
                                         fullWidth
                                     />
                                 </div>

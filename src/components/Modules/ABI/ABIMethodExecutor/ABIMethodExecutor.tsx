@@ -33,6 +33,7 @@ import {ApplicationClient} from "../../../../packages/core-sdk/clients/applicati
 import {CoreTransaction} from "../../../../packages/core-sdk/classes/core/CoreTransaction";
 import {isNumber} from "../../../../utils/common";
 import {getOnCompleteOperations} from "../../../../packages/core-sdk/classes/core/CoreApplication";
+import AlgoIcon from "../../Explorer/AlgoIcon/AlgoIcon";
 
 
 const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
@@ -583,10 +584,77 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
 
                                                                                     setState(prevState => ({...prevState, executorArgs: processedArgs}));
                                                                                 }}
+                                                                                endAdornment={<div style={{marginRight: '10px'}}><AlgoIcon></AlgoIcon></div>}
                                                                                 fullWidth/>
 
 
                                                                         </div> : ''}
+
+                                                                        {arg.type.toString() === TransactionType.axfer ? <div>
+
+                                                                            <FormLabel sx={formLabelSx}>Asset ID</FormLabel>
+                                                                            <ShadedInput
+                                                                                placeholder="Asset ID"
+                                                                                value={arg.value.assetId}
+                                                                                sx={{...argTransactionSx, marginBottom: '10px'}}
+                                                                                onChange={(ev) => {
+                                                                                    const processedArgs = executorArgs;
+                                                                                    processedArgs[index] = {
+                                                                                        ...arg,
+                                                                                        value: {
+                                                                                            ...arg.value,
+                                                                                            assetId: ev.target.value
+                                                                                        }
+                                                                                    };
+
+                                                                                    setState(prevState => ({...prevState, executorArgs: processedArgs}));
+                                                                                }}
+                                                                                fullWidth/>
+
+                                                                            <FormLabel sx={formLabelSx}>To</FormLabel>
+                                                                            <ShadedInput
+                                                                                placeholder="To address"
+                                                                                multiline
+                                                                                rows={2}
+                                                                                value={arg.value.to}
+                                                                                sx={{...argTransactionSx, marginBottom: '10px'}}
+                                                                                onChange={(ev) => {
+                                                                                    const processedArgs = executorArgs;
+                                                                                    processedArgs[index] = {
+                                                                                        ...arg,
+                                                                                        value: {
+                                                                                            ...arg.value,
+                                                                                            to: ev.target.value
+                                                                                        }
+                                                                                    };
+
+                                                                                    setState(prevState => ({...prevState, executorArgs: processedArgs}));
+                                                                                }}
+                                                                                fullWidth/>
+
+
+                                                                            <FormLabel sx={{...formLabelSx}}>Amount</FormLabel>
+                                                                            <ShadedInput
+                                                                                placeholder="Amount"
+                                                                                value={arg.value.amount}
+                                                                                sx={argTransactionSx}
+                                                                                onChange={(ev) => {
+                                                                                    const processedArgs = executorArgs;
+                                                                                    processedArgs[index] = {
+                                                                                        ...arg,
+                                                                                        value: {
+                                                                                            ...arg.value,
+                                                                                            amount: ev.target.value
+                                                                                        }
+                                                                                    };
+
+                                                                                    setState(prevState => ({...prevState, executorArgs: processedArgs}));
+                                                                                }}
+                                                                                fullWidth/>
+
+
+                                                                        </div> : ''}
+
                                                                     </div>
                                                                 </div>
 
