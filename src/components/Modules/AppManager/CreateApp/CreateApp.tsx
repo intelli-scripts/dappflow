@@ -211,7 +211,7 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
                 appIndex: 0,
                 appLocalByteSlices: Number(localBytes),
                 appLocalInts: Number(localInts),
-                appOnComplete: onComplete as unknown as OnApplicationComplete,
+                appOnComplete: Number(onComplete) as unknown as OnApplicationComplete,
                 boxes: [],
                 extraPages: Number(extraPages),
                 fee: 0,

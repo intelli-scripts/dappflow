@@ -137,7 +137,7 @@ export default class ABIMethodExecutor {
             appCallParams.clearProgram = appCallInstance.getProgramBytes(params.clearProgram);
             appCallParams.note = appCallInstance.toUint8Array(params.note);
             appCallParams.extraPages = Number(params.extraPages);
-            appCallParams.onComplete = params.onComplete;
+            appCallParams.onComplete = Number(params.onComplete);
         }
         else {
             delete appCallParams.numGlobalByteSlices;
@@ -153,7 +153,7 @@ export default class ABIMethodExecutor {
         const methodArgs = args.map((arg) => {
             const val = this.parseArgumentValue(arg);
             const argType = arg.type.toString() as TransactionType;
-            console.log(val);
+
             if (abiTypeIsTransaction(argType)) {
                 let txn;
                 if (argType === TransactionType.pay) {
