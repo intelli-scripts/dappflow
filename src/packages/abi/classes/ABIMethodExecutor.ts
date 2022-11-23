@@ -19,6 +19,7 @@ import {
 import dappflow from "../../../utils/dappflow";
 import {BaseTransaction} from "../../core-sdk/transactions/baseTransaction";
 import {ApplicationTransaction} from "../../core-sdk/transactions/applicationTransaction";
+import {CoreAsset} from "../../core-sdk/classes/core/CoreAsset";
 
 export default class ABIMethodExecutor {
     method: ABIMethodParams
@@ -103,8 +104,6 @@ export default class ABIMethodExecutor {
 
     async getUnsignedTxns(appId: number, from: string, args: A_ABI_METHOD_EXECUTOR_ARG[] = [], isCreation: boolean = false, params: A_ABI_METHOD_EXECUTOR_APP_CREATION_PARAMS): Promise<TransactionWithSigner[]> {
         const appCallInstance = new ApplicationTransaction(dappflow.network);
-
-        console.log(args);
         const atc = new AtomicTransactionComposer();
 
         const sp = await new BaseTransaction(dappflow.network).getSuggestedParams();
@@ -154,13 +153,14 @@ export default class ABIMethodExecutor {
         const methodArgs = args.map((arg) => {
             const val = this.parseArgumentValue(arg);
             const argType = arg.type.toString() as TransactionType;
+            console.log(val);
             if (abiTypeIsTransaction(argType)) {
                 let txn;
                 if (argType === TransactionType.pay) {
                     txn = new Transaction({type: TransactionType.pay, from: from, to: val.to, amount: algosToMicroalgos(val.amount), ...sp});
                 }
                 else if (argType === TransactionType.axfer) {
-                    txn = new Transaction({type: TransactionType.axfer, assetIndex: Number(val.assetId), from: from, to: val.to, amount: algosToMicroalgos(val.amount), ...sp});
+                    txn = new Transaction({type: TransactionType.axfer, assetIndex: Number(val.assetId), from: from, to: val.to, amount: new CoreAsset(val.asset).getAmountInDecimals(Number(val.amount)), ...sp});
                 }
 
                 return {
@@ -173,8 +173,6 @@ export default class ABIMethodExecutor {
             }
         }).filter((value) => value !== undefined && value !== "" && value !== null);
 
-
-        console.log(methodArgs);
         atc.addMethodCall({
             ...appCallParams,
             method: new ABIMethod(this.method),

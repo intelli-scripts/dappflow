@@ -50,4 +50,14 @@ export class AssetClient{
         const response = await req.do();
         return response as A_AssetTransactionsResponse;
     }
+
+    async searchForAssetsByName(searchText: string): Promise<A_Asset> {
+        return await this.indexer.searchForAssets().name(searchText).do() as A_Asset;
+    }
+
+    async searchForAssetsByIndex(id: number): Promise<A_Asset> {
+        return  await this.indexer.searchForAssets().index(id).do() as A_Asset;
+    }
+
+
 }

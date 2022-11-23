@@ -26,7 +26,7 @@ import dappflow from "../../../../utils/dappflow";
 import {hideLoader, showLoader} from "../../../../redux/common/actions/loader";
 import {TransactionClient} from "../../../../packages/core-sdk/clients/transactionClient";
 import {BaseTransaction} from "../../../../packages/core-sdk/transactions/baseTransaction";
-import {Error, FileUploadOutlined} from "@mui/icons-material";
+import {Edit, Error, FileUploadOutlined} from "@mui/icons-material";
 import {CompileResponse} from "algosdk/dist/types/src/client/v2/algod/models/types";
 import {getFileContent} from "../../../../packages/core-sdk/utils/fileUtils";
 import {ApplicationClient} from "../../../../packages/core-sdk/clients/applicationClient";
@@ -34,6 +34,8 @@ import {CoreTransaction} from "../../../../packages/core-sdk/classes/core/CoreTr
 import {isNumber} from "../../../../utils/common";
 import {getOnCompleteOperations} from "../../../../packages/core-sdk/classes/core/CoreApplication";
 import AlgoIcon from "../../Explorer/AlgoIcon/AlgoIcon";
+import AssetPicker from "./AssetPicker/AssetPicker";
+import {A_Asset} from "../../../../packages/core-sdk/types";
 
 
 const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
@@ -597,6 +599,7 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
                                                                                 placeholder="Asset ID"
                                                                                 value={arg.value.assetId}
                                                                                 sx={{...argTransactionSx, marginBottom: '10px'}}
+                                                                                disabled
                                                                                 onChange={(ev) => {
                                                                                     const processedArgs = executorArgs;
                                                                                     processedArgs[index] = {
@@ -609,6 +612,56 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
 
                                                                                     setState(prevState => ({...prevState, executorArgs: processedArgs}));
                                                                                 }}
+                                                                                endAdornment={<div>
+                                                                                    <Edit
+                                                                                        sx={{
+                                                                                            marginRight: '5px',
+                                                                                            marginTop: '5px',
+                                                                                            '&:hover': {
+                                                                                                cursor: 'pointer'
+                                                                                            }
+                                                                                        }}
+                                                                                        fontSize={"small"}
+                                                                                        color={"primary"}
+                                                                                        onClick={() => {
+                                                                                        const processedArgs = executorArgs;
+                                                                                        processedArgs[index] = {
+                                                                                            ...arg,
+                                                                                            value: {
+                                                                                                ...arg.value,
+                                                                                                show: true
+                                                                                            }
+                                                                                        };
+
+                                                                                        setState(prevState => ({...prevState, executorArgs: processedArgs}));
+                                                                                    }}></Edit>
+                                                                                    <AssetPicker
+                                                                                        onPick={(asset: A_Asset) => {
+                                                                                            const processedArgs = executorArgs;
+                                                                                            processedArgs[index] = {
+                                                                                                ...arg,
+                                                                                                value: {
+                                                                                                    ...arg.value,
+                                                                                                    assetId: asset.index,
+                                                                                                    asset: asset,
+                                                                                                    show: false
+                                                                                                }
+                                                                                            };
+                                                                                            setState(prevState => ({...prevState, executorArgs: processedArgs}));
+                                                                                        }}
+                                                                                        onClose={() => {
+                                                                                            const processedArgs = executorArgs;
+                                                                                            processedArgs[index] = {
+                                                                                                ...arg,
+                                                                                                value: {
+                                                                                                    ...arg.value,
+                                                                                                    show: false
+                                                                                                }
+                                                                                            };
+                                                                                            setState(prevState => ({...prevState, executorArgs: processedArgs}));
+                                                                                        }}
+                                                                                        show={arg.value.show} title="Pick asset"></AssetPicker>
+                                                                                </div>}
                                                                                 fullWidth/>
 
                                                                             <FormLabel sx={formLabelSx}>To</FormLabel>
