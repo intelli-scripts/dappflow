@@ -71,6 +71,7 @@ export default class ABIMethodExecutor {
 
         switch (dataType) {
             case "uint64":
+            case "uint8":
             case "byte":
             case "asset":
             case "application":
@@ -79,6 +80,8 @@ export default class ABIMethodExecutor {
                 return Boolean(val);
             case "byte[]":
                 return new Uint8Array(Buffer.from(val, "base64"));
+            case "string[7]":
+                return val.split(',');
             default:
                 return val;
         }

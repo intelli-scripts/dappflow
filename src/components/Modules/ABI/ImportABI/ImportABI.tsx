@@ -171,6 +171,13 @@ function ImportABI(props): JSX.Element {
                                               sx={{marginLeft: '10px'}}
                                         ></Chip>
 
+                                        <Chip onClick={() => {
+                                            setState(prevState => ({...prevState, url: "https://raw.githubusercontent.com/jasonpaulos/decipher-22-pyteal-talk/main/contract/contract.json"}));
+                                        }} label="Poll ABI" size="small" color={"warning"} variant={"outlined"}
+                                              sx={{marginLeft: '10px'}}
+                                        ></Chip>
+
+
                                     </div>
 
 

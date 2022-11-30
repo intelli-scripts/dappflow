@@ -100,8 +100,7 @@
             border: 1px solid $color-grey-light;
             &:hover {
               cursor: pointer;
-              background: $color-dark;
-              color: $color-light;
+              border-color: $color-dark;
             }
           }
         }

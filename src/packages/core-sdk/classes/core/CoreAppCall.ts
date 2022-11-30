@@ -116,6 +116,9 @@ export class CoreAppCall {
                     try {
                         decodedArg.decodedValue = typeToDecode.decode(encodedArg);
                         decodedArg.decoded = true;
+                        if (type === 'bool') {
+                            decodedArg.decodedValue = decodedArg.decodedValue.toString();
+                        }
                     }
                     catch (e) {
                         decodedArg.decodedValue = txnArg;

@@ -164,33 +164,6 @@ function LeftBar(): JSX.Element {
                                   <MenuItem
                                       selected={false}
                                       onClick={(e) => {
-                                      dispatch(showConnectWallet());
-                                      closeWalletMenu();
-                                      e.preventDefault();
-                                      e.stopPropagation();
-                                    }
-                                  }>
-                                      <ListItemIcon>
-                                          <SwapCallsIcon fontSize="small" color={"warning"}/>
-                                      </ListItemIcon>
-                                      <ListItemText sx={{fontSize: '13px'}} disableTypography>Switch wallet</ListItemText>
-                                  </MenuItem>
-                                  <MenuItem
-                                      selected={false}
-                                      onClick={(e) => {
-                                      dispatch(logOut());
-                                      closeWalletMenu();
-                                      e.preventDefault();
-                                      e.stopPropagation();
-                                  }}>
-                                      <ListItemIcon>
-                                          <LogoutIcon fontSize="small" color={"warning"}/>
-                                      </ListItemIcon>
-                                      <ListItemText sx={{fontSize: '13px'}} disableTypography>Disconnect</ListItemText>
-                                  </MenuItem>
-                                  <MenuItem
-                                      selected={false}
-                                      onClick={(e) => {
                                           navigate('/explorer/account/' + wallet.information.address);
                                           closeWalletMenu();
                                           e.preventDefault();
@@ -201,6 +174,33 @@ function LeftBar(): JSX.Element {
                                           <VisibilityIcon fontSize="small" color={"warning"}/>
                                       </ListItemIcon>
                                       <ListItemText sx={{fontSize: '13px'}} disableTypography>View in explorer</ListItemText>
+                                  </MenuItem>
+                                  <MenuItem
+                                      selected={false}
+                                      onClick={(e) => {
+                                          dispatch(showConnectWallet());
+                                          closeWalletMenu();
+                                          e.preventDefault();
+                                          e.stopPropagation();
+                                      }
+                                      }>
+                                      <ListItemIcon>
+                                          <SwapCallsIcon fontSize="small" color={"warning"}/>
+                                      </ListItemIcon>
+                                      <ListItemText sx={{fontSize: '13px'}} disableTypography>Switch wallet</ListItemText>
+                                  </MenuItem>
+                                  <MenuItem
+                                      selected={false}
+                                      onClick={(e) => {
+                                          dispatch(logOut());
+                                          closeWalletMenu();
+                                          e.preventDefault();
+                                          e.stopPropagation();
+                                      }}>
+                                      <ListItemIcon>
+                                          <LogoutIcon fontSize="small" color={"warning"}/>
+                                      </ListItemIcon>
+                                      <ListItemText sx={{fontSize: '13px'}} disableTypography>Disconnect</ListItemText>
                                   </MenuItem>
                               </Menu>
 

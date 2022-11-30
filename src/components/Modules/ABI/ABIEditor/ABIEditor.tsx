@@ -16,7 +16,8 @@ type ABIEditorProps = {
     abi: ABIContractParams,
     hideNetworks?: boolean,
     supportExecutor?: boolean,
-    supportCreateApp?: boolean
+    supportCreateApp?: boolean,
+    supportConfig?: boolean
 };
 
 interface ABIEditorState{
@@ -29,7 +30,7 @@ const initialState: ABIEditorState = {
     showCreateApp: false
 };
 
-function ABIEditor({abi = {methods: [], name: ""}, hideNetworks = false, supportExecutor = false, supportCreateApp = false}: ABIEditorProps): JSX.Element {
+function ABIEditor({abi = {methods: [], name: ""}, hideNetworks = false, supportExecutor = false, supportCreateApp = false, supportConfig = false}: ABIEditorProps): JSX.Element {
 
     const abiInstance = new ABIContract(abi);
     const networks = abiInstance.networks;
@@ -60,7 +61,7 @@ function ABIEditor({abi = {methods: [], name: ""}, hideNetworks = false, support
                             <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                                 <div style={{display: "flex", justifyContent: "end"}}>
                                     <JsonViewer obj={abi} variant="outlined" title="ABI JSON" name="ABI JSON"></JsonViewer>
-                                    {supportExecutor ? <div style={{marginLeft: '10px'}}>
+                                    {supportConfig ? <div style={{marginLeft: '10px'}}>
                                         <Button color={"primary"}
                                                 variant={"outlined"}
                                                 size={"small"}

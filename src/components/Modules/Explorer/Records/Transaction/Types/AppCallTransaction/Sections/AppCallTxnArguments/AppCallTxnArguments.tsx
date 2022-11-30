@@ -1,11 +1,15 @@
 import './AppCallTxnArguments.scss';
 import React, {useEffect, useState} from "react";
-import {A_SearchTransaction_App_Call_Payload} from "../../../../../../../../../packages/core-sdk/types";
+import {
+    A_SearchTransaction,
+    A_SearchTransaction_App_Call_Payload
+} from "../../../../../../../../../packages/core-sdk/types";
 import {Alert, Button, ButtonGroup, Grid, Typography} from "@mui/material";
 import {ApplicationABI} from "../../../../../../../../../packages/abi/classes/ApplicationABI";
 import {CoreAppCall} from "../../../../../../../../../packages/core-sdk/classes/core/CoreAppCall";
 import {ABIContractParams} from "algosdk";
 import ABIMethodSignature from "../../../../../../../ABI/ABIMethodSignature/ABIMethodSignature";
+import {CoreTransaction} from "../../../../../../../../../packages/core-sdk/classes/core/CoreTransaction";
 
 interface AppCallTxnArgumentsState{
     textEncoding: string,
@@ -20,22 +24,21 @@ const initialState: AppCallTxnArgumentsState = {
 
 function AppCallTxnArguments(props): JSX.Element {
 
-    const appCallPayload: A_SearchTransaction_App_Call_Payload = props.appCallPayload;
+    const transaction: A_SearchTransaction = props.transaction;
+    const txnInstance = new CoreTransaction(transaction);
+    const appCallPayload: A_SearchTransaction_App_Call_Payload = txnInstance.getAppCallPayload();
     const callInstance = new CoreAppCall(appCallPayload);
     const args = callInstance.getAppCallArguments();
-    const isCreate = callInstance.isCreate();
 
     useEffect(() => {
         async function loadABI() {
-            const abiDetails = await new ApplicationABI().get(appCallPayload['application-id']);
+            const abiDetails = await new ApplicationABI().get(txnInstance.getAppId());
             if (abiDetails) {
                 setState(prevState => ({...prevState, abi: abiDetails.abi, showEncoding: true}));
             }
         }
 
-        if (!isCreate) {
-            loadABI();
-        }
+        loadABI();
     }, []);
     const [
         {textEncoding, showEncoding, abi},
