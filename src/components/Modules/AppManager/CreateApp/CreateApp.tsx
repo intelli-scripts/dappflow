@@ -217,7 +217,7 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
                 fee: 0,
                 firstRound: 0,
                 flatFee: false,
-                from: wallet.information.address,
+                from: wallet.account.address,
                 genesisHash: "",
                 genesisID: "",
                 lastRound: 0,

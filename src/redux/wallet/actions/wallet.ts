@@ -7,10 +7,10 @@ import dappflow from "../../../utils/dappflow";
 
 
 interface Wallet {
-    information: A_AccountInformation
+    account: A_AccountInformation
 }
 
-const information: A_AccountInformation = {
+export const defaultAccount: A_AccountInformation = {
     address: "",
     amount: 0,
     "min-balance": 0,
@@ -31,7 +31,7 @@ const information: A_AccountInformation = {
 }
 
 const initialState: Wallet = {
-    information
+    account: defaultAccount
 }
 
 export const loadWallet = createAsyncThunk(
@@ -70,7 +70,7 @@ export const walletSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(loadWallet.fulfilled, (state, action: PayloadAction<A_AccountInformation>) => {
-            state.information = action.payload;
+            state.account = action.payload;
         });
     }
 });

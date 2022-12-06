@@ -9,15 +9,17 @@ import {ABIContract, ABIContractParams} from "algosdk";
 import ABIConfig from "../ABIConfig/ABIConfig";
 import CreateApp from "../../AppManager/CreateApp/CreateApp";
 import {showSnack} from "../../../../redux/common/actions/snackbar";
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../../../redux/store";
+import {useDispatch} from "react-redux";
+import {A_AccountInformation} from "../../../../packages/core-sdk/types";
+import wallet, {defaultAccount} from "../../../../redux/wallet/actions/wallet";
 
 type ABIEditorProps = {
     abi: ABIContractParams,
     hideNetworks?: boolean,
     supportExecutor?: boolean,
     supportCreateApp?: boolean,
-    supportConfig?: boolean
+    supportConfig?: boolean,
+    account?: A_AccountInformation
 };
 
 interface ABIEditorState{
@@ -30,11 +32,10 @@ const initialState: ABIEditorState = {
     showCreateApp: false
 };
 
-function ABIEditor({abi = {methods: [], name: ""}, hideNetworks = false, supportExecutor = false, supportCreateApp = false, supportConfig = false}: ABIEditorProps): JSX.Element {
+function ABIEditor({abi = {methods: [], name: ""}, hideNetworks = false, supportExecutor = false, supportCreateApp = false, supportConfig = false, account = defaultAccount}: ABIEditorProps): JSX.Element {
 
     const abiInstance = new ABIContract(abi);
     const networks = abiInstance.networks;
-    const wallet = useSelector((state: RootState) => state.wallet);
     const dispatch = useDispatch();
 
     const [
@@ -77,7 +78,7 @@ function ABIEditor({abi = {methods: [], name: ""}, hideNetworks = false, support
                                                 variant={"outlined"}
                                                 size={"small"}
                                                 onClick={() => {
-                                                    if (!wallet.information.address) {
+                                                    if (!account.address) {
                                                         dispatch(showSnack({
                                                             severity: 'error',
                                                             message: 'Please connect your wallet'
@@ -99,7 +100,7 @@ function ABIEditor({abi = {methods: [], name: ""}, hideNetworks = false, support
                     </Box>
                     <div className="abi-body">
                         {!hideNetworks ? <ABINetworks networks={networks}></ABINetworks> : ''}
-                        <ABIMethods abi={abi} supportExecutor={supportExecutor}></ABIMethods>
+                        <ABIMethods abi={abi} supportExecutor={supportExecutor} account={account}></ABIMethods>
                     </div>
                 </div>
             </div>

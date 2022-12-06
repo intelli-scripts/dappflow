@@ -138,12 +138,12 @@ function LeftBar(): JSX.Element {
 
                   <div className="bottom-menu-item-wrapper">
                       <div className="bottom-menu-item-container" style={{borderTopColor: shadedClr2}}>
-                          {wallet.information.address ? <div>
+                          {wallet.account.address ? <div>
 
 
                               <div className="small-text" onClick={showWalletMenu}>
                                   <AccountBalanceWalletIcon fontSize="small" sx={{marginRight: '5px', verticalAlign: 'middle'}} color={"primary"}></AccountBalanceWalletIcon>
-                                  {wallet.information.address}
+                                  {wallet.account.address}
                               </div>
                               <Menu
                                   anchorEl={menuAnchorEl}
@@ -164,7 +164,7 @@ function LeftBar(): JSX.Element {
                                   <MenuItem
                                       selected={false}
                                       onClick={(e) => {
-                                          navigate('/explorer/account/' + wallet.information.address);
+                                          navigate('/explorer/account/' + wallet.account.address);
                                           closeWalletMenu();
                                           e.preventDefault();
                                           e.stopPropagation();

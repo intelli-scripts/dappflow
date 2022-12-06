@@ -6,13 +6,15 @@ import {ABIContract, ABIContractParams} from "algosdk";
 import {theme} from "../../../../theme";
 import ABIConfig from "../../../../packages/abi/classes/ABIConfig";
 import LinkToApplication from "../../Explorer/Common/Links/LinkToApplication";
+import {A_AccountInformation} from "../../../../packages/core-sdk/types";
 
 type ABIMethodsProps = {
     abi: ABIContractParams,
-    supportExecutor?: boolean
+    supportExecutor?: boolean,
+    account: A_AccountInformation
 };
 
-function ABIMethods({abi, supportExecutor = false}: ABIMethodsProps): JSX.Element {
+function ABIMethods({abi, supportExecutor = false, account}: ABIMethodsProps): JSX.Element {
 
     const abiInstance = new ABIContract(abi);
     const appId = new ABIConfig().getAppId();
@@ -35,7 +37,7 @@ function ABIMethods({abi, supportExecutor = false}: ABIMethodsProps): JSX.Elemen
             <div className={"abi-methods-body"}>
                 {abiInstance.methods.map((method, index) => {
                     return <div key={"method_" + index}>
-                        <ABIMethod method={method.toJSON()} supportExecutor={supportExecutor}></ABIMethod>
+                        <ABIMethod method={method.toJSON()} supportExecutor={supportExecutor} account={account}></ABIMethod>
                     </div>;
                 })}
             </div>

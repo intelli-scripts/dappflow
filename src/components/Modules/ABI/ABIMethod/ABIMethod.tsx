@@ -14,13 +14,14 @@ import ABIMethodExecutor from "../ABIMethodExecutor/ABIMethodExecutor";
 import OfflineBoltIcon from '@mui/icons-material/OfflineBolt';
 import {Alert} from "@mui/lab";
 import {showSnack} from "../../../../redux/common/actions/snackbar";
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../../../redux/store";
+import {useDispatch} from "react-redux";
 import {ABI_METHOD_EXECUTOR_SUPPORTED_TXN_TYPES} from "../../../../packages/abi/types";
+import {A_AccountInformation} from "../../../../packages/core-sdk/types";
 
 type ABIMethodProps = {
     method: ABIMethodParams,
-    supportExecutor?: boolean
+    supportExecutor?: boolean,
+    account: A_AccountInformation
 };
 
 interface ABIMethodState{
@@ -31,10 +32,9 @@ const initialState: ABIMethodState = {
     showExecutor: false
 };
 
-function ABIMethod({method, supportExecutor = true}: ABIMethodProps): JSX.Element {
+function ABIMethod({method, supportExecutor = true, account}: ABIMethodProps): JSX.Element {
     
     const dispatch = useDispatch();
-    const wallet = useSelector((state: RootState) => state.wallet);
     const abiMethodInstance = new ABIMethodSDK(method);
     const args = abiMethodInstance.args;
 
@@ -61,7 +61,7 @@ function ABIMethod({method, supportExecutor = true}: ABIMethodProps): JSX.Elemen
                                     ev.preventDefault();
                                     ev.stopPropagation();
 
-                                    if (!wallet.information.address) {
+                                    if (!account.address) {
                                         dispatch(showSnack({
                                             severity: 'error',
                                             message: 'Please connect your wallet'
@@ -158,7 +158,7 @@ function ABIMethod({method, supportExecutor = true}: ABIMethodProps): JSX.Elemen
             </div>
             <ABIMethodExecutor show={showExecutor} method={method} handleClose={() => {
                 setState(prevState => ({...prevState, showExecutor: false}));
-            }}></ABIMethodExecutor>
+            }} account={account}></ABIMethodExecutor>
         </div>
     </div>);
 }

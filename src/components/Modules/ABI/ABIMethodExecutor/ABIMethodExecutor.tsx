@@ -35,7 +35,7 @@ import {isNumber} from "../../../../utils/common";
 import {getOnCompleteOperations} from "../../../../packages/core-sdk/classes/core/CoreApplication";
 import AlgoIcon from "../../Explorer/AlgoIcon/AlgoIcon";
 import AssetPicker from "./AssetPicker/AssetPicker";
-import {A_Asset} from "../../../../packages/core-sdk/types";
+import {A_AccountInformation, A_Asset} from "../../../../packages/core-sdk/types";
 
 
 const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
@@ -51,21 +51,9 @@ const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
 interface ABIMethodExecutorProps{
     show: boolean,
     method: ABIMethodParams,
-    handleClose?: Function
+    handleClose?: Function,
+    account: A_AccountInformation
 }
-
-const defaultProps: ABIMethodExecutorProps = {
-    show: false,
-    method: {
-        args: [],
-        name: '',
-        returns: {
-            type: '',
-            desc: '',
-        },
-        desc: ''
-    }
-};
 
 interface ABIMethodExecutorState{
     appId: string,
@@ -107,9 +95,16 @@ const argTransactionSx = {
     background: theme.palette.common.white.toString()
 };
 
-function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.method, handleClose}: ABIMethodExecutorProps): JSX.Element {
+function ABIMethodExecutor({show = false, method = {
+    args: [],
+    name: '',
+    returns: {
+        type: '',
+        desc: '',
+    },
+    desc: ''
+}, handleClose, account}: ABIMethodExecutorProps): JSX.Element {
 
-    const wallet = useSelector((state: RootState) => state.wallet);
     const dispatch = useDispatch();
     const [
         {appId, executorArgs, creation, creationParams, error, success},
@@ -213,7 +208,7 @@ function ABIMethodExecutor({show = defaultProps.show, method = defaultProps.meth
         try {
             dispatch(showLoader('Signing transaction'));
             const abiMethodExecutorInstance = new ABIMethodExecutorCls(method);
-            const unsignedTxns = await abiMethodExecutorInstance.getUnsignedTxns(creation ? undefined : Number(appId) , wallet.information.address, executorArgs, creation, creationParams);
+            const unsignedTxns = await abiMethodExecutorInstance.getUnsignedTxns(creation ? undefined : Number(appId) , account.address, executorArgs, creation, creationParams);
 
             const signedTxns = await dappflow.signer.signGroupTxns(unsignedTxns.map((unsignedTxn) => {
                 return unsignedTxn.txn;
