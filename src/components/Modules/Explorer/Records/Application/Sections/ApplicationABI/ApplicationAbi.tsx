@@ -37,6 +37,7 @@ function ApplicationAbi(props): JSX.Element {
     const node = useSelector((state: RootState) => state.node);
     const {status, versionsCheck, genesis, health} = node;
     const coreNodeInstance = new CoreNode(status, versionsCheck, genesis, health);
+    const appInstance = new CoreApplication(application.information);
 
     return (<div className={"application-abi-wrapper"}>
         <div className={"application-abi-container"}>
@@ -87,7 +88,7 @@ function ApplicationAbi(props): JSX.Element {
 
 
                                 {application.abiDetails.loaded && application.abiDetails.present ? <div>
-                                    <ABIEditor abi={application.abiDetails.abi} hideNetworks={true}></ABIEditor>
+                                    <ABIEditor abi={application.abiDetails.abi} hideNetworks={true} appId={appInstance.getId().toString()}></ABIEditor>
                                 </div> : ''}
 
                                 {application.abiDetails.loaded && !application.abiDetails.present ? <Grid container spacing={2}>

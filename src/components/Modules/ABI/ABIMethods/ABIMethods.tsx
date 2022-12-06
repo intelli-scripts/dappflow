@@ -47,18 +47,19 @@ function ABIMethods({abi, supportExecutor = false, account, appId = ''}: ABIMeth
 
                     App ID : {appId ? <LinkToApplication id={appId}></LinkToApplication> : 'null'}
 
-                    <span style={{marginLeft: '10px'}}>
+                    {supportExecutor ? <span style={{marginLeft: '10px'}}>
                         <Edit
                             sx={{'&:hover': {
-                                cursor: 'pointer'
-                            }}}
+                                    cursor: 'pointer'
+                                }}}
                             color={"primary"}
                             fontSize={"small"}
                             onClick={() => {
-                            setState(prevState => ({...prevState, showConfig: true}));
-                        }}></Edit>
+                                setState(prevState => ({...prevState, showConfig: true}));
+                            }}></Edit>
                         <ABIConfig show={showConfig} appId={appId} handleClose={() => {setState(prevState => ({...prevState, showConfig: false}));}}></ABIConfig>
-                    </span>
+                    </span> : ''}
+
                 </div>
 
             </div>
