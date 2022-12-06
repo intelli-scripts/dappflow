@@ -15,13 +15,11 @@ import {
 } from "@mui/material";
 import OfflineBoltIcon from '@mui/icons-material/OfflineBolt';
 import {theme} from "../../../../theme";
-import {useDispatch, useSelector} from "react-redux";
-import ABIConfig from "../../../../packages/abi/classes/ABIConfig";
+import {useDispatch} from "react-redux";
 import {handleException} from "../../../../redux/common/actions/exception";
 import ABIMethodExecutorCls from "../../../../packages/abi/classes/ABIMethodExecutor";
 import {A_ABI_METHOD_EXECUTOR_APP_CREATION_PARAMS, A_ABI_METHOD_EXECUTOR_ARG} from "../../../../packages/abi/types";
 import CloseIcon from "@mui/icons-material/Close";
-import {RootState} from "../../../../redux/store";
 import dappflow from "../../../../utils/dappflow";
 import {hideLoader, showLoader} from "../../../../redux/common/actions/loader";
 import {TransactionClient} from "../../../../packages/core-sdk/clients/transactionClient";
@@ -36,6 +34,7 @@ import {getOnCompleteOperations} from "../../../../packages/core-sdk/classes/cor
 import AlgoIcon from "../../Explorer/AlgoIcon/AlgoIcon";
 import AssetPicker from "./AssetPicker/AssetPicker";
 import {A_AccountInformation, A_Asset} from "../../../../packages/core-sdk/types";
+import {updateAppId} from "../../../../redux/abi/actions/abiStudio";
 
 
 const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
@@ -52,11 +51,11 @@ interface ABIMethodExecutorProps{
     show: boolean,
     method: ABIMethodParams,
     handleClose?: Function,
-    account: A_AccountInformation
+    account: A_AccountInformation,
+    appId: string
 }
 
 interface ABIMethodExecutorState{
-    appId: string,
     executorArgs: A_ABI_METHOD_EXECUTOR_ARG[],
     creation: boolean,
     creationParams: A_ABI_METHOD_EXECUTOR_APP_CREATION_PARAMS,
@@ -65,7 +64,6 @@ interface ABIMethodExecutorState{
 }
 
 const initialState: ABIMethodExecutorState = {
-    appId: '',
     executorArgs: [],
     creation: false,
     creationParams: {
@@ -103,11 +101,11 @@ function ABIMethodExecutor({show = false, method = {
         desc: '',
     },
     desc: ''
-}, handleClose, account}: ABIMethodExecutorProps): JSX.Element {
+}, handleClose, account, appId = ''}: ABIMethodExecutorProps): JSX.Element {
 
     const dispatch = useDispatch();
     const [
-        {appId, executorArgs, creation, creationParams, error, success},
+        {executorArgs, creation, creationParams, error, success},
         setState
     ] = useState({
         ...initialState
@@ -135,7 +133,7 @@ function ABIMethodExecutor({show = false, method = {
                 value: ''
             });
         });
-        setState(prevState => ({...prevState, executorArgs: processedArgs, appId: new ABIConfig().getAppId()}));
+        setState(prevState => ({...prevState, executorArgs: processedArgs}));
     }, [show]);
 
 
@@ -227,7 +225,7 @@ function ABIMethodExecutor({show = false, method = {
 
             if (creation) {
                 const txnInstance = new CoreTransaction(txn);
-                new ABIConfig().setAppId(txnInstance.getAppId().toString());
+                dispatch(updateAppId(txnInstance.getAppId().toString()));
             }
 
             setSuccess('Method executed successfully : ' + txId);

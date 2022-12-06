@@ -1,5 +1,5 @@
 import './ABIConfig.scss';
-import React, {Fragment, useEffect, useState} from "react";
+import React, {Fragment, useRef} from "react";
 import {
     Button,
     Dialog,
@@ -18,8 +18,8 @@ import {ApplicationClient} from "../../../../packages/core-sdk/clients/applicati
 import dappflow from "../../../../utils/dappflow";
 import {handleException} from "../../../../redux/common/actions/exception";
 import {hideLoader, showLoader} from "../../../../redux/common/actions/loader";
-import ABIConfigCls from '../../../../packages/abi/classes/ABIConfig';
 import CloseIcon from "@mui/icons-material/Close";
+import {updateAppId} from "../../../../redux/abi/actions/abiStudio";
 
 
 const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
@@ -35,37 +35,15 @@ const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
 
 interface ABIConfigProps{
     show: boolean,
-    handleClose?: Function
-}
-
-const defaultProps: ABIConfigProps = {
-    show: false
-};
-
-interface ABIConfigState{
+    handleClose?: Function,
     appId: string
 }
 
-const initialState: ABIConfigState = {
-    appId: ''
-};
 
-
-function ABIConfig({show = defaultProps.show, handleClose}: ABIConfigProps): JSX.Element {
+function ABIConfig({show = false, handleClose, appId = ''}: ABIConfigProps): JSX.Element {
 
     const dispatch = useDispatch();
-
-    const [
-        {appId},
-        setState
-    ] = useState({
-        ...initialState
-    });
-
-    useEffect(() => {
-        const savedAppId = new ABIConfigCls().getAppId();
-        setState(prevState => ({...prevState, appId: savedAppId}));
-    }, [show]);
+    const appIdRef = useRef();
 
     function onClose(ev) {
         handleClose();
@@ -85,7 +63,7 @@ function ABIConfig({show = defaultProps.show, handleClose}: ABIConfigProps): JSX
                 <DialogTitle >
                     <div style={{display: 'flex', justifyContent: 'space-between'}}>
                         <div>
-                            <div style={{fontWeight: "bold", fontSize: 18}}>ABI Config</div>
+                            <div style={{fontWeight: "bold", fontSize: 18}}></div>
                         </div>
                         <div>
                             <CloseIcon className="modal-close-button" onClick={onClose}/>
@@ -100,12 +78,9 @@ function ABIConfig({show = defaultProps.show, handleClose}: ABIConfigProps): JSX
                                 <div>
                                     <FormLabel sx={{marginLeft: '5px', fontSize: '13px', fontWeight: 'bold', color: theme.palette.grey[600]}}>App ID</FormLabel>
                                     <ShadedInput
-                                        value={appId}
+                                        defaultValue={appId}
                                         placeholder="4983274"
-                                        onChange={(ev) => {
-                                            setState(prevState => ({...prevState, appId: ev.target.value}));
-                                        }
-                                        }
+                                        inputRef={appIdRef}
                                         fullWidth/>
 
 
@@ -118,6 +93,10 @@ function ABIConfig({show = defaultProps.show, handleClose}: ABIConfigProps): JSX
                                             className="black-button"
                                             onClick={async (ev) => {
 
+
+
+                                                // @ts-ignore
+                                                const appId = appIdRef.current.value;
 
                                                 if (appId) {
                                                     if (!isNumber(appId)) {
@@ -140,7 +119,7 @@ function ABIConfig({show = defaultProps.show, handleClose}: ABIConfigProps): JSX
                                                 }
 
 
-                                                new ABIConfigCls().setAppId(appId || "");
+                                                dispatch(updateAppId(appId))
 
                                                 dispatch(showSnack({
                                                     severity: 'success',

@@ -22,7 +22,7 @@ import {isBrave} from "../../../packages/core-sdk/utils";
 import {NodeConnectionParams} from "../../../packages/core-sdk/types";
 import CloseIcon from '@mui/icons-material/Close';
 import {logOut} from "../../../redux/wallet/actions/wallet";
-import ABIConfig from "../../../packages/abi/classes/ABIConfig";
+import {updateAppId} from "../../../redux/abi/actions/abiStudio";
 
 const nodeConfig = getNodeConfig();
 
@@ -163,7 +163,7 @@ function Settings(): JSX.Element {
         dispatch(hideSettings());
         dispatch(hideLoader());
         dispatch(logOut());
-        new ABIConfig().setAppId("");
+        dispatch(updateAppId(""));
         window.location.reload();
     }
 

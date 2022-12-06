@@ -27,9 +27,9 @@ import {isNumber} from "../../../../utils/common";
 import {ApplicationTransaction} from "../../../../packages/core-sdk/transactions/applicationTransaction";
 import {RootState} from "../../../../redux/store";
 import {TransactionClient} from "../../../../packages/core-sdk/clients/transactionClient";
-import ABIConfig from "../../../../packages/abi/classes/ABIConfig";
 import {CoreTransaction} from "../../../../packages/core-sdk/classes/core/CoreTransaction";
 import {getOnCompleteOperations} from "../../../../packages/core-sdk/classes/core/CoreApplication";
+import {updateAppId} from "../../../../redux/abi/actions/abiStudio";
 
 
 const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
@@ -242,7 +242,8 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
             dispatch(hideLoader());
 
             const txnInstance = new CoreTransaction(txn);
-            new ABIConfig().setAppId(txnInstance.getAppId().toString());
+            dispatch(updateAppId(txnInstance.getAppId().toString()));
+
             handleClose();
             dispatch(showSnack({
                 severity: 'success',

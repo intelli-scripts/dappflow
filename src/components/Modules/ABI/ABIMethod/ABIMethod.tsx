@@ -21,7 +21,8 @@ import {A_AccountInformation} from "../../../../packages/core-sdk/types";
 type ABIMethodProps = {
     method: ABIMethodParams,
     supportExecutor?: boolean,
-    account: A_AccountInformation
+    account: A_AccountInformation,
+    appId: string
 };
 
 interface ABIMethodState{
@@ -32,7 +33,7 @@ const initialState: ABIMethodState = {
     showExecutor: false
 };
 
-function ABIMethod({method, supportExecutor = true, account}: ABIMethodProps): JSX.Element {
+function ABIMethod({method, supportExecutor = true, account, appId = ''}: ABIMethodProps): JSX.Element {
     
     const dispatch = useDispatch();
     const abiMethodInstance = new ABIMethodSDK(method);
@@ -156,7 +157,7 @@ function ABIMethod({method, supportExecutor = true, account}: ABIMethodProps): J
                     </AccordionDetails>
                 </Accordion>
             </div>
-            <ABIMethodExecutor show={showExecutor} method={method} handleClose={() => {
+            <ABIMethodExecutor appId={appId} show={showExecutor} method={method} handleClose={() => {
                 setState(prevState => ({...prevState, showExecutor: false}));
             }} account={account}></ABIMethodExecutor>
         </div>

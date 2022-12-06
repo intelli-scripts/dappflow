@@ -22,6 +22,7 @@ import kmd from "./explorer/actions/kmd";
 import connectWallet from "./wallet/actions/connectWallet";
 import wallet from "./wallet/actions/wallet";
 import signer from "./wallet/actions/signer";
+import abiStudio from "./abi/actions/abiStudio";
 
 export const store = configureStore({
     reducer: {
@@ -47,7 +48,8 @@ export const store = configureStore({
         kmd: kmd,
         connectWallet: connectWallet,
         wallet: wallet,
-        signer: signer
+        signer: signer,
+        abiStudio: abiStudio
     },
 });
 

@@ -6,20 +6,19 @@ import {Box, Button, Grid} from "@mui/material";
 import ABIMethods from "../ABIMethods/ABIMethods";
 import ABINetworks from "../ABINetworks/ABINetworks";
 import {ABIContract, ABIContractParams} from "algosdk";
-import ABIConfig from "../ABIConfig/ABIConfig";
 import CreateApp from "../../AppManager/CreateApp/CreateApp";
 import {showSnack} from "../../../../redux/common/actions/snackbar";
 import {useDispatch} from "react-redux";
 import {A_AccountInformation} from "../../../../packages/core-sdk/types";
-import wallet, {defaultAccount} from "../../../../redux/wallet/actions/wallet";
+import {defaultAccount} from "../../../../redux/wallet/actions/wallet";
 
 type ABIEditorProps = {
     abi: ABIContractParams,
     hideNetworks?: boolean,
     supportExecutor?: boolean,
     supportCreateApp?: boolean,
-    supportConfig?: boolean,
-    account?: A_AccountInformation
+    account?: A_AccountInformation,
+    appId?: string
 };
 
 interface ABIEditorState{
@@ -32,14 +31,14 @@ const initialState: ABIEditorState = {
     showCreateApp: false
 };
 
-function ABIEditor({abi = {methods: [], name: ""}, hideNetworks = false, supportExecutor = false, supportCreateApp = false, supportConfig = false, account = defaultAccount}: ABIEditorProps): JSX.Element {
+function ABIEditor({abi = {methods: [], name: ""}, hideNetworks = false, supportExecutor = false, supportCreateApp = false, appId = '', account = defaultAccount}: ABIEditorProps): JSX.Element {
 
     const abiInstance = new ABIContract(abi);
     const networks = abiInstance.networks;
     const dispatch = useDispatch();
 
     const [
-        {showConfig, showCreateApp},
+        {showCreateApp},
         setState
     ] = useState(initialState);
 
@@ -62,17 +61,6 @@ function ABIEditor({abi = {methods: [], name: ""}, hideNetworks = false, support
                             <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                                 <div style={{display: "flex", justifyContent: "end"}}>
                                     <JsonViewer obj={abi} variant="outlined" title="ABI JSON" name="ABI JSON"></JsonViewer>
-                                    {supportConfig ? <div style={{marginLeft: '10px'}}>
-                                        <Button color={"primary"}
-                                                variant={"outlined"}
-                                                size={"small"}
-                                                onClick={() => {
-                                                    setState(prevState => ({...prevState, showConfig: true}));
-                                                }}
-                                        >Config</Button>
-                                        <ABIConfig show={showConfig} handleClose={() => {setState(prevState => ({...prevState, showConfig: false}));}}></ABIConfig>
-                                    </div> : ''}
-
                                     {supportCreateApp ? <div style={{marginLeft: '10px'}}>
                                         <Button color={"primary"}
                                                 variant={"outlined"}
@@ -100,7 +88,7 @@ function ABIEditor({abi = {methods: [], name: ""}, hideNetworks = false, support
                     </Box>
                     <div className="abi-body">
                         {!hideNetworks ? <ABINetworks networks={networks}></ABINetworks> : ''}
-                        <ABIMethods abi={abi} supportExecutor={supportExecutor} account={account}></ABIMethods>
+                        <ABIMethods abi={abi} supportExecutor={supportExecutor} account={account} appId={appId}></ABIMethods>
                     </div>
                 </div>
             </div>
