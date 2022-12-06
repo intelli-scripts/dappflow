@@ -58,15 +58,6 @@ function ApplicationAbi(props): JSX.Element {
                                                                                                             style={{marginLeft: '10px'}}
                                 >Attach ABI</Button> : ''}
 
-                                {application.abiDetails.loaded && application.abiDetails.present ? <Button color={"primary"}
-                                                                                                           variant={"outlined"}
-                                                                                                           size="small"
-                                                                                                           onClick={() => {
-                                                                                                               setState(prevState => ({...prevState, showImport: true}));
-                                                                                                           }}
-                                                                                                           style={{marginLeft: '10px'}}
-                                >Update ABI</Button> : ''}
-
                                 {application.abiDetails.loaded && application.abiDetails.present ? <Button color={"secondary"}
                                                                                                            variant={"outlined"}
                                                                                                            size="small"
@@ -110,6 +101,7 @@ function ApplicationAbi(props): JSX.Element {
                 clearState();
 
                 try {
+                    if (showImport)
                     await new ApplicationABI().save({
                         abi,
                         app: new CoreApplication(application.information).getId(),
