@@ -70,8 +70,10 @@ export default class ABIMethodExecutor {
         const val = arg.value;
 
         switch (dataType) {
-            case "uint64":
             case "uint8":
+            case "uint16":
+            case "uint32":
+            case "uint64":
             case "byte":
             case "asset":
             case "application":
@@ -179,7 +181,8 @@ export default class ABIMethodExecutor {
         atc.addMethodCall({
             ...appCallParams,
             method: new ABIMethod(this.method),
-            methodArgs
+            methodArgs,
+            //boxes: [{appIndex: 0, name: decodeAddress('R34NJOSWMTL2EQ4UFXW7Q2L4COUMRN4I6GG55L2NGADVDFVFJXAUFQU7CA').publicKey }]
         });
 
         const unsignedTxns= atc.buildGroup();
