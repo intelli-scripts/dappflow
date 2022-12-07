@@ -331,4 +331,15 @@ export class CoreTransaction {
             return payload["close-amount"];
         }
     }
+
+    getLogs(): string[]{
+        return this.txn.logs;
+    }
+
+    getReturnValue(): string {
+        const logs = this.getLogs();
+        if (logs && logs.length > 0) {
+            return logs[logs.length - 1];
+        }
+    }
 }

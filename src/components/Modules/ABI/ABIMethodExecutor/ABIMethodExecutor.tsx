@@ -33,8 +33,10 @@ import {isNumber} from "../../../../utils/common";
 import {getOnCompleteOperations} from "../../../../packages/core-sdk/classes/core/CoreApplication";
 import AlgoIcon from "../../Explorer/AlgoIcon/AlgoIcon";
 import AssetPicker from "./AssetPicker/AssetPicker";
-import {A_AccountInformation, A_Asset} from "../../../../packages/core-sdk/types";
+import {A_AccountInformation, A_Asset, A_SearchTransaction} from "../../../../packages/core-sdk/types";
 import {updateAppId} from "../../../../redux/abi/actions/abiStudio";
+import AppCallTxnReturnValue
+    from "../../Explorer/Records/Transaction/Types/AppCallTransaction/Sections/AppCallTxnReturnValue/AppCallTxnReturnValue";
 
 
 const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
@@ -60,8 +62,7 @@ interface ABIMethodExecutorState{
     executorArgs: A_ABI_METHOD_EXECUTOR_ARG[],
     creationParams: A_ABI_METHOD_EXECUTOR_APP_CREATION_PARAMS,
     error: string,
-    success: string,
-    txId: string
+    txn?: A_SearchTransaction
 }
 
 const initialState: ABIMethodExecutorState = {
@@ -79,8 +80,7 @@ const initialState: ABIMethodExecutorState = {
         onComplete: OnApplicationComplete.NoOpOC.toString()
     },
     error: '',
-    success: '',
-    txId: ''
+    txn: null
 };
 
 const formLabelSx = {
@@ -106,7 +106,7 @@ function ABIMethodExecutor({show = false, creation = false, method = {
 
     const dispatch = useDispatch();
     const [
-        {executorArgs, creationParams, error, success, txId},
+        {executorArgs, creationParams, error, txn},
         setState
     ] = useState({
         ...initialState
@@ -148,8 +148,7 @@ function ABIMethodExecutor({show = false, creation = false, method = {
 
     function resetResult() {
         setError("");
-        setSuccess("");
-        setTxId("");
+        setTxn(null);
     }
 
     function setError(msg: string) {
@@ -157,13 +156,11 @@ function ABIMethodExecutor({show = false, creation = false, method = {
         focusResult();
     }
 
-    function setSuccess(msg: string) {
-        setState(prevState => ({...prevState, success: msg}));
-        focusResult();
-    }
 
-    function setTxId(id: string) {
-        setState(prevState => ({...prevState, txId: id}));
+    function setTxn(txn1: A_SearchTransaction) {
+        console.log(txn1);
+        setState(prevState => ({...prevState, txn: txn1}));
+        focusResult();
     }
 
     function focusResult() {
@@ -226,17 +223,18 @@ function ABIMethodExecutor({show = false, creation = false, method = {
 
             dispatch(showLoader('Waiting for confirmation'));
             await txnInstance.waitForConfirmation(txId);
-            const txn = await new TransactionClient(dappflow.network).get(txId);
+            dispatch(hideLoader());
 
+            dispatch(showLoader('Fetching transaction'));
+            const txn1 = await new TransactionClient(dappflow.network).get(txId);
 
             if (creation) {
-                const txnInstance = new CoreTransaction(txn);
+                const txnInstance = new CoreTransaction(txn1);
                 dispatch(updateAppId(txnInstance.getAppId().toString()));
             }
 
+            setTxn(txn1);
             dispatch(hideLoader());
-            setSuccess('Method executed successfully : ');
-            setTxId(txId);
         }
         catch (e: any) {
             dispatch(hideLoader());
@@ -759,24 +757,24 @@ function ABIMethodExecutor({show = false, creation = false, method = {
                                                     <Alert icon={<Error></Error>} color={"warning"} sx={{wordBreak: "break-word"}}>{error}</Alert>
                                                 </div> : ''}
 
-                                                {success ? <div>
+                                                {Boolean(txn) ? <div>
                                                     <Alert color={"success"} sx={{wordBreak: "break-word"}}>
                                                         <div>
                                                             <div>
-                                                                {success}
+                                                                Method executed successfully.
                                                             </div>
 
                                                             <div style={{marginTop: '10px', fontSize: '12px'}}>
                                                                 <span style={{textDecoration: 'underline'}}>Transaction ID</span>
                                                                 <div>
-                                                                    {txId}
+                                                                    {new CoreTransaction(txn).getId()}
                                                                 </div>
                                                             </div>
 
                                                             <Button
                                                                 color={"primary"}
                                                                 onClick={() => {
-                                                                    window.open("/explorer/transaction/" + txId, "_blank");
+                                                                    window.open("/explorer/transaction/" + new CoreTransaction(txn).getId(), "_blank");
                                                                 }}
                                                                 size={"small"}
                                                                 sx={{marginTop: '20px'}}
@@ -785,6 +783,11 @@ function ABIMethodExecutor({show = false, creation = false, method = {
 
                                                         </div>
                                                     </Alert>
+
+                                                    <div style={{marginTop: '15px'}}>
+                                                        <AppCallTxnReturnValue method={method} transaction={txn}></AppCallTxnReturnValue>
+                                                    </div>
+
 
                                                 </div> : ''}
 

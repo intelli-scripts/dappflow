@@ -10,6 +10,7 @@ import {CoreAppCall} from "../../../../../../../../../packages/core-sdk/classes/
 import {ABIContractParams} from "algosdk";
 import ABIMethodSignature from "../../../../../../../ABI/ABIMethodSignature/ABIMethodSignature";
 import {CoreTransaction} from "../../../../../../../../../packages/core-sdk/classes/core/CoreTransaction";
+import AppCallTxnReturnValue from "../AppCallTxnReturnValue/AppCallTxnReturnValue";
 
 interface AppCallTxnArgumentsState{
     textEncoding: string,
@@ -85,7 +86,7 @@ function AppCallTxnArguments(props): JSX.Element {
                             {method ? <div>
                                 <ABIMethodSignature method={method}></ABIMethodSignature>
                                 <div className="arguments">
-                                    <div className="arguments-header">
+                                    {abiDecodedArgs.length > 0 ? <div className="arguments-header">
                                         <Grid container spacing={0}>
                                             <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
                                                 Name
@@ -98,7 +99,8 @@ function AppCallTxnArguments(props): JSX.Element {
                                             </Grid>
 
                                         </Grid>
-                                    </div>
+                                    </div> : ''}
+
 
 
                                     {abiDecodedArgs.map((arg, index) => {
@@ -119,6 +121,11 @@ function AppCallTxnArguments(props): JSX.Element {
                                         </div>;
                                     })}
 
+                                </div>
+
+
+                                <div className="returns">
+                                    <AppCallTxnReturnValue method={method} transaction={transaction}></AppCallTxnReturnValue>
                                 </div>
                             </div> : <div>
                                 <Alert icon={false} color={"error"}>
