@@ -2,15 +2,16 @@ import './ABIEditor.scss';
 import React, {useState} from "react";
 import {shadedClr, shadedClr2} from "../../../../utils/common";
 import JsonViewer from "../../../Common/JsonViewer/JsonViewer";
-import {Box, Button, Grid} from "@mui/material";
+import {Box, Button, Grid, ListItemText, Menu, MenuItem} from "@mui/material";
 import ABIMethods from "../ABIMethods/ABIMethods";
 import ABINetworks from "../ABINetworks/ABINetworks";
-import {ABIContract, ABIContractParams} from "algosdk";
-import CreateApp from "../../AppManager/CreateApp/CreateApp";
+import {ABIContract, ABIContractParams, ABIMethodParams} from "algosdk";
 import {showSnack} from "../../../../redux/common/actions/snackbar";
 import {useDispatch} from "react-redux";
 import {A_AccountInformation} from "../../../../packages/core-sdk/types";
 import {defaultAccount} from "../../../../redux/wallet/actions/wallet";
+import ABIMethodExecutor from "../ABIMethodExecutor/ABIMethodExecutor";
+import {KeyboardArrowDown} from "@mui/icons-material";
 
 type ABIEditorProps = {
     abi: ABIContractParams,
@@ -24,11 +25,23 @@ type ABIEditorProps = {
 interface ABIEditorState{
     showConfig: boolean,
     showCreateApp: boolean,
+    method: ABIMethodParams
 }
+
+const defaultMethod = {
+    name: '',
+    desc: '',
+    args: [],
+    returns: {
+        type: 'void',
+        desc: ''
+    }
+};
 
 const initialState: ABIEditorState = {
     showConfig: false,
-    showCreateApp: false
+    showCreateApp: false,
+    method: defaultMethod
 };
 
 function ABIEditor({abi = {methods: [], name: ""}, hideNetworks = false, supportExecutor = false, supportCreateApp = false, appId = '', account = defaultAccount}: ABIEditorProps): JSX.Element {
@@ -36,9 +49,14 @@ function ABIEditor({abi = {methods: [], name: ""}, hideNetworks = false, support
     const abiInstance = new ABIContract(abi);
     const networks = abiInstance.networks;
     const dispatch = useDispatch();
+    const [menuAnchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
+    const closeCreateAppMenu = () => {
+        setAnchorEl(null);
+    };
+    
     const [
-        {showCreateApp},
+        {showCreateApp, method},
         setState
     ] = useState(initialState);
 
@@ -65,7 +83,8 @@ function ABIEditor({abi = {methods: [], name: ""}, hideNetworks = false, support
                                         <Button color={"primary"}
                                                 variant={"outlined"}
                                                 size={"small"}
-                                                onClick={() => {
+                                                endIcon={<KeyboardArrowDown />}
+                                                onClick={(ev) => {
                                                     if (!account.address) {
                                                         dispatch(showSnack({
                                                             severity: 'error',
@@ -74,13 +93,51 @@ function ABIEditor({abi = {methods: [], name: ""}, hideNetworks = false, support
                                                         return;
                                                     }
 
-                                                    setState(prevState => ({...prevState, showCreateApp: true}));
+                                                    setAnchorEl(ev.currentTarget);
                                                 }}
                                         >Create App</Button>
-                                        <CreateApp abi={abi} show={showCreateApp} handleClose={() => {setState(prevState => ({...prevState, showCreateApp: false}));}}></CreateApp>
                                     </div> : ''}
-
                                 </div>
+
+
+                                <Menu
+                                    anchorEl={menuAnchorEl}
+                                    open={Boolean(menuAnchorEl)}
+                                    disableAutoFocusItem={true}
+                                    anchorOrigin={{
+                                        vertical: 'bottom',
+                                        horizontal: 'right',
+                                    }}
+                                    transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    MenuListProps={{
+
+                                    }}
+                                    onClose={closeCreateAppMenu}>
+
+                                    {abi.methods.map((method) => {
+                                        return <MenuItem
+                                            key={method.name}
+                                            selected={false}
+                                            onClick={(e) => {
+                                                setState(prevState => ({...prevState, method: method, showCreateApp: true}));
+                                                closeCreateAppMenu();
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                            }
+                                            }>
+                                            <ListItemText sx={{fontSize: '13px'}} disableTypography>{method.name}</ListItemText>
+                                        </MenuItem>;
+                                    })}
+
+                                </Menu>
+
+                                <ABIMethodExecutor creation={true} appId={appId} show={showCreateApp} method={method} handleClose={() => {
+                                    setState(prevState => ({...prevState, method: defaultMethod, showCreateApp: false}));
+                                }} account={account}></ABIMethodExecutor>
+                                
                             </Grid>
                         </Grid>
 

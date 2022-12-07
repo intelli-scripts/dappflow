@@ -6,7 +6,7 @@ import {
 } from "algosdk";
 import {
     Alert,
-    Button, ButtonGroup,
+    Button,
     Dialog,
     DialogActions,
     DialogContent,
@@ -52,12 +52,12 @@ interface ABIMethodExecutorProps{
     method: ABIMethodParams,
     handleClose?: Function,
     account: A_AccountInformation,
-    appId: string
+    appId: string,
+    creation?: boolean
 }
 
 interface ABIMethodExecutorState{
     executorArgs: A_ABI_METHOD_EXECUTOR_ARG[],
-    creation: boolean,
     creationParams: A_ABI_METHOD_EXECUTOR_APP_CREATION_PARAMS,
     error: string,
     success: string
@@ -65,7 +65,6 @@ interface ABIMethodExecutorState{
 
 const initialState: ABIMethodExecutorState = {
     executorArgs: [],
-    creation: false,
     creationParams: {
         id: '',
         approvalProgram: '',
@@ -93,11 +92,11 @@ const argTransactionSx = {
     background: theme.palette.common.white.toString()
 };
 
-function ABIMethodExecutor({show = false, method = {
+function ABIMethodExecutor({show = false, creation = false, method = {
     args: [],
     name: '',
     returns: {
-        type: '',
+        type: 'void',
         desc: '',
     },
     desc: ''
@@ -105,7 +104,7 @@ function ABIMethodExecutor({show = false, method = {
 
     const dispatch = useDispatch();
     const [
-        {executorArgs, creation, creationParams, error, success},
+        {executorArgs, creationParams, error, success},
         setState
     ] = useState({
         ...initialState
@@ -213,21 +212,22 @@ function ABIMethodExecutor({show = false, method = {
             }));
             dispatch(hideLoader());
 
-            const txnInstance = new BaseTransaction(dappflow.network);
             dispatch(showLoader('Broadcasting transaction to network'));
+            const txnInstance = new BaseTransaction(dappflow.network);
             const {txId} = await txnInstance.send(signedTxns);
             dispatch(hideLoader());
 
             dispatch(showLoader('Waiting for confirmation'));
             await txnInstance.waitForConfirmation(txId);
             const txn = await new TransactionClient(dappflow.network).get(txId);
-            dispatch(hideLoader());
+
 
             if (creation) {
                 const txnInstance = new CoreTransaction(txn);
                 dispatch(updateAppId(txnInstance.getAppId().toString()));
             }
-
+            
+            dispatch(hideLoader());
             setSuccess('Method executed successfully : ' + txId);
         }
         catch (e: any) {
@@ -306,14 +306,14 @@ function ABIMethodExecutor({show = false, method = {
                                             </div>
                                             <div className="abi-method-app-creation-wrapper">
                                                 <div className="abi-method-app-creation-container">
-                                                    <div className="abi-method-app-creation-question">
-                                                        Do you want to use this method for app creation ?
-                                                    </div>
+                                                    {/*<div className="abi-method-app-creation-question">*/}
+                                                    {/*    Do you want to use this method for app creation ?*/}
+                                                    {/*</div>*/}
 
-                                                    <ButtonGroup color={"primary"} variant="outlined" size={"small"} style={{marginTop: 20}}>
-                                                        <Button variant={creation ? 'contained' : 'outlined'} onClick={() => {setState(prevState => ({...prevState, creation: true}));}}>Yes</Button>
-                                                        <Button variant={!creation ? 'contained' : 'outlined'} onClick={() => {setState(prevState => ({...prevState, creation: false}));}}>No</Button>
-                                                    </ButtonGroup>
+                                                    {/*<ButtonGroup color={"primary"} variant="outlined" size={"small"} style={{marginTop: 20}}>*/}
+                                                    {/*    <Button variant={creation ? 'contained' : 'outlined'} onClick={() => {setState(prevState => ({...prevState, creation: true}));}}>Yes</Button>*/}
+                                                    {/*    <Button variant={!creation ? 'contained' : 'outlined'} onClick={() => {setState(prevState => ({...prevState, creation: false}));}}>No</Button>*/}
+                                                    {/*</ButtonGroup>*/}
 
                                                     {creation ? <div className="abi-method-app-creation-form">
                                                         <div className="abi-method-app-creation-form-content">
