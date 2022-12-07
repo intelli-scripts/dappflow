@@ -157,9 +157,8 @@ function ABIMethodExecutor({show = false, creation = false, method = {
     }
 
 
-    function setTxn(txn1: A_SearchTransaction) {
-        console.log(txn1);
-        setState(prevState => ({...prevState, txn: txn1}));
+    function setTxn(txn: A_SearchTransaction) {
+        setState(prevState => ({...prevState, txn: txn}));
         focusResult();
     }
 
@@ -226,14 +225,14 @@ function ABIMethodExecutor({show = false, creation = false, method = {
             dispatch(hideLoader());
 
             dispatch(showLoader('Fetching transaction'));
-            const txn1 = await new TransactionClient(dappflow.network).get(txId);
+            const txn = await new TransactionClient(dappflow.network).get(txId);
 
             if (creation) {
-                const txnInstance = new CoreTransaction(txn1);
+                const txnInstance = new CoreTransaction(txn);
                 dispatch(updateAppId(txnInstance.getAppId().toString()));
             }
 
-            setTxn(txn1);
+            setTxn(txn);
             dispatch(hideLoader());
         }
         catch (e: any) {

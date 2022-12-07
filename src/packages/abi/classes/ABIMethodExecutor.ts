@@ -69,17 +69,20 @@ export default class ABIMethodExecutor {
         const dataType = arg.type.toString();
         const val = arg.value;
 
+        if (dataType.startsWith("uint")) {
+            return BigInt(val);
+        }
+        if (dataType.startsWith('ufixed')) {
+            return BigInt(val);
+        }
+
         switch (dataType) {
-            case "uint8":
-            case "uint16":
-            case "uint32":
-            case "uint64":
             case "byte":
             case "asset":
             case "application":
                 return BigInt(val);
             case "bool":
-                return Boolean(val);
+                return val === 'true';
             case "byte[]":
                 return new Uint8Array(Buffer.from(val, "base64"));
             case "string[7]":
