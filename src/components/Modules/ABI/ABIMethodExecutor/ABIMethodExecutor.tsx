@@ -60,7 +60,8 @@ interface ABIMethodExecutorState{
     executorArgs: A_ABI_METHOD_EXECUTOR_ARG[],
     creationParams: A_ABI_METHOD_EXECUTOR_APP_CREATION_PARAMS,
     error: string,
-    success: string
+    success: string,
+    txId: string
 }
 
 const initialState: ABIMethodExecutorState = {
@@ -78,7 +79,8 @@ const initialState: ABIMethodExecutorState = {
         onComplete: OnApplicationComplete.NoOpOC.toString()
     },
     error: '',
-    success: ''
+    success: '',
+    txId: ''
 };
 
 const formLabelSx = {
@@ -104,7 +106,7 @@ function ABIMethodExecutor({show = false, creation = false, method = {
 
     const dispatch = useDispatch();
     const [
-        {executorArgs, creationParams, error, success},
+        {executorArgs, creationParams, error, success, txId},
         setState
     ] = useState({
         ...initialState
@@ -147,6 +149,7 @@ function ABIMethodExecutor({show = false, creation = false, method = {
     function resetResult() {
         setError("");
         setSuccess("");
+        setTxId("");
     }
 
     function setError(msg: string) {
@@ -157,6 +160,10 @@ function ABIMethodExecutor({show = false, creation = false, method = {
     function setSuccess(msg: string) {
         setState(prevState => ({...prevState, success: msg}));
         focusResult();
+    }
+
+    function setTxId(id: string) {
+        setState(prevState => ({...prevState, txId: id}));
     }
 
     function focusResult() {
@@ -226,9 +233,10 @@ function ABIMethodExecutor({show = false, creation = false, method = {
                 const txnInstance = new CoreTransaction(txn);
                 dispatch(updateAppId(txnInstance.getAppId().toString()));
             }
-            
+
             dispatch(hideLoader());
-            setSuccess('Method executed successfully : ' + txId);
+            setSuccess('Method executed successfully : ');
+            setTxId(txId);
         }
         catch (e: any) {
             dispatch(hideLoader());
@@ -757,8 +765,25 @@ function ABIMethodExecutor({show = false, creation = false, method = {
                                                             <div>
                                                                 {success}
                                                             </div>
+
+                                                            <div style={{marginTop: '10px', fontSize: '12px'}}>
+                                                                <span style={{textDecoration: 'underline'}}>Transaction ID</span>
+                                                                <div>
+                                                                    {txId}
+                                                                </div>
+                                                            </div>
+
+                                                            <Button
+                                                                color={"primary"}
+                                                                onClick={() => {
+                                                                    window.open("/explorer/transaction/" + txId, "_blank");
+                                                                }}
+                                                                size={"small"}
+                                                                sx={{marginTop: '20px'}}
+                                                                variant={"outlined"}
+                                                                className="black-button">View transaction</Button>
+
                                                         </div>
-                                                        {/*<LinkToTransaction id={txId} sx={{color: 'common.black', marginTop: 15}}></LinkToTransaction>*/}
                                                     </Alert>
 
                                                 </div> : ''}
