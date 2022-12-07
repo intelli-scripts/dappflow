@@ -69,6 +69,13 @@ function ABIMethod({method, supportExecutor = true, account, appId = ''}: ABIMet
                                         }));
                                         return;
                                     }
+                                    if (!appId) {
+                                        dispatch(showSnack({
+                                            severity: 'error',
+                                            message: 'App ID is null. If you already have a existing app, Please setup your app id using edit button above. If not create a new application'
+                                        }));
+                                        return;
+                                    }
 
                                     if (!new ABIMethodExecutorCls(method).canExecute()) {
                                         dispatch(showSnack({
