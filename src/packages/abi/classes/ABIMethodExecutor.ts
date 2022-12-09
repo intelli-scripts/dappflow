@@ -1,8 +1,8 @@
 import {
-    ABIArgumentType,
+    ABIArgumentType, ABIArrayDynamicType, ABIArrayStaticType,
     ABIMethod,
     ABIMethodParams,
-    ABITransactionType,
+    ABITransactionType, ABITupleType,
     abiTypeIsTransaction,
     algosToMicroalgos,
     AtomicTransactionComposer,
@@ -69,27 +69,23 @@ export default class ABIMethodExecutor {
         const dataType = arg.type.toString();
         const val = arg.value;
 
-        if (dataType.startsWith("uint")) {
+        if (dataType.startsWith("uint") || dataType.startsWith('ufixed') || dataType === 'byte' || dataType === 'asset' || dataType === 'application') {
             return BigInt(val);
         }
-        if (dataType.startsWith('ufixed')) {
-            return BigInt(val);
+        if (dataType === 'bool') {
+            return val === 'true';
+        }
+        if (arg.type instanceof ABIArrayStaticType || arg.type instanceof ABIArrayDynamicType) {
+            if (dataType.startsWith("byte")) {
+                return new Uint8Array(Buffer.from(val, "base64"));
+            }
+            return val.split(',');
+        }
+        if (arg.type instanceof ABITupleType) {
+            return ABITupleType.parseTupleContent(val);
         }
 
-        switch (dataType) {
-            case "byte":
-            case "asset":
-            case "application":
-                return BigInt(val);
-            case "bool":
-                return val === 'true';
-            case "byte[]":
-                return new Uint8Array(Buffer.from(val, "base64"));
-            case "string[7]":
-                return val.split(',');
-            default:
-                return val;
-        }
+        return val;
     }
 
     getSequenceOfTxnTypes(): string[] {
