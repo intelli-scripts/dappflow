@@ -28,9 +28,11 @@
               padding: 20px;
               display: flex;
               justify-content: space-between;
-              .wallet-address {
-                font-size: 13px;
-                font-weight: bold;
+              .wallet-details {
+                .wallet-address {
+                  font-size: 13px;
+                  font-weight: bold;
+                }
               }
               .wallet-actions {
 

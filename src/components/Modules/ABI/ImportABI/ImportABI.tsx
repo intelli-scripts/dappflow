@@ -177,6 +177,11 @@ function ImportABI(props): JSX.Element {
                                               sx={{marginLeft: '10px'}}
                                         ></Chip>
 
+                                        <Chip onClick={() => {
+                                            setState(prevState => ({...prevState, url: "https://raw.githubusercontent.com/algorand-devrel/beaker-calculator/main/calculator-pyteal/contract.json"}));
+                                        }} label="Calculator ABI" size="small" color={"warning"} variant={"outlined"}
+                                              sx={{marginLeft: '10px'}}
+                                        ></Chip>
 
                                     </div>
 
