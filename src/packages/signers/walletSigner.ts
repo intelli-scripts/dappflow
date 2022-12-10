@@ -27,8 +27,8 @@ export class WalletSigner implements Signer{
         const signedTxns: Uint8Array[] = [];
 
         unsignedTxns.forEach((unsignedTxn) => {
-            const test = this.signTxn(unsignedTxn);
-            signedTxns.push(test);
+            const signedTxn = this.signTxn(unsignedTxn);
+            signedTxns.push(signedTxn);
         });
 
         return signedTxns;
