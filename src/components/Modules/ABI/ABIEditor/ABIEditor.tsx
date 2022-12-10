@@ -12,6 +12,7 @@ import {A_AccountInformation} from "../../../../packages/core-sdk/types";
 import {defaultAccount} from "../../../../redux/wallet/actions/wallet";
 import ABIMethodExecutor from "../ABIMethodExecutor/ABIMethodExecutor";
 import {KeyboardArrowDown} from "@mui/icons-material";
+import CreateApp from "../../AppManager/CreateApp/CreateApp";
 
 type ABIEditorProps = {
     abi: ABIContractParams,
@@ -25,6 +26,7 @@ type ABIEditorProps = {
 interface ABIEditorState{
     showConfig: boolean,
     showCreateApp: boolean,
+    showBareCreateApp: boolean,
     method: ABIMethodParams
 }
 
@@ -41,6 +43,7 @@ const defaultMethod = {
 const initialState: ABIEditorState = {
     showConfig: false,
     showCreateApp: false,
+    showBareCreateApp: false,
     method: defaultMethod
 };
 
@@ -56,7 +59,7 @@ function ABIEditor({abi = {methods: [], name: ""}, hideNetworks = false, support
     };
     
     const [
-        {showCreateApp, method},
+        {showCreateApp, method, showBareCreateApp},
         setState
     ] = useState(initialState);
 
@@ -132,11 +135,27 @@ function ABIEditor({abi = {methods: [], name: ""}, hideNetworks = false, support
                                         </MenuItem>;
                                     })}
 
+                                    <MenuItem
+                                        selected={false}
+                                        onClick={(e) => {
+                                            setState(prevState => ({...prevState, showBareCreateApp: true}));
+                                            closeCreateAppMenu();
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                        }
+                                        }>
+                                        <ListItemText sx={{fontSize: '13px'}} disableTypography>Bare</ListItemText>
+                                    </MenuItem>
+
                                 </Menu>
 
                                 <ABIMethodExecutor creation={true} appId={appId} show={showCreateApp} method={method} handleClose={() => {
                                     setState(prevState => ({...prevState, method: defaultMethod, showCreateApp: false}));
                                 }} account={account}></ABIMethodExecutor>
+
+                                <CreateApp show={showBareCreateApp} handleClose={() => {
+                                    setState(prevState => ({...prevState, showBareCreateApp: false}));
+                                }}></CreateApp>
                                 
                             </Grid>
                         </Grid>
