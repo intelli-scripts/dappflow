@@ -23,6 +23,7 @@ import connectWallet from "./wallet/actions/connectWallet";
 import wallet from "./wallet/actions/wallet";
 import signer from "./wallet/actions/signer";
 import abiStudio from "./abi/actions/abiStudio";
+import devWallets from "./devWallets/actions/devWallets";
 
 export const store = configureStore({
     reducer: {
@@ -49,7 +50,8 @@ export const store = configureStore({
         connectWallet: connectWallet,
         wallet: wallet,
         signer: signer,
-        abiStudio: abiStudio
+        abiStudio: abiStudio,
+        devWallets: devWallets
     },
 });
 

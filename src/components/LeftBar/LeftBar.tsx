@@ -26,6 +26,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import SwapCallsIcon from '@mui/icons-material/SwapCalls';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import CreditCardIcon from '@mui/icons-material/CreditCard';
 
 
 function LeftBar(): JSX.Element {
@@ -98,6 +99,9 @@ function LeftBar(): JSX.Element {
                       }}/>
                       <Tab icon={<InsertChartIcon></InsertChartIcon>} iconPosition="start" label="Node Status" value="node-status" onClick={() => {
                           navigate('/node-status');
+                      }}/>
+                      <Tab icon={<CreditCardIcon></CreditCardIcon>} iconPosition="start" label="Dev Wallets" value="dev-wallets" onClick={() => {
+                          navigate('/dev-wallets');
                       }}/>
 
                   </Tabs>
