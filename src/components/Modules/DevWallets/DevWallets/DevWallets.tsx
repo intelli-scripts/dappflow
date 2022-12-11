@@ -2,7 +2,7 @@ import './DevWallets.scss';
 import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import AddIcon from "@mui/icons-material/Add";
-import {Button} from "@mui/material";
+import {Button, Chip} from "@mui/material";
 import {copyContent, shadedClr} from "../../../../utils/common";
 import {
     createDevWallet,
@@ -106,9 +106,7 @@ function DevWallets(): JSX.Element {
                                         <div className="wallet-details">
                                             <div className="wallet-address">
                                                 {devWallet.address}
-                                                <div className="wallet-balance">
-                                                    <AccountBalance address={devWallet.address}></AccountBalance>
-                                                </div>
+                                                <Chip sx={{marginLeft: '10px'}} size={"small"} color={"primary"} variant={"outlined"} label={<AccountBalance address={devWallet.address}></AccountBalance>}></Chip>
                                             </div>
                                             <div style={{marginTop: '15px'}}>
                                                 <Button color={"primary"}

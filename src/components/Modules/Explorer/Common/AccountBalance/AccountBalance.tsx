@@ -7,7 +7,6 @@ import {defaultAccount} from "../../../../../redux/wallet/actions/wallet";
 import {AccountClient} from "../../../../../packages/core-sdk/clients/accountClient";
 import {CoreAccount} from "../../../../../packages/core-sdk/classes/core/CoreAccount";
 import {microalgosToAlgos} from "algosdk";
-import AlgoIcon from "../../AlgoIcon/AlgoIcon";
 
 
 interface AccountBalanceProps {
@@ -50,7 +49,7 @@ function AccountBalance({address}: AccountBalanceProps): JSX.Element {
                 displayType={'text'}
                 thousandSeparator={true}
             ></NumberFormat>
-            <AlgoIcon></AlgoIcon>
+            <span style={{marginLeft: '5px'}}>Algo</span>
 
         </div>
     </div>);
