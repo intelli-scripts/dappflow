@@ -461,10 +461,12 @@ function ABIMethodExecutor({show = false, creation = false, method = {
                                                                                     style={{ display: "none" }}
                                                                                     onChange={async (event) => {
                                                                                         const compileResponse = await validateProgram(event);
-                                                                                        setState(prevState => ({...prevState, creationParams: {
-                                                                                                ...creationParams,
-                                                                                                approvalProgram: compileResponse.result
-                                                                                            }}));
+                                                                                        if (compileResponse) {
+                                                                                            setState(prevState => ({...prevState, creationParams: {
+                                                                                                    ...creationParams,
+                                                                                                    approvalProgram: compileResponse.result
+                                                                                                }}));
+                                                                                        }
                                                                                     }} />
 
                                                                             </Button>
@@ -491,10 +493,12 @@ function ABIMethodExecutor({show = false, creation = false, method = {
                                                                                     style={{ display: "none" }}
                                                                                     onChange={async (event) => {
                                                                                         const compileResponse = await validateProgram(event);
-                                                                                        setState(prevState => ({...prevState, creationParams: {
-                                                                                                ...creationParams,
-                                                                                                clearProgram: compileResponse.result
-                                                                                            }}));
+                                                                                        if (compileResponse) {
+                                                                                            setState(prevState => ({...prevState, creationParams: {
+                                                                                                    ...creationParams,
+                                                                                                    clearProgram: compileResponse.result
+                                                                                                }}));
+                                                                                        }
                                                                                     }} />
                                                                             </Button>
                                                                             {creationParams.clearProgram ? <div className="teal-program">

@@ -417,10 +417,12 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
                                                     style={{ display: "none" }}
                                                     onChange={async (event) => {
                                                         const compileResponse = await validateProgram(event);
-                                                        setState(prevState => ({...prevState, params: {
-                                                                ...params,
-                                                                approvalProgram: compileResponse.result
-                                                            }}));
+                                                        if (compileResponse) {
+                                                            setState(prevState => ({...prevState, params: {
+                                                                    ...params,
+                                                                    approvalProgram: compileResponse.result
+                                                                }}));
+                                                        }
                                                     }} />
 
                                             </Button>
@@ -447,10 +449,12 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
                                                     style={{ display: "none" }}
                                                     onChange={async (event) => {
                                                         const compileResponse = await validateProgram(event);
-                                                        setState(prevState => ({...prevState, params: {
-                                                                ...params,
-                                                                clearProgram: compileResponse.result
-                                                            }}));
+                                                        if (compileResponse) {
+                                                            setState(prevState => ({...prevState, params: {
+                                                                    ...params,
+                                                                    clearProgram: compileResponse.result
+                                                                }}));
+                                                        }
                                                     }} />
                                             </Button>
                                             {params.clearProgram ? <div className="teal-program">
