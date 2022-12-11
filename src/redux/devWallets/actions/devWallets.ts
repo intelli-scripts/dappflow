@@ -56,6 +56,7 @@ export const devWalletsSlice = createSlice({
         setDevWalletsLoading: (state, action: PayloadAction<boolean> ) => {
             state.loading = action.payload;
         },
+        resetDevWallets: state => initialState,
     },
     extraReducers: (builder) => {
         builder.addCase(loadDevWallets.fulfilled, (state, action: PayloadAction<any[]>) => {
@@ -64,5 +65,5 @@ export const devWalletsSlice = createSlice({
     },
 });
 
-export const {setDevWalletsLoading} = devWalletsSlice.actions
+export const {setDevWalletsLoading, resetDevWallets} = devWalletsSlice.actions
 export default devWalletsSlice.reducer

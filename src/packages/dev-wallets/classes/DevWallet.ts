@@ -28,7 +28,7 @@ export class DevWallet {
     }
 
     async getAll(): Promise<A_Dev_Wallet[]> {
-        const wallets = await dataStore.devWallets.toArray()
+        const wallets = await dataStore.devWallets.reverse().toArray();
         return wallets;
     }
 }

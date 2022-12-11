@@ -4,7 +4,12 @@ import {useDispatch, useSelector} from "react-redux";
 import AddIcon from "@mui/icons-material/Add";
 import {Button} from "@mui/material";
 import {copyContent, shadedClr} from "../../../../utils/common";
-import {createDevWallet, deleteDevWallet, loadDevWallets} from "../../../../redux/devWallets/actions/devWallets";
+import {
+    createDevWallet,
+    deleteDevWallet,
+    loadDevWallets,
+    resetDevWallets
+} from "../../../../redux/devWallets/actions/devWallets";
 import algosdk, {generateAccount, secretKeyToMnemonic, SuggestedParams, waitForConfirmation} from 'algosdk'
 import {A_Dev_Wallet} from "../../../../packages/dev-wallets/types";
 import {RootState} from "../../../../redux/store";
@@ -21,6 +26,7 @@ import {KMDConnectionParams} from "../../../../packages/core-sdk/types";
 import {getKMDConfig} from "../../../../utils/nodeConfig";
 import {handleException} from "../../../../redux/common/actions/exception";
 import ShowerIcon from "@mui/icons-material/Shower";
+import AccountBalance from "../../Explorer/Common/AccountBalance/AccountBalance";
 
 function DevWallets(): JSX.Element {
 
@@ -100,6 +106,9 @@ function DevWallets(): JSX.Element {
                                         <div className="wallet-details">
                                             <div className="wallet-address">
                                                 {devWallet.address}
+                                                <div className="wallet-balance">
+                                                    <AccountBalance address={devWallet.address}></AccountBalance>
+                                                </div>
                                             </div>
                                             <div style={{marginTop: '15px'}}>
                                                 <Button color={"primary"}
@@ -160,6 +169,8 @@ function DevWallets(): JSX.Element {
                                                                                  severity: 'success',
                                                                                  message: 'Algos dispensed successfully'
                                                                              }));
+                                                                             dispatch(resetDevWallets());
+                                                                             dispatch(loadDevWallets());
                                                                          }
                                                                          catch (e: any) {
                                                                              dispatch(hideLoader());
