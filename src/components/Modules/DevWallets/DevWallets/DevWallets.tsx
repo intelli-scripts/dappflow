@@ -5,7 +5,7 @@ import AddIcon from "@mui/icons-material/Add";
 import {Button} from "@mui/material";
 import {copyContent, shadedClr} from "../../../../utils/common";
 import {createDevWallet, deleteDevWallet, loadDevWallets} from "../../../../redux/devWallets/actions/devWallets";
-import {generateAccount, secretKeyToMnemonic} from 'algosdk'
+import algosdk, {generateAccount, secretKeyToMnemonic, SuggestedParams, waitForConfirmation} from 'algosdk'
 import {A_Dev_Wallet} from "../../../../packages/dev-wallets/types";
 import {RootState} from "../../../../redux/store";
 import {showSnack} from "../../../../redux/common/actions/snackbar";
@@ -14,6 +14,13 @@ import {Alert} from "@mui/lab";
 import DeleteIcon from '@mui/icons-material/Delete';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import {hideLoader, showLoader} from "../../../../redux/common/actions/loader";
+import {KmdClient} from "../../../../packages/core-sdk/clients/kmdClient";
+import dappflow from "../../../../utils/dappflow";
+import {KMDConnectionParams} from "../../../../packages/core-sdk/types";
+import {getKMDConfig} from "../../../../utils/nodeConfig";
+import {handleException} from "../../../../redux/common/actions/exception";
+import ShowerIcon from "@mui/icons-material/Shower";
 
 function DevWallets(): JSX.Element {
 
@@ -27,6 +34,7 @@ function DevWallets(): JSX.Element {
     const {versionsCheck, status, genesis, health} = node;
     const coreNodeInstance = new CoreNode(status, versionsCheck, genesis, health);
     const isMainnet = coreNodeInstance.isMainnet();
+    const isSandbox = coreNodeInstance.isSandbox();
 
 
     useEffect(() => {
@@ -111,6 +119,55 @@ function DevWallets(): JSX.Element {
                                                             copyContent(event, dispatch, devWallet.address, 'Address copied');
                                                         }}
                                                 >Copy</Button>
+
+                                                {isSandbox ? <Button color={"primary"}
+                                                                     size={"small"}
+                                                                     sx={{marginLeft: '15px'}}
+                                                                     variant={"text"}
+                                                                     startIcon={<ShowerIcon></ShowerIcon>}
+                                                                     onClick={async (event) => {
+                                                                         try {
+                                                                             const params: KMDConnectionParams = getKMDConfig();
+
+                                                                             dispatch(showLoader("Checking KMD configuration"));
+                                                                             const dispenserAccount = await new KmdClient(params).getDispenserAccount();
+                                                                             dispatch(hideLoader());
+
+                                                                             dispatch(showLoader("Loading suggested params"));
+                                                                             const client = dappflow.network.getClient();
+                                                                             const suggestedParams: SuggestedParams = await client.getTransactionParams().do();
+                                                                             dispatch(hideLoader());
+
+                                                                             dispatch(showLoader(""));
+                                                                             const amountInMicros = algosdk.algosToMicroalgos(Number(10));
+                                                                             const enc = new TextEncoder();
+                                                                             const note = enc.encode("Dispencing algos from dappflow dispenser");
+
+                                                                             const unsignedTxn = algosdk.makePaymentTxnWithSuggestedParams(dispenserAccount.addr, devWallet.address, amountInMicros, undefined, note, suggestedParams, undefined);
+                                                                             const signedTxn = unsignedTxn.signTxn(dispenserAccount.sk);
+
+                                                                             dispatch(hideLoader());
+
+                                                                             dispatch(showLoader("Submitting transaction"));
+                                                                             const {txId} = await client.sendRawTransaction(signedTxn).do();
+                                                                             dispatch(hideLoader());
+
+                                                                             dispatch(showLoader("Waiting for confirmation"));
+                                                                             await waitForConfirmation(client, txId, 10);
+                                                                             dispatch(hideLoader());
+
+                                                                             dispatch(showSnack({
+                                                                                 severity: 'success',
+                                                                                 message: 'Algos dispensed successfully'
+                                                                             }));
+                                                                         }
+                                                                         catch (e: any) {
+                                                                             dispatch(hideLoader());
+                                                                             handleException(e);
+                                                                         }
+                                                                     }}
+                                                >Dispense</Button> : ''}
+
                                             </div>
                                         </div>
                                         <div className="wallet-actions">
