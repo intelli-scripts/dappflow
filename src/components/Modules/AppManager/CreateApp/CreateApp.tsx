@@ -239,7 +239,7 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
             dispatch(showLoader('Waiting for confirmation'));
             await appCallInstance.waitForConfirmation(txId);
             const txn = await new TransactionClient(dappflow.network).get(txId);
-            dispatch(hideLoader());
+
 
             const txnInstance = new CoreTransaction(txn);
             dispatch(updateAppId(txnInstance.getAppId().toString()));
@@ -249,6 +249,7 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
                 severity: 'success',
                 message: 'Application created successfully. You can execute the ABI calls.'
             }));
+            dispatch(hideLoader());
         }
         catch (e: any) {
             dispatch(hideLoader());
