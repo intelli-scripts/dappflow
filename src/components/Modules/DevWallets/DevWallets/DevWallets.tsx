@@ -27,6 +27,7 @@ import {getKMDConfig} from "../../../../utils/nodeConfig";
 import {handleException} from "../../../../redux/common/actions/exception";
 import ShowerIcon from "@mui/icons-material/Shower";
 import AccountBalance from "../../Explorer/Common/AccountBalance/AccountBalance";
+import { useConfirm } from "material-ui-confirm";
 
 function DevWallets(): JSX.Element {
 
@@ -41,6 +42,8 @@ function DevWallets(): JSX.Element {
     const coreNodeInstance = new CoreNode(status, versionsCheck, genesis, health);
     const isMainnet = coreNodeInstance.isMainnet();
     const isSandbox = coreNodeInstance.isSandbox();
+
+    const confirm = useConfirm();
 
 
     useEffect(() => {
@@ -193,7 +196,23 @@ function DevWallets(): JSX.Element {
                                                             return;
                                                         }
 
-                                                        dispatch(deleteDevWallet(devWallet.address));
+                                                        confirm({
+                                                            description: "You are trying to delete a wallet and this action cannot be reversed.",
+                                                            confirmationText: 'Delete',
+                                                            confirmationButtonProps: {
+                                                                color: 'warning',
+                                                                variant: 'outlined',
+                                                                size: 'small'
+                                                            },
+                                                            cancellationButtonProps: {
+                                                                color: 'inherit',
+                                                                size: 'small'
+                                                            }
+                                                        })
+                                                            .then(() => {
+                                                                dispatch(deleteDevWallet(devWallet.address));
+                                                            })
+                                                            .catch(() => {});
                                                     }}
                                             >Delete</Button>
                                         </div>

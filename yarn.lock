@@ -7850,6 +7850,11 @@ markdown-to-jsx@^7.1.7:
   resolved "https://registry.yarnpkg.com/markdown-to-jsx/-/markdown-to-jsx-7.1.7.tgz#a5f22102fb12241c8cea1ca6a4050bb76b23a25d"
   integrity sha512-VI3TyyHlGkO8uFle0IOibzpO1c1iJDcXcS/zBrQrXQQvJ2tpdwVzVZ7XdKsyRz1NdRmre4dqQkMZzUHaKIG/1w==
 
+material-ui-confirm@^3.0.7:
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/material-ui-confirm/-/material-ui-confirm-3.0.7.tgz#7111600f6bb144b040878e995c83165dab8114b7"
+  integrity sha512-HZkym2nYSdKAmcCVtj/N/ygwWz/mlbWLrLAY6oRxBvD4Z1JBEmBNC//4yGAiNKlR0/9BlC6GKdY5RnqUaTwSKA==
+
 md5.js@^1.3.4:
   version "1.3.5"
   resolved "https://registry.yarnpkg.com/md5.js/-/md5.js-1.3.5.tgz#b5d07b8e3216e3e27cd728d72f70d1e6a342005f"

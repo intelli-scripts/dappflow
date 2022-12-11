@@ -36,6 +36,7 @@
     "is-utf8": "^0.2.1",
     "js-sha512": "^0.8.0",
     "markdown-to-jsx": "^7.1.7",
+    "material-ui-confirm": "^3.0.7",
     "msgpack-lite": "^0.1.26",
     "mui-markdown": "^0.5.5",
     "multiformats": "^9.7.1",
