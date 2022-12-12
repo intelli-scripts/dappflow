@@ -32,7 +32,7 @@ function ABIStudio(): JSX.Element {
                 <ABIActions onImport={(abi) => {
                     dispatch(updateAbi(abi));
                 }}></ABIActions>
-                {abi ? <ABIEditor abi={abi} supportExecutor={true} supportCreateApp={true} appId={appId} account={wallet.account}></ABIEditor> : ''}
+                {abi.name ? <ABIEditor abi={abi} supportExecutor={true} supportCreateApp={true} appId={appId} account={wallet.account}></ABIEditor> : ''}
             </div>
 
         </div>
