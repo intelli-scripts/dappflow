@@ -4,7 +4,9 @@ import ABIEditor from "../ABIEditor/ABIEditor";
 import ABIActions from "../ABIActions/ABIActions";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../redux/store";
-import {loadAbi, updateAbi} from "../../../../redux/abi/actions/abiStudio";
+import {loadAbi, updateAbi, updateAppId} from "../../../../redux/abi/actions/abiStudio";
+import {ABIContractParams} from "algosdk";
+import {CoreNode} from "../../../../packages/core-sdk/classes/core/CoreNode";
 
 
 function ABIStudio(): JSX.Element {
@@ -13,6 +15,8 @@ function ABIStudio(): JSX.Element {
     const dispatch = useDispatch();
     const wallet = useSelector((state: RootState) => state.wallet);
     const abiStudio = useSelector((state: RootState) => state.abiStudio);
+    const {health, genesis, status, versionsCheck} = useSelector((state: RootState) => state.node);
+    const coreNodeInstance = new CoreNode(status, versionsCheck, genesis, health);
     const {abi, appId} = abiStudio;
 
     useEffect(() => {
@@ -29,8 +33,16 @@ function ABIStudio(): JSX.Element {
             </div>
 
             <div className={"abi-studio-body"}>
-                <ABIActions onImport={(abi) => {
+                <ABIActions onImport={(abi: ABIContractParams) => {
                     dispatch(updateAbi(abi));
+                    const {networks} = abi;
+                    if (networks) {
+                        Object.keys(networks).forEach((name) => {
+                            if (name === coreNodeInstance.getGenesisHash() && networks[name].appID) {
+                                dispatch(updateAppId(networks[name].appID.toString()));
+                            }
+                        });
+                    }
                 }}></ABIActions>
                 {abi.name ? <ABIEditor abi={abi} supportExecutor={true} supportCreateApp={true} appId={appId} account={wallet.account}></ABIEditor> : ''}
             </div>

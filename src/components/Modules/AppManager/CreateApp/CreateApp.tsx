@@ -5,7 +5,7 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
-    DialogTitle, FormLabel, Grid,
+    DialogTitle, Divider, FormLabel, Grid,
     InputBase,
     InputBaseProps, MenuItem, Select,
     styled
@@ -28,7 +28,6 @@ import {ApplicationTransaction} from "../../../../packages/core-sdk/transactions
 import {RootState} from "../../../../redux/store";
 import {TransactionClient} from "../../../../packages/core-sdk/clients/transactionClient";
 import {CoreTransaction} from "../../../../packages/core-sdk/classes/core/CoreTransaction";
-import {getOnCompleteOperations} from "../../../../packages/core-sdk/classes/core/CoreApplication";
 import {updateAppId} from "../../../../redux/abi/actions/abiStudio";
 
 
@@ -108,7 +107,6 @@ const initialState: CreateAppState = {
 
 function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], name: ""}}: CreateAppProps): JSX.Element {
 
-    const onCompleteArray = getOnCompleteOperations();
     const dispatch = useDispatch();
     const wallet = useSelector((state: RootState) => state.wallet);
 
@@ -340,36 +338,7 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
                                             fullWidth/>
                                     </Grid>
 
-                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                                        <FormLabel sx={formLabelStyle}>On Application Complete</FormLabel>
-                                        <div>
-                                            <Select
-                                                fullWidth
-                                                size={"small"}
-                                                value={params.onComplete}
-                                                onChange={(ev) => {
-                                                    setState(prevState => ({...prevState, params: {
-                                                            ...params,
-                                                            onComplete: ev.target.value
-                                                        }}));
-                                                }}
-                                                color={"primary"}
-                                                sx={{
-                                                    fontSize: '13px',
-                                                    marginTop: '5px',
-                                                    fieldset: {
-                                                        borderRadius: "10px",
-                                                        border: '1px solid ' + theme.palette.grey[200]
-                                                    }
-                                                }}
-                                            >
-                                                {onCompleteArray.map((item) => {
-                                                    return <MenuItem value={item.value} key={item.value}>{item.name}</MenuItem>;
-                                                })}
-                                            </Select>
-                                        </div>
 
-                                    </Grid>
                                     <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                                         <FormLabel sx={formLabelStyle}>Extra pages</FormLabel>
                                         <div>
@@ -400,6 +369,11 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
                                         </div>
 
                                     </Grid>
+
+                                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                        <Divider variant={"fullWidth"} component={"div"} sx={{borderColor: theme.palette.grey[200], marginBottom: '10px'}}></Divider>
+                                    </Grid>
+
 
                                     <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                                         <FormLabel sx={formLabelStyle}>Approval program</FormLabel>

@@ -8,6 +8,7 @@ import LinkToApplication from "../../Explorer/Common/Links/LinkToApplication";
 import {A_AccountInformation} from "../../../../packages/core-sdk/types";
 import ABIConfig from "../ABIConfig/ABIConfig";
 import {Edit} from "@mui/icons-material";
+import {Tooltip} from "@mui/material";
 
 type ABIMethodsProps = {
     abi: ABIContractParams,
@@ -48,15 +49,36 @@ function ABIMethods({abi, supportExecutor = false, account, appId = ''}: ABIMeth
                     App ID : {appId ? <LinkToApplication id={appId}></LinkToApplication> : 'null'}
 
                     {supportExecutor ? <span style={{marginLeft: '10px'}}>
-                        <Edit
-                            sx={{'&:hover': {
-                                    cursor: 'pointer'
-                                }}}
-                            color={"primary"}
-                            fontSize={"small"}
-                            onClick={() => {
-                                setState(prevState => ({...prevState, showConfig: true}));
-                            }}></Edit>
+                        <Tooltip title="Edit">
+                          <Edit
+                              sx={{
+                                  color: theme.palette.common.black,
+                                  '&:hover': {
+                                      cursor: 'pointer'
+                                  }}}
+                              color={"primary"}
+                              fontSize={"small"}
+                              onClick={() => {
+                                  setState(prevState => ({...prevState, showConfig: true}));
+                              }}></Edit>
+                        </Tooltip>
+
+
+
+                        {/*{appId ? <Tooltip title="OptIn">*/}
+                        {/*    <LoginIcon*/}
+                        {/*        sx={{*/}
+                        {/*            color: theme.palette.common.black,*/}
+                        {/*            '&:hover': {*/}
+                        {/*                cursor: 'pointer'*/}
+                        {/*            }}}*/}
+                        {/*        color={"primary"}*/}
+                        {/*        fontSize={"small"}*/}
+                        {/*        onClick={() => {*/}
+
+                        {/*        }}></LoginIcon>*/}
+                        {/*</Tooltip> : ''}*/}
+
                         <ABIConfig show={showConfig} appId={appId} handleClose={() => {setState(prevState => ({...prevState, showConfig: false}));}}></ABIConfig>
                     </span> : ''}
 

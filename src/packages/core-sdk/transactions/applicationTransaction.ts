@@ -1,4 +1,4 @@
-import sdk, {Transaction} from 'algosdk';
+import sdk, {AppOptInTxn, Transaction} from 'algosdk';
 import {BaseTransaction} from "./baseTransaction";
 import {Network} from "../network";
 import {AppCreateTxn} from "algosdk";
@@ -18,5 +18,11 @@ export class ApplicationTransaction extends BaseTransaction{
         const suggestedParams = await this.getSuggestedParams();
         const {from, appOnComplete, appApprovalProgram, appClearProgram, appLocalByteSlices, appLocalInts, appGlobalByteSlices, appGlobalInts, appArgs, appForeignApps, appForeignAssets, appAccounts, note, extraPages, reKeyTo, lease, boxes} = params;
         return sdk.makeApplicationCreateTxn(from, suggestedParams, appOnComplete, appApprovalProgram, appClearProgram, appLocalInts, appLocalByteSlices, appGlobalInts, appGlobalByteSlices, appArgs, appAccounts, appForeignApps, appForeignAssets, note, lease, reKeyTo, extraPages, boxes);
+    }
+
+    async prepareOptInTxn(params: AppOptInTxn): Promise<Transaction> {
+        const suggestedParams = await this.getSuggestedParams();
+        const {from, appArgs, appForeignApps, appForeignAssets, appAccounts, note, reKeyTo, lease, boxes, appIndex} = params;
+        return sdk.makeApplicationOptInTxn(from, suggestedParams, appIndex, appArgs, appAccounts, appForeignApps, appForeignAssets, note, lease, reKeyTo, boxes);
     }
 }
