@@ -157,8 +157,8 @@ function ABIMethodExecutor({show = false, creation = false, method = {
     }
 
 
-    function setTxn(txn: A_SearchTransaction) {
-        setState(prevState => ({...prevState, txn: txn}));
+    function setTxn(txn1: A_SearchTransaction) {
+        setState(prevState => ({...prevState, txn: txn1}));
         focusResult();
     }
 
@@ -760,7 +760,7 @@ function ABIMethodExecutor({show = false, creation = false, method = {
                                                     <Alert icon={<Error></Error>} color={"warning"} sx={{wordBreak: "break-word"}}>{error}</Alert>
                                                 </div> : ''}
 
-                                                {Boolean(txn) ? <div>
+                                                {txn && txn.id ? <div>
                                                     <Alert color={"success"} sx={{wordBreak: "break-word"}}>
                                                         <div>
                                                             <div>
