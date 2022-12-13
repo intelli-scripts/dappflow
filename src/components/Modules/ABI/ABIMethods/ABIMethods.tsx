@@ -53,11 +53,12 @@ function ABIMethods({abi, supportExecutor = false, account, appId = ''}: ABIMeth
                     <IntegrationInstructionsOutlinedIcon color={"primary"}></IntegrationInstructionsOutlinedIcon>
                     Methods
                 </div>
-                <div className="app-id">
+
+                {supportExecutor ? <div className="app-id">
 
                     App ID : {appId ? <LinkToApplication id={appId}></LinkToApplication> : 'null'}
 
-                    {supportExecutor ? <span style={{marginLeft: '10px'}}>
+                    <span style={{marginLeft: '10px'}}>
                         <Tooltip title="Edit">
                           <Edit
                               sx={{
@@ -136,9 +137,10 @@ function ABIMethods({abi, supportExecutor = false, account, appId = ''}: ABIMeth
                         </Tooltip> : ''}
 
                         <ABIConfig show={showConfig} appId={appId} handleClose={() => {setState(prevState => ({...prevState, showConfig: false}));}}></ABIConfig>
-                    </span> : ''}
+                    </span>
 
-                </div>
+                </div> : ''}
+
 
             </div>
             <div className={"abi-methods-body"}>

@@ -29,6 +29,7 @@ import {RootState} from "../../../../redux/store";
 import {TransactionClient} from "../../../../packages/core-sdk/clients/transactionClient";
 import {CoreTransaction} from "../../../../packages/core-sdk/classes/core/CoreTransaction";
 import {updateAppId} from "../../../../redux/abi/actions/abiStudio";
+import {Alert} from "@mui/lab";
 
 
 const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
@@ -506,6 +507,10 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
                                             }
                                             }
                                             fullWidth/>
+                                    </Grid>
+
+                                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                        <Alert icon={false} color={"warning"}>This is a bare app call. If your app call has any arguments it is recommended to move it to the ABI method</Alert>
                                     </Grid>
 
                                     {/*<Grid item xs={12} sm={12} md={6} lg={6} xl={6}>*/}

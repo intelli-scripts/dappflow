@@ -74,6 +74,26 @@ export const updateAbi = createAsyncThunk(
     }
 );
 
+export const deleteAbi = createAsyncThunk(
+    'abiStudio/deleteAbi',
+    async (_, thunkAPI) => {
+        const {dispatch} = thunkAPI;
+        try {
+            dispatch(showLoader("Deleting ABI ..."));
+
+            localStorage.removeItem('abi');
+            dispatch(setAbi(initialState.abi));
+
+            dispatch(updateAppId(''));
+            dispatch(hideLoader());
+        }
+        catch (e: any) {
+            dispatch(handleException(e));
+            dispatch(hideLoader());
+        }
+    }
+);
+
 export const updateAppId = createAsyncThunk(
     'abiStudio/updateAppId',
     async (id: string, thunkAPI) => {

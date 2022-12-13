@@ -4,7 +4,7 @@ import ABIEditor from "../ABIEditor/ABIEditor";
 import ABIActions from "../ABIActions/ABIActions";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../redux/store";
-import {loadAbi, updateAbi, updateAppId} from "../../../../redux/abi/actions/abiStudio";
+import {deleteAbi, loadAbi, updateAbi, updateAppId} from "../../../../redux/abi/actions/abiStudio";
 import {ABIContractParams} from "algosdk";
 import {CoreNode} from "../../../../packages/core-sdk/classes/core/CoreNode";
 
@@ -44,7 +44,7 @@ function ABIStudio(): JSX.Element {
                         });
                     }
                 }}></ABIActions>
-                {abi.name ? <ABIEditor abi={abi} supportExecutor={true} supportCreateApp={true} appId={appId} account={wallet.account}></ABIEditor> : ''}
+                {abi.name ? <ABIEditor abi={abi} supportExecutor={true} supportCreateApp={true} appId={appId} account={wallet.account} supportDelete={true} onDelete={() => {dispatch(deleteAbi())}}></ABIEditor> : ''}
             </div>
 
         </div>

@@ -11,7 +11,7 @@ import {useDispatch} from "react-redux";
 import {A_AccountInformation} from "../../../../packages/core-sdk/types";
 import {defaultAccount} from "../../../../redux/wallet/actions/wallet";
 import ABIMethodExecutor from "../ABIMethodExecutor/ABIMethodExecutor";
-import {KeyboardArrowDown} from "@mui/icons-material";
+import {Delete, KeyboardArrowDown} from "@mui/icons-material";
 import CreateApp from "../../AppManager/CreateApp/CreateApp";
 
 type ABIEditorProps = {
@@ -19,6 +19,8 @@ type ABIEditorProps = {
     hideNetworks?: boolean,
     supportExecutor?: boolean,
     supportCreateApp?: boolean,
+    supportDelete?: boolean,
+    onDelete?: Function
     account?: A_AccountInformation,
     appId?: string
 };
@@ -47,7 +49,7 @@ const initialState: ABIEditorState = {
     method: defaultMethod
 };
 
-function ABIEditor({abi = {methods: [], name: ""}, hideNetworks = false, supportExecutor = false, supportCreateApp = false, appId = '', account = defaultAccount}: ABIEditorProps): JSX.Element {
+function ABIEditor({abi = {methods: [], name: ""}, supportDelete = false, onDelete = () =>{}, hideNetworks = false, supportExecutor = false, supportCreateApp = false, appId = '', account = defaultAccount}: ABIEditorProps): JSX.Element {
 
     const abiInstance = new ABIContract(abi);
     const networks = abiInstance.networks;
@@ -100,6 +102,18 @@ function ABIEditor({abi = {methods: [], name: ""}, hideNetworks = false, support
                                                 }}
                                         >Create App</Button>
                                     </div> : ''}
+
+                                    {supportDelete ? <div style={{marginLeft: '10px'}}>
+                                        <Button color={"warning"}
+                                                variant={"outlined"}
+                                                size={"small"}
+                                                endIcon={<Delete />}
+                                                onClick={(ev) => {
+                                                    onDelete();
+                                                }}
+                                        >Delete ABI</Button>
+                                    </div> : ''}
+
                                 </div>
 
 
