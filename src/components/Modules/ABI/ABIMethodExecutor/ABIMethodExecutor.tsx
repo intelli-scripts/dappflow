@@ -30,7 +30,6 @@ import {getFileContent} from "../../../../packages/core-sdk/utils/fileUtils";
 import {ApplicationClient} from "../../../../packages/core-sdk/clients/applicationClient";
 import {CoreTransaction} from "../../../../packages/core-sdk/classes/core/CoreTransaction";
 import {isNumber} from "../../../../utils/common";
-import {getOnCompleteOperations} from "../../../../packages/core-sdk/classes/core/CoreApplication";
 import AlgoIcon from "../../Explorer/AlgoIcon/AlgoIcon";
 import AssetPicker from "./AssetPicker/AssetPicker";
 import {A_AccountInformation, A_Asset, A_SearchTransaction} from "../../../../packages/core-sdk/types";
@@ -112,9 +111,6 @@ function ABIMethodExecutor({show = false, creation = false, method = {
         ...initialState
     });
 
-
-
-    const onCompleteArray = getOnCompleteOperations();
 
     const resultRef = useRef();
 
@@ -315,14 +311,6 @@ function ABIMethodExecutor({show = false, creation = false, method = {
                                             </div>
                                             <div className="abi-method-app-creation-wrapper">
                                                 <div className="abi-method-app-creation-container">
-                                                    {/*<div className="abi-method-app-creation-question">*/}
-                                                    {/*    Do you want to use this method for app creation ?*/}
-                                                    {/*</div>*/}
-
-                                                    {/*<ButtonGroup color={"primary"} variant="outlined" size={"small"} style={{marginTop: 20}}>*/}
-                                                    {/*    <Button variant={creation ? 'contained' : 'outlined'} onClick={() => {setState(prevState => ({...prevState, creation: true}));}}>Yes</Button>*/}
-                                                    {/*    <Button variant={!creation ? 'contained' : 'outlined'} onClick={() => {setState(prevState => ({...prevState, creation: false}));}}>No</Button>*/}
-                                                    {/*</ButtonGroup>*/}
 
                                                     {creation ? <div className="abi-method-app-creation-form">
                                                         <div className="abi-method-app-creation-form-content">
@@ -385,36 +373,7 @@ function ABIMethodExecutor({show = false, creation = false, method = {
                                                                             fullWidth/>
                                                                     </Grid>
 
-                                                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                                                                        <FormLabel sx={formLabelSx}>On Application Complete</FormLabel>
-                                                                        <div>
-                                                                            <Select
-                                                                                fullWidth
-                                                                                size={"small"}
-                                                                                value={creationParams.onComplete}
-                                                                                onChange={(ev) => {
-                                                                                    setState(prevState => ({...prevState, creationParams: {
-                                                                                            ...creationParams,
-                                                                                            onComplete: ev.target.value
-                                                                                        }}));
-                                                                                }}
-                                                                                color={"primary"}
-                                                                                sx={{
-                                                                                    fontSize: '13px',
-                                                                                    marginTop: '5px',
-                                                                                    fieldset: {
-                                                                                        borderRadius: "10px",
-                                                                                        border: '1px solid ' + theme.palette.grey[200]
-                                                                                    }
-                                                                                }}
-                                                                            >
-                                                                                {onCompleteArray.map((item) => {
-                                                                                    return <MenuItem value={item.value} key={item.value}>{item.name}</MenuItem>;
-                                                                                })}
-                                                                            </Select>
-                                                                        </div>
 
-                                                                    </Grid>
                                                                     <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                                                                         <FormLabel sx={formLabelSx}>Extra pages</FormLabel>
                                                                         <div>
@@ -446,7 +405,10 @@ function ABIMethodExecutor({show = false, creation = false, method = {
 
                                                                     </Grid>
 
+                                                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
 
+
+                                                                    </Grid>
 
 
                                                                     <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
