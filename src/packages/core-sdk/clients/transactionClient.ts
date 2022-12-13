@@ -31,7 +31,7 @@ export class TransactionClient {
     }
 
     async get(id: string): Promise<A_SearchTransaction> {
-        const {transactions} = await this.indexer.searchForTransactions().txid(id).do();
-        return transactions[0];
+        const {transaction} = await this.indexer.lookupTransactionByID(id).do();
+        return transaction as A_SearchTransaction;
     }
 }

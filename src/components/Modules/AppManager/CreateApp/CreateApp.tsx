@@ -5,7 +5,7 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
-    DialogTitle, Divider, FormLabel, Grid,
+    DialogTitle, FormLabel, Grid,
     InputBase,
     InputBaseProps, MenuItem, Select,
     styled
@@ -237,8 +237,8 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
 
             dispatch(showLoader('Waiting for confirmation'));
             await appCallInstance.waitForConfirmation(txId);
-            const txn = await new TransactionClient(dappflow.network).get(txId);
 
+            const txn = await new TransactionClient(dappflow.network).get(txId);
 
             const txnInstance = new CoreTransaction(txn);
             dispatch(updateAppId(txnInstance.getAppId().toString()));
@@ -370,12 +370,7 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
                                         </div>
 
                                     </Grid>
-
-                                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                        <Divider variant={"fullWidth"} component={"div"} sx={{borderColor: theme.palette.grey[200], marginBottom: '10px'}}></Divider>
-                                    </Grid>
-
-
+                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}></Grid>
                                     <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                                         <FormLabel sx={formLabelStyle}>Approval program</FormLabel>
                                         <div style={{marginTop: '10px'}}>
@@ -513,33 +508,10 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
                                         <Alert icon={false} color={"warning"}>This is a bare app call. If your app call has any arguments it is recommended to move it to the ABI method</Alert>
                                     </Grid>
 
-                                    {/*<Grid item xs={12} sm={12} md={6} lg={6} xl={6}>*/}
-                                    {/*    <FormLabel sx={formLabelStyle}>ABI Method</FormLabel>*/}
-                                    {/*    <div style={{marginTop: '10px'}}>*/}
-
-                                    {/*        <Select*/}
-                                    {/*            size={"small"}*/}
-                                    {/*            value={abiMethod.name}*/}
-                                    {/*            onChange={(ev) => {*/}
-                                    {/*                const methodInstance = getMethodByName(new ABIContract(abi).methods, ev.target.value);*/}
-                                    {/*                setState(prevState => ({...prevState, abiMethod: {*/}
-                                    {/*                        ...methodInstance.toJSON()*/}
-                                    {/*                    }}));*/}
-                                    {/*            }}*/}
-                                    {/*            fullWidth*/}
-                                    {/*            color={"primary"}*/}
-                                    {/*        >*/}
-                                    {/*            {abi.methods.map((method) => {*/}
-                                    {/*                return <MenuItem value={method.name} key={method.name}>{method.name}</MenuItem>;*/}
-                                    {/*            })}*/}
-                                    {/*        </Select>*/}
-
-                                    {/*    </div>*/}
-                                    {/*</Grid>*/}
 
                                 </Grid>
 
-                                <Grid sx={{marginTop: '40px', textAlign: 'center'}}>
+                                <Grid sx={{marginTop: '10px', textAlign: 'right'}}>
                                     <Button
                                         variant={"outlined"}
                                         className="black-button"

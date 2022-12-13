@@ -19,3 +19,7 @@ export function deferred (ms: number) {
     })
     return { promise, cancel }
 }
+
+export async function sleep(ms: number): Promise<any> {
+    await new Promise(resolve => setTimeout(resolve, ms));
+}
