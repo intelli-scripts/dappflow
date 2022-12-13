@@ -1,0 +1,30 @@
+@import "src/assets/colors";
+
+.app-call-txn-return-value-wrapper {
+  .app-call-txn-return-value-container {
+    .method-signature {
+      .method-sig-section {
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid $color-light;
+        &:last-child {
+          border-bottom: none;
+          padding-bottom: 0;
+        }
+        .method-sig-section-key {
+          margin-bottom: 5px;
+          font-size: 14px;
+          text-decoration: underline;
+        }
+        .method-sig-section-value {
+          font-weight: bold;
+          word-break: break-all;
+          font-family: PoppinsLight !important;
+          * {
+            font-family: PoppinsLight !important;
+          }
+        }
+      }
+    }
+  }
+}

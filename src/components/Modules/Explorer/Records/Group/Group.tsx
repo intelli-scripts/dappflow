@@ -81,7 +81,7 @@ function Group(): JSX.Element {
                                     Total transactions : {groupInstance.getTransactionsCount()}
                                     <div>
                                         {txnTypesList.map((type) => {
-                                            return <Alert key={type} color={'error'} icon={false} className="mini-alert">
+                                            return <Alert key={type} color={'success'} icon={false} className="mini-alert">
                                                 {type}
                                             </Alert>
                                         })}

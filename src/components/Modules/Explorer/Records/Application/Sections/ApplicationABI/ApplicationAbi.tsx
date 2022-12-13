@@ -37,6 +37,7 @@ function ApplicationAbi(props): JSX.Element {
     const node = useSelector((state: RootState) => state.node);
     const {status, versionsCheck, genesis, health} = node;
     const coreNodeInstance = new CoreNode(status, versionsCheck, genesis, health);
+    const appInstance = new CoreApplication(application.information);
 
     return (<div className={"application-abi-wrapper"}>
         <div className={"application-abi-container"}>
@@ -56,15 +57,6 @@ function ApplicationAbi(props): JSX.Element {
                                                                                                             }}
                                                                                                             style={{marginLeft: '10px'}}
                                 >Attach ABI</Button> : ''}
-
-                                {application.abiDetails.loaded && application.abiDetails.present ? <Button color={"primary"}
-                                                                                                           variant={"outlined"}
-                                                                                                           size="small"
-                                                                                                           onClick={() => {
-                                                                                                               setState(prevState => ({...prevState, showImport: true}));
-                                                                                                           }}
-                                                                                                           style={{marginLeft: '10px'}}
-                                >Update ABI</Button> : ''}
 
                                 {application.abiDetails.loaded && application.abiDetails.present ? <Button color={"secondary"}
                                                                                                            variant={"outlined"}
@@ -87,7 +79,7 @@ function ApplicationAbi(props): JSX.Element {
 
 
                                 {application.abiDetails.loaded && application.abiDetails.present ? <div>
-                                    <ABIEditor abi={application.abiDetails.abi} hideNetworks={true}></ABIEditor>
+                                    <ABIEditor abi={application.abiDetails.abi} hideNetworks={true} appId={appInstance.getId().toString()}></ABIEditor>
                                 </div> : ''}
 
                                 {application.abiDetails.loaded && !application.abiDetails.present ? <Grid container spacing={2}>
@@ -109,6 +101,7 @@ function ApplicationAbi(props): JSX.Element {
                 clearState();
 
                 try {
+                    if (showImport)
                     await new ApplicationABI().save({
                         abi,
                         app: new CoreApplication(application.information).getId(),

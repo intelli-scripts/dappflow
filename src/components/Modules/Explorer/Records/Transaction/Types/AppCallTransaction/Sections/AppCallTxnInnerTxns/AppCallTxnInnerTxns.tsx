@@ -9,18 +9,18 @@ import SvgIcon, {SvgIconProps} from '@mui/material/SvgIcon';
 import { alpha, styled } from '@mui/material/styles';
 import TreeView from '@mui/lab/TreeView';
 import TreeItem, {treeItemClasses } from '@mui/lab/TreeItem';
-import {ArrowForward, CancelOutlined} from "@mui/icons-material";
+import {ArrowForward} from "@mui/icons-material";
 import {
     Chip,
     Dialog,
     DialogActions,
     DialogContent,
-    DialogTitle,
-    IconButton
+    DialogTitle
 } from "@mui/material";
 import InnerTransaction from "../../../../InnerTransaction/InnerTransaction";
 import {AssetClient} from "../../../../../../../../../packages/core-sdk/clients/assetClient";
 import explorer from "../../../../../../../../../utils/dappflow";
+import CloseIcon from "@mui/icons-material/Close";
 
 export function MinusSquare(props: SvgIconProps) {
     return (
@@ -183,9 +183,7 @@ function AppCallTxnInnerTxns(props): JSX.Element {
                     <div>
                         &nbsp;
                     </div>
-                    <IconButton color="primary" onClick={handleClose}>
-                        <CancelOutlined />
-                    </IconButton>
+                    <CloseIcon className="modal-close-button" onClick={handleClose}/>
                 </div>
             </DialogTitle>
             <DialogContent>

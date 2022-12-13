@@ -93,7 +93,7 @@ function Accounts(): JSX.Element {
         {
             ...dataGridCellConfig,
             field: 'status',
-            headerName: 'Staus'
+            headerName: 'Status'
         },
         {
             ...dataGridCellConfig,

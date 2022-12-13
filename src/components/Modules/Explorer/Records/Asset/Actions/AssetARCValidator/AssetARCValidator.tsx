@@ -1,7 +1,6 @@
 import './AssetARCValidator.scss';
 import React, {useState} from "react";
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton} from "@mui/material";
-import {CancelOutlined} from "@mui/icons-material";
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
 import {ARC3} from "../../../../../../../packages/arc-portal/classes/ARC3/ARC3";
 import {ARC19} from "../../../../../../../packages/arc-portal/classes/ARC19/ARC19";
 import {ARC69} from "../../../../../../../packages/arc-portal/classes/ARC69/ARC69";
@@ -12,6 +11,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import {
     CircularProgress
 } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
 interface AssetArcValidatorState{
     show: boolean,
@@ -110,9 +110,7 @@ function AssetARCValidator(props): JSX.Element {
                             <div style={{fontWeight: "bold", fontSize: 18}}>ARC Validator</div>
                         </div>
                         <div>
-                            <IconButton color="primary" onClick={handleClose}>
-                                <CancelOutlined />
-                            </IconButton>
+                            <CloseIcon className="modal-close-button" onClick={handleClose}/>
                         </div>
 
                     </div>

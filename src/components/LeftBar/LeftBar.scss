@@ -11,26 +11,39 @@
   .left-bar-container {
     height: 100vh;
     position: relative;
+    border-right: 1px solid $color-grey-light;
     .footer {
       position: absolute;
-      bottom: 0px;
+      bottom: 0;
       width: 100%;
-      padding: 10px 0px;
-      border-top: 1px solid $color-grey-light;
+
       .node {
-        margin: 10px 0px;
-        &:hover {
-          cursor: pointer;
-        }
+        color: $color-dark;
         .node-url {
           text-align: center;
           font-size: 13px;
-          &:hover {
-            cursor: pointer;
-          }
+          color: $color-dark;
           svg {
             margin-right: 5px;
-            vertical-align: sub;
+          }
+        }
+      }
+
+      .bottom-menu-item-wrapper {
+        .bottom-menu-item-container {
+          text-align: center;
+          padding: 15px 0;
+          border-top: 1px solid $color-grey-light;
+          .small-text {
+            font-size: 12px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            margin: 0 15px;
+            font-weight: bold;
+          }
+          &:hover {
+            cursor: pointer;
           }
         }
       }

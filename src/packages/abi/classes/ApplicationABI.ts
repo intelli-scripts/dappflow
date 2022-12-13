@@ -26,4 +26,14 @@ export class ApplicationABI {
 
         return true
     }
+
+    async update(app: number, applicationABI: A_Application_ABI): Promise<boolean> {
+        await dataStore.applicationABIs.where({
+            app: app
+        }).modify({
+            ...applicationABI
+        });
+
+        return true
+    }
 }

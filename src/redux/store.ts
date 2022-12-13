@@ -18,6 +18,12 @@ import arcs from "./arcPortal/actions/arcs";
 import arc from "./arcPortal/actions/arc";
 import node from "./network/actions/node";
 import app from "./app/actions/app";
+import kmd from "./explorer/actions/kmd";
+import connectWallet from "./wallet/actions/connectWallet";
+import wallet from "./wallet/actions/wallet";
+import signer from "./wallet/actions/signer";
+import abiStudio from "./abi/actions/abiStudio";
+import devWallets from "./devWallets/actions/devWallets";
 
 export const store = configureStore({
     reducer: {
@@ -39,7 +45,13 @@ export const store = configureStore({
         arcs: arcs,
         arc: arc,
         node: node,
-        app: app
+        app: app,
+        kmd: kmd,
+        connectWallet: connectWallet,
+        wallet: wallet,
+        signer: signer,
+        abiStudio: abiStudio,
+        devWallets: devWallets
     },
 });
 

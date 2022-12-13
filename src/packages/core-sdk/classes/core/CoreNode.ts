@@ -66,7 +66,6 @@ export class CoreNode {
     }
 
     getConsensusVersion(): string {
-        console.log(this.status);
         return this.status["last-version"];
     }
 

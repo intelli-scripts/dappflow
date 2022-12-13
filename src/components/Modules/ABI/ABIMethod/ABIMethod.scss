@@ -4,9 +4,16 @@
   .abi-method-container {
     .abi-method {
       margin-top: 15px;
+      .method-exec {
+        margin-right: 25px;
+        float: right;
+      }
       .method-name {
         font-size: 18px;
         font-weight: bold;
+        margin-top: 5px;
+        display: inline-block;
+        margin-bottom: 5px;
       }
       .method-desc {
         margin-left: 15px;
@@ -15,6 +22,14 @@
       }
       .method-body {
         margin-bottom: 15px;
+        .method-title {
+          font-weight: bold;
+          margin: 15px 10px;
+          padding-bottom: 10px;
+          border-bottom: 1px solid $color-grey-light;
+          font-family: PoppinsBold !important;
+          font-size: 14px;
+        }
         .method-signature {
           .method-sig-section {
             margin-bottom: 10px;
@@ -38,9 +53,28 @@
           }
         }
         .method-returns {
-          margin-top: 15px;
+          margin-top: 0;
           padding-top: 15px;
-          border-top: 1px solid $color-grey-light;
+          .method-returns-title {
+            font-weight: bold;
+            margin: 15px 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid $color-grey-light;
+            font-family: PoppinsBold !important;
+            font-size: 14px;
+          }
+          .mini-alert {
+            padding: 5px 10px;
+            border-radius: 4px;
+            display: inline-block;
+            margin: 5px 5px 0 10px;
+            font-weight: bold;
+            text-align: center;
+            font-size: 13px;
+            .MuiAlert-message {
+              padding: 0;
+            }
+          }
           .method-returns-desc {
             margin-left: 10px;
             font-size: 14px;
@@ -54,17 +88,28 @@
         }
 
         .arguments {
+          .arguments-title {
+            font-weight: bold;
+            margin: 20px 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid $color-grey-light;
+            font-family: PoppinsBold !important;
+            font-size: 14px;
+          }
           .arguments-header {
             padding: 15px;
-            background: $color-grey-light;
+            background: $color-grey-very-light;
             font-weight: bold;
+            border-bottom: 1px solid $color-grey-light;
+            border-top: 1px solid $color-grey-light;
           }
           .arg {
             padding: 15px;
+            border-bottom: 1px solid $color-grey-light;
             .arg-prop {
               font-size: 14px;
             }
-            &:nth-child(odd) {
+            &:hover {
               background: $color-grey-very-light;
             }
           }

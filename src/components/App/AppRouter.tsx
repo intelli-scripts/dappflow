@@ -41,6 +41,7 @@ import ABIStudio from "../Modules/ABI/ABIStudio/ABIStudio";
 import Dispenser from "../Modules/Dispenser/Dispenser";
 import NodeStatus from "../Modules/NodeStatus/NodeStatus";
 import ArcHome from "../Modules/ArcPortal/Home/ArcHome";
+import DevWallets from "../Modules/DevWallets/DevWallets/DevWallets";
 
 function AppRouter(): JSX.Element {
 
@@ -105,6 +106,7 @@ function AppRouter(): JSX.Element {
                                 <Route path="/abi-studio" element={<ABIStudio></ABIStudio>}></Route>
                                 <Route path="/dispenser" element={<Dispenser></Dispenser>}></Route>
                                 <Route path="/node-status" element={<NodeStatus></NodeStatus>}></Route>
+                                <Route path="/dev-wallets" element={<DevWallets></DevWallets>}></Route>
                                 <Route path="*" element={<Navigate to="/explorer" replace />}/>
                             </Routes>
                         </div>

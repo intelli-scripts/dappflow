@@ -9,7 +9,7 @@ import {
     IconButton,
     InputBase
 } from "@mui/material";
-import {CancelOutlined, Search as SearchIcon} from "@mui/icons-material";
+import {Search as SearchIcon} from "@mui/icons-material";
 import {isValidAddress} from "algosdk";
 import {useNavigate} from "react-router-dom";
 import {A_Application, A_Asset, A_Block} from "../../../../packages/core-sdk/types";
@@ -22,6 +22,7 @@ import {hideLoader, showLoader} from "../../../../redux/common/actions/loader";
 import {useDispatch} from "react-redux";
 import {showSnack} from "../../../../redux/common/actions/snackbar";
 import {theme} from "../../../../theme";
+import CloseIcon from "@mui/icons-material/Close";
 
 
 interface searchResult {
@@ -185,9 +186,7 @@ function Search(): JSX.Element {
                         <div>
                             <div style={{fontWeight: "bold", fontSize: 18}}>Search results</div>
                         </div>
-                        <IconButton color="primary" onClick={handleClose}>
-                            <CancelOutlined />
-                        </IconButton>
+                        <CloseIcon className="modal-close-button" onClick={handleClose}/>
                     </div>
                 </DialogTitle>
                 <DialogContent>

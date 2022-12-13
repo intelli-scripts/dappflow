@@ -1,0 +1,46 @@
+@import "src/assets/colors";
+
+.dev-wallets-wrapper {
+  .dev-wallets-container {
+    .dev-wallets-header {
+      margin-bottom: 15px;
+      padding-bottom: 20px;
+      font-size: 20px;
+      font-weight: bold;
+      border-bottom: 1px solid $color-grey-light;
+    }
+    .dev-wallets-body {
+      .dev-wallets-actions-wrapper {
+        .dev-wallets-actions-container {
+          margin-bottom: 20px;
+        }
+      }
+
+      .dev-wallets-list-wrapper {
+        .dev-wallets-list-container {
+          border-radius: 10px;
+          padding: 15px 0;
+          .wallet-wrapper {
+            .wallet-container {
+              background: $color-light;
+              border-radius: 10px;
+              margin: 20px;
+              padding: 20px;
+              display: flex;
+              justify-content: space-between;
+              .wallet-details {
+                .wallet-address {
+                  font-size: 13px;
+                  font-weight: bold;
+                }
+              }
+              .wallet-actions {
+
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

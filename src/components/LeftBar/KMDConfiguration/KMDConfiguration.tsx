@@ -1,14 +1,12 @@
 import './KMDConfiguration.scss';
 import {useDispatch} from "react-redux";
 import React, {useState} from "react";
-import {CancelOutlined} from "@mui/icons-material";
 import {
     Button,
     Dialog,
     DialogActions,
     DialogContent,
     DialogTitle, FormLabel, Grid,
-    IconButton,
     InputBase, InputBaseProps, styled
 } from "@mui/material";
 import {theme} from "../../../theme";
@@ -19,6 +17,7 @@ import {hideLoader, showLoader} from "../../../redux/common/actions/loader";
 import {isBrave} from "../../../packages/core-sdk/utils";
 import {KMDConnectionParams} from "../../../packages/core-sdk/types";
 import {KmdClient} from "../../../packages/core-sdk/clients/kmdClient";
+import CloseIcon from "@mui/icons-material/Close";
 
 const kmdConfig = getKMDConfig();
 
@@ -31,6 +30,12 @@ const ShadedInput = styled(InputBase)<InputBaseProps>(({ theme }) => {
     };
 });
 
+const formLabelStyle = {
+    marginLeft: '5px',
+    fontSize: '14px',
+    fontWeight: 'bold',
+    color: theme.palette.grey[600]
+};
 
 interface KMDConfigurationState{
     url: string,
@@ -48,9 +53,6 @@ function KMDConfiguration(props): JSX.Element {
 
     const dispatch = useDispatch();
     const show = props.show ? true : false;
-    const primaryClr = theme.palette.primary.main;
-
-
 
     const [
         {url, port, token},
@@ -128,7 +130,7 @@ function KMDConfiguration(props): JSX.Element {
         {show ? <Dialog
             onClose={handleClose}
             fullWidth={true}
-            maxWidth={"sm"}
+            maxWidth={"xs"}
             open={show}
         >
             <DialogTitle >
@@ -136,9 +138,7 @@ function KMDConfiguration(props): JSX.Element {
                     <div>
                         <div style={{fontWeight: "bold", fontSize: 18}}>KMD Configuration</div>
                     </div>
-                    <IconButton color="primary" onClick={handleClose}>
-                        <CancelOutlined />
-                    </IconButton>
+                    <CloseIcon className="modal-close-button" onClick={handleClose}/>
                 </div>
             </DialogTitle>
             <DialogContent>
@@ -149,7 +149,7 @@ function KMDConfiguration(props): JSX.Element {
                         <div className="kmd-configuration-body">
                             <Grid container spacing={2}>
                                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                    <FormLabel style={{color: primaryClr}}>KMD url</FormLabel>
+                                    <FormLabel sx={formLabelStyle}>KMD url</FormLabel>
                                     <ShadedInput
                                         placeholder="http://localhost"
                                         value={url}
@@ -159,7 +159,7 @@ function KMDConfiguration(props): JSX.Element {
                                         fullWidth/>
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                    <FormLabel style={{color: primaryClr}}>KMD port</FormLabel>
+                                    <FormLabel sx={formLabelStyle}>KMD port</FormLabel>
                                     <ShadedInput
                                         placeholder="4002"
                                         value={port}
@@ -169,10 +169,10 @@ function KMDConfiguration(props): JSX.Element {
                                         fullWidth/>
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                    <FormLabel style={{color: primaryClr}}>KMD token</FormLabel>
+                                    <FormLabel sx={formLabelStyle}>KMD token</FormLabel>
                                     <ShadedInput
                                         multiline={true}
-                                        rows={3}
+                                        rows={4}
                                         placeholder="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
                                         value={token}
                                         onChange={(ev) => {
@@ -191,13 +191,15 @@ function KMDConfiguration(props): JSX.Element {
                                             size={"large"}
                                             color={"primary"}
                                             onClick={handleClose}
-                                        >Cancel</Button>
+                                            className="black-button"
+                                        >Close</Button>
 
                                         <Button
                                             variant={"contained"}
                                             size={"large"}
                                             color={"primary"}
-                                            style={{marginLeft: 15}}
+                                            style={{marginLeft: '10px'}}
+                                            className="black-button"
                                             onClick={() => {
                                                 saveConfig();
                                             }}

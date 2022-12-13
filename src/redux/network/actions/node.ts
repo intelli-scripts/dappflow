@@ -3,6 +3,8 @@ import {A_Genesis, A_Health, A_Status, A_VersionsCheck} from "../../../packages/
 import explorer from "../../../utils/dappflow";
 import {handleException} from "../../common/actions/exception";
 import {NodeClient} from "../../../packages/core-sdk/clients/nodeClient";
+import {CoreNode} from "../../../packages/core-sdk/classes/core/CoreNode";
+import {loadKmdAccounts} from "../../explorer/actions/kmd";
 
 export interface Node {
     loading: boolean,
@@ -80,6 +82,12 @@ export const loadNodeDetails = createAsyncThunk(
             dispatch(setHealth(health));
 
             dispatch(setLoading(false));
+
+            const nodeInstance = new CoreNode(status, versionsCheck, genesis, health);
+            if (nodeInstance.isSandbox()) {
+                dispatch(loadKmdAccounts());
+            }
+
         }
         catch (e: any) {
             dispatch(setLoading(false));

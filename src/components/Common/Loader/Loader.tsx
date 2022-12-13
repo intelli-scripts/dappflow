@@ -10,7 +10,7 @@ function Loader(): JSX.Element {
       <div>
           {loader.count ? <div>
               <div className="loading-box">
-                  <CircularProgress color={"primary"} className="progress-bar"></CircularProgress>
+                  <CircularProgress sx={{color: '#000'}} className="progress-bar"></CircularProgress>
                   <div className="message">
                       {loader.message}
                   </div>

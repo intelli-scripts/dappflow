@@ -1,7 +1,7 @@
 import './LeftBar.scss';
 import {
     Box,
-    Button, Chip, Tab, Tabs
+    Button, ListItemIcon, ListItemText, Menu, MenuItem, Tab, Tabs
 } from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import React from "react";
@@ -10,17 +10,23 @@ import {showSettings} from "../../redux/settings/actions/settings";
 import Logo from '../../assets/images/logo-black.png';
 import {useLocation, useNavigate} from "react-router-dom";
 import {RootState} from "../../redux/store";
-import {shadedClr, shadedClr1} from "../../utils/common";
+import {shadedClr, shadedClr1, shadedClr2} from "../../utils/common";
 import CodeIcon from '@mui/icons-material/Code';
 import StorageIcon from '@mui/icons-material/Storage';
 import GavelIcon from '@mui/icons-material/Gavel';
 import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
 import ShowerIcon from '@mui/icons-material/Shower';
 import InsertChartIcon from '@mui/icons-material/InsertChart';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import SignalWifiConnectedNoInternet4Icon from '@mui/icons-material/SignalWifiConnectedNoInternet4';
 import {CoreNode} from "../../packages/core-sdk/classes/core/CoreNode";
 import {supportSettings} from "../../utils/nodeConfig";
+import {showConnectWallet} from "../../redux/wallet/actions/connectWallet";
+import ConnectWallet from "./ConnectWallet/ConnectWallet";
+import {logOut} from "../../redux/wallet/actions/wallet";
+import LogoutIcon from '@mui/icons-material/Logout';
+import SwapCallsIcon from '@mui/icons-material/SwapCalls';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import CreditCardIcon from '@mui/icons-material/CreditCard';
 
 
 function LeftBar(): JSX.Element {
@@ -30,12 +36,24 @@ function LeftBar(): JSX.Element {
     const node = useSelector((state: RootState) => state.node);
     const location = useLocation();
 
+    const wallet = useSelector((state: RootState) => state.wallet);
+
     const {connection} = liveData;
     let {success} = connection;
     let route = location.pathname;
     route = route.substring(1);
     route = route.split('/')[0];
 
+    const [menuAnchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(menuAnchorEl);
+
+    const showWalletMenu = (event: any) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const closeWalletMenu = () => {
+        setAnchorEl(null);
+    };
 
   return (
       <div className="left-bar-wrapper">
@@ -82,6 +100,9 @@ function LeftBar(): JSX.Element {
                       <Tab icon={<InsertChartIcon></InsertChartIcon>} iconPosition="start" label="Node Status" value="node-status" onClick={() => {
                           navigate('/node-status');
                       }}/>
+                      <Tab icon={<CreditCardIcon></CreditCardIcon>} iconPosition="start" label="Dev Wallets" value="dev-wallets" onClick={() => {
+                          navigate('/dev-wallets');
+                      }}/>
 
                   </Tabs>
 
@@ -92,40 +113,113 @@ function LeftBar(): JSX.Element {
 
               <div className="footer">
 
-                  {supportSettings ? <Button variant={"text"}
-                                             size={"large"}
-                                             fullWidth
-                                             startIcon={<SettingsIcon></SettingsIcon>}
-                                             onClick={() => {
-                                                 dispatch(showSettings());
-                                             }}
-                  >Settings</Button> : ''}
 
 
-                  <div className="node" onClick={(ev) => {
+                  <div className="bottom-menu-item-wrapper" onClick={(ev) => {
                       if (supportSettings) {
                           dispatch(showSettings());
                           ev.stopPropagation();
                           ev.preventDefault();
                       }
                   }}>
+                      <div className="bottom-menu-item-container" style={{borderTopColor: shadedClr2}}>
+                          <div className="node">
 
-                      <Box className="node-url" sx={{ color: 'grey.700'}}>
+                              <Box className="node-url" sx={{ color: 'grey.700'}}>
 
-                          <Chip
-                              clickable
-                              variant={"outlined"}
-                              label={<div>
-                              {success ? <span>
-                                  <CheckCircleIcon sx={{fontSize: '15px'}} color={"primary"}></CheckCircleIcon>
-                                  Network : {new CoreNode(node.status, node.versionsCheck, node.genesis, node.health).getGenesisId()}
+                                  <div>
+                                      <SettingsIcon fontSize={"small"} sx={{verticalAlign: 'middle'}} color={success ? 'primary' : 'warning'}></SettingsIcon>
+                                      {success ? <span>
+                                  {new CoreNode(node.status, node.versionsCheck, node.genesis, node.health).getGenesisId()}
                               </span> : <span>
-                                  <SignalWifiConnectedNoInternet4Icon sx={{fontSize: '15px'}} color={"warning"}></SignalWifiConnectedNoInternet4Icon>
                                   Unable to connect</span>}
+                                  </div>
 
-                          </div>}></Chip>
-                      </Box>
+                              </Box>
+                          </div>
+                      </div>
                   </div>
+
+                  <div className="bottom-menu-item-wrapper">
+                      <div className="bottom-menu-item-container" style={{borderTopColor: shadedClr2}}>
+                          {wallet.account.address ? <div>
+
+
+                              <div className="small-text" onClick={showWalletMenu}>
+                                  <AccountBalanceWalletIcon fontSize="small" sx={{marginRight: '5px', verticalAlign: 'middle'}} color={"primary"}></AccountBalanceWalletIcon>
+                                  {wallet.account.address}
+                              </div>
+                              <Menu
+                                  anchorEl={menuAnchorEl}
+                                  open={open}
+                                  disableAutoFocusItem={true}
+                                  anchorOrigin={{
+                                      vertical: 'top',
+                                      horizontal: 'left',
+                                  }}
+                                  transformOrigin={{
+                                      vertical: 'top',
+                                      horizontal: 'left',
+                                  }}
+                                  MenuListProps={{
+
+                                  }}
+                                  onClose={closeWalletMenu}>
+                                  <MenuItem
+                                      selected={false}
+                                      onClick={(e) => {
+                                          navigate('/explorer/account/' + wallet.account.address);
+                                          closeWalletMenu();
+                                          e.preventDefault();
+                                          e.stopPropagation();
+                                      }
+                                      }>
+                                      <ListItemIcon>
+                                          <VisibilityIcon fontSize="small" color={"warning"}/>
+                                      </ListItemIcon>
+                                      <ListItemText sx={{fontSize: '13px'}} disableTypography>View in explorer</ListItemText>
+                                  </MenuItem>
+                                  <MenuItem
+                                      selected={false}
+                                      onClick={(e) => {
+                                          dispatch(showConnectWallet());
+                                          closeWalletMenu();
+                                          e.preventDefault();
+                                          e.stopPropagation();
+                                      }
+                                      }>
+                                      <ListItemIcon>
+                                          <SwapCallsIcon fontSize="small" color={"warning"}/>
+                                      </ListItemIcon>
+                                      <ListItemText sx={{fontSize: '13px'}} disableTypography>Switch wallet</ListItemText>
+                                  </MenuItem>
+                                  <MenuItem
+                                      selected={false}
+                                      onClick={(e) => {
+                                          dispatch(logOut());
+                                          closeWalletMenu();
+                                          e.preventDefault();
+                                          e.stopPropagation();
+                                      }}>
+                                      <ListItemIcon>
+                                          <LogoutIcon fontSize="small" color={"warning"}/>
+                                      </ListItemIcon>
+                                      <ListItemText sx={{fontSize: '13px'}} disableTypography>Disconnect</ListItemText>
+                                  </MenuItem>
+                              </Menu>
+
+                          </div> : <Button variant={"outlined"}
+                                           size={"small"}
+                                           className="black-button"
+                                           onClick={() => {
+                                               dispatch(showConnectWallet());
+                                           }}
+                          >Connect wallet</Button>}
+
+                          <ConnectWallet></ConnectWallet>
+                      </div>
+                  </div>
+
 
 
 

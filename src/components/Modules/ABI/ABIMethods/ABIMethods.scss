@@ -4,6 +4,15 @@
   .abi-methods-container {
     margin-top: 15px;
     .abi-methods-header {
+      display: flex;
+      justify-content: space-between;
+      .app-id {
+        font-size: 14px;
+        font-weight: bold;
+        margin-right: 10px;
+        margin-top: 10px;
+        color: $color-grey-dark;
+      }
       svg {
         vertical-align: text-bottom;
         margin-right: 5px;
