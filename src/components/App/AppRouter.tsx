@@ -42,6 +42,7 @@ import Dispenser from "../Modules/Dispenser/Dispenser";
 import NodeStatus from "../Modules/NodeStatus/NodeStatus";
 import ArcHome from "../Modules/ArcPortal/Home/ArcHome";
 import DevWallets from "../Modules/DevWallets/DevWallets/DevWallets";
+import SetupConfig from "../Modules/SetupConfig/setupConfig";
 
 function AppRouter(): JSX.Element {
 
@@ -107,6 +108,7 @@ function AppRouter(): JSX.Element {
                                 <Route path="/dispenser" element={<Dispenser></Dispenser>}></Route>
                                 <Route path="/node-status" element={<NodeStatus></NodeStatus>}></Route>
                                 <Route path="/dev-wallets" element={<DevWallets></DevWallets>}></Route>
+                                <Route path="/setup-config" element={<SetupConfig></SetupConfig>}></Route>
                                 <Route path="*" element={<Navigate to="/explorer" replace />}/>
                             </Routes>
                         </div>
