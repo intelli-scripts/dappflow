@@ -224,6 +224,10 @@ function ABIMethodExecutor({show = false, creation = false, method = {
             await txnInstance.waitForConfirmation(txId);
             dispatch(hideLoader());
 
+            dispatch(showLoader('Waiting for transaction on indexer'));
+            await txnInstance.waitTillIndexerTxnFound(txId);
+            dispatch(hideLoader());
+
             dispatch(showLoader('Fetching transaction'));
             const txn = await new TransactionClient(dappflow.network).get(txId);
 

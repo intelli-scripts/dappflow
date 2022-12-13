@@ -237,7 +237,10 @@ function CreateApp({show = defaultProps.show, handleClose, abi = {methods: [], n
 
             dispatch(showLoader('Waiting for confirmation'));
             await appCallInstance.waitForConfirmation(txId);
+            dispatch(hideLoader());
 
+            dispatch(showLoader('Waiting for transaction on indexer'));
+            await appCallInstance.waitTillIndexerTxnFound(txId);
             const txn = await new TransactionClient(dappflow.network).get(txId);
 
             const txnInstance = new CoreTransaction(txn);
