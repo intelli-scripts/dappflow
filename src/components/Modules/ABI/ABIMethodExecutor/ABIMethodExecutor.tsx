@@ -5,13 +5,16 @@ import {
     ABIMethodParams, abiTypeIsTransaction, OnApplicationComplete, TransactionType
 } from "algosdk";
 import {
+    Accordion,
+    AccordionDetails,
+    AccordionSummary,
     Alert,
     Button,
     Dialog,
     DialogActions,
     DialogContent,
     DialogTitle, FormLabel,
-    Grid, InputBase, InputBaseProps, MenuItem, Select, styled
+    Grid, InputBase, InputBaseProps, MenuItem, Select, styled, Typography
 } from "@mui/material";
 import OfflineBoltIcon from '@mui/icons-material/OfflineBolt';
 import {theme} from "../../../../theme";
@@ -24,12 +27,12 @@ import dappflow from "../../../../utils/dappflow";
 import {hideLoader, showLoader} from "../../../../redux/common/actions/loader";
 import {TransactionClient} from "../../../../packages/core-sdk/clients/transactionClient";
 import {BaseTransaction} from "../../../../packages/core-sdk/transactions/baseTransaction";
-import {Edit, Error, FileUploadOutlined} from "@mui/icons-material";
+import {Edit, Error, ExpandMore, FileUploadOutlined} from "@mui/icons-material";
 import {CompileResponse} from "algosdk/dist/types/src/client/v2/algod/models/types";
 import {getFileContent} from "../../../../packages/core-sdk/utils/fileUtils";
 import {ApplicationClient} from "../../../../packages/core-sdk/clients/applicationClient";
 import {CoreTransaction} from "../../../../packages/core-sdk/classes/core/CoreTransaction";
-import {isNumber} from "../../../../utils/common";
+import {isNumber, shadedClr} from "../../../../utils/common";
 import AlgoIcon from "../../Explorer/AlgoIcon/AlgoIcon";
 import AssetPicker from "./AssetPicker/AssetPicker";
 import {A_AccountInformation, A_Asset, A_SearchTransaction} from "../../../../packages/core-sdk/types";
@@ -61,7 +64,10 @@ interface ABIMethodExecutorState{
     executorArgs: A_ABI_METHOD_EXECUTOR_ARG[],
     creationParams: A_ABI_METHOD_EXECUTOR_APP_CREATION_PARAMS,
     error: string,
-    txn?: A_SearchTransaction
+    txn?: A_SearchTransaction,
+    advanced: {
+        fee?: string
+    }
 }
 
 const initialState: ABIMethodExecutorState = {
@@ -79,7 +85,10 @@ const initialState: ABIMethodExecutorState = {
         onComplete: OnApplicationComplete.NoOpOC.toString()
     },
     error: '',
-    txn: null
+    txn: null,
+    advanced: {
+        fee: ''
+    }
 };
 
 const formLabelSx = {
@@ -105,7 +114,7 @@ function ABIMethodExecutor({show = false, creation = false, method = {
 
     const dispatch = useDispatch();
     const [
-        {executorArgs, creationParams, error, txn},
+        {executorArgs, creationParams, error, txn, advanced},
         setState
     ] = useState({
         ...initialState
@@ -204,7 +213,7 @@ function ABIMethodExecutor({show = false, creation = false, method = {
         try {
             dispatch(showLoader('Signing transaction'));
             const abiMethodExecutorInstance = new ABIMethodExecutorCls(method);
-            const unsignedTxns = await abiMethodExecutorInstance.getUnsignedTxns(creation ? undefined : Number(appId) , account.address, executorArgs, creation, creationParams);
+            const unsignedTxns = await abiMethodExecutorInstance.getUnsignedTxns(creation ? undefined : Number(appId) , account.address, executorArgs, creation, creationParams, advanced);
 
             const signedTxns = await dappflow.signer.signGroupTxns(unsignedTxns.map((unsignedTxn) => {
                 return unsignedTxn.txn;
@@ -695,6 +704,43 @@ function ABIMethodExecutor({show = false, creation = false, method = {
 
                                                         </div>
                                                     })}
+
+                                                    <div style={{background: shadedClr, padding: '15px', borderRadius: '10px'}}>
+                                                        <div className="abi-method-advanced">
+                                                            <Accordion className="rounded">
+                                                                <AccordionSummary
+                                                                    expandIcon={<ExpandMore />}
+                                                                    id="abi-method-advanced"
+                                                                >
+                                                                    <Typography>Advanced</Typography>
+                                                                </AccordionSummary>
+                                                                <AccordionDetails>
+
+                                                                    <Grid container spacing={2}>
+                                                                        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                                                            <FormLabel sx={formLabelSx}>Fee</FormLabel>
+                                                                            <ShadedInput
+                                                                                type={"number"}
+                                                                                required
+                                                                                size={"medium"}
+                                                                                value={advanced.fee}
+                                                                                sx={{marginTop: '5px', marginBottom: '10px', fieldset: {borderRadius: '10px'}}}
+                                                                                onChange={(ev) => {
+                                                                                    setState(prevState => ({...prevState, advanced: {
+                                                                                        ...advanced, fee: ev.target.value + ""
+                                                                                        }}));
+                                                                                }}
+                                                                                endAdornment={<div style={{marginRight: '10px'}}><AlgoIcon></AlgoIcon></div>}
+                                                                                fullWidth
+                                                                            />
+                                                                        </Grid>
+                                                                    </Grid>
+
+                                                                </AccordionDetails>
+                                                            </Accordion>
+                                                        </div>
+                                                    </div>
+
                                                     <div className="abi-method-execute">
                                                         <Button
                                                             style={{marginRight: '10px'}}

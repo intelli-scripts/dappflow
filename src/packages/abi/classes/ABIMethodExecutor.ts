@@ -106,7 +106,7 @@ export default class ABIMethodExecutor {
         return txnTypes;
     }
 
-    async getUnsignedTxns(appId: number, from: string, args: A_ABI_METHOD_EXECUTOR_ARG[] = [], isCreation: boolean = false, params: A_ABI_METHOD_EXECUTOR_APP_CREATION_PARAMS): Promise<TransactionWithSigner[]> {
+    async getUnsignedTxns(appId: number, from: string, args: A_ABI_METHOD_EXECUTOR_ARG[] = [], isCreation: boolean = false, params: A_ABI_METHOD_EXECUTOR_APP_CREATION_PARAMS, advanced: {fee?: string}): Promise<TransactionWithSigner[]> {
         const appCallInstance = new ApplicationTransaction(dappflow.network);
         const atc = new AtomicTransactionComposer();
 
@@ -130,7 +130,12 @@ export default class ABIMethodExecutor {
             extraPages: undefined,
             onComplete: undefined
         }
-        
+
+        if (advanced && advanced.fee) {
+            appCallParams.suggestedParams.flatFee = true;
+            appCallParams.suggestedParams.fee = algosToMicroalgos(Number(advanced.fee));
+        }
+
         if (isCreation) {
             appCallParams.appID = 0;
             appCallParams.numGlobalInts = Number(params.globalInts);

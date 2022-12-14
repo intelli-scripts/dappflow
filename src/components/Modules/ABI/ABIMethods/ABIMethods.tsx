@@ -120,6 +120,11 @@ function ABIMethods({abi, supportExecutor = false, account, appId = ''}: ABIMeth
 
                                         dispatch(showLoader('Waiting for confirmation'));
                                         await appCallInstance.waitForConfirmation(txId);
+                                        dispatch(hideLoader());
+
+                                        dispatch(showLoader('Waiting for transaction on indexer'));
+                                        await appCallInstance.waitTillIndexerTxnFound(txId);
+
                                         await new TransactionClient(dappflow.network).get(txId);
 
 
