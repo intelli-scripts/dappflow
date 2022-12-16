@@ -1,0 +1,107 @@
+@import "src/assets/colors";
+
+.abi-method-executor-wrapper {
+  .abi-method-executor-container {
+
+  }
+}
+
+.abi-method-executor-modal-content {
+  .abi-method-executor-header {
+    margin-bottom: 15px;
+    border-bottom: 1px solid $color-grey-light;
+    padding-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    .abi-method-name {
+      font-family: PoppinsBold !important;
+    }
+    .abi-app-id {
+      font-size: 14px;
+      font-weight: bold;
+    }
+  }
+  .abi-method-executor-body {
+    .abi-method-executor-panel-wrapper {
+      .abi-method-executor-panel-container {
+        height: auto;
+        min-height: 500px;
+        border-right: 1px solid $color-grey-light;
+        padding: 0 15px 0 0;
+        .abi-method-app-creation-wrapper {
+          .abi-method-app-creation-container {
+            .abi-method-app-creation-question {
+              font-size: 14px;
+              margin-top: 5px;
+              color: $color-grey-dark;
+            }
+            .abi-method-app-creation-form {
+              margin-top: 15px;
+              .teal-program {
+                font-size: 10px;
+                margin-top: 10px;
+                word-break: break-all;
+                background: $color-grey-very-light;
+                padding: 15px;
+                border-radius: 10px;
+                height: 30px;
+                overflow: auto;
+              }
+            }
+          }
+        }
+        .abi-method-metadata {
+          .metadata-item {
+            font-size: 14px;
+            margin: 10px 0;
+          }
+        }
+        .abi-method-args-form-wrapper {
+          .abi-method-args-form-container {
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid $color-grey-light;
+            .abi-method-advanced {
+              background: $color-light;
+              border-radius: 10px;
+            }
+            .abi-method-args-form-title {
+              font-weight: bold;
+              text-decoration: underline;
+            }
+            .abi-method-arg {
+              margin: 15px 0;
+              .arg-transaction-wrapper {
+                .arg-transaction-container {
+                  margin-top: 15px;
+                  margin-bottom: 25px;
+                  background: $color-grey-very-light;
+                  padding: 15px;
+                  border-radius: 10px;
+                }
+              }
+            }
+            .abi-method-execute {
+              text-align: right;
+              margin-top: 20px;
+            }
+          }
+        }
+      }
+    }
+    .abi-method-result-wrapper {
+      .abi-method-result-container {
+        .abi-method-result-title {
+          padding-top: 20px;
+          font-weight: bold;
+          color: $color-grey-dark;
+          text-align: center;
+          font-size: 18px;
+        }
+        .abi-method-result-body {
+          margin-top: 25px;
+        }
+      }
+    }
+  }
+}

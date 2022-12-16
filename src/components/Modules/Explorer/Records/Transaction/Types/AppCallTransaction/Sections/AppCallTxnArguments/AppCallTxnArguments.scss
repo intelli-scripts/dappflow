@@ -1,0 +1,47 @@
+@import "src/assets/colors";
+
+.app-call-txn-arguments-wrapper {
+  .app-call-txn-arguments-container {
+    margin-top: 20px;
+    border: 1px solid $color-grey-light;
+    border-radius: 10px;
+    .props {
+      margin-top: 0px !important;
+    }
+    .key {
+      margin-bottom: 20px;
+    }
+    .item {
+      margin: 10px 0px;
+    }
+    .plain-args {
+      font-size: 14px;
+      .arg {
+        border-bottom: 1px solid $color-grey-light;
+        padding: 15px 0px;
+        .arg-prop {
+          font-size: 14px;
+        }
+      }
+    }
+    .abi-decoded-args {
+      .arguments {
+        margin-top: 20px;
+        .arguments-header {
+          padding: 15px;
+          background: $color-grey-light;
+          font-weight: bold;
+        }
+        .arg {
+          padding: 15px;
+          .arg-prop {
+            font-size: 14px;
+          }
+          &:nth-child(odd) {
+            background: $color-grey-very-light;
+          }
+        }
+      }
+    }
+  }
+}

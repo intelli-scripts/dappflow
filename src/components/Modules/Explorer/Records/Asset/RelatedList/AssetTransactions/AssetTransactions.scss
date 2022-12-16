@@ -1,0 +1,21 @@
+@import "src/assets/colors";
+
+.asset-transactions-wrapper {
+  .asset-transactions-container {
+    .asset-transactions-header {
+      margin-top: 40px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .asset-transactions-body {
+      .transactions-list-body {
+        margin-top: 20px;
+      }
+      .copy-content {
+        font-size: 16px;
+        margin-right: 10px;
+        vertical-align: text-bottom;
+      }
+    }
+  }
+}

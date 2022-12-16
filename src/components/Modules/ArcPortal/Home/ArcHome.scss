@@ -1,0 +1,19 @@
+@import "src/assets/colors";
+
+.arc-home-wrapper {
+  .arc-home-container {
+    margin-top: 20px;
+
+    .arc-list {
+      .arc {
+        padding: 15px 15px 15px 0px;
+        border-bottom: 1px solid $color-grey-light;
+        font-size: 15px;
+        &:hover {
+          cursor: pointer;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,55 @@
+@import "src/assets/colors";
+
+.live-transactions-wrapper {
+  .live-transactions-container {
+    text-align: left;
+    .live-transactions-header {
+      font-size: 20px;
+    }
+    .live-transactions-body {
+      margin-top: 20px;
+      .transaction {
+        padding: 15px;
+        margin: 12px 0;
+        display: flex;
+        justify-content: space-between;
+        transition: height 2s;
+        border: 1px solid $color-grey-light;
+        border-left-width: 6px;
+        border-radius: 4px;
+        background: $color-light;
+        .txn-type {
+          font-size: 15px;
+          font-weight: bold;
+        }
+        &.item-enter {
+          opacity: 0;
+          transform: scale(0.9);
+        }
+        &.item-enter-active {
+          opacity: 1;
+          transform: translateX(0);
+          transition: opacity 1000ms, transform 1000ms;
+        }
+        .basic {
+          .sub-text {
+            margin-top: 15px;
+            font-size: 13px;
+            a {
+              font-family: Poppins !important;
+              color: $color-grey-dark !important;
+              text-decoration-color: $color-grey-dark !important;
+              font-size: 12px;
+            }
+          }
+          a {
+            color: $color-dark !important;
+            text-decoration-color: $color-dark !important;
+            font-size: 13px;
+            font-weight: bold;
+          }
+        }
+      }
+    }
+  }
+}

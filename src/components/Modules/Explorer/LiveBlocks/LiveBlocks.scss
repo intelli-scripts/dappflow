@@ -1,0 +1,50 @@
+@import "src/assets/colors";
+
+.live-blocks-wrapper {
+  .live-blocks-container {
+    text-align: left;
+    .live-blocks-header {
+      font-size: 20px;
+    }
+    .live-blocks-body {
+      margin-top: 20px;
+      .block {
+        padding: 15px;
+        margin: 12px 0;
+        display: flex;
+        justify-content: space-between;
+        transition: height 2s;
+        border: 1px solid $color-grey-light;
+        border-left-width: 6px;
+        border-radius: 4px;
+        background: $color-light;
+        .txn-count {
+          font-size: 15px;
+          font-weight: bold;
+        }
+        &.item-enter {
+          opacity: 0;
+          transform: scale(0.9);
+        }
+        &.item-enter-active {
+          opacity: 1;
+          transform: translateX(0);
+          transition: opacity 1000ms, transform 1000ms;
+        }
+        .round {
+          .sub-text {
+            margin-top: 15px;
+            font-size: 13px;
+          }
+          a {
+            font-weight: bold;
+            font-family: PoppinsBold !important;
+            color: $color-dark !important;
+            text-decoration-color: $color-dark !important;
+            font-size: 13px;
+          }
+        }
+      }
+    }
+  }
+}

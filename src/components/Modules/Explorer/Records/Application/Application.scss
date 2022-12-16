@@ -1,0 +1,49 @@
+@import "src/assets/colors";
+
+.application-wrapper {
+  .application-container {
+    margin-top: 20px;
+    .application-header {
+      font-size: 20px;
+      font-weight: bold;
+      font-family: PoppinsBold !important;
+      display: flex;
+      justify-content: space-between;
+    }
+    .application-body {
+      margin-top: 30px;
+      .id {
+        font-size: 18px;
+        margin-bottom: 20px;
+        font-weight: normal;
+      }
+
+      .props {
+        margin-top: 25px;
+        border-radius: 10px;
+        padding: 20px;
+        .property {
+          margin-top: 10px;
+          word-wrap: anywhere;
+          &.center {
+
+          }
+          .key {
+            font-family: PoppinsBold !important;
+          }
+          .value {
+            margin-top: 10px;
+            color: $color-grey-dark;
+            &.small {
+              font-size: 13px;
+            }
+          }
+        }
+      }
+
+      .application-tabs {
+        margin-top: 25px;
+      }
+    }
+  }
+}

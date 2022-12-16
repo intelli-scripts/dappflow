@@ -3,7 +3,7 @@ import {A_AccountInformation} from "../../../packages/core-sdk/types";
 import {hideLoader, showLoader} from "../../common/actions/loader";
 import {handleException} from "../../common/actions/exception";
 import {AccountClient} from "../../../packages/core-sdk/clients/accountClient";
-import sliceSwap from "../../../utils/sliceSwap";
+import dappflow from "../../../utils/dappflow";
 
 
 interface Wallet {
@@ -40,7 +40,7 @@ export const loadWallet = createAsyncThunk(
         const {dispatch} = thunkAPI;
         try {
             dispatch(showLoader("Loading wallet details ..."));
-            const accountInfo = await new AccountClient(sliceSwap.network).getAccountInformation(address);
+            const accountInfo = await new AccountClient(dappflow.network).getAccountInformation(address);
             dispatch(hideLoader());
             return accountInfo;
         }
@@ -55,7 +55,7 @@ export const logOut = createAsyncThunk(
     'wallet/logOut',
     async (_, thunkAPI) => {
         const {dispatch} = thunkAPI;
-        sliceSwap.signer.logout();
+        dappflow.signer.logout();
         dispatch(resetWallet());
         localStorage.removeItem("signer");
         localStorage.removeItem("address");

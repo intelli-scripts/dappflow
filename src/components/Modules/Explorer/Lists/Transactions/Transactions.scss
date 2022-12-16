@@ -1,0 +1,14 @@
+@import "src/assets/colors";
+
+.transactions-wrapper {
+  .transactions-container {
+    .transactions-header {
+      margin-top: 40px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .transactions-body {
+      margin-top: 50px;
+    }
+  }
+}

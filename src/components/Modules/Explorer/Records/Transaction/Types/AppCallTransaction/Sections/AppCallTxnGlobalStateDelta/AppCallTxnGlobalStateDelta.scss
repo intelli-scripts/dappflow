@@ -1,0 +1,12 @@
+@import "src/assets/colors";
+
+.app-call-txn-global-state-delta-wrapper {
+  .app-call-txn-global-state-delta-container {
+    border-radius: 10px;
+    border: 1px solid $color-grey-light;
+    margin-top: 30px;
+    .props {
+      margin-top: 0px !important;
+    }
+  }
+}

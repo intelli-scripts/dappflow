@@ -1,0 +1,16 @@
+@import "src/assets/colors";
+
+.header-wrapper {
+  .header-container {
+    background: rgba(255, 255, 255, 0.5);
+    display: flex;
+    justify-content: space-between;
+    .settings-icon {
+      margin-top: 12px;
+      margin-left: 10px;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}

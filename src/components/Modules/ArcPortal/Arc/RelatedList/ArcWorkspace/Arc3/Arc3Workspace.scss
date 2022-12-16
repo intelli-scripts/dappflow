@@ -1,0 +1,29 @@
+@import "src/assets/colors";
+
+.arc3-workspace-wrapper {
+  .arc3-workspace-container {
+    .arc3-workspace-header {
+      display: flex;
+      justify-content: space-between;
+      .arc3-workspace-name {
+        font-size: 20px;
+        margin-top: 10px;
+      }
+    }
+    .arc3-workspace-body {
+      margin-top: 10px;
+      .validation-result {
+        border-left: 1px solid $color-grey-light;
+        padding-left: 15px;
+        min-height: 600px;
+        .media {
+          width: 300px;
+          border-radius: 15px;
+        }
+      }
+      .validation-form {
+
+      }
+    }
+  }
+}

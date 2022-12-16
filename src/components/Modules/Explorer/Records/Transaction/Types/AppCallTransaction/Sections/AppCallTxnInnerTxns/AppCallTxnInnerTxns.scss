@@ -1,0 +1,29 @@
+@import "src/assets/colors";
+
+.app-call-txn-inner-txns-wrapper {
+  .app-call-txn-inner-txns-container {
+    .app-call-txn-inner-txns-header {
+      margin-top: 40px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .app-call-txn-inner-txns-body {
+      margin-top: 25px;
+      .txn-row {
+        padding: 25px 25px 25px 10px;
+        border-radius: 10px;
+        .item {
+          &.type {
+            width: 150px;
+            display: inline-block;
+          }
+          &.small {
+            font-size: 13px;
+            margin-left: 10px;
+          }
+        }
+      }
+
+    }
+  }
+}

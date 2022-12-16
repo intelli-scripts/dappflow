@@ -12,7 +12,7 @@ function getNetwork() {
     return new Network(nodeConfig);
 }
 
-class SliceSwap {
+class Dappflow {
     network: Network
     signer: Signer
 
@@ -25,4 +25,4 @@ class SliceSwap {
     }
 }
 
-export default new SliceSwap();
+export default new Dappflow();

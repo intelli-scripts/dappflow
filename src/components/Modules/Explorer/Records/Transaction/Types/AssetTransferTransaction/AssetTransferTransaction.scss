@@ -1,0 +1,32 @@
+@import "src/assets/colors";
+
+.asset-transfer-transaction-wrapper {
+  .asset-transfer-transaction-container {
+    margin-top: 30px;
+    .asset-transfer-transaction-header {
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .asset-transfer-transaction-body {
+      .props {
+        margin-top: 20px;
+        border-radius: 10px;
+        padding: 20px;
+        .property {
+          margin-top: 10px;
+          .key {
+            font-family: PoppinsBold !important;
+          }
+          .value {
+            margin-top: 10px;
+            color: $color-grey-dark;
+            word-break: break-all;
+            &.small {
+              font-size: 13px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+@import "src/assets/colors";
+
+.application-program-wrapper {
+  .application-program-container {
+    margin-top: 40px;
+    .props {
+      .value {
+        max-height: 600px;
+        overflow: auto;
+      }
+    }
+    .source {
+      border-radius: 10px;
+      > span {
+        border-radius: 10px;
+        padding: 20px;
+      }
+    }
+  }
+}
