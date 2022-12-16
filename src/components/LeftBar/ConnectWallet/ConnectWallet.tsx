@@ -14,8 +14,8 @@ import {ArrowBack, ErrorOutlineOutlined} from "@mui/icons-material";
 import CloseIcon from "@mui/icons-material/Close";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import PowerIcon from '@mui/icons-material/Power';
-import {CoreNode} from "../../../packages/core-sdk/classes/core/CoreNode";
 import {NETWORKS} from "../../../packages/core-sdk/constants";
+import sliceSwap from "../../../utils/sliceSwap";
 
 
 interface ConnectWalletState{
@@ -33,24 +33,7 @@ const initialState: ConnectWalletState = {
 function ConnectWallet(): JSX.Element {
 
     const dispatch = useDispatch();
-
-    const node = useSelector((state: RootState) => state.node);
-    const {versionsCheck, status, genesis, health} = node;
-
-    let network = '';
-    const nodeInstance = new CoreNode(status, versionsCheck, genesis, health);
-    if (nodeInstance.isTestnet()) {
-        network = NETWORKS.TESTNET;
-    }
-    if (nodeInstance.isBetanet()) {
-        network = NETWORKS.BETANET;
-    }
-    if (nodeInstance.isMainnet()) {
-        network = NETWORKS.MAINNET;
-    }
-    if (nodeInstance.isSandbox()) {
-        network = NETWORKS.SANDBOX;
-    }
+    const network = sliceSwap.network.id;
 
     const connectWallet = useSelector((state: RootState) => state.connectWallet);
     const {accounts} = connectWallet;
@@ -123,7 +106,7 @@ function ConnectWallet(): JSX.Element {
                                 </div>
                                 <div className="footer">
                                     <Typography variant="subtitle2" display="block" gutterBottom color="textSecondary">
-                                        By connecting, You accept Dappflow Terms of Service
+                                        By connecting, You accept SliceSwap Terms of Service
                                     </Typography>
                                 </div>
                             </div>

@@ -3,7 +3,7 @@ import {SignerAccount} from "../../../packages/signers/types";
 import {SupportedSigner} from "../../../packages/signers";
 import {setSigner} from "./signer";
 import {loadWallet} from "./wallet";
-import dappflow from "../../../utils/dappflow";
+import sliceSwap from "../../../utils/sliceSwap";
 
 
 export interface ConnectWallet {
@@ -30,7 +30,7 @@ export const connect = createAsyncThunk(
             dispatch(walletConnecting());
             dispatch(clearAccounts());
             dispatch(setSigner(signer.name));
-            dappflow.setSigner(signer.name);
+            sliceSwap.setSigner(signer.name);
 
             // @ts-ignore
             const accounts = await signer.instance.connect(network, (err, payload)=> {

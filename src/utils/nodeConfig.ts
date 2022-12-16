@@ -19,22 +19,6 @@ export function getNodeConfig(): NodeConnectionParams {
             return availableNodes[2];
         }
     }
-
-    const defaultNode = availableNodes[2];
-
-    return {
-        ...defaultNode,
-        algod: {
-            url: localStorage.getItem('algodUrl') || defaultNode.algod.url,
-            port: localStorage.getItem('algodPort') || defaultNode.algod.port,
-            token: localStorage.getItem('algodToken') || defaultNode.algod.token,
-        },
-        indexer: {
-            url: localStorage.getItem('indexerUrl') || defaultNode.indexer.url,
-            port: localStorage.getItem('indexerPort') || defaultNode.indexer.port,
-            token: localStorage.getItem('indexerToken') || defaultNode.indexer.token,
-        }
-    }
 }
 
 export function getKMDConfig(): KMDConnectionParams {
