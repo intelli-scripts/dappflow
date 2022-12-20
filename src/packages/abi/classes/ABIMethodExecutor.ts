@@ -69,17 +69,24 @@ export default class ABIMethodExecutor {
         const dataType = arg.type.toString();
         const val = arg.value;
 
+        if (arg.type instanceof ABIArrayStaticType || arg.type instanceof ABIArrayDynamicType) {
+            if (dataType.startsWith("byte")) {
+                return new Uint8Array(Buffer.from(val, "base64"));
+            }
+            if (dataType.startsWith("uint")) {
+                const vals = val.split(',');
+                const intVals = vals.map((val1) => {
+                    return BigInt(val1);
+                });
+                return intVals;
+            }
+            return val.split(',');
+        }
         if (dataType.startsWith("uint") || dataType.startsWith('ufixed') || dataType === 'byte' || dataType === 'asset' || dataType === 'application') {
             return BigInt(val);
         }
         if (dataType === 'bool') {
             return val === 'true';
-        }
-        if (arg.type instanceof ABIArrayStaticType || arg.type instanceof ABIArrayDynamicType) {
-            if (dataType.startsWith("byte")) {
-                return new Uint8Array(Buffer.from(val, "base64"));
-            }
-            return val.split(',');
         }
         if (arg.type instanceof ABITupleType) {
             return ABITupleType.parseTupleContent(val);
