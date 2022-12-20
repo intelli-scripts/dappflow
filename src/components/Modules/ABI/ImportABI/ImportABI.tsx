@@ -184,7 +184,7 @@ function ImportABI(props): JSX.Element {
                                         ></Chip>
 
                                         <Chip onClick={() => {
-                                            setState(prevState => ({...prevState, url: "https://raw.githubusercontent.com/cusma/algo-dices/main/artifacts/contract.json"}));
+                                            setState(prevState => ({...prevState, url: "https://raw.githubusercontent.com/cusma/algo-dices/multiple_dices/artifacts/contract.json"}));
                                         }} label="Dice ABI" size="small" color={"warning"} variant={"outlined"}
                                               sx={{marginLeft: '10px'}}
                                         ></Chip>
