@@ -9,7 +9,6 @@ import {A_AccountInformation} from "../../../../packages/core-sdk/types";
 import ABIConfig from "../ABIConfig/ABIConfig";
 import {Edit} from "@mui/icons-material";
 import {Tooltip} from "@mui/material";
-import LoginIcon from '@mui/icons-material/Login';
 import {hideLoader, showLoader} from "../../../../redux/common/actions/loader";
 import {ApplicationTransaction} from "../../../../packages/core-sdk/transactions/applicationTransaction";
 import dappflow from "../../../../utils/dappflow";
@@ -17,6 +16,7 @@ import {TransactionClient} from "../../../../packages/core-sdk/clients/transacti
 import {showSnack} from "../../../../redux/common/actions/snackbar";
 import {handleException} from "../../../../redux/common/actions/exception";
 import {useDispatch} from "react-redux";
+import AddBoxIcon from '@mui/icons-material/AddBox';
 
 type ABIMethodsProps = {
     abi: ABIContractParams,
@@ -76,7 +76,7 @@ function ABIMethods({abi, supportExecutor = false, account, appId = ''}: ABIMeth
 
 
                         {appId ? <Tooltip title="OptIn">
-                            <LoginIcon
+                            <AddBoxIcon
                                 sx={{
                                     color: theme.palette.common.black,
                                     '&:hover': {
@@ -138,7 +138,7 @@ function ABIMethods({abi, supportExecutor = false, account, appId = ''}: ABIMeth
                                         dispatch(hideLoader());
                                         dispatch(handleException(e));
                                     }
-                                }}></LoginIcon>
+                                }}></AddBoxIcon>
                         </Tooltip> : ''}
 
                         <ABIConfig show={showConfig} appId={appId} handleClose={() => {setState(prevState => ({...prevState, showConfig: false}));}}></ABIConfig>
