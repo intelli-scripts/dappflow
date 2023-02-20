@@ -63,7 +63,7 @@ export function getNodes(): NodeConnectionParams[] {
         indexer: {
             url: 'http://localhost',
             port: '8980',
-            token: ''
+            token: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
         }
     },
         {
